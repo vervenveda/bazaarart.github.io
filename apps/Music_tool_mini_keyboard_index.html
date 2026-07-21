@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Harmony's Haven</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  :root {
+    --bg1:#050b18;
+    --bg2:#0b1630;
+    --card:#10192f;
+    --accent:#facc6b;
+    --accent-soft:#fde9b5;
+    --muted:#9ca9c9;
+    --white:#f9fafb;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin: 7px 7px;
+    min-height:44vh;
+    font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
+    background:radial-gradient(circle at 10% 0%,#182a4e 0,#050b18 60%);
+    color:var(--white);
+    padding: 44px 7px 7px;
+    display:flex;
+    justify-content:center;
+  }
+  .app{
+    width:100%;
+    max-width:1111px;
+    max-height:777px;
+    background:linear-gradient(135deg,#B0AEB0,#4A484A);
+    border-radius:7px;
+    box-shadow:0 24px 55px rgba(0,0,0,0.55);
+    padding:14px 14px 24px;
+    border:1px solid rgba(255,255,255,0.05);
+  }
+  header{
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px;
+    align-items:baseline;
+    margin-bottom:14px;
+  }
+  h1{
+    font-size:44px;
+    margin:24px;
+    letter-spacing:0.06em;
+  }
+  .tagline{
+    font-size:24px;
+    color:#ffffff;
+    margin-left:24px;
+  }
+  .pill{
+    margin-left:auto;
+    padding:7px 7px;
+    border-radius:777px;
+    background:rgba(250,204,21,0.07);
+    border:1px solid rgba(250,204,21,0.4);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.09em;
+    color:#fff;
+  }
+
+  /* Piano shell */
+  .piano-wrap{
+    margin-top:11px;
+    background:linear-gradient(180deg,#1D042B,#060a17);
+    border-radius:7px;
+    padding:24px 10px 18px;
+    border:1px solid rgba(255,255,255,0.05);
+  }
+  .piano-label-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:11px;
+    font-size:14px;
+    color:#ffffff;
+    gap:8px;
+  }
+  .piano-label-row strong{ font-size:14px; color:#ffffff; }
+  .note-toggle{ display:flex; align-items:center; gap:4px; font-size:11px; }
+  .note-toggle input[type="checkbox"]{ accent-color:#ffffff; }
+
+  .piano{
+    position:relative;
+    margin-top:24px;
+    background:#000;
+    border-radius:7px;
+    padding:14px 11px 14px;
+    overflow-x:auto;
+  }
+  .keys-row{
+    position:relative;
+    display:flex;
+    justify-content:flex-start;
+    gap:2px;
+  }
+  .key.white{
+    flex:1;
+    max-width:66px;
+    height:188px;
+    background:#fdfdfd;
+    border-radius:0 0 8px 8px;
+    border:1px solid #555;
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+    padding-bottom:7px;
+    font-size:14px;
+    font-weight:444;
+    color:#333;
+    cursor:pointer;
+    position:relative;
+    transition:transform 0.05s, box-shadow 0.05s, background 0.05s;
+  }
+  .key.white span.note-label{ pointer-events:none; }
+  .key.white.active{
+    background:#ffe9a9;
+    box-shadow:0 0 11px rgba(250,204,21,0.7);
+    transform:translateY(1px);
+  }
+
+  .black-key{
+    position:absolute;
+    top:0;
+    left:50%;
+    width:60%;
+    height:60%;
+    background:linear-gradient(180deg,#1f2937,#000);
+    border-radius:0 0 7px 7px;
+    border:1px solid #4b5563;
+    color:#e5e7eb;
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+    padding-bottom:6px;
+    transform:translateX(-50%);
+    cursor:pointer;
+    user-select:none;
+    font-size:11px;
+  }
+  .black-key.small-label{ font-size:10px; }
+  .black-key.active{
+    background:linear-gradient(180deg,#374151,#000);
+    transform:translateX(-50%) translateY(1px);
+    box-shadow:0 0 10px rgba(250,204,21,0.7);
+  }
+
+  /* Control panel */
+  .panel{
+    margin-top:14px;
+    display:grid;
+    grid-template-columns:minmax(0,1.1fr) minmax(0,1.1fr);
+    gap:11px;
+  }
+  @media(max-width:666px){.panel{grid-template-columns:1fr}}
+  .card{
+    background:var(--card);
+    border-radius:11px;
+    padding:11px 11px 11px;
+    border:1px solid rgba(255,255,255,0.05);
+    font-size:14px;
+    color:#ffffff;
+  }
+  .card h2{
+    margin:0 0 6px 0;
+    font-size:15px;
+    color:var(--accent-soft);
+  }
+  label{ font-size:12px; color:var(--muted); }
+  .row{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-top:6px;
+    flex-wrap:wrap;
+  }
+  select,input[type="range"]{font:inherit;}
+  select{
+    padding:4px 8px;
+    border-radius:999px;
+    border:1px solid rgba(148,163,184,0.7);
+    background:#020617;
+    color:#ffffff;
+  }
+  button{
+    font:inherit;
+    border:none;
+    border-radius:999px;
+    padding:6px 14px;
+    cursor:pointer;
+    background:var(--accent);
+    color:#ffffff;
+    font-weight:666;
+    box-shadow:0 4px 12px rgba(0,0,0,0.35);
+    display:inline-flex;
+    align-items:center;
+    gap:4px;
+    transition:transform 0.05s, box-shadow 0.05s, background 0.1s;
+  }
+  button:hover{
+    background:#fed38b;
+    box-shadow:0 6px 18px rgba(0,0,0,0.5);
+  }
+  button:active{
+    transform:translateY(1px);
+    box-shadow:0 2px 8px rgba(0,0,0,0.4);
+  }
+  button.secondary{
+    background:transparent;
+    color:var(--accent-soft);
+    border:1px solid rgba(250,204,21,0.4);
+  }
+
+  /* Metronome */
+  .tempo-value{
+    font-size:13px;
+    color:var(--accent-soft);
+    min-width:70px;
+    text-align:right;
+  }
+  .metro-strip{
+    margin-top:33px;
+    display:flex;
+    align-items:center;
+    gap:24px;
+  }
+  .pulse-bar{
+    flex:1;
+    height:24px;
+    border-radius:999px;
+    background:radial-gradient(circle at 0 50%,rgba(248,250,252,0.1),rgba(15,23,42,0.3));
+    position:relative;
+    overflow:hidden;
+  }
+  .pulse-dot{
+    position:absolute;
+    top:7px;
+    width:24px;
+    height:14px;
+    border-radius:7px;
+    background:var(--accent);
+    box-shadow:0 0 12px rgba(250,204,21,0.7);
+    transform:translateX(0);
+    transition:transform 0.08s ease-out;
+  }
+  .pulse-dot.off{ opacity:0.25; box-shadow:none; }
+
+  /* Scale practice */
+  .scale-notes{
+    margin-top:24px;
+    font-size:14px;
+    color:#ffffff;
+    min-height:24px;
+  }
+
+  footer{
+    margin-top:14px;
+    font-size:14px;
+    color:#ffffff;
+    text-align:right;
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div>
+      <h1>Harmony's Haven Piano</h1>
+      <div class="tagline">Three octaves • full sharps • metronome • scale practice</div>
+    </div>
+    <div class="pill">Middle & High School • v1.1</div>
+  </header>
+
+  <div class="piano-wrap">
+    <div class="piano-label-row">
+      <div>
+        <strong>Instrument:</strong>
+        <span>Click keys or use scale practice — watch the highlights & listen.</span>
+      </div>
+      <div class="note-toggle">
+        <input type="checkbox" id="showLabels" checked>
+        <label for="showLabels">Note labels</label>
+      </div>
+    </div>
+    <div class="piano">
+      <div class="keys-row" id="keysRow"></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <!-- Metronome -->
+    <div class="card">
+      <h2>Metronome</h2>
+      <p style="margin:0 0 4px 0;">Set a tempo, start the click, and practice playing in time.</p>
+
+      <div class="row">
+        <label for="tempoRange">Tempo (BPM)</label>
+        <input id="tempoRange" type="range" min="40" max="180" value="96">
+        <div class="tempo-value" id="tempoLabel">96 bpm</div>
+      </div>
+
+      <!-- NEW: Master + Click volume -->
+      <div class="row">
+        <label for="masterVol">Master Volume</label>
+        <input id="masterVol" type="range" min="0" max="1" step="0.01" value="0.35">
+        <div class="tempo-value" id="masterVolLabel">35%</div>
+      </div>
+      <div class="row">
+        <label for="clickVol">Metronome Volume</label>
+        <input id="clickVol" type="range" min="0" max="1" step="0.01" value="0.25">
+        <div class="tempo-value" id="clickVolLabel">25%</div>
+      </div>
+
+      <div class="metro-strip">
+        <button id="metroToggle">Start</button>
+        <div class="pulse-bar">
+          <div class="pulse-dot off" id="pulseDot"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scale practice -->
+    <div class="card">
+      <h2>Scale Practice</h2>
+      <p style="margin:0 0 4px 0;">Choose a scale and let the piano walk through each note.</p>
+      <div class="row">
+        <label for="scaleSelect">Scale</label>
+        <select id="scaleSelect">
+          <option value="C_major_1">C Major (C4 → C5)</option>
+          <option value="C_major_2">C Major (C4 → C5 → C4)</option>
+          <option value="G_major_1">G Major (G4 → G5)</option>
+          <option value="F_major_1">F Major (F4 → F5)</option>
+          <option value="A_minor_1">A Natural Minor (A4 → A5)</option>
+        </select>
+        <button id="playScaleBtn">Play Scale</button>
+      </div>
+      <div class="scale-notes" id="scaleNotes"></div>
+    </div>
+  </div>
+
+  <footer>
+    Harmony's Haven™ · My Art Gallery & Khaemenes Academy · All local, no uploads.
+  </footer>
+</div>
+
+<script>
+/* ==========================
+   NOTE SETUP (3 OCTAVES)
+   ========================== */
+function generateWhiteNotes(startOctave, numberOfOctaves){
+  const pattern = ["C","D","E","F","G","A","B"];
+  const notes = [];
+  for(let o=startOctave;o<startOctave+numberOfOctaves;o++){
+    pattern.forEach(l => notes.push(l + o));
+  }
+  return notes;
+}
+
+// C3 → B5 (3 octaves)
+const WHITE_NOTES = generateWhiteNotes(3,3);
+
+// auto-generate sharps for C, D, F, G, A in each octave
+const SHARP_STEPS = { C:"C#", D:"D#", F:"F#", G:"G#", A:"A#" };
+const ENHARMONIC = {
+  "C#":"C♯/D♭",
+  "D#":"D♯/E♭",
+  "F#":"F♯/G♭",
+  "G#":"G♯/A♭",
+  "A#":"A♯/B♭"
+};
+const SHARP_MAP = {};
+const SHARP_LABELS = {};
+
+WHITE_NOTES.forEach(w=>{
+  const letter = w[0];
+  const octave = w.slice(1);
+  const baseSharp = SHARP_STEPS[letter];
+  if(baseSharp){
+    const sharpNote = baseSharp + octave;   // e.g. C#3
+    SHARP_MAP[w] = sharpNote;
+    SHARP_LABELS[sharpNote] = ENHARMONIC[baseSharp];
+  }
+});
+
+const keysRow = document.getElementById("keysRow");
+
+// Build keyboard
+WHITE_NOTES.forEach(note => {
+  const key = document.createElement("div");
+  key.className = "key white";
+  key.dataset.note = note;
+  key.innerHTML = `<span class="note-label">${note}</span>`;
+  key.addEventListener("click", () => playNote(note));
+  keysRow.appendChild(key);
+
+  const sharp = SHARP_MAP[note];
+  if(sharp){
+    const black = document.createElement("div");
+    black.className = "black-key small-label";
+    black.dataset.note = sharp;
+    black.textContent = SHARP_LABELS[sharp] || sharp;
+    black.addEventListener("click", e => {
+      e.stopPropagation();
+      playNote(sharp);
+    });
+    key.appendChild(black);
+  }
+});
+
+// dynamic min-width so all octaves are reachable
+keysRow.style.minWidth = (WHITE_NOTES.length * 48) + "px";
+
+/* Note-label toggle */
+const showLabelsChk = document.getElementById("showLabels");
+function updateLabelVisibility(){
+  const visible = showLabelsChk.checked;
+  document.querySelectorAll(".note-label").forEach(el=>{
+    el.style.opacity = visible ? "1" : "0";
+  });
+}
+showLabelsChk.addEventListener("change", updateLabelVisibility);
+updateLabelVisibility();
+
+/* ==========================
+   AUDIO ENGINE (Web Audio) — FIXED
+   - Master gain + compressor to prevent clipping
+   - Separate piano bus + metronome bus
+   - Safer envelope levels
+   - Prime audio on first interaction (iOS/Safari)
+   ========================== */
+let audioCtx;
+let masterGain, compressor;
+let pianoBus, metroBus;
+
+// UI volume controls
+const masterVol = document.getElementById("masterVol");
+const clickVol  = document.getElementById("clickVol");
+const masterVolLabel = document.getElementById("masterVolLabel");
+const clickVolLabel  = document.getElementById("clickVolLabel");
+
+function pctLabel(x){ return Math.round((Number(x)||0)*100) + "%"; }
+function updateVolLabels(){
+  masterVolLabel.textContent = pctLabel(masterVol.value);
+  clickVolLabel.textContent = pctLabel(clickVol.value);
+}
+masterVol.addEventListener("input", ()=>{
+  updateVolLabels();
+  if(masterGain) masterGain.gain.setValueAtTime(Number(masterVol.value), audioCtx.currentTime);
+});
+clickVol.addEventListener("input", ()=>{
+  updateVolLabels();
+  if(metroBus) metroBus.gain.setValueAtTime(Number(clickVol.value), audioCtx.currentTime);
+});
+updateVolLabels();
+
+function getAudioCtx(){
+  const Ctx = window.AudioContext || window.webkitAudioContext;
+  if(!Ctx){ alert("Your browser does not support the Web Audio API."); return null; }
+
+  if(!audioCtx){
+    audioCtx = new Ctx();
+
+    // master chain
+    masterGain = audioCtx.createGain();
+    masterGain.gain.value = Number(masterVol.value);
+
+    compressor = audioCtx.createDynamicsCompressor();
+    compressor.threshold.value = -18;  // tame peaks
+    compressor.knee.value = 24;
+    compressor.ratio.value = 6;
+    compressor.attack.value = 0.003;
+    compressor.release.value = 0.15;
+
+    // buses
+    pianoBus = audioCtx.createGain();
+    pianoBus.gain.value = 1.0;
+
+    metroBus = audioCtx.createGain();
+    metroBus.gain.value = Number(clickVol.value);
+
+    // route buses -> master -> compressor -> destination
+    pianoBus.connect(masterGain);
+    metroBus.connect(masterGain);
+    masterGain.connect(compressor);
+    compressor.connect(audioCtx.destination);
+  }
+
+  if(audioCtx.state === "suspended"){
+    audioCtx.resume().catch(()=>{});
+  }
+  return audioCtx;
+}
+
+// Prime audio once (fixes “first note silent” on some devices)
+window.addEventListener("pointerdown", () => { getAudioCtx(); }, { once:true });
+
+function noteToFrequency(note){
+  const m = note.match(/^([A-G])(#?)(\d)$/);
+  if(!m) return 440;
+  const [, letter, sharp, octaveStr] = m;
+  const octave = parseInt(octaveStr,10);
+  const SEMI_FROM_A4 = { C:-9, D:-7, E:-5, F:-4, G:-2, A:0, B:2 };
+  let semis = SEMI_FROM_A4[letter] || 0;
+  if(sharp) semis += 1;
+  semis += (octave - 4) * 12;
+  return 440 * Math.pow(2, semis/12);
+}
+
+function flashKey(note){
+  const keyEl = document.querySelector(`.key.white[data-note="${note}"]`);
+  const sharpEl = document.querySelector(`.black-key[data-note="${note}"]`);
+  const el = sharpEl || keyEl;
+  if(!el) return;
+  el.classList.add("active");
+  setTimeout(()=>el.classList.remove("active"),160);
+}
+
+function playNote(note, duration=0.55){
+  const ctx = getAudioCtx();
+  if(!ctx) return;
+
+  flashKey(note);
+
+  // oscillator
+  const osc = ctx.createOscillator();
+  // triangle is mellow; you can try "sine" for softer
+  osc.type = "triangle";
+  osc.frequency.value = noteToFrequency(note);
+
+  // per-note gain (envelope)
+  const g = ctx.createGain();
+
+  // route: osc -> g -> pianoBus -> master -> compressor -> dest
+  osc.connect(g);
+  g.connect(pianoBus);
+
+  const now = ctx.currentTime;
+
+  // safer levels (avoid clipping when notes overlap)
+  const peak = 0.16; // was 0.5
+  const end  = 0.0001;
+
+  g.gain.cancelScheduledValues(now);
+  g.gain.setValueAtTime(end, now);
+  g.gain.exponentialRampToValueAtTime(peak, now + 0.015);
+  g.gain.exponentialRampToValueAtTime(end, now + duration);
+
+  osc.start(now);
+  osc.stop(now + duration + 0.03);
+}
+
+/* ==========================
+   METRONOME
+   ========================== */
+const tempoRange = document.getElementById("tempoRange");
+const tempoLabel = document.getElementById("tempoLabel");
+const metroToggle = document.getElementById("metroToggle");
+const pulseDot = document.getElementById("pulseDot");
+
+let metroTimer = null;
+let beatOn = false;
+
+function updateTempoLabel(){
+  tempoLabel.textContent = tempoRange.value + " bpm";
+}
+tempoRange.addEventListener("input", updateTempoLabel);
+updateTempoLabel();
+
+function metroClick(accent=false){
+  const ctx = getAudioCtx();
+  if(!ctx) return;
+
+  const osc = ctx.createOscillator();
+  const g = ctx.createGain();
+
+  // softer click than square wave
+  osc.type = "sine";
+  osc.frequency.value = accent ? 1600 : 1100;
+
+  osc.connect(g);
+  g.connect(metroBus);
+
+  const now = ctx.currentTime;
+
+  const peak = accent ? 0.10 : 0.07; // was 0.3 (very loud)
+  const end  = 0.0001;
+
+  g.gain.cancelScheduledValues(now);
+  g.gain.setValueAtTime(end, now);
+  g.gain.exponentialRampToValueAtTime(peak, now + 0.008);
+  g.gain.exponentialRampToValueAtTime(end, now + 0.08);
+
+  osc.start(now);
+  osc.stop(now + 0.10);
+}
+
+function clickTick(){
+  beatOn = !beatOn;
+  const bpm = parseInt(tempoRange.value,10) || 96;
+  const interval = 60000 / bpm;
+
+  pulseDot.classList.toggle("off", !beatOn);
+  pulseDot.style.transform = beatOn ? "translateX(0)" : "translateX(92%)";
+
+  // accent every other tick as you had (simple)
+  metroClick(beatOn);
+
+  clearTimeout(metroTimer);
+  metroTimer = setTimeout(clickTick, interval);
+}
+
+metroToggle.addEventListener("click", () => {
+  if(metroTimer){
+    clearTimeout(metroTimer);
+    metroTimer = null;
+    metroToggle.textContent = "Start";
+    pulseDot.classList.add("off");
+    beatOn = false;
+  } else {
+    const bpm = parseInt(tempoRange.value,10) || 96;
+    const interval = 60000 / bpm;
+    metroToggle.textContent = "Stop";
+    beatOn = false;
+    metroTimer = setTimeout(clickTick, interval);
+  }
+});
+
+/* ==========================
+   SCALE PRACTICE
+   ========================== */
+const scaleSelect = document.getElementById("scaleSelect");
+const playScaleBtn = document.getElementById("playScaleBtn");
+const scaleNotesEl = document.getElementById("scaleNotes");
+
+const SCALES = {
+  C_major_1: {
+    label:"C4  D4  E4  F4  G4  A4  B4  C5",
+    notes:["C4","D4","E4","F4","G4","A4","B4","C5"]
+  },
+  C_major_2: {
+    label:"C4  D4  E4  F4  G4  A4  B4  C5  B4  A4  G4  F4  E4  D4  C4",
+    notes:["C4","D4","E4","F4","G4","A4","B4","C5","B4","A4","G4","F4","E4","D4","C4"]
+  },
+  G_major_1: {
+    label:"G4  A4  B4  C5  D5  E5  F♯5  G5",
+    notes:["G4","A4","B4","C5","D5","E5","F#5","G5"]
+  },
+  F_major_1: {
+    label:"F4  G4  A4  B♭4  C5  D5  E5  F5",
+    notes:["F4","G4","A4","A#4","C5","D5","E5","F5"]
+  },
+  A_minor_1: {
+    label:"A4  B4  C5  D5  E5  F5  G5  A5",
+    notes:["A4","B4","C5","D5","E5","F5","G5","A5"]
+  }
+};
+
+function updateScaleLabel(){
+  const key = scaleSelect.value;
+  const sc = SCALES[key];
+  scaleNotesEl.textContent = sc ? sc.label : "";
+}
+scaleSelect.addEventListener("change", updateScaleLabel);
+updateScaleLabel();
+
+playScaleBtn.addEventListener("click", () => {
+  const key = scaleSelect.value;
+  const sc = SCALES[key];
+  if(!sc) return;
+
+  const bpm = parseInt(tempoRange.value,10) || 96;
+  const stepMs = 60000 / bpm;
+
+  sc.notes.forEach((note,idx)=>{
+    setTimeout(()=>{ playNote(note, 0.45); }, idx*stepMs);
+  });
+});
+</script>
+</body>
+</html>
