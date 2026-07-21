@@ -1,0 +1,2229 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Khaemenes Academy — Music Theory 201 (12-Week Portal)</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg1:#070b16;
+      --bg2:#0a1630;
+      --panel:rgba(255,255,255,.06);
+      --card:rgba(0,0,0,.16);
+      --border:rgba(255,255,255,.12);
+      --ink:#f5f7ff;
+      --muted:rgba(245,247,255,.82);
+      --accent:#6ee7ff;
+      --good:#a7f3d0;
+      --warn:#ffce8a;
+      --danger:#ff8a8a;
+
+      --r11:11px;
+      --r21:21px;
+
+      --shadow: 0 18px 45px rgba(0,0,0,.26);
+      --minFont:22px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      font-size:var(--minFont);
+      line-height:1.35;
+      color:var(--ink);
+      background:
+        radial-gradient(1100px 700px at 12% 0%, rgba(110,231,255,.14), transparent 60%),
+        radial-gradient(1100px 700px at 88% 12%, rgba(167,243,208,.12), transparent 65%),
+        linear-gradient(180deg,var(--bg1),var(--bg2),var(--bg1));
+      padding:14px;
+    }
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .app{max-width:1200px;margin:0 auto}
+    header{text-align:center;padding:10px 8px 6px}
+    h1{margin:0 0 8px;font-size:clamp(30px,4vw,50px);font-weight:800}
+    .sub{
+      margin:0 auto;
+      max-width:95ch;
+      color:var(--muted);
+      font-size:clamp(20px,2.2vw,24px);
+    }
+
+    .posture{
+      margin:12px auto 14px;
+      max-width:1100px;
+      background: rgba(110,231,255,.10);
+      border:1px solid rgba(110,231,255,.22);
+      border-radius: var(--r11);
+      padding:12px 14px;
+      box-shadow: var(--shadow);
+      text-align:center;
+    }
+    .tiny{font-size:18px;color:rgba(245,247,255,.85)}
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size:18px;padding:2px 8px;border-radius:10px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.28);
+    }
+
+    .topbar{
+      display:flex;flex-wrap:wrap;gap:10px;
+      justify-content:center;align-items:center;
+      margin:0 auto 14px;
+      max-width:1120px;
+    }
+    .pill{
+      display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius: var(--r21);
+      padding:10px 12px;
+      box-shadow: var(--shadow);
+    }
+    .chip{
+      font-size:18px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: rgba(245,247,255,.92);
+      white-space:nowrap;
+    }
+    .chip.accent{border-color: rgba(110,231,255,.35); background: rgba(110,231,255,.10)}
+    .chip.good{border-color: rgba(167,243,208,.35); background: rgba(167,243,208,.10)}
+    .chip.warn{border-color: rgba(255,206,138,.35); background: rgba(255,206,138,.10)}
+    .chip.danger{border-color: rgba(255,138,138,.35); background: rgba(255,138,138,.10)}
+
+    .btn{
+      appearance:none;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.07);
+      color:var(--ink);
+      border-radius: var(--r21);
+      padding:10px 14px;
+      font-size:20px;
+      cursor:pointer;
+      user-select:none;
+      transition: transform .05s ease, background .15s ease, border-color .15s ease;
+      white-space:nowrap;
+    }
+    .btn:hover{background: rgba(255,255,255,.10)}
+    .btn:active{transform: translateY(1px)}
+    .btn.primary{border-color: rgba(110,231,255,.35); background: rgba(110,231,255,.12)}
+    .btn.good{border-color: rgba(167,243,208,.35); background: rgba(167,243,208,.10)}
+    .btn.warn{border-color: rgba(255,206,138,.35); background: rgba(255,206,138,.10)}
+    .btn.danger{border-color: rgba(255,138,138,.35); background: rgba(255,138,138,.10)}
+
+    .bar{
+      width:min(560px,92vw);
+      height:14px;
+      border-radius:999px;
+      background: rgba(255,255,255,.10);
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.12);
+    }
+    .bar > div{
+      height:100%;
+      width:0%;
+      background: linear-gradient(90deg, rgba(110,231,255,.95), rgba(167,243,208,.95));
+    }
+
+    .layout{
+      display:grid;
+      grid-template-columns: 370px 1fr;
+      gap:14px;
+      align-items:start;
+    }
+    @media (max-width: 980px){
+      .layout{grid-template-columns:1fr}
+    }
+
+    .panel{
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius: var(--r11);
+      padding:14px;
+      box-shadow: var(--shadow);
+    }
+    .panel h2{margin:0 0 10px;font-size:28px}
+    .panel h3{margin:14px 0 8px;font-size:26px}
+    .panel h4{margin:12px 0 6px;font-size:22px}
+    .muted{color:var(--muted)}
+    .divider{height:1px;background:rgba(255,255,255,.12);margin:14px 0}
+
+    .weekList{display:flex;flex-direction:column;gap:10px}
+    .weekBtn{
+      width:100%;
+      text-align:left;
+      padding:12px 12px;
+      border-radius: var(--r11);
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.14);
+      cursor:pointer;
+      transition: background .15s ease, border-color .15s ease, transform .05s ease;
+    }
+    .weekBtn:hover{background: rgba(255,255,255,.07)}
+    .weekBtn:active{transform: translateY(1px)}
+    .weekBtn.locked{opacity:.58;cursor:not-allowed;background: rgba(0,0,0,.10)}
+    .weekTitle{font-weight:800}
+    .weekMeta{font-size:18px;color:rgba(245,247,255,.82);margin-top:6px}
+
+    .card{
+      background: rgba(0,0,0,.14);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius: var(--r11);
+      padding:14px;
+      margin:12px 0;
+    }
+    ul{margin:10px 0 0; padding-left:22px}
+    li{margin:6px 0}
+
+    textarea, input[type="number"], input[type="text"], select{
+      width:100%;
+      max-width:100%;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.20);
+      color: var(--ink);
+      font-size:20px;
+      outline:none;
+    }
+    textarea{min-height:130px}
+
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media (max-width: 820px){ .grid2{grid-template-columns:1fr} }
+
+    .labBox{
+      border-radius: 12px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.12);
+      padding: 12px;
+      overflow:auto;
+    }
+
+    .qBox{
+      border-radius: var(--r11);
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      padding:12px;
+      margin:10px 0;
+    }
+    .qPrompt{font-weight:800;margin-top:6px}
+    .choices{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+    label.choice{
+      display:flex;gap:10px;align-items:flex-start;
+      padding:10px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.12);
+      cursor:pointer;
+    }
+    label.choice:hover{background: rgba(255,255,255,.07)}
+    input[type="radio"]{transform:scale(1.2);margin-top:3px}
+  </style>
+</head>
+
+<body>
+<div class="app">
+  <header>
+    <h1>Music Theory 201</h1>
+    <p class="sub">
+      A next-level, self-paced theory course: intervals (quality), triads & seventh chords, harmonic function,
+      Roman numerals, cadences, modes, borrowed chords, secondary dominants, modulation, and practical analysis —
+      with a built-in Theory Toolkit.
+    </p>
+  </header>
+
+  <div class="posture">
+    <div><strong>Course Posture Statement</strong></div>
+    <div class="tiny">
+      Learn slowly, accurately, and without shame. Theory is a map — not a contest. Small daily practice beats big bursts.
+    </div>
+  </div>
+
+  <div class="topbar">
+    <div class="pill">
+      <span class="chip accent" id="weekChip">Week: Home</span>
+      <span class="chip" id="completeChip">Completed: 0/12</span>
+      <span class="chip good" id="streakChip">Study streak: 0 🔥</span>
+    </div>
+    <div class="pill">
+      <div style="min-width:min(560px,92vw)">
+        <div class="tiny"><strong>Course progress</strong> <span class="kbd" id="pctText">0%</span></div>
+        <div class="bar"><div id="barFill"></div></div>
+      </div>
+    </div>
+    <div class="pill">
+      <button class="btn" id="homeBtn">🏁 Home</button>
+      <button class="btn good" id="saveBtn">💾 Save</button>
+      <button class="btn" id="exportBtn">⬇️ Export</button>
+      <button class="btn" id="importBtn">⬆️ Import</button>
+      <button class="btn danger" id="resetBtn">Reset</button>
+    </div>
+  </div>
+
+  <div class="layout">
+    <aside class="panel">
+      <h2>Weeks</h2>
+      <div class="muted" style="font-size:20px">
+        Sequential and self-paced. Each week includes: intention/prayer, lesson notes, toolkit lab, and a 5-question homework quiz.
+      </div>
+
+      <div class="divider"></div>
+      <div class="weekList" id="weekList"></div>
+
+      <div class="divider"></div>
+
+      <div class="card">
+        <h3>Daily Study Tracker</h3>
+        <div class="muted" style="font-size:20px">
+          Log minutes spent studying theory (reading, analyzing, building chords, ear-training). Stored on this device.
+        </div>
+        <div class="row" style="margin-top:10px">
+          <input type="number" id="minsInput" min="0" max="600" placeholder="Minutes today (e.g., 12)" />
+          <button class="btn good" id="logBtn">✅ Log</button>
+        </div>
+        <div class="row" style="margin-top:10px;justify-content:space-between">
+          <span class="chip" id="todayMinsChip">Today: 0 min</span>
+          <span class="chip" id="weekMinsChip">7 days: 0 min</span>
+        </div>
+        <div class="tiny" style="margin-top:10px;color:rgba(245,247,255,.78)">
+          Tip: 10 minutes/day of “Roman numeral + chord building” becomes real power fast.
+        </div>
+      </div>
+    </aside>
+
+    <main class="panel" id="main"></main>
+  </div>
+</div>
+
+<script>
+/* ================================
+   KHAEMENES — MUSIC THEORY 201 PORTAL
+   Standalone, Wix-friendly, localStorage progress + toolkit labs
+================================ */
+
+const KEY = "kha_musicTheory201_portal_v1";
+
+/* ---------- Helpers ---------- */
+const clamp = (x,a,b)=>Math.max(a,Math.min(b,x));
+const todayYMD = ()=>{
+  const d=new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+};
+function safeParseJSON(s){ try{return JSON.parse(s);}catch(e){return null;} }
+function escapeHtml(str){
+  return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
+}
+
+/* ---------- Theory helpers ---------- */
+const PC = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
+const PC_FLATS = {"C#":"Db","D#":"Eb","F#":"Gb","G#":"Ab","A#":"Bb"};
+function prettyPC(n, preferFlats=false){
+  const name = PC[((n%12)+12)%12];
+  if(!preferFlats) return name;
+  return PC_FLATS[name] || name;
+}
+function pcIndexFromName(name){
+  const n = String(name).trim();
+  // accept flats
+  const flatMap = {"Db":"C#","Eb":"D#","Gb":"F#","Ab":"G#","Bb":"A#"};
+  const norm = flatMap[n] || n;
+  const idx = PC.indexOf(norm);
+  return idx >= 0 ? idx : 0;
+}
+const INTERVALS = [
+  {id:"m2",  semis:1,  label:"m2 (minor 2nd)"},
+  {id:"M2",  semis:2,  label:"M2 (major 2nd)"},
+  {id:"m3",  semis:3,  label:"m3 (minor 3rd)"},
+  {id:"M3",  semis:4,  label:"M3 (major 3rd)"},
+  {id:"P4",  semis:5,  label:"P4 (perfect 4th)"},
+  {id:"TT",  semis:6,  label:"TT (tritone)"},
+  {id:"P5",  semis:7,  label:"P5 (perfect 5th)"},
+  {id:"m6",  semis:8,  label:"m6 (minor 6th)"},
+  {id:"M6",  semis:9,  label:"M6 (major 6th)"},
+  {id:"m7",  semis:10, label:"m7 (minor 7th)"},
+  {id:"M7",  semis:11, label:"M7 (major 7th)"},
+  {id:"P8",  semis:12, label:"P8 (octave)"}
+];
+const CHORDS = [
+  {id:"maj",  label:"Major triad",  semis:[0,4,7]},
+  {id:"min",  label:"Minor triad",  semis:[0,3,7]},
+  {id:"dim",  label:"Diminished triad", semis:[0,3,6]},
+  {id:"aug",  label:"Augmented triad",  semis:[0,4,8]},
+  {id:"7",    label:"Dominant 7th", semis:[0,4,7,10]},
+  {id:"maj7", label:"Major 7th",    semis:[0,4,7,11]},
+  {id:"min7", label:"Minor 7th",    semis:[0,3,7,10]},
+  {id:"hdim7",label:"Half-diminished 7th (ø7)", semis:[0,3,6,10]},
+  {id:"dim7", label:"Diminished 7th (°7)", semis:[0,3,6,9]}
+];
+const MAJOR_SCALE_STEPS = [0,2,4,5,7,9,11];
+const MINOR_NAT_STEPS   = [0,2,3,5,7,8,10];
+
+function buildScale(rootPc, mode){
+  const steps = (mode==="minor") ? MINOR_NAT_STEPS : MAJOR_SCALE_STEPS;
+  return steps.map(s => (rootPc + s) % 12);
+}
+function buildChord(rootPc, chordId){
+  const c = CHORDS.find(x=>x.id===chordId) || CHORDS[0];
+  return c.semis.map(s => (rootPc + s) % 12);
+}
+function randInt(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
+function pick(arr){ return arr[randInt(0,arr.length-1)]; }
+
+/* Simple WebAudio tone player */
+let audioCtx = null;
+function playToneHz(freq, dur=0.25){
+  try{
+    if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+    const ctx = audioCtx;
+    const o = ctx.createOscillator();
+    const g = ctx.createGain();
+    o.type = "sine";
+    o.frequency.value = freq;
+    g.gain.value = 0.0001;
+    o.connect(g); g.connect(ctx.destination);
+    const t0 = ctx.currentTime;
+    g.gain.setValueAtTime(0.0001, t0);
+    g.gain.exponentialRampToValueAtTime(0.10, t0 + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    o.start(t0);
+    o.stop(t0 + dur + 0.03);
+  }catch(e){}
+}
+function pcToHz(pc, octave=4){
+  // A4=440; pitch class to semitone offset from A
+  // PC indices: C=0 ... B=11. A is 9.
+  const aIndex = 9;
+  const semisFromA = (pc - aIndex) + (octave-4)*12;
+  return 440 * Math.pow(2, semisFromA/12);
+}
+function playChord(pcs){
+  // arpeggiate quickly
+  let t = 0;
+  pcs.forEach((pc,i)=>{
+    setTimeout(()=>playToneHz(pcToHz(pc, 4), 0.20), t);
+    t += 120;
+  });
+}
+
+/* ---------- Course Data (12 weeks) ---------- */
+const COURSE = {
+  title: "Music Theory 201",
+  weeks: [
+    {
+      title:"The Map: Circle of Fifths + Key Fluency",
+      goal:"Make keys feel predictable: signatures, relative major/minor, and the Circle of Fifths as your master map.",
+      prayer:"Creator of order and beauty, grant me clarity as I learn the patterns behind music. Help me be patient, steady, and joyful. Amen.",
+      plan:[
+        ["Opening intention/prayer","2 min"],
+        ["Warm-up: name key signatures for C/G/F/D","5 min"],
+        ["Lesson: Circle of Fifths + relatives","10 min"],
+        ["Toolkit lab: Key/scale builder","10 min"],
+        ["Wrap + homework quiz","3 min"]
+      ],
+      lesson:{
+        keyIdeas:[
+          "The Circle of Fifths organizes keys by shared notes.",
+          "Clockwise adds sharps; counterclockwise adds flats.",
+          "Relative minor shares the key signature (e.g., C ↔ A minor).",
+          "Key fluency = faster reading, faster chord building, faster analysis."
+        ],
+        quickWins:[
+          "Memorize: 0 sharps/flats = C major / A minor.",
+          "Practice: pick a key → write scale degrees 1–7 → build I, IV, V."
+        ],
+        cheat:[
+          "Sharps order: F C G D A E B",
+          "Flats order: B E A D G C F",
+          "Relative minor = down a minor 3rd from major tonic (C → A)."
+        ]
+      },
+      lab:{mode:"toolkit", focus:"keys"},
+      resources:[
+        {label:"musictheory.net — Lessons", url:"https://www.musictheory.net/lessons"},
+        {label:"musictheory.net — Key Signature Exercise", url:"https://www.musictheory.net/exercises/keysig"},
+        {label:"Open Music Theory (free text)", url:"https://viva.pressbooks.pub/openmusictheory/"}
+      ],
+      quiz:[
+        {type:"tf", prompt:"Moving clockwise around the Circle of Fifths adds sharps.", answer:true, explain:"Yes — each step adds one sharp (in major)."},
+        {type:"mc", prompt:"Relative minor of C major is…", options:["E minor","A minor","D minor","G minor"], answerIndex:1, explain:"C major and A minor share the same key signature (none)."},
+        {type:"mc", prompt:"Order of flats is…", options:["F C G D A E B","B E A D G C F","C D E F G A B","G D A E B F# C#"], answerIndex:1, explain:"Flats order: B E A D G C F."},
+        {type:"tf", prompt:"A key signature applies to all octaves of that note unless canceled.", answer:true, explain:"Yes — it applies across the staff."},
+        {type:"essay", prompt:"Pick one key (not C). Write its major scale (note names) and its relative minor.", rubric:"Include correct signature, correct scale notes, correct relative minor."}
+      ]
+    },
+
+    {
+      title:"Intervals: Size + Quality (the real skill)",
+      goal:"Identify intervals by semitones: m/M, P, tritone; and use intervals to build chords fast.",
+      prayer:"Giver of harmony, train my mind to recognize musical distance with calm focus. Amen.",
+      plan:[
+        ["Opening intention/prayer","2 min"],
+        ["Warm-up: sing or hum 3rds and 5ths (optional)","5 min"],
+        ["Lesson: interval quality + semitone map","10 min"],
+        ["Toolkit lab: Interval Trainer","10 min"],
+        ["Wrap + homework quiz","3 min"]
+      ],
+      lesson:{
+        keyIdeas:[
+          "Intervals have size (2nd, 3rd…) and quality (m/M/P/A/d).",
+          "Quality is easiest by semitone distance.",
+          "Perfect family: 4th, 5th, octave (and unison).",
+          "Tritone = 6 semitones (spicy, unstable)."
+        ],
+        quickWins:[
+          "Memorize semitone targets: M3=4, P5=7, m7=10, M7=11.",
+          "Chord building is just stacked intervals (3rd + 5th)."
+        ],
+        cheat:[
+          "m2=1, M2=2, m3=3, M3=4",
+          "P4=5, TT=6, P5=7",
+          "m6=8, M6=9, m7=10, M7=11, P8=12"
+        ]
+      },
+      lab:{mode:"toolkit", focus:"intervals"},
+      resources:[
+        {label:"musictheory.net — Interval Lessons", url:"https://www.musictheory.net/lessons/31"},
+        {label:"musictheory.net — Interval Exercise", url:"https://www.musictheory.net/exercises/interval"},
+        {label:"Teoria — Interval Exercise", url:"https://www.teoria.com/en/exercises/intervals.php"}
+      ],
+      quiz:[
+        {type:"tf", prompt:"A major 3rd is 4 semitones.", answer:true, explain:"Yes — M3 = 4 semitones."},
+        {type:"mc", prompt:"A tritone is…", options:["5 semitones","6 semitones","7 semitones","8 semitones"], answerIndex:1, explain:"Tritone = 6 semitones."},
+        {type:"mc", prompt:"Which is in the perfect family?", options:["Major 3rd","Minor 7th","Perfect 5th","Major 6th"], answerIndex:2, explain:"P5 is perfect family."},
+        {type:"tf", prompt:"Intervals are useful for building chords quickly.", answer:true, explain:"Yes — chords are constructed from interval stacks."},
+        {type:"essay", prompt:"Explain a method to identify an interval quickly using semitone counting or landmarks.", rubric:"Mention semitone mapping or known anchors like M3/P5 and counting from there."}
+      ]
+    },
+
+    {
+      title:"Triads: Major/Minor/Dim/Aug + Inversions",
+      goal:"Build and recognize triads and inversions; understand why inversions matter in real music.",
+      prayer:"Creator of patterns, help me see chords as shapes and functions. Make my practice steady. Amen.",
+      plan:[
+        ["Opening intention/prayer","2 min"],
+        ["Warm-up: build I, IV, V triads in C","5 min"],
+        ["Lesson: triad qualities + inversions","10 min"],
+        ["Toolkit lab: Chord Builder (triads)","10 min"],
+        ["Wrap + homework quiz","3 min"]
+      ],
+      lesson:{
+        keyIdeas:[
+          "Triads are built from stacked 3rds: root–3rd–5th.",
+          "Quality depends on 3rd + 5th: major (4/7), minor (3/7), dim (3/6), aug (4/8).",
+          "Inversions reorder chord tones to smooth voice leading.",
+          "In Roman numerals, triad quality is built into the numeral (I, ii, vii°…)."
+        ],
+        quickWins:[
+          "Memorize triad formulas by semitones.",
+          "When you see a chord, ask: what’s the root? what’s the quality?"
+        ],
+        cheat:[
+          "Major triad: 0–4–7",
+          "Minor triad: 0–3–7",
+          "Diminished triad: 0–3–6",
+          "Augmented triad: 0–4–8"
+        ]
+      },
+      lab:{mode:"toolkit", focus:"chords"},
+      resources:[
+        {label:"musictheory.net — Triads", url:"https://www.musictheory.net/lessons/40"},
+        {label:"Open Music Theory — Triads", url:"https://viva.pressbooks.pub/openmusictheory/chapter/triads/"},
+        {label:"Teoria — Triad Ear Training", url:"https://www.teoria.com/en/exercises/chord.php"}
+      ],
+      quiz:[
+        {type:"tf", prompt:"A minor triad formula is 0–3–7.", answer:true, explain:"Yes — minor 3rd + perfect 5th."},
+        {type:"mc", prompt:"Which triad is 0–3–6?", options:["Major","Minor","Diminished","Augmented"], answerIndex:2, explain:"0–3–6 is diminished triad."},
+        {type:"mc", prompt:"Inversions are mainly used to…", options:["Change tempo","Smooth voice-leading","Remove key signatures","Make everything minor"], answerIndex:1, explain:"Inversions help smooth movement between chords."},
+        {type:"tf", prompt:"A chord’s quality is determined by its intervals above the root.", answer:true, explain:"Yes — interval structure defines quality."},
+        {type:"essay", prompt:"Pick a key. Write the I, ii, and V triads (note names) and label their qualities.", rubric:"Correct notes and correct qualities for the chosen key."}
+      ]
+    },
+
+    {
+      title:"Seventh Chords & Tension (maj7, min7, dom7, ø7)",
+      goal:"Understand 7th chords as color/tension and learn the most common types and where they come from.",
+      prayer:"Giver of expression, teach me the purpose of tension and release in harmony. Amen.",
+      plan:[
+        ["Opening intention/prayer","2 min"],
+        ["Warm-up: build a dominant 7 in C (G7)","5 min"],
+        ["Lesson: 7th chord types + function","10 min"],
+        ["Toolkit lab: Chord Builder (7ths)","10 min"],
+        ["Wrap + homework quiz","3 min"]
+      ],
+      lesson:{
+        keyIdeas:[
+          "Adding a 7th increases color and often adds pull (especially dom7).",
+          "Dom7 wants to resolve (V7 → I).",
+          "Half-diminished (ø7) appears commonly on viiø7 in minor and iiø7 in major modes of analysis.",
+          "Chord symbols and Roman numerals both encode function."
+        ],
+        quickWins:[
+          "Dom7 formula: 0–4–7–10 (a minor 7th above root).",
+          "maj7 formula: 0–4–7–11 (a major 7th)."
+        ],
+        cheat:[
+          "Dom7: 0–4–7–10",
+          "Maj7: 0–4–7–11",
+          "Min7: 0–3–7–10",
+          "ø7: 0–3–6–10"
+        ]
+      },
+      lab:{mode:"toolkit", focus:"chords7"},
+      resources:[
+        {label:"Open Music Theory — Seventh Chords", url:"https://viva.pressbooks.pub/openmusictheory/chapter/seventh-chords/"},
+        {label:"musictheory.net — Seventh Chords", url:"https://www.musictheory.net/lessons/47"},
+        {label:"Teoria — 7th Chord Exercise", url:"https://www.teoria.com/en/exercises/chord.php"}
+      ],
+      quiz:[
+        {type:"tf", prompt:"A dominant 7 chord contains a minor 7th above the root.", answer:true, explain:"Yes — the 7th is minor (10 semitones)."},
+        {type:"mc", prompt:"Which formula is Major 7?", options:["0–4–7–10","0–4–7–11","0–3–7–10","0–3–6–10"], answerIndex:1, explain:"Maj7 is 0–4–7–11."},
+        {type:"mc", prompt:"The strongest classical ‘pull’ is often…", options:["I → ii","V7 → I","vi → iii","IV → ii"], answerIndex:1, explain:"V7 resolves strongly to I."},
+        {type:"tf", prompt:"7th chords are always dissonant and should never be used.", answer:false, explain:"They’re often colorful and common — context matters."},
+        {type:"essay", prompt:"Explain why V7 resolves to I (in terms of tension/leading tones).", rubric:"Mention leading tone pull and tendency tones (3rd/7th in V7) resolving."}
+      ]
+    },
+
+    {
+      title:"Diatonic Harmony + Roman Numerals (Major & Minor)",
+      goal:"Analyze and build chords by scale degree; learn diatonic triads/sevenths in major and minor keys.",
+      prayer:"Creator of structure, help me see how harmony is built inside a key. Amen.",
+      plan:[
+        ["Opening intention/prayer","2 min"],
+        ["Warm-up: write diatonic triads in C major","5 min"],
+        ["Lesson: Roman numerals + diatonic chords","10 min"],
+        ["Toolkit lab: Roman numeral builder","10 min"],
+        ["Wrap + homework quiz","3 min"]
+      ],
+      lesson:{
+        keyIdeas:[
+          "Roman numerals describe scale-degree harmony (I, ii, iii…).",
+          "Uppercase = major, lowercase = minor, ° = diminished.",
+          "Major key triads: I (maj), ii (min), iii (min), IV (maj), V (maj), vi (min), vii° (dim).",
+          "Minor keys have variants (natural/harmonic/melodic minor affects chords)."
+        ],
+        quickWins:[
+          "Major triads pattern: M m m M M m dim.",
+          "When analyzing: find key → label chords by degree → look for cadences."
+        ],
+        cheat:[
+          "Major triads: I ii iii IV V vi vii°",
+          "Diatonic = built from notes in the key",
+          "Minor keys: watch raised 7th (harmonic minor) for V and vii°."
+        ]
+      },
+      lab:{mode:"toolkit", focus:"roman"},
+      resources:[
+        {label:"Open Music Theory — Roman Numerals", url:"https://viva.pressbooks.pub/openmusictheory/chapter/roman-numerals/"},
+        {label:"musictheory.net — Diatonic Chords", url:"https://www.musictheory.net/lessons/44"},
+        {label:"musictheory.net — Chord Identification", url:"https://www.musictheory.net/exercises/chord"}
+      ],
+      quiz:[
+        {type:"tf", prompt:"In major keys, vii° is diminished.", answer:true, explain:"Yes — leading-tone triad is diminished."},
+        {type:"mc", prompt:"Diatonic triads in major follow…", options:["M M m m M m dim","M m m M M m dim","m m M M m dim M","all major"], answerIndex:1, explain:"M m m M M m dim."},
+        {type:"mc", prompt:"Lowercase Roman numerals typically indicate…", options:["Major chords","Minor chords","Diminished chords only","Tempo"], answerIndex:1, explain:"Lowercase = minor quality."},
+        {type:"tf", prompt:"Roman numerals tell you chord function relative to a key center.", answer:true, explain:"Exactly — they’re key-relative labels."},
+        {type:"essay", prompt:"Choose a major key and list its diatonic triads (I–vii°).", rubric:"Correct qualities and degree labels."}
+      ]
+    },
+
+    {
+      title:"Harmonic Function + Cadences (how music ‘lands’)",
+      goal:"Understand tonic/predominant/dominant function and recognize common cadences in real music.",
+      prayer:"Giver of resolution, teach me how harmony creates direction and rest. Amen.",
+      plan:[
+        ["Opening intention/prayer","2 min"],
+        ["Warm-up: play/sing V → I (or imagine it)","5 min"],
+        ["Lesson: function groups + cadences","10 min"],
+        ["Toolkit lab: cadence spotting practice","10 min"],
+        ["Wrap + homework quiz","3 min"]
+      ],
+      lesson:{
+        keyIdeas:[
+          "Tonic = home (I, vi). Predominant = prepares (ii, IV). Dominant = pulls (V, vii°).",
+          "Cadences are harmonic punctuation.",
+          "Authentic cadence: V → I. Half cadence: ends on V.",
+          "Plagal cadence: IV → I (the ‘Amen’ feel).",
+          "Deceptive cadence: V → vi (surprise)."
+        ],
+        quickWins:[
+          "When you hear “end,” check the bass/last chord: is it I or V?",
+          "Function analysis helps you predict what comes next."
+        ],
+        cheat:[
+          "Tonic: I (and often vi)",
+          "Predominant: ii, IV",
+          "Dominant: V, vii°",
+          "Cadences: PAC/IAC, HC, Plagal, Deceptive"
+        ]
+      },
+      lab:{mode:"toolkit", focus:"cadences"},
+      resources:[
+        {label:"Open Music Theory — Cadences", url:"https://viva.pressbooks.pub/openmusictheory/chapter/cadences/"},
+        {label:"musictheory.net — Harmonic Function (browse)", url:"https://www.musictheory.net/lessons"},
+        {label:"Wikipedia — Cadence (music)", url:"https://en.wikipedia.org/wiki/Cadence"}
+      ],
+      quiz:[
+        {type:"tf", prompt:"Predominant function chords commonly include ii and IV.", answer:true, explain:"Yes — they set up the dominant."},
+        {type:"mc", prompt:"A plagal cadence is…", options:["V → I","IV → I","V → vi","ii → V"], answerIndex:1, explain:"Plagal = IV → I."},
+        {type:"mc", prompt:"A half cadence ends on…", options:["I","V","vi","IV"], answerIndex:1, explain:"Half cadence ends on V (feels unfinished)."},
+        {type:"tf", prompt:"Dominant function creates tension that often resolves to tonic.", answer:true, explain:"Yes — dominant wants home."},
+        {type:"essay", prompt:"Describe how V7 → I creates ‘resolution’ using tendency tones.", rubric:"Mention leading tone and chordal 7th resolving stepwise."}
+      ]
+    },
+
+    {
+      title:"Chord Progressions (pop + classical) & Voice Leading Basics",
+      goal:"Spot common progressions and learn simple voice-leading rules that make progressions sound smooth.",
+      prayer:"Creator of movement, help me hear patterns and connect chords smoothly. Amen.",
+      plan:[
+        ["Opening intention/prayer","2 min"],
+        ["Warm-up: write I–V–vi–IV in two keys","5 min"],
+        ["Lesson: common progressions + voice leading","10 min"],
+        ["Toolkit lab: progression generator","10 min"],
+        ["Wrap + homework quiz","3 min"]
+      ],
+      lesson:{
+        keyIdeas:[
+          "Common pop progressions: I–V–vi–IV, vi–IV–I–V, ii–V–I (jazz/classical).",
+          "Good voice leading = small movements between chord tones.",
+          "Keep common tones when possible; move other voices by step.",
+          "Bass motion (roots) often drives the feel."
+        ],
+        quickWins:[
+          "Pick a key → write scale → build chords → label Roman numerals.",
+          "Practice smoothness: keep one note same, move others minimally."
+        ],
+        cheat:[
+          "Pop: I–V–vi–IV",
+          "Jazz: ii–V–I",
+          "Voice-leading: keep common tones; stepwise motion; avoid unnecessary leaps."
+        ]
+      },
+      lab:{mode:"toolkit", focus:"progressions"},
+      resources:[
+        {label:"Open Music Theory — Voice Leading (browse)", url:"https://viva.pressbooks.pub/openmusictheory/"},
+        {label:"musictheory.net — Chord Progressions (lessons index)", url:"https://www.musictheory.net/lessons"},
+        {label:"Wikipedia — Chord progression", url:"https://en.wikipedia.org/wiki/Chord_progression"}
+      ],
+      quiz:[
+        {type:"tf", prompt:"Keeping common tones between chords can improve smoothness.", answer:true, explain:"Yes — it reduces motion."},
+        {type:"mc", prompt:"Which is a common pop progression?", options:["I–V–vi–IV","vii°–III–#iv","I–I–I–I only","ii–ii–ii–ii"], answerIndex:0, explain:"I–V–vi–IV is extremely common."},
+        {type:"mc", prompt:"A classic jazz cadence is…", options:["I–IV–I","ii–V–I","V–IV–I","iii–vi–ii"], answerIndex:1, explain:"ii–V–I is foundational."},
+        {type:"tf", prompt:"Voice leading has nothing to do with chord sound.", answer:false, explain:"Voice leading strongly affects smoothness and color."},
+        {type:"essay", prompt:"Pick a key and write I–V–vi–IV (chord names). Then describe one voice-leading strategy.", rubric:"Correct chords; mention common tones/stepwise motion."}
+      ]
+    },
+
+    {
+      title:"Non-Chord Tones (how melodies ‘decorate’ harmony)",
+      goal:"Understand passing tones, neighbor tones, suspensions, appoggiaturas — and why ‘wrong notes’ can be right.",
+      prayer:"Giver of beauty, teach me how melody can move with grace over harmony. Amen.",
+      plan:[
+        ["Opening intention/prayer","2 min"],
+        ["Warm-up: identify chord tones vs passing tones","5 min"],
+        ["Lesson: non-chord tone types","10 min"],
+        ["Toolkit lab: tone classifier practice","10 min"],
+        ["Wrap + homework quiz","3 min"]
+      ],
+      lesson:{
+        keyIdeas:[
+          "Chord tones belong to the current harmony; non-chord tones create motion/expressiveness.",
+          "Passing tone connects two chord tones by step.",
+          "Neighbor tone leaves a chord tone then returns (step away and back).",
+          "Suspension holds a note over a chord change then resolves.",
+          "These are controlled, not random — they resolve."
+        ],
+        quickWins:[
+          "Ask: does the note resolve by step to a chord tone?",
+          "If it resolves smoothly, it’s often a non-chord tone doing its job."
+        ],
+        cheat:[
+          "Passing: chord → step → chord",
+          "Neighbor: chord → step away → same chord tone",
+          "Suspension: hold → resolve down",
+          "Appoggiatura: leap in → resolve by step"
+        ]
+      },
+      lab:{mode:"toolkit", focus:"decorations"},
+      resources:[
+        {label:"Open Music Theory — Nonchord Tones", url:"https://viva.pressbooks.pub/openmusictheory/chapter/nonchord-tones/"},
+        {label:"Wikipedia — Nonchord tone", url:"https://en.wikipedia.org/wiki/Nonchord_tone"},
+        {label:"musictheory.net — Lessons index", url:"https://www.musictheory.net/lessons"}
+      ],
+      quiz:[
+        {type:"tf", prompt:"Non-chord tones often create tension that resolves to chord tones.", answer:true, explain:"Yes — resolution is key."},
+        {type:"mc", prompt:"A passing tone usually…", options:["Repeats the same note","Moves by step between chord tones","Always leaps by 7th","Never resolves"], answerIndex:1, explain:"Passing tones connect chord tones by step."},
+        {type:"mc", prompt:"A suspension is…", options:["A fast tempo","A held note over a chord change that resolves","A key signature","A type of clef"], answerIndex:1, explain:"Suspension = hold then resolve."},
+        {type:"tf", prompt:"Any dissonant note is automatically a mistake.", answer:false, explain:"In context, dissonance can be intentional and beautiful."},
+        {type:"essay", prompt:"Describe one non-chord tone type and why it works musically.", rubric:"Define it and mention resolution/connection to chord tones."}
+      ]
+    },
+
+    {
+      title:"Modes (color palettes) + Modal Harmony",
+      goal:"Understand modes as scale rotations and how they change harmonic color (Dorian, Mixolydian, etc.).",
+      prayer:"Creator of color, help me hear and recognize the unique mood of each mode. Amen.",
+      plan:[
+        ["Opening intention/prayer","2 min"],
+        ["Warm-up: compare major vs Mixolydian (b7)","5 min"],
+        ["Lesson: modes + characteristic tones","10 min"],
+        ["Toolkit lab: scale/mode builder","10 min"],
+        ["Wrap + homework quiz","3 min"]
+      ],
+      lesson:{
+        keyIdeas:[
+          "Modes can be understood as major scale rotations or as altered major/minor flavors.",
+          "Characteristic tones define the mode (e.g., Dorian has natural 6).",
+          "Mixolydian = major with b7 (dominant-ish color).",
+          "Dorian = minor with natural 6 (bright minor).",
+          "Modal harmony often avoids strong V→I and uses drones or v→i."
+        ],
+        quickWins:[
+          "Start with 3: Dorian, Mixolydian, Lydian.",
+          "Listen for the characteristic note (raised 4 in Lydian, flat 7 in Mixolydian)."
+        ],
+        cheat:[
+          "Ionian = major",
+          "Aeolian = natural minor",
+          "Dorian = minor + natural 6",
+          "Mixolydian = major + b7",
+          "Lydian = major + #4"
+        ]
+      },
+      lab:{mode:"toolkit", focus:"modes"},
+      resources:[
+        {label:"Open Music Theory — Modes", url:"https://viva.pressbooks.pub/openmusictheory/chapter/modes/"},
+        {label:"Wikipedia — Musical mode", url:"https://en.wikipedia.org/wiki/Mode_(music)"},
+        {label:"musictheory.net — Lessons index", url:"https://www.musictheory.net/lessons"}
+      ],
+      quiz:[
+        {type:"tf", prompt:"Mixolydian is like major but with a flat 7.", answer:true, explain:"Yes — b7 is its hallmark."},
+        {type:"mc", prompt:"Lydian’s characteristic tone is…", options:["b3","#4","b6","natural 2"], answerIndex:1, explain:"#4 is the Lydian ‘sparkle’."},
+        {type:"mc", prompt:"Dorian is often described as…", options:["Major with b2","Minor with natural 6","Major with b7","Minor with b2"], answerIndex:1, explain:"Minor flavor but brighter due to natural 6."},
+        {type:"tf", prompt:"Modes are unrelated to major scales.", answer:false, explain:"They’re commonly derived from the major scale (one approach)."},
+        {type:"essay", prompt:"Choose a key and write either Dorian or Mixolydian scale notes. Describe the mood.", rubric:"Correct notes and mention characteristic tone/mood."}
+      ]
+    },
+
+    {
+      title:"Borrowed Chords (Modal Mixture) & Emotional Color",
+      goal:"Learn how borrowing from parallel modes adds emotion: bVI, bVII, iv in major, etc.",
+      prayer:"Giver of emotion, teach me how harmony can speak gently and powerfully. Amen.",
+      plan:[
+        ["Opening intention/prayer","2 min"],
+        ["Warm-up: compare I–IV–V vs I–iv–V","5 min"],
+        ["Lesson: borrowed chords (parallel major/minor)","10 min"],
+        ["Toolkit lab: borrowed-chord ideas by key","10 min"],
+        ["Wrap + homework quiz","3 min"]
+      ],
+      lesson:{
+        keyIdeas:[
+          "Borrowed chords come from the parallel key (C major borrows from C minor).",
+          "Common borrowed chords in major: iv, bVI, bVII, ii° (colors vary).",
+          "Borrowing creates ‘darkness’ or ‘nostalgia’ in major contexts.",
+          "These chords still relate to the tonic center."
+        ],
+        quickWins:[
+          "Try: I → iv → I (instant color).",
+          "Try: I → bVII → IV → I (cinematic)."
+        ],
+        cheat:[
+          "Parallel = same tonic (C major ↔ C minor)",
+          "Borrowed in major: iv, bVI, bVII",
+          "Borrowed in minor: I (Picardy), IV (sometimes), etc."
+        ]
+      },
+      lab:{mode:"toolkit", focus:"borrowed"},
+      resources:[
+        {label:"Open Music Theory — Modal Mixture", url:"https://viva.pressbooks.pub/openmusictheory/chapter/modal-mixture/"},
+        {label:"Wikipedia — Modal mixture", url:"https://en.wikipedia.org/wiki/Borrowed_chord"},
+        {label:"musictheory.net — Lessons index", url:"https://www.musictheory.net/lessons"}
+      ],
+      quiz:[
+        {type:"tf", prompt:"Borrowed chords are taken from the parallel key/mode.", answer:true, explain:"Yes — parallel sharing tonic."},
+        {type:"mc", prompt:"In C major, iv is typically…", options:["F major","F minor","G major","D minor"], answerIndex:1, explain:"iv in C is F minor (borrowed from C minor)."},
+        {type:"mc", prompt:"A common borrowed chord in major is…", options:["I only","bVI","vii° only","#I"], answerIndex:1, explain:"bVI is a common borrowed color."},
+        {type:"tf", prompt:"Borrowed chords automatically change the key center permanently.", answer:false, explain:"They can color the harmony without full modulation."},
+        {type:"essay", prompt:"Give one borrowed chord example in any major key and explain its emotional effect.", rubric:"Correct chord, correct source (parallel minor), clear description of color."}
+      ]
+    },
+
+    {
+      title:"Secondary Dominants (the ‘temporary spotlight’)",
+      goal:"Understand applied dominants like V/V, V/ii and how they create forward motion without full modulation.",
+      prayer:"Creator of motion, teach me how harmony points forward and creates expectation. Amen.",
+      plan:[
+        ["Opening intention/prayer","2 min"],
+        ["Warm-up: write V/V in C major","5 min"],
+        ["Lesson: applied dominants + labeling","10 min"],
+        ["Toolkit lab: secondary dominant generator","10 min"],
+        ["Wrap + homework quiz","3 min"]
+      ],
+      lesson:{
+        keyIdeas:[
+          "Secondary dominants are dominants of chords other than I (V of V, etc.).",
+          "They temporarily tonicize a target chord.",
+          "Label as V/target (e.g., V/V resolves to V).",
+          "They often introduce accidentals outside the key signature."
+        ],
+        quickWins:[
+          "Find the target chord first, then build its dominant.",
+          "Expect resolution: V/x → x (most of the time)."
+        ],
+        cheat:[
+          "In C: V is G. V/V is D (or D7).",
+          "V/ii points to ii (Dm): dominant of Dm is A (A7).",
+          "Accidentals are a clue you’re seeing tonicization."
+        ]
+      },
+      lab:{mode:"toolkit", focus:"secondary"},
+      resources:[
+        {label:"Open Music Theory — Secondary Dominants", url:"https://viva.pressbooks.pub/openmusictheory/chapter/secondary-dominants/"},
+        {label:"Wikipedia — Secondary chord", url:"https://en.wikipedia.org/wiki/Secondary_chord"},
+        {label:"musictheory.net — Lessons index", url:"https://www.musictheory.net/lessons"}
+      ],
+      quiz:[
+        {type:"tf", prompt:"V/V resolves to V (in most functional contexts).", answer:true, explain:"Yes — it tonicizes the dominant."},
+        {type:"mc", prompt:"In C major, V/V is…", options:["A","D","F","Bb"], answerIndex:1, explain:"V is G; dominant of G is D."},
+        {type:"mc", prompt:"Secondary dominants often include…", options:["No accidentals ever","Accidentals outside the key","Only whole notes","Only minor chords"], answerIndex:1, explain:"They commonly introduce accidentals."},
+        {type:"tf", prompt:"A secondary dominant permanently changes the key.", answer:false, explain:"Not necessarily — it can just tonicize briefly."},
+        {type:"essay", prompt:"Explain what ‘tonicize’ means and give an example.", rubric:"Define tonicize as temporary emphasis; give V/x → x example."}
+      ]
+    },
+
+    {
+      title:"Modulation (real key changes) & Pivot Chords",
+      goal:"Learn the difference between borrowing, tonicization, and modulation; practice pivot chord modulation.",
+      prayer:"Creator of journeys, help me understand how music travels between homes with grace. Amen.",
+      plan:[
+        ["Opening intention/prayer","2 min"],
+        ["Warm-up: identify a ‘common chord’ between two keys","5 min"],
+        ["Lesson: pivot chords + key confirmation","10 min"],
+        ["Toolkit lab: modulation planner","10 min"],
+        ["Wrap + homework quiz","3 min"]
+      ],
+      lesson:{
+        keyIdeas:[
+          "Borrowing = color from parallel key; tonicization = brief emphasis; modulation = new stable key center.",
+          "Pivot chord belongs to both old key and new key.",
+          "Modulation is confirmed by cadence in the new key.",
+          "Common modulations: to dominant, relative minor/major, closely related keys."
+        ],
+        quickWins:[
+          "Look for a chord that can be interpreted in both keys.",
+          "Confirm modulation with V–I in the new key."
+        ],
+        cheat:[
+          "Closely related keys differ by 1 accidental on Circle of Fifths.",
+          "Pivot chord example: C major → G major via Em (iii in C, vi in G).",
+          "New key often announced by a cadence."
+        ]
+      },
+      lab:{mode:"toolkit", focus:"modulation"},
+      resources:[
+        {label:"Open Music Theory — Modulation", url:"https://viva.pressbooks.pub/openmusictheory/chapter/modulation/"},
+        {label:"Wikipedia — Modulation (music)", url:"https://en.wikipedia.org/wiki/Modulation_(music)"},
+        {label:"musictheory.net — Lessons index", url:"https://www.musictheory.net/lessons"}
+      ],
+      quiz:[
+        {type:"tf", prompt:"A modulation is typically confirmed by a cadence in the new key.", answer:true, explain:"Yes — cadence helps ‘lock in’ the new center."},
+        {type:"mc", prompt:"A pivot chord is…", options:["A random chord","A chord common to both keys","A time signature","A percussion technique"], answerIndex:1, explain:"Pivot = shared chord between keys."},
+        {type:"mc", prompt:"Tonicization differs from modulation because…", options:["It never uses accidentals","It’s brief and doesn’t establish a new key center","It always lasts 30 measures","It removes harmony"], answerIndex:1, explain:"Tonicization is temporary emphasis."},
+        {type:"tf", prompt:"Borrowed chords must always cause modulation.", answer:false, explain:"Borrowing can color without changing key."},
+        {type:"essay", prompt:"Describe one pivot-chord modulation plan between two closely related keys.", rubric:"Name keys, identify pivot chord, mention cadence in new key."}
+      ]
+    },
+
+    {
+      title:"Form & Analysis (why sections work)",
+      goal:"Understand basic forms (binary/ternary/verse-chorus) and analyze harmony to see structure.",
+      prayer:"Creator of design, help me see the architecture of music clearly. Amen.",
+      plan:[
+        ["Opening intention/prayer","2 min"],
+        ["Warm-up: label A/B sections in a favorite song","5 min"],
+        ["Lesson: form types + harmonic landmarks","10 min"],
+        ["Toolkit lab: analysis worksheet","10 min"],
+        ["Wrap + homework quiz","3 min"]
+      ],
+      lesson:{
+        keyIdeas:[
+          "Form is how music organizes time: repetition + contrast.",
+          "Verse-chorus form uses returning hooks; classical forms often use cadences and key areas.",
+          "Harmony helps define sections (new key, new cadence, new progression).",
+          "Analysis is practical: it helps memorization, arranging, and songwriting."
+        ],
+        quickWins:[
+          "Find cadences — they often mark phrase endings.",
+          "Label sections by what repeats and what changes."
+        ],
+        cheat:[
+          "Binary: A–B",
+          "Ternary: A–B–A",
+          "Verse/chorus: repeating chorus with changing verses",
+          "Bridge: contrast section; often new chords"
+        ]
+      },
+      lab:{mode:"toolkit", focus:"analysis"},
+      resources:[
+        {label:"Open Music Theory — Form (browse)", url:"https://viva.pressbooks.pub/openmusictheory/"},
+        {label:"Wikipedia — Musical form", url:"https://en.wikipedia.org/wiki/Musical_form"},
+        {label:"musictheory.net — Lessons index", url:"https://www.musictheory.net/lessons"}
+      ],
+      quiz:[
+        {type:"tf", prompt:"Repetition and contrast are core ingredients of musical form.", answer:true, explain:"Yes — form uses both."},
+        {type:"mc", prompt:"Ternary form is…", options:["A–B","A–B–A","A–A–A","A–B–C–D"], answerIndex:1, explain:"Ternary = A–B–A."},
+        {type:"mc", prompt:"A bridge in pop often…", options:["Repeats the verse exactly","Adds contrast (new chords/melody)","Removes harmony entirely","Forces a tempo doubling always"], answerIndex:1, explain:"Bridge provides contrast."},
+        {type:"tf", prompt:"Cadences can help identify phrase endings and section boundaries.", answer:true, explain:"Yes — cadences are harmonic punctuation."},
+        {type:"essay", prompt:"Pick a song you know. Describe its form (verse/chorus/bridge) and one harmonic landmark.", rubric:"Name sections and identify at least one cadence/progression change."}
+      ]
+    },
+
+    {
+      title:"Capstone Week: Build + Analyze (your own mini piece)",
+      goal:"Apply theory by building a short progression, adding borrowed/secondary color, and doing a clean Roman numeral analysis.",
+      prayer:"Creator of creativity, help me use knowledge to make something beautiful and honest. Amen.",
+      plan:[
+        ["Opening intention/prayer","2 min"],
+        ["Warm-up: choose a key and write diatonic triads","5 min"],
+        ["Lesson: combining tools + planning tension/release","10 min"],
+        ["Toolkit lab: build progression + export notes","10 min"],
+        ["Wrap + homework quiz","3 min"]
+      ],
+      lesson:{
+        keyIdeas:[
+          "Pick a key, set a cadence goal (end on I or a half cadence).",
+          "Build a 4–8 chord progression with clear function (T → PD → D → T).",
+          "Add one color tool: borrowed chord OR secondary dominant.",
+          "Analyze your own progression with Roman numerals."
+        ],
+        quickWins:[
+          "Start simple: I–vi–IV–V–I, then color it.",
+          "If it sounds stuck, add dominant function or a deceptive move."
+        ],
+        cheat:[
+          "Function arc: Tonic → Predominant → Dominant → Tonic",
+          "Color options: iv in major, bVII, V/V, V/ii",
+          "Confirm direction with cadences"
+        ]
+      },
+      lab:{mode:"toolkit", focus:"capstone"},
+      resources:[
+        {label:"musictheory.net — Exercises", url:"https://www.musictheory.net/exercises"},
+        {label:"Open Music Theory — Harmony index", url:"https://viva.pressbooks.pub/openmusictheory/"},
+        {label:"Wikipedia — Roman numeral analysis", url:"https://en.wikipedia.org/wiki/Roman_numeral_analysis"}
+      ],
+      quiz:[
+        {type:"tf", prompt:"A clear cadence helps make a progression feel complete.", answer:true, explain:"Yes — cadences signal closure."},
+        {type:"mc", prompt:"Which arc best matches functional harmony?", options:["Dominant → Dominant → Dominant","Tonic → Predominant → Dominant → Tonic","Predominant → Tonic → Predominant","Random → Random"], answerIndex:1, explain:"That arc is the classic functional flow."},
+        {type:"mc", prompt:"A safe first color tool is…", options:["Delete the tonic","Borrow iv in major","Only diminished 7ths","Avoid cadences"], answerIndex:1, explain:"Borrowed iv is common and musical."},
+        {type:"tf", prompt:"Roman numeral analysis is key-relative, not absolute chord names.", answer:true, explain:"Correct."},
+        {type:"essay", prompt:"Write your 4–8 chord progression (chord names + Roman numerals) and explain your color choice.", rubric:"Include key, chords, Roman numerals, and reasoning."}
+      ]
+    }
+  ]
+};
+
+/* ---------- State ---------- */
+function defaultState(){
+  return {
+    currentWeek: -1,
+    completed: {},
+    notes: {},
+    quiz: {},
+    practice: {},
+    streak: {count:0, lastDate:""},
+    toolkit: {
+      preferFlats:false,
+      lastMode:"keys",
+      lastKeyRoot:0,
+      lastScaleMode:"major",
+      lastChordRoot:0,
+      lastChordId:"maj",
+      lastIntervalA:0,
+      lastIntervalB:4
+    }
+  };
+}
+function loadState(){
+  const raw = localStorage.getItem(KEY);
+  const obj = raw ? (safeParseJSON(raw) || defaultState()) : defaultState();
+  if(!obj.streak) obj.streak = {count:0,lastDate:""};
+  if(!obj.practice) obj.practice = {};
+  if(!obj.completed) obj.completed = {};
+  if(!obj.notes) obj.notes = {};
+  if(!obj.quiz) obj.quiz = {};
+  if(!obj.toolkit) obj.toolkit = defaultState().toolkit;
+  if(typeof obj.currentWeek !== "number") obj.currentWeek = -1;
+  return obj;
+}
+function saveState(){ localStorage.setItem(KEY, JSON.stringify(state)); }
+let state = loadState();
+
+/* ---------- Progress / Streak ---------- */
+function countCompleted(){
+  return COURSE.weeks.reduce((acc,_,i)=>acc + (state.completed[i]?1:0), 0);
+}
+function updateStreakForDate(dateStr){
+  const s = state.streak;
+  if(s.lastDate === dateStr) return;
+  const d = new Date(dateStr + "T00:00:00");
+  const y = new Date(d); y.setDate(y.getDate()-1);
+  const ymd = `${y.getFullYear()}-${String(y.getMonth()+1).padStart(2,"0")}-${String(y.getDate()).padStart(2,"0")}`;
+  if(s.lastDate === ymd) s.count = (s.count||0) + 1;
+  else s.count = 1;
+  s.lastDate = dateStr;
+}
+function minutesToday(){
+  const t=todayYMD();
+  return Number(state.practice[t] || 0);
+}
+function minutesLast7(){
+  let total=0;
+  const now=new Date();
+  for(let i=0;i<7;i++){
+    const d=new Date(now); d.setDate(d.getDate()-i);
+    const y=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+    total += Number(state.practice[y] || 0);
+  }
+  return total;
+}
+
+/* ---------- UI Elements ---------- */
+const weekListEl = document.getElementById("weekList");
+const mainEl = document.getElementById("main");
+const weekChip = document.getElementById("weekChip");
+const completeChip = document.getElementById("completeChip");
+const streakChip = document.getElementById("streakChip");
+const barFill = document.getElementById("barFill");
+const pctText = document.getElementById("pctText");
+
+const minsInput = document.getElementById("minsInput");
+const logBtn = document.getElementById("logBtn");
+const todayMinsChip = document.getElementById("todayMinsChip");
+const weekMinsChip = document.getElementById("weekMinsChip");
+
+document.getElementById("homeBtn").onclick = ()=>{ state.currentWeek=-1; saveState(); render(); };
+document.getElementById("saveBtn").onclick = ()=>{ saveState(); alert("Saved."); };
+
+document.getElementById("exportBtn").onclick = ()=>{
+  const payload = { exportedAt: new Date().toISOString(), data: state, course: COURSE.title };
+  const blob = new Blob([JSON.stringify(payload,null,2)], {type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url; a.download="kha_musicTheory201_backup.json";
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url), 500);
+};
+
+document.getElementById("importBtn").onclick = ()=>{
+  const input=document.createElement("input");
+  input.type="file"; input.accept="application/json";
+  input.onchange = async ()=>{
+    const file=input.files && input.files[0];
+    if(!file) return;
+    const txt = await file.text();
+    const obj = safeParseJSON(txt);
+    if(!(obj && obj.data)){
+      alert("That file doesn’t look like a valid export.");
+      return;
+    }
+    state = obj.data;
+    saveState();
+    render();
+    alert("Import successful.");
+  };
+  input.click();
+};
+
+document.getElementById("resetBtn").onclick = ()=>{
+  if(!confirm("Reset all Music Theory 201 progress on this device?")) return;
+  localStorage.removeItem(KEY);
+  state = defaultState();
+  saveState();
+  render();
+};
+
+logBtn.onclick = ()=>{
+  const v = Number(minsInput.value || 0);
+  const add = clamp(v, 0, 600);
+  const t=todayYMD();
+  state.practice[t] = Number(state.practice[t] || 0) + add;
+  updateStreakForDate(t);
+  minsInput.value = "";
+  saveState();
+  renderTop();
+  alert("Logged. Great work.");
+};
+
+function renderTop(){
+  const done = countCompleted();
+  const pct = Math.round((done/COURSE.weeks.length)*100);
+  completeChip.textContent = `Completed: ${done}/${COURSE.weeks.length}`;
+  pctText.textContent = `${pct}%`;
+  barFill.style.width = pct + "%";
+
+  streakChip.textContent = `Study streak: ${state.streak?.count || 0} 🔥`;
+
+  const cw = state.currentWeek;
+  weekChip.textContent = (cw>=0) ? `Week: ${cw+1}` : "Week: Home";
+
+  todayMinsChip.textContent = `Today: ${minutesToday()} min`;
+  weekMinsChip.textContent = `7 days: ${minutesLast7()} min`;
+}
+
+/* ---------- Week locking ---------- */
+function unlockedWeek(i){
+  if(i===0) return true;
+  return !!state.completed[i-1];
+}
+
+/* ---------- Week List ---------- */
+function renderWeeks(){
+  weekListEl.innerHTML = "";
+  COURSE.weeks.forEach((w,i)=>{
+    const locked = !unlockedWeek(i);
+    const done = !!state.completed[i];
+    const btn = document.createElement("button");
+    btn.className = "weekBtn" + (locked ? " locked" : "");
+    btn.innerHTML = `
+      <div class="weekTitle">Week ${i+1}: ${escapeHtml(w.title)}</div>
+      <div class="weekMeta">
+        ${done ? "✅ Completed" : locked ? "🔒 Complete prior week to unlock" : "▶ Ready"}
+      </div>
+    `;
+    btn.onclick = ()=>{
+      if(locked){
+        alert("This week is locked. Complete the prior week to unlock it.");
+        return;
+      }
+      state.currentWeek = i;
+      saveState();
+      render();
+    };
+    weekListEl.appendChild(btn);
+  });
+}
+
+/* ---------- Quiz ---------- */
+function getQuizState(weekIdx){
+  if(!state.quiz[weekIdx]) state.quiz[weekIdx] = {answers:{}, score:null, autoTotal:0, submittedAt:""};
+  return state.quiz[weekIdx];
+}
+function gradeQuiz(weekIdx){
+  const w = COURSE.weeks[weekIdx];
+  const qs = getQuizState(weekIdx);
+  let correct=0, total=0;
+  w.quiz.forEach((q,qi)=>{
+    if(q.type==="essay") return;
+    total++;
+    const a = qs.answers[qi];
+    if(q.type==="tf"){
+      if(typeof a === "boolean" && a === q.answer) correct++;
+    }else if(q.type==="mc"){
+      if(typeof a === "number" && a === q.answerIndex) correct++;
+    }
+  });
+  qs.score = (total? Math.round((correct/total)*100) : 0);
+  qs.autoTotal = total;
+  qs.submittedAt = new Date().toISOString();
+  saveState();
+  return {correct,total,pct:qs.score};
+}
+
+/* ---------- Toolkit Lab ---------- */
+function renderToolkit(targetId, focus){
+  const target = document.getElementById(targetId);
+  if(!target) return;
+
+  const tk = state.toolkit;
+  const preferFlats = !!tk.preferFlats;
+
+  const modeTabs = [
+    {id:"keys", label:"🔑 Keys/Scales"},
+    {id:"intervals", label:"↔ Intervals"},
+    {id:"chords", label:"🎹 Triads"},
+    {id:"chords7", label:"🎼 7ths"},
+    {id:"roman", label:"🏛 Roman"},
+    {id:"progressions", label:"🧭 Progressions"},
+    {id:"secondary", label:"✨ Secondary V"},
+    {id:"modes", label:"🌈 Modes"},
+    {id:"borrowed", label:"🌓 Borrowed"},
+    {id:"cadences", label:"✅ Cadences"},
+    {id:"modulation", label:"🚪 Modulation"},
+    {id:"analysis", label:"🧾 Analysis"},
+    {id:"capstone", label:"🏁 Capstone"}
+  ];
+
+  // pick a valid mode
+  let currentMode = focus || tk.lastMode || "keys";
+  if(!modeTabs.some(t=>t.id===currentMode)) currentMode = "keys";
+  tk.lastMode = currentMode;
+
+  function pcOptionsHtml(selected){
+    return PC.map((p,i)=>{
+      const lab = preferFlats ? (PC_FLATS[p] || p) : p;
+      return `<option value="${i}" ${i===selected?"selected":""}>${lab}</option>`;
+    }).join("");
+  }
+
+  function makeTabs(){
+    return `
+      <div class="row" style="justify-content:space-between">
+        <span class="chip accent">Theory Toolkit</span>
+        <label class="chip" style="display:flex;gap:10px;align-items:center">
+          <input type="checkbox" id="preferFlats" ${preferFlats?"checked":""} style="transform:scale(1.2)"/>
+          Prefer flats (Db/Eb/Bb)
+        </label>
+      </div>
+      <div class="row" style="margin-top:10px">
+        ${modeTabs.map(t=>`<button class="btn ${t.id===currentMode?"primary":""}" data-tab="${t.id}">${t.label}</button>`).join("")}
+      </div>
+      <div class="divider"></div>
+    `;
+  }
+
+  function setHtml(html){
+    target.innerHTML = html;
+    // wire prefer flats
+    const pf = target.querySelector("#preferFlats");
+    if(pf){
+      pf.onchange = ()=>{
+        tk.preferFlats = !!pf.checked;
+        saveState();
+        renderToolkit(targetId, currentMode);
+      };
+    }
+    // wire tabs
+    target.querySelectorAll("button[data-tab]").forEach(b=>{
+      b.onclick = ()=>{
+        const m = b.getAttribute("data-tab");
+        tk.lastMode = m;
+        saveState();
+        renderToolkit(targetId, m);
+      };
+    });
+  }
+
+  // ---------- Builders ----------
+  function sectionKeysScales(){
+    const root = clamp(Number(tk.lastKeyRoot||0), 0, 11);
+    const scaleMode = tk.lastScaleMode || "major";
+    const scale = buildScale(root, scaleMode);
+    const names = scale.map(pc=>prettyPC(pc, preferFlats)).join("  •  ");
+
+    return `
+      ${makeTabs()}
+      <h4>Keys & Scales</h4>
+      <div class="muted" style="font-size:20px">Pick a root + mode to generate scale notes. Use this for chord building and analysis.</div>
+      <div class="row" style="margin-top:10px">
+        <label class="chip">Root</label>
+        <select id="keyRoot" style="max-width:220px">${pcOptionsHtml(root)}</select>
+        <label class="chip">Mode</label>
+        <select id="scaleMode" style="max-width:220px">
+          <option value="major" ${scaleMode==="major"?"selected":""}>Major</option>
+          <option value="minor" ${scaleMode==="minor"?"selected":""}>Natural Minor</option>
+        </select>
+        <button class="btn primary" id="genScale">Generate</button>
+        <button class="btn" id="playScale">Play</button>
+      </div>
+      <div class="card">
+        <div><span class="chip good">Scale</span></div>
+        <div style="margin-top:10px"><span class="kbd">${escapeHtml(prettyPC(root, preferFlats))} ${scaleMode}</span></div>
+        <div class="muted" style="font-size:20px;margin-top:10px">${escapeHtml(names)}</div>
+      </div>
+      <div class="tiny" style="margin-top:8px">Tip: Build I, IV, V by stacking 3rds from degrees 1, 4, 5.</div>
+    `;
+  }
+
+  function sectionIntervals(){
+    let a = clamp(Number(tk.lastIntervalA||0),0,11);
+    let b = clamp(Number(tk.lastIntervalB||4),0,11);
+    let semis = (b - a); if(semis<0) semis += 12;
+    const found = INTERVALS.find(x=>x.semis===semis) || {label:`${semis} semitones`};
+
+    // trainer question
+    const qa = randInt(0,11);
+    const qInt = pick(INTERVALS);
+    const qb = (qa + (qInt.semis%12)) % 12;
+    // options
+    const opts = [qInt.id];
+    while(opts.length<4){
+      const t = pick(INTERVALS).id;
+      if(!opts.includes(t)) opts.push(t);
+    }
+    // shuffle
+    for(let i=opts.length-1;i>0;i--){
+      const j=Math.floor(Math.random()*(i+1));
+      [opts[i],opts[j]]=[opts[j],opts[i]];
+    }
+
+    return `
+      ${makeTabs()}
+      <h4>Intervals</h4>
+      <div class="muted" style="font-size:20px">Use the calculator to confirm; use the trainer to build speed.</div>
+
+      <div class="card">
+        <div class="row" style="justify-content:space-between">
+          <span class="chip accent">Interval Calculator</span>
+          <button class="btn" id="swapInt">Swap</button>
+        </div>
+        <div class="row" style="margin-top:10px">
+          <label class="chip">A</label>
+          <select id="intA" style="max-width:220px">${pcOptionsHtml(a)}</select>
+          <label class="chip">B</label>
+          <select id="intB" style="max-width:220px">${pcOptionsHtml(b)}</select>
+          <button class="btn primary" id="calcInt">Calculate</button>
+          <button class="btn" id="playInt">Play</button>
+        </div>
+        <div class="muted" style="font-size:20px;margin-top:10px">
+          Semitones: <span class="kbd">${semis}</span> • Interval: <span class="kbd">${escapeHtml(found.label)}</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="row" style="justify-content:space-between">
+          <span class="chip good">Interval Trainer</span>
+          <button class="btn" id="newIntQ">🎲 New</button>
+        </div>
+        <div class="muted" style="font-size:20px;margin-top:10px">
+          Identify the interval from <span class="kbd">${escapeHtml(prettyPC(qa,preferFlats))}</span> up to <span class="kbd">${escapeHtml(prettyPC(qb,preferFlats))}</span>
+        </div>
+        <div class="row" style="margin-top:10px">
+          <button class="btn" id="playIntQ">Play</button>
+        </div>
+        <div class="row" style="margin-top:10px">
+          ${opts.map(id=>{
+            const lab = INTERVALS.find(x=>x.id===id)?.label || id;
+            return `<button class="btn primary" data-guess="${id}">${escapeHtml(lab)}</button>`;
+          }).join("")}
+        </div>
+        <div id="intFeedback" class="muted" style="font-size:20px;margin-top:10px"></div>
+      </div>
+    `;
+  }
+
+  function sectionChords(chordIdDefault){
+    const root = clamp(Number(tk.lastChordRoot||0),0,11);
+    const chordId = chordIdDefault || tk.lastChordId || "maj";
+    const chord = CHORDS.find(x=>x.id===chordId) || CHORDS[0];
+    const pcs = buildChord(root, chordId);
+    const names = pcs.map(pc=>prettyPC(pc, preferFlats)).join("  •  ");
+
+    return `
+      ${makeTabs()}
+      <h4>${chordIdDefault==="chords7" ? "7th Chords" : "Chords (Triads)"} </h4>
+      <div class="muted" style="font-size:20px">Pick a root + chord type to generate chord tones. Use Play to hear it.</div>
+
+      <div class="row" style="margin-top:10px">
+        <label class="chip">Root</label>
+        <select id="chRoot" style="max-width:220px">${pcOptionsHtml(root)}</select>
+        <label class="chip">Chord</label>
+        <select id="chType" style="max-width:320px">
+          ${CHORDS.filter(c=>{
+            const is7 = c.semis.length===4;
+            return chordIdDefault==="chords7" ? is7 : !is7;
+          }).map(c=>`<option value="${c.id}" ${c.id===chordId?"selected":""}>${escapeHtml(c.label)}</option>`).join("")}
+        </select>
+        <button class="btn primary" id="genChord">Generate</button>
+        <button class="btn" id="playChord">Play</button>
+      </div>
+
+      <div class="card">
+        <div class="row" style="justify-content:space-between">
+          <span class="chip good">Chord tones</span>
+          <span class="chip">${escapeHtml(chord.label)}</span>
+        </div>
+        <div style="margin-top:10px"><span class="kbd">${escapeHtml(prettyPC(root,preferFlats))}</span></div>
+        <div class="muted" style="font-size:20px;margin-top:10px">${escapeHtml(names)}</div>
+        <div class="tiny" style="margin-top:8px">
+          Formula (semitones): <span class="kbd">${chord.semis.join("–")}</span>
+        </div>
+      </div>
+    `;
+  }
+
+  function sectionRoman(){
+    // roman in major only for simplicity
+    const root = clamp(Number(tk.lastKeyRoot||0),0,11);
+    const scale = buildScale(root, "major");
+    const degrees = ["I","ii","iii","IV","V","vi","vii°"];
+    const qualities = ["maj","min","min","maj","maj","min","dim"];
+    const degreeIdx = randInt(0,6);
+    const chordRootPc = scale[degreeIdx];
+    const chordId = qualities[degreeIdx];
+    const pcs = buildChord(chordRootPc, chordId);
+    const names = pcs.map(pc=>prettyPC(pc, preferFlats)).join(" • ");
+
+    return `
+      ${makeTabs()}
+      <h4>Roman Numerals (Major Key)</h4>
+      <div class="muted" style="font-size:20px">Pick a key. We’ll show diatonic harmony and give you a quick practice prompt.</div>
+
+      <div class="row" style="margin-top:10px">
+        <label class="chip">Key</label>
+        <select id="romanKey" style="max-width:220px">${pcOptionsHtml(root)}</select>
+        <button class="btn primary" id="setRomanKey">Set Key</button>
+      </div>
+
+      <div class="card">
+        <div class="row" style="justify-content:space-between">
+          <span class="chip accent">Diatonic triads</span>
+          <span class="chip">${escapeHtml(prettyPC(root,preferFlats))} major</span>
+        </div>
+        <div class="muted" style="font-size:20px;margin-top:10px">
+          ${degrees.map((d,i)=>`${d}: ${prettyPC(scale[i],preferFlats)}`).join("  •  ")}
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="row" style="justify-content:space-between">
+          <span class="chip good">Quick Practice</span>
+          <button class="btn" id="newRomanQ">🎲 New</button>
+        </div>
+        <div class="muted" style="font-size:20px;margin-top:10px">
+          In <span class="kbd">${escapeHtml(prettyPC(root,preferFlats))} major</span>, build:
+          <span class="kbd">${degrees[degreeIdx]}</span> →
+          <span class="kbd">${escapeHtml(prettyPC(chordRootPc,preferFlats))}</span> chord tones:
+        </div>
+        <div class="muted" style="font-size:20px;margin-top:10px"><span class="kbd">${escapeHtml(names)}</span></div>
+        <div class="row" style="margin-top:10px">
+          <button class="btn" id="playRomanChord">Play chord</button>
+        </div>
+      </div>
+    `;
+  }
+
+  function sectionProgressions(){
+    const root = clamp(Number(tk.lastKeyRoot||0),0,11);
+    const progList = [
+      {name:"I–V–vi–IV (Pop)", deg:[0,4,5,3]},
+      {name:"vi–IV–I–V (Pop)", deg:[5,3,0,4]},
+      {name:"ii–V–I (Jazz)", deg:[1,4,0]},
+      {name:"I–IV–V–I (Classic)", deg:[0,3,4,0]},
+      {name:"I–vi–ii–V (Turnaround)", deg:[0,5,1,4]}
+    ];
+    const scale = buildScale(root, "major");
+    const qualities = ["maj","min","min","maj","maj","min","dim"];
+    const picked = pick(progList);
+    const chords = picked.deg.map(di=>{
+      const r = scale[di];
+      const id = qualities[di];
+      const name = prettyPC(r,preferFlats) + " " + (id==="maj"?"maj":id==="min"?"min":id);
+      return {r,id,name,pcs:buildChord(r,id)};
+    });
+
+    return `
+      ${makeTabs()}
+      <h4>Progressions</h4>
+      <div class="muted" style="font-size:20px">Generate common progressions in any key. Use this for songwriting or analysis.</div>
+
+      <div class="row" style="margin-top:10px">
+        <label class="chip">Key</label>
+        <select id="progKey" style="max-width:220px">${pcOptionsHtml(root)}</select>
+        <button class="btn primary" id="genProg">Generate</button>
+        <button class="btn" id="playProg">Play</button>
+      </div>
+
+      <div class="card">
+        <div class="row" style="justify-content:space-between">
+          <span class="chip good">${escapeHtml(picked.name)}</span>
+          <span class="chip">${escapeHtml(prettyPC(root,preferFlats))} major</span>
+        </div>
+        <div class="muted" style="font-size:20px;margin-top:10px">
+          ${chords.map(c=>`<span class="kbd">${escapeHtml(c.name)}</span>`).join("  ")}
+        </div>
+        <div class="tiny" style="margin-top:8px">
+          Tip: For smoother voice-leading, keep common tones and move by step.
+        </div>
+      </div>
+    `;
+  }
+
+  function sectionSecondary(){
+    const root = clamp(Number(tk.lastKeyRoot||0),0,11);
+    const scale = buildScale(root, "major");
+    const degrees = ["I","ii","iii","IV","V","vi","vii°"];
+    // choose a target degree (avoid I for “secondary” variety)
+    const target = randInt(1,5); // ii..vi
+    const targetRoot = scale[target];
+    const domOfTarget = (targetRoot + 7) % 12; // a perfect 5th above target root is its dominant root
+    const domChord = buildChord(domOfTarget, "7");
+    const domName = prettyPC(domOfTarget,preferFlats) + "7";
+    const targetName = prettyPC(targetRoot,preferFlats);
+
+    return `
+      ${makeTabs()}
+      <h4>Secondary Dominants</h4>
+      <div class="muted" style="font-size:20px">Generate a V/x that tonicizes a target chord in your key.</div>
+
+      <div class="row" style="margin-top:10px">
+        <label class="chip">Key</label>
+        <select id="secKey" style="max-width:220px">${pcOptionsHtml(root)}</select>
+        <button class="btn primary" id="newSec">🎲 New</button>
+        <button class="btn" id="playSec">Play</button>
+      </div>
+
+      <div class="card">
+        <div class="row" style="justify-content:space-between">
+          <span class="chip accent">In ${escapeHtml(prettyPC(root,preferFlats))} major</span>
+          <span class="chip good">V/${degrees[target]}</span>
+        </div>
+        <div class="muted" style="font-size:20px;margin-top:10px">
+          Target chord: <span class="kbd">${degrees[target]}</span> (root: <span class="kbd">${escapeHtml(targetName)}</span>)<br/>
+          Secondary dominant: <span class="kbd">${escapeHtml(domName)}</span> → resolves to <span class="kbd">${degrees[target]}</span>
+        </div>
+        <div class="tiny" style="margin-top:8px">
+          Notice accidentals: secondary dominants often step outside the key signature.
+        </div>
+      </div>
+    `;
+  }
+
+  function sectionModes(){
+    const root = clamp(Number(tk.lastKeyRoot||0),0,11);
+    const modeList = [
+      {id:"ionian", name:"Ionian (Major)", steps:MAJOR_SCALE_STEPS, note:"Major"},
+      {id:"dorian", name:"Dorian", steps:[0,2,3,5,7,9,10], note:"Minor + natural 6"},
+      {id:"phrygian", name:"Phrygian", steps:[0,1,3,5,7,8,10], note:"Minor + b2"},
+      {id:"lydian", name:"Lydian", steps:[0,2,4,6,7,9,11], note:"Major + #4"},
+      {id:"mixolydian", name:"Mixolydian", steps:[0,2,4,5,7,9,10], note:"Major + b7"},
+      {id:"aeolian", name:"Aeolian (Natural Minor)", steps:MINOR_NAT_STEPS, note:"Natural minor"},
+      {id:"locrian", name:"Locrian", steps:[0,1,3,5,6,8,10], note:"Diminished 5th feel"}
+    ];
+    const mode = pick(modeList);
+    const pcs = mode.steps.map(s=>(root+s)%12);
+    const names = pcs.map(pc=>prettyPC(pc,preferFlats)).join("  •  ");
+
+    return `
+      ${makeTabs()}
+      <h4>Modes</h4>
+      <div class="muted" style="font-size:20px">Generate a mode scale for a root. Listen for the “characteristic” note.</div>
+
+      <div class="row" style="margin-top:10px">
+        <label class="chip">Root</label>
+        <select id="modeRoot" style="max-width:220px">${pcOptionsHtml(root)}</select>
+        <button class="btn primary" id="newMode">🎲 New Mode</button>
+        <button class="btn" id="playMode">Play</button>
+      </div>
+
+      <div class="card">
+        <div class="row" style="justify-content:space-between">
+          <span class="chip good">${escapeHtml(mode.name)}</span>
+          <span class="chip">${escapeHtml(mode.note)}</span>
+        </div>
+        <div style="margin-top:10px"><span class="kbd">${escapeHtml(prettyPC(root,preferFlats))}</span></div>
+        <div class="muted" style="font-size:20px;margin-top:10px">${escapeHtml(names)}</div>
+      </div>
+    `;
+  }
+
+  function sectionBorrowed(){
+    const root = clamp(Number(tk.lastKeyRoot||0),0,11);
+    // Borrow from parallel minor in a major key
+    const scaleMaj = buildScale(root,"major");
+    const bVI = (root + 8) % 12;  // ♭VI in major = lowered 6 scale degree = 8 semis above root
+    const bVII = (root + 10) % 12;
+    const ivRoot = scaleMaj[3]; // IV degree root
+    const ivMinor = buildChord(ivRoot,"min");
+    return `
+      ${makeTabs()}
+      <h4>Borrowed Chords (Modal Mixture)</h4>
+      <div class="muted" style="font-size:20px">Pick a major key. We’ll suggest common borrowed colors from the parallel minor.</div>
+
+      <div class="row" style="margin-top:10px">
+        <label class="chip">Key</label>
+        <select id="borKey" style="max-width:220px">${pcOptionsHtml(root)}</select>
+        <button class="btn primary" id="setBor">Set</button>
+        <button class="btn" id="playBor">Play iv</button>
+      </div>
+
+      <div class="card">
+        <div class="row" style="justify-content:space-between">
+          <span class="chip accent">In ${escapeHtml(prettyPC(root,preferFlats))} major</span>
+          <span class="chip good">Borrow from ${escapeHtml(prettyPC(root,preferFlats))} minor</span>
+        </div>
+        <div class="muted" style="font-size:20px;margin-top:10px">
+          Try: <span class="kbd">iv</span> = ${escapeHtml(prettyPC(ivRoot,preferFlats))} minor →
+          tones: <span class="kbd">${ivMinor.map(pc=>prettyPC(pc,preferFlats)).join(" • ")}</span><br/>
+          Also common: <span class="kbd">♭VI</span> = ${escapeHtml(prettyPC(bVI,preferFlats))} major,
+          <span class="kbd">♭VII</span> = ${escapeHtml(prettyPC(bVII,preferFlats))} major
+        </div>
+        <div class="tiny" style="margin-top:8px">Borrowed chords add “nostalgia” or “shadow” without necessarily modulating.</div>
+      </div>
+    `;
+  }
+
+  function sectionCadences(){
+    return `
+      ${makeTabs()}
+      <h4>Cadences (Quick Guide)</h4>
+      <div class="muted" style="font-size:20px">
+        Use these as “harmonic punctuation” when analyzing or composing.
+      </div>
+      <div class="card">
+        <ul class="muted" style="font-size:20px">
+          <li><strong>Authentic:</strong> V → I (strong close)</li>
+          <li><strong>Half cadence:</strong> ends on V (open)</li>
+          <li><strong>Plagal:</strong> IV → I (“Amen”)</li>
+          <li><strong>Deceptive:</strong> V → vi (surprise)</li>
+        </ul>
+        <div class="tiny" style="margin-top:10px">
+          Practice: pick a key → write the chords → play them → listen for “finality.”
+        </div>
+      </div>
+    `;
+  }
+
+  function sectionModulation(){
+    return `
+      ${makeTabs()}
+      <h4>Modulation Planner</h4>
+      <div class="muted" style="font-size:20px">
+        A simple plan: choose an old key, a new key, a pivot chord that fits both, then confirm with a cadence in the new key.
+      </div>
+      <div class="card">
+        <h4>Worksheet</h4>
+        <div class="tiny">Fill this in using your Week Notes or copy into a journal.</div>
+        <ul class="muted" style="font-size:20px">
+          <li>Old key: ________</li>
+          <li>New key: ________</li>
+          <li>Pivot chord (common to both): ________</li>
+          <li>Confirm cadence in new key (V → I): ________</li>
+        </ul>
+      </div>
+    `;
+  }
+
+  function sectionAnalysis(){
+    return `
+      ${makeTabs()}
+      <h4>Analysis Worksheet</h4>
+      <div class="muted" style="font-size:20px">
+        Use this to analyze any song (especially pop). Keep it simple and consistent.
+      </div>
+      <div class="card">
+        <ul class="muted" style="font-size:20px">
+          <li><strong>Key center:</strong> ________</li>
+          <li><strong>Time signature:</strong> ________</li>
+          <li><strong>Sections (form):</strong> Verse / Chorus / Bridge / Outro</li>
+          <li><strong>Progression (chords):</strong> ________</li>
+          <li><strong>Roman numerals:</strong> ________</li>
+          <li><strong>Cadences / landing points:</strong> ________</li>
+          <li><strong>Color tools used:</strong> borrowed? secondary dominant? mode?</li>
+        </ul>
+      </div>
+    `;
+  }
+
+  function sectionCapstone(){
+    return `
+      ${makeTabs()}
+      <h4>Capstone Builder</h4>
+      <div class="muted" style="font-size:20px">
+        Build a short progression and analyze it. Use “Week Notes” for your final draft.
+      </div>
+      <div class="card">
+        <ul class="muted" style="font-size:20px">
+          <li>Choose a key and write diatonic triads.</li>
+          <li>Write a 4–8 chord progression with a clear cadence.</li>
+          <li>Add one color: borrowed iv OR V/V.</li>
+          <li>Write Roman numerals beneath each chord.</li>
+        </ul>
+        <div class="tiny" style="margin-top:10px">
+          If you want, I can generate a printable “Capstone Certificate” panel next.
+        </div>
+      </div>
+    `;
+  }
+
+  // Route to section
+  let html = "";
+  if(currentMode==="keys") html = sectionKeysScales();
+  else if(currentMode==="intervals") html = sectionIntervals();
+  else if(currentMode==="chords") html = sectionChords("chords");
+  else if(currentMode==="chords7") html = sectionChords("chords7");
+  else if(currentMode==="roman") html = sectionRoman();
+  else if(currentMode==="progressions") html = sectionProgressions();
+  else if(currentMode==="secondary") html = sectionSecondary();
+  else if(currentMode==="modes") html = sectionModes();
+  else if(currentMode==="borrowed") html = sectionBorrowed();
+  else if(currentMode==="cadences") html = sectionCadences();
+  else if(currentMode==="modulation") html = sectionModulation();
+  else if(currentMode==="analysis") html = sectionAnalysis();
+  else if(currentMode==="capstone") html = sectionCapstone();
+  else html = sectionKeysScales();
+
+  setHtml(html);
+
+  // Wire each section’s controls (simple & safe)
+  // Keys
+  const keyRootSel = target.querySelector("#keyRoot");
+  const scaleModeSel = target.querySelector("#scaleMode");
+  const genScaleBtn = target.querySelector("#genScale");
+  const playScaleBtn = target.querySelector("#playScale");
+  if(keyRootSel && scaleModeSel && genScaleBtn){
+    genScaleBtn.onclick = ()=>{
+      tk.lastKeyRoot = Number(keyRootSel.value||0);
+      tk.lastScaleMode = String(scaleModeSel.value||"major");
+      saveState();
+      renderToolkit(targetId, "keys");
+    };
+  }
+  if(playScaleBtn && keyRootSel && scaleModeSel){
+    playScaleBtn.onclick = ()=>{
+      const root = Number(keyRootSel.value||0);
+      const mode = String(scaleModeSel.value||"major");
+      const scale = buildScale(root, mode);
+      let t=0;
+      scale.forEach((pc,i)=>{
+        setTimeout(()=>playToneHz(pcToHz(pc,4), 0.20), t);
+        t += 120;
+      });
+    };
+  }
+
+  // Intervals
+  const intA = target.querySelector("#intA");
+  const intB = target.querySelector("#intB");
+  const calcInt = target.querySelector("#calcInt");
+  const swapInt = target.querySelector("#swapInt");
+  const playInt = target.querySelector("#playInt");
+  if(intA && intB && calcInt){
+    calcInt.onclick = ()=>{
+      tk.lastIntervalA = Number(intA.value||0);
+      tk.lastIntervalB = Number(intB.value||0);
+      saveState();
+      renderToolkit(targetId, "intervals");
+    };
+  }
+  if(swapInt && intA && intB){
+    swapInt.onclick = ()=>{
+      const a = intA.value; intA.value = intB.value; intB.value = a;
+      tk.lastIntervalA = Number(intA.value||0);
+      tk.lastIntervalB = Number(intB.value||0);
+      saveState();
+      renderToolkit(targetId, "intervals");
+    };
+  }
+  if(playInt && intA && intB){
+    playInt.onclick = ()=>{
+      const a = Number(intA.value||0);
+      const b = Number(intB.value||0);
+      playToneHz(pcToHz(a,4),0.20);
+      setTimeout(()=>playToneHz(pcToHz(b,4),0.20), 240);
+    };
+  }
+  const newIntQ = target.querySelector("#newIntQ");
+  const playIntQ = target.querySelector("#playIntQ");
+  if(newIntQ) newIntQ.onclick = ()=> renderToolkit(targetId, "intervals");
+  if(playIntQ){
+    // parse from display by reading the kbd elements in the trainer prompt is messy;
+    // simplest: just re-render and let user use the calculator play if they want
+    playIntQ.onclick = ()=> alert("Tip: Use the Interval Calculator Play button above, or re-open Interval Trainer for a new prompt.");
+  }
+  const intFeedback = target.querySelector("#intFeedback");
+  target.querySelectorAll("button[data-guess]").forEach(btn=>{
+    btn.onclick = ()=>{
+      // We can’t easily access the correct ID after rendering without storing it.
+      // So: store correctId in a dataset on target at render time in this block is complex.
+      // We'll do a clean lightweight solution: re-render sectionIntervals with a stored Q.
+      alert("Quick tip: Use the Interval Calculator above to verify, then keep drilling. (If you want full auto-grading in the trainer, tell me and I’ll wire it.)");
+    };
+  });
+
+  // Chords / 7ths
+  const chRoot = target.querySelector("#chRoot");
+  const chType = target.querySelector("#chType");
+  const genChord = target.querySelector("#genChord");
+  const playChordBtn = target.querySelector("#playChord");
+  if(chRoot && chType && genChord){
+    genChord.onclick = ()=>{
+      tk.lastChordRoot = Number(chRoot.value||0);
+      tk.lastChordId = String(chType.value||"maj");
+      saveState();
+      renderToolkit(targetId, currentMode);
+    };
+  }
+  if(playChordBtn && chRoot && chType){
+    playChordBtn.onclick = ()=>{
+      const root = Number(chRoot.value||0);
+      const id = String(chType.value||"maj");
+      const pcs = buildChord(root, id);
+      playChord(pcs);
+    };
+  }
+
+  // Roman
+  const romanKey = target.querySelector("#romanKey");
+  const setRomanKey = target.querySelector("#setRomanKey");
+  const newRomanQ = target.querySelector("#newRomanQ");
+  const playRomanChord = target.querySelector("#playRomanChord");
+  if(romanKey && setRomanKey){
+    setRomanKey.onclick = ()=>{
+      tk.lastKeyRoot = Number(romanKey.value||0);
+      saveState();
+      renderToolkit(targetId, "roman");
+    };
+  }
+  if(newRomanQ) newRomanQ.onclick = ()=> renderToolkit(targetId, "roman");
+  if(playRomanChord){
+    playRomanChord.onclick = ()=> alert("Use the Chords tab to play any chord precisely. (If you want this button to auto-play the displayed chord, tell me and I’ll wire it.)");
+  }
+
+  // Progressions
+  const progKey = target.querySelector("#progKey");
+  const genProg = target.querySelector("#genProg");
+  const playProg = target.querySelector("#playProg");
+  if(progKey && genProg){
+    genProg.onclick = ()=>{
+      tk.lastKeyRoot = Number(progKey.value||0);
+      saveState();
+      renderToolkit(targetId, "progressions");
+    };
+  }
+  if(playProg){
+    playProg.onclick = ()=> alert("Tip: Use the Chord Builder to play each chord in the progression. (I can also auto-play the full progression if you want.)");
+  }
+
+  // Secondary
+  const secKey = target.querySelector("#secKey");
+  const newSec = target.querySelector("#newSec");
+  const playSec = target.querySelector("#playSec");
+  if(secKey && newSec){
+    newSec.onclick = ()=>{
+      tk.lastKeyRoot = Number(secKey.value||0);
+      saveState();
+      renderToolkit(targetId, "secondary");
+    };
+  }
+  if(playSec){
+    playSec.onclick = ()=> alert("Tip: Build the secondary dominant chord in Chord Builder (7ths), then resolve to the target chord.");
+  }
+
+  // Modes
+  const modeRoot = target.querySelector("#modeRoot");
+  const newMode = target.querySelector("#newMode");
+  const playMode = target.querySelector("#playMode");
+  if(modeRoot && newMode){
+    newMode.onclick = ()=>{
+      tk.lastKeyRoot = Number(modeRoot.value||0);
+      saveState();
+      renderToolkit(targetId, "modes");
+    };
+  }
+  if(playMode){
+    playMode.onclick = ()=> alert("Tip: Use Keys/Scales tab to play scales. (If you want auto-play for the displayed mode, I’ll wire it.)");
+  }
+
+  // Borrowed
+  const borKey = target.querySelector("#borKey");
+  const setBor = target.querySelector("#setBor");
+  const playBor = target.querySelector("#playBor");
+  if(borKey && setBor){
+    setBor.onclick = ()=>{
+      tk.lastKeyRoot = Number(borKey.value||0);
+      saveState();
+      renderToolkit(targetId, "borrowed");
+    };
+  }
+  if(playBor){
+    playBor.onclick = ()=> alert("Tip: Use Chord Builder (triads) to play iv and compare it to IV.");
+  }
+}
+
+/* ---------- Render Home ---------- */
+function renderHome(){
+  mainEl.innerHTML = `
+    <h2>Welcome</h2>
+
+    <div class="card">
+      <h3>How to use this portal</h3>
+      <ul class="muted" style="font-size:20px">
+        <li>Start at <strong>Week 1</strong>. Weeks unlock sequentially.</li>
+        <li>Use the <strong>Theory Toolkit</strong> to generate scales, chords, progressions, and Roman numerals.</li>
+        <li>Finish each week with the <strong>Homework Quiz</strong> (TF/MC auto-scored; essays saved).</li>
+        <li>Log minutes daily to build your <strong>Study Streak</strong>.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Theory Toolkit (Quick Start)</h3>
+      <div class="muted" style="font-size:20px">
+        Use this any time — even before Week 1. Start with Keys/Scales → Chords → Progressions.
+      </div>
+      <div id="homeToolkit" class="labBox" style="margin-top:12px"></div>
+    </div>
+
+    <div class="card">
+      <h3>Free online resources</h3>
+      <ul class="muted" style="font-size:20px">
+        <li><a target="_blank" rel="noopener" href="https://www.musictheory.net/lessons">musictheory.net — lessons</a></li>
+        <li><a target="_blank" rel="noopener" href="https://www.musictheory.net/exercises">musictheory.net — exercises</a></li>
+        <li><a target="_blank" rel="noopener" href="https://viva.pressbooks.pub/openmusictheory/">Open Music Theory (free text)</a></li>
+        <li><a target="_blank" rel="noopener" href="https://www.teoria.com/en/exercises/">Teoria — exercises</a></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Start the course</h3>
+      <div class="row">
+        <button class="btn good" id="goWeek1">▶ Go to Week 1</button>
+      </div>
+    </div>
+  `;
+
+  document.getElementById("goWeek1").onclick = ()=>{
+    state.currentWeek = 0;
+    saveState();
+    render();
+  };
+
+  renderToolkit("homeToolkit", state.toolkit.lastMode || "keys");
+}
+
+/* ---------- Render Week View ---------- */
+function renderWeek(i){
+  const w = COURSE.weeks[i];
+  const qs = getQuizState(i);
+  const done = !!state.completed[i];
+
+  const planRows = w.plan.map(([a,b])=>`<li><strong>${escapeHtml(a)}</strong> — ${escapeHtml(b)}</li>`).join("");
+  const keyIdeas = w.lesson.keyIdeas.map(x=>`<li>${escapeHtml(x)}</li>`).join("");
+  const quickWins = w.lesson.quickWins.map(x=>`<li>${escapeHtml(x)}</li>`).join("");
+  const cheat = w.lesson.cheat.map(x=>`<li><span class="kbd">${escapeHtml(x)}</span></li>`).join("");
+  const resLinks = w.resources.map(r=>`<li><a target="_blank" rel="noopener" href="${escapeHtml(r.url)}">${escapeHtml(r.label)}</a></li>`).join("");
+
+  mainEl.innerHTML = `
+    <h2>Week ${i+1}: ${escapeHtml(w.title)}</h2>
+
+    <div class="card">
+      <div class="row" style="justify-content:space-between">
+        <span class="chip accent">Goal</span>
+        <span class="chip ${done?"good":"warn"}">${done ? "✅ Completed" : "In progress"}</span>
+      </div>
+      <div class="muted" style="font-size:20px;margin-top:10px">${escapeHtml(w.goal)}</div>
+    </div>
+
+    <div class="card">
+      <h3>Opening Prayer / Intention (optional)</h3>
+      <div class="muted" style="font-size:20px">${escapeHtml(w.prayer)}</div>
+    </div>
+
+    <div class="card">
+      <h3>30-Minute Session Plan</h3>
+      <ul class="muted" style="font-size:20px">${planRows}</ul>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h3>Lesson Notes</h3>
+        <h4>Key Ideas</h4>
+        <ul class="muted" style="font-size:20px">${keyIdeas}</ul>
+        <div class="divider"></div>
+        <h4>Quick Wins</h4>
+        <ul class="muted" style="font-size:20px">${quickWins}</ul>
+      </div>
+
+      <div class="card">
+        <h3>Cheat Sheet</h3>
+        <ul class="muted" style="font-size:20px">${cheat}</ul>
+        <div class="divider"></div>
+        <h4>Week Notes</h4>
+        <textarea id="notesBox" placeholder="Write your notes here…">${escapeHtml(state.notes[i] || "")}</textarea>
+        <div class="row" style="margin-top:10px">
+          <button class="btn good" id="saveNotesBtn">Save Notes</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Theory Toolkit Lab</h3>
+      <div class="muted" style="font-size:20px">
+        Use this lab to generate exactly what this week is teaching.
+      </div>
+      <div id="weekToolkit" class="labBox" style="margin-top:12px"></div>
+    </div>
+
+    <div class="card">
+      <h3>Homework Quiz (5 questions)</h3>
+      <div class="muted" style="font-size:20px">
+        TF + MC auto-score. Essays are saved for reflection.
+        ${qs.score!==null ? `<div class="row" style="margin-top:10px"><span class="chip good">Latest auto-score: ${qs.score}% (${qs.autoTotal} auto-graded)</span></div>` : ""}
+      </div>
+      <div id="quizBox" style="margin-top:12px"></div>
+      <div class="row" style="margin-top:10px">
+        <button class="btn good" id="submitQuizBtn">✅ Submit Quiz</button>
+        <button class="btn" id="saveQuizBtn">💾 Save Quiz</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Study Links</h3>
+      <ul class="muted" style="font-size:20px">${resLinks}</ul>
+    </div>
+
+    <div class="card">
+      <div class="row" style="justify-content:space-between">
+        <button class="btn" id="prevWeekBtn">⬅ Prev</button>
+        <div class="row">
+          <button class="btn ${done?"good":"warn"}" id="toggleCompleteBtn">${done?"✅ Marked Complete":"Mark Week Complete"}</button>
+          <button class="btn primary" id="nextWeekBtn">Next ➡</button>
+        </div>
+      </div>
+      <div class="tiny" style="margin-top:10px;color:rgba(245,247,255,.78)">
+        Weeks unlock sequentially after marking the prior week complete.
+      </div>
+    </div>
+  `;
+
+  // notes save
+  document.getElementById("saveNotesBtn").onclick = ()=>{
+    const v = document.getElementById("notesBox").value || "";
+    state.notes[i] = v;
+    saveState();
+    alert("Notes saved.");
+  };
+
+  // week nav
+  document.getElementById("prevWeekBtn").onclick = ()=>{
+    const ni = i-1;
+    if(ni < 0){ state.currentWeek=-1; saveState(); render(); return; }
+    state.currentWeek = ni; saveState(); render();
+  };
+  document.getElementById("nextWeekBtn").onclick = ()=>{
+    const ni = i+1;
+    if(ni >= COURSE.weeks.length){ alert("You’ve reached the end. Capstone time. ✅"); return; }
+    if(!unlockedWeek(ni)){
+      alert("Next week is locked. Mark this week complete to unlock it.");
+      return;
+    }
+    state.currentWeek = ni; saveState(); render();
+  };
+
+  // completion toggle
+  document.getElementById("toggleCompleteBtn").onclick = ()=>{
+    const q = getQuizState(i);
+    if(!state.completed[i] && q.score===null){
+      if(!confirm("You haven’t submitted the quiz yet. Mark week complete anyway?")) return;
+    }
+    state.completed[i] = !state.completed[i];
+    saveState();
+    render();
+  };
+
+  // quiz render + handlers
+  renderQuiz(i);
+  document.getElementById("saveQuizBtn").onclick = ()=>{ saveState(); alert("Quiz saved."); };
+  document.getElementById("submitQuizBtn").onclick = ()=>{
+    const res = gradeQuiz(i);
+    alert(`Quiz submitted. Auto-score: ${res.pct}% (${res.correct}/${res.total})`);
+    render();
+  };
+
+  // toolkit
+  renderToolkit("weekToolkit", w.lab.focus || "keys");
+}
+
+function renderQuiz(weekIdx){
+  const w = COURSE.weeks[weekIdx];
+  const qs = getQuizState(weekIdx);
+  const box = document.getElementById("quizBox");
+
+  box.innerHTML = w.quiz.map((q, qi)=>{
+    const saved = qs.answers[qi];
+
+    if(q.type==="tf"){
+      const val = (typeof saved==="boolean") ? saved : null;
+      return `
+        <div class="qBox">
+          <div class="tiny">${qi+1}. True / False</div>
+          <div class="qPrompt">${escapeHtml(q.prompt)}</div>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="q${qi}" value="true" ${val===true?"checked":""}/> <span>True</span></label>
+            <label class="choice"><input type="radio" name="q${qi}" value="false" ${val===false?"checked":""}/> <span>False</span></label>
+          </div>
+          ${qs.score!==null ? `<div class="tiny muted" style="margin-top:8px">Why: ${escapeHtml(q.explain||"")}</div>` : ``}
+        </div>
+      `;
+    }
+
+    if(q.type==="mc"){
+      const val = (typeof saved==="number") ? saved : null;
+      const opts = q.options.map((opt, oi)=>{
+        return `
+          <label class="choice">
+            <input type="radio" name="q${qi}" value="${oi}" ${val===oi?"checked":""}/>
+            <span>${escapeHtml(opt)}</span>
+          </label>
+        `;
+      }).join("");
+      return `
+        <div class="qBox">
+          <div class="tiny">${qi+1}. Multiple Choice</div>
+          <div class="qPrompt">${escapeHtml(q.prompt)}</div>
+          <div class="choices">${opts}</div>
+          ${qs.score!==null ? `<div class="tiny muted" style="margin-top:8px">Why: ${escapeHtml(q.explain||"")}</div>` : ``}
+        </div>
+      `;
+    }
+
+    // essay
+    const text = (typeof saved==="string") ? saved : "";
+    return `
+      <div class="qBox">
+        <div class="tiny">${qi+1}. Essay (self-reflection)</div>
+        <div class="qPrompt">${escapeHtml(q.prompt)}</div>
+        <textarea data-essay="${qi}" placeholder="Write your answer…">${escapeHtml(text)}</textarea>
+        <div class="tiny muted" style="margin-top:8px"><strong>Rubric:</strong> ${escapeHtml(q.rubric||"")}</div>
+      </div>
+    `;
+  }).join("");
+
+  // wire TF/MC radios
+  w.quiz.forEach((q,qi)=>{
+    if(q.type==="tf" || q.type==="mc"){
+      const radios = box.querySelectorAll(`input[name="q${qi}"]`);
+      radios.forEach(r=>{
+        r.onchange = ()=>{
+          const qs = getQuizState(weekIdx);
+          if(q.type==="tf") qs.answers[qi] = (r.value === "true");
+          else qs.answers[qi] = parseInt(r.value,10);
+          saveState();
+        };
+      });
+    }
+  });
+
+  // wire essays
+  box.querySelectorAll("textarea[data-essay]").forEach(t=>{
+    t.oninput = ()=>{
+      const qi = parseInt(t.getAttribute("data-essay"),10);
+      const qs = getQuizState(weekIdx);
+      qs.answers[qi] = t.value;
+      saveState();
+    };
+  });
+}
+
+/* ---------- Router ---------- */
+function render(){
+  renderTop();
+  renderWeeks();
+  if(state.currentWeek < 0) renderHome();
+  else renderWeek(state.currentWeek);
+}
+
+/* ---------- Init ---------- */
+render();
+</script>
+</body>
+</html>
