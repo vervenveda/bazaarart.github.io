@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>🎨 Mirror Me — Symmetry Drawing Fun</title>
+<style>
+  html,body{
+    margin:0;height:100%;overflow:hidden;
+    background:linear-gradient(135deg,#01101c,#3379DE);
+    font-family:"Tahoma" ;
+  }
+  h1{
+    text-align:center;
+    color:#fff;
+    text-shadow:2px 2px 4px #000;
+    font-size:44px;
+    margin:10px 0;
+  }
+  #toolbar{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:10px;
+  }
+  button,select{
+    font-family:"Tahoma";
+    font-size:18px;
+    border:none;
+    border-radius:10px;
+    padding:10px 20px;
+    cursor:pointer;
+    box-shadow:2px 2px 4px rgba(0,0,0,0.3);
+    transition:transform .2s;
+  }
+  button:hover,select:hover{transform:scale(1.05);}
+  .color-btn{width:40px;height:40px;border-radius:50%;}
+  canvas{
+    display:block;
+    margin:auto;
+    border:8px solid #fff;
+    border-radius:20px;
+    box-shadow:0 0 20px rgba(0,0,0,.4);
+    background:#fefefe;
+    cursor:crosshair;
+  }
+</style>
+</head>
+<body>
+<h1>🎨 Mirror Me - Draw with Symmetry!</h1>
+
+<div id="toolbar">
+  <!-- Colors -->
+  <button class="color-btn" style="background:red" data-color="red"></button>
+  <button class="color-btn" style="background:blue" data-color="blue"></button>
+  <button class="color-btn" style="background:yellow" data-color="yellow"></button>
+  <button class="color-btn" style="background:green" data-color="green"></button>
+  <button class="color-btn" style="background:orange" data-color="orange"></button>
+  <button class="color-btn" style="background:purple" data-color="purple"></button>
+
+  <!-- Brush -->
+  <select id="brushSize">
+    <option value="4">Thin</option>
+    <option value="8" selected>Medium</option>
+    <option value="14">Thick</option>
+  </select>
+
+  <!-- Templates -->
+  <select id="template">
+    <option value="">No Template</option>
+    <option value="heart">❤️ Heart</option>
+    <option value="butterfly">🦋 Butterfly</option>
+    <option value="smile">😊 Smiley</option>
+  </select>
+
+  <!-- Actions -->
+  <button id="erase" style="background:#fff">🧽 Erase</button>
+  <button id="save" style="background:#00ccff;color:#fff;">💾 Save</button>
+</div>
+
+<canvas id="mirrorCanvas" width="900" height="500"></canvas>
+
+<script>
+const canvas=document.getElementById('mirrorCanvas');
+const ctx=canvas.getContext('2d');
+let drawing=false,color='blue',brush=8;
+
+function drawLine(x1,y1,x2,y2){
+  ctx.strokeStyle=color;
+  ctx.lineWidth=brush;
+  ctx.lineCap='round';
+  ctx.beginPath();
+  ctx.moveTo(x1,y1);
+  ctx.lineTo(x2,y2);
+  ctx.stroke();
+}
+
+// mirror helper
+function mirrorX(x){return canvas.width - x;}
+
+let last=null;
+canvas.addEventListener('mousedown',e=>{
+  drawing=true;last={x:e.offsetX,y:e.offsetY};
+});
+canvas.addEventListener('mouseup',()=>drawing=false);
+canvas.addEventListener('mouseleave',()=>drawing=false);
+canvas.addEventListener('mousemove',e=>{
+  if(!drawing)return;
+  const {offsetX:x,offsetY:y}=e;
+  if(last){
+    drawLine(last.x,last.y,x,y);                 // right side
+    drawLine(mirrorX(last.x),last.y,mirrorX(x),y); // left mirror
+  }
+  last={x,y};
+});
+
+// buttons
+document.querySelectorAll('.color-btn').forEach(btn=>{
+  btn.onclick=()=>{color=btn.dataset.color;};
+});
+document.getElementById('brushSize').onchange=e=>brush=parseInt(e.target.value);
+document.getElementById('erase').onclick=()=>{
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  drawTemplate();
+};
+document.getElementById('save').onclick=()=>{
+  const link=document.createElement('a');
+  link.download='MirrorMe_drawing.png';
+  link.href=canvas.toDataURL();
+  link.click();
+};
+
+// templates
+const templateSel=document.getElementById('template');
+templateSel.onchange=drawTemplate;
+
+function drawTemplate(){
+  const t=templateSel.value;
+  ctx.save();
+  ctx.globalAlpha=0.2;
+  ctx.strokeStyle="#999";
+  ctx.lineWidth=4;
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  if(t==='heart'){
+    ctx.beginPath();
+    ctx.moveTo(450,250);
+    ctx.bezierCurveTo(450,100,700,100,700,250);
+    ctx.bezierCurveTo(700,400,450,450,450,500);
+    ctx.bezierCurveTo(450,450,200,400,200,250);
+    ctx.bezierCurveTo(200,100,450,100,450,250);
+    ctx.stroke();
+  }
+  if(t==='butterfly'){
+    ctx.beginPath();
+    ctx.ellipse(450,250,60,200,0,0,Math.PI*2);
+    ctx.moveTo(450,50);ctx.bezierCurveTo(700,50,700,450,450,250);
+    ctx.moveTo(450,450);ctx.bezierCurveTo(700,450,700,50,450,250);
+    ctx.stroke();
+  }
+  if(t==='smile'){
+    ctx.beginPath();
+    ctx.arc(450,250,150,0,Math.PI*2);
+    ctx.moveTo(520,220);ctx.arc(500,220,20,0,Math.PI*2);
+    ctx.moveTo(400,220);ctx.arc(380,220,20,0,Math.PI*2);
+    ctx.moveTo(350,270);ctx.quadraticCurveTo(450,370,550,270);
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+drawTemplate();
+</script>
+</body>
+</html>
