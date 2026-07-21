@@ -1,0 +1,954 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sketch Lab — Middle School Drawing Pad</title>
+<style>
+  :root{
+    --bg:#f9fafb;
+    --card:#ffffff;
+    --muted:#6b7280;
+    --accent:#6366f1;
+    --accent2:#ec4899;
+    --text:#020617;
+  }
+  html,body{
+    margin:0;
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    color:var(--text);
+    background:radial-gradient(circle at top,#e0f2fe,#f9fafb);
+    overflow-x:hidden;
+  }
+  body{
+    display:flex;
+    justify-content:center;
+    padding:16px 0;
+  }
+  .app{
+    width:100%;
+    max-width:777px;
+    padding:0 8px;
+    box-sizing:border-box;
+  }
+
+  header{
+    text-align:center;
+    margin-bottom:8px;
+  }
+  h1{
+    font-size:20px;
+    margin:0;
+    color:var(--accent);
+  }
+  .tagline{
+    font-size:13px;
+    color:var(--muted);
+  }
+
+  .card{
+    background:var(--card);
+    border-radius:14px;
+    padding:10px;
+    box-shadow:0 10px 24px rgba(15,23,42,0.16);
+    margin-top:10px;
+  }
+
+  .canvas-wrap{
+    position:relative;
+    width:100%;
+    max-width:666px;
+    margin:8px auto 0;
+    aspect-ratio:1/1;
+  }
+  .canvas-wrap canvas{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    border-radius:14px;
+  }
+  #guideCanvas{
+    background:#f9fafb;
+    border:1px dashed #c7d2fe;
+  }
+  #drawCanvas{
+    background:transparent;
+  }
+
+  /* Mode toggle */
+  .mode-toggle{
+    display:flex;
+    justify-content:center;
+    gap:6px;
+    margin-top:4px;
+  }
+  .mode-btn{
+    border:0;
+    border-radius:999px;
+    padding:5px 10px;
+    font-size:11px;
+    cursor:pointer;
+    background:#eef2ff;
+    color:#4b5563;
+    box-shadow:0 1px 4px rgba(0,0,0,0.08);
+  }
+  .mode-btn.active{
+    background:linear-gradient(90deg,var(--accent),var(--accent2));
+    color:#fff;
+    box-shadow:0 0 0 1px rgba(79,70,229,0.7);
+  }
+
+  .guide-buttons{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-top:6px;
+    justify-content:center;
+  }
+  .guide-btn{
+    border:0;
+    border-radius:999px;
+    padding:5px 10px;
+    font-size:11px;
+    background:#fff;
+    color:var(--muted);
+    box-shadow:0 1px 4px rgba(0,0,0,0.08);
+    cursor:pointer;
+  }
+  .guide-btn.active{
+    background:linear-gradient(90deg,var(--accent),var(--accent2));
+    color:#fff;
+  }
+
+  /* Step bar */
+  .steps{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-top:6px;
+    font-size:11px;
+    color:var(--muted);
+  }
+  .step-label{
+    white-space:nowrap;
+    margin-right:4px;
+  }
+  .step-dots{
+    display:flex;
+    gap:4px;
+    align-items:center;
+  }
+  .step-dot{
+    width:20px;
+    height:20px;
+    border-radius:999px;
+    border:1px solid #e5e7eb;
+    background:#ffffff;
+    color:#6b7280;
+    font-size:11px;
+    cursor:pointer;
+    padding:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 1px 3px rgba(0,0,0,0.06);
+  }
+  .step-dot.active{
+    background:linear-gradient(90deg,var(--accent),var(--accent2));
+    color:#fff;
+    border-color:var(--accent);
+    box-shadow:0 0 0 1px rgba(129,140,248,0.6);
+  }
+  .step-next{
+    border:0;
+    border-radius:999px;
+    padding:5px 9px;
+    font-size:11px;
+    cursor:pointer;
+    background:#ffffff;
+    color:#6b7280;
+    box-shadow:0 1px 4px rgba(0,0,0,0.12);
+    white-space:nowrap;
+  }
+
+  .controls{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    align-items:center;
+    margin-top:6px;
+    justify-content:space-between;
+  }
+
+  .colors{
+    display:flex;
+    gap:4px;
+  }
+  .color-dot{
+    width:18px;
+    height:18px;
+    border-radius:999px;
+    border:2px solid #fff;
+    box-shadow:0 0 0 1px rgba(0,0,0,0.12);
+    cursor:pointer;
+  }
+  .color-dot.active{
+    box-shadow:0 0 0 2px var(--accent);
+  }
+
+  .slider-wrap{
+    flex:1;
+    min-width:0;
+    display:flex;
+    align-items:center;
+    gap:4px;
+    font-size:11px;
+    color:var(--muted);
+  }
+  .slider-wrap input[type="range"]{
+    flex:1;
+  }
+
+  .tool-buttons{
+    display:flex;
+    flex-wrap:wrap;
+    gap:4px;
+    margin-top:6px;
+    justify-content:flex-end;
+  }
+  button.tool{
+    border:0;
+    border-radius:999px;
+    padding:5px 10px;
+    font-size:11px;
+    font-weight:600;
+    cursor:pointer;
+    background:linear-gradient(90deg,var(--accent),var(--accent2));
+    color:#fff;
+    box-shadow:0 2px 6px rgba(0,0,0,0.2);
+  }
+  button.tool.secondary{
+    background:#ffffff;
+    color:var(--muted);
+    box-shadow:0 1px 4px rgba(0,0,0,0.12);
+  }
+  button.tool.secondary.active{
+    background:#111827;
+    color:#fff;
+  }
+
+  footer{
+    margin-top:8px;
+    text-align:center;
+    font-size:11px;
+    color:var(--muted);
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <h1>Sketch Lab 🎨</h1>
+    <div class="tagline">Guided sketches & coloring pages for middle school artists.</div>
+  </header>
+
+  <div class="card">
+    <!-- MODE TOGGLE -->
+    <div class="mode-toggle" id="modeToggle">
+      <button class="mode-btn active" data-mode="guide">Draw Guides</button>
+      <button class="mode-btn" data-mode="color">Coloring Pages</button>
+    </div>
+
+    <!-- CANVAS AREA -->
+    <div class="canvas-wrap">
+      <canvas id="guideCanvas" width="280" height="280"></canvas>
+      <canvas id="drawCanvas" width="280" height="280"></canvas>
+    </div>
+
+    <!-- TEMPLATE BUTTONS -->
+    <div class="guide-buttons" id="templateButtons"></div>
+
+    <!-- STEP PROGRESS BAR -->
+    <div class="steps">
+      <span class="step-label">Step:</span>
+      <div class="step-dots">
+        <button class="step-dot active" data-step="1">1</button>
+        <button class="step-dot" data-step="2">2</button>
+        <button class="step-dot" data-step="3">3</button>
+      </div>
+      <button class="step-next" id="nextStepBtn">Next ▶</button>
+    </div>
+
+    <!-- DRAW CONTROLS -->
+    <div class="controls">
+      <div class="colors" id="colorPalette">
+        <div class="color-dot active" data-color="#111827" style="background:#111827;"></div>
+        <div class="color-dot" data-color="#e11d48" style="background:#e11d48;"></div>
+        <div class="color-dot" data-color="#2563eb" style="background:#2563eb;"></div>
+        <div class="color-dot" data-color="#16a34a" style="background:#16a34a;"></div>
+        <div class="color-dot" data-color="#f59e0b" style="background:#f59e0b;"></div>
+        <div class="color-dot" data-color="#a855f7" style="background:#a855f7;"></div>
+      </div>
+      <div class="slider-wrap">
+        <span>Brush</span>
+        <input type="range" id="brushSize" min="2" max="18" value="4">
+      </div>
+    </div>
+
+    <div class="tool-buttons">
+      <button class="tool secondary" id="toggleGuideBtn">Hide template</button>
+      <button class="tool secondary" id="eraserBtn">Eraser</button>
+      <button class="tool secondary" id="clearBtn">Clear</button>
+      <button class="tool" id="saveBtn">Save</button>
+    </div>
+  </div>
+
+  <footer>
+    Use Step 1 for construction lines, Step 2 for clean outlines, Step 3 for almost-freehand practice.
+  </footer>
+</div>
+
+<script>
+  const drawCanvas = document.getElementById('drawCanvas');
+  const drawCtx = drawCanvas.getContext('2d');
+  const guideCanvas = document.getElementById('guideCanvas');
+  const guideCtx = guideCanvas.getContext('2d');
+
+  let drawing = false;
+  let brushColor = '#111827';
+  let brushSize = 4;
+  let eraserMode = false;
+  let guideVisible = true;
+
+  let currentMode = 'guide';
+  let currentStep = 1;
+  let currentTemplate = 'cube';
+
+  /* ---------- Drawing (user strokes) ---------- */
+  function setBrush(){
+    if(eraserMode){
+      drawCtx.globalCompositeOperation = 'destination-out';
+      drawCtx.strokeStyle = 'rgba(0,0,0,1)';
+    }else{
+      drawCtx.globalCompositeOperation = 'source-over';
+      drawCtx.strokeStyle = brushColor;
+    }
+    drawCtx.lineWidth = brushSize;
+    drawCtx.lineCap = 'round';
+    drawCtx.lineJoin = 'round';
+  }
+
+  function getOffset(e){
+    const rect = drawCanvas.getBoundingClientRect();
+    const clientX = e.clientX ?? (e.touches && e.touches[0].clientX);
+    const clientY = e.clientY ?? (e.touches && e.touches[0].clientY);
+    const x = ((clientX - rect.left) / rect.width) * drawCanvas.width;
+    const y = ((clientY - rect.top) / rect.height) * drawCanvas.height;
+    return {x,y};
+  }
+
+  function pointerDown(e){
+    e.preventDefault();
+    drawing = true;
+    setBrush();
+    drawCtx.beginPath();
+    const {x,y} = getOffset(e);
+    drawCtx.moveTo(x,y);
+  }
+  function pointerMove(e){
+    if(!drawing) return;
+    e.preventDefault();
+    const {x,y} = getOffset(e);
+    drawCtx.lineTo(x,y);
+    drawCtx.stroke();
+  }
+  function pointerUp(e){
+    if(!drawing) return;
+    e && e.preventDefault();
+    drawing = false;
+    drawCtx.closePath();
+  }
+
+  drawCanvas.addEventListener('pointerdown', pointerDown);
+  drawCanvas.addEventListener('pointermove', pointerMove);
+  drawCanvas.addEventListener('pointerup', pointerUp);
+  drawCanvas.addEventListener('pointerleave', pointerUp);
+  drawCanvas.addEventListener('pointercancel', pointerUp);
+
+  /* ---------- UI: colors & brush size ---------- */
+  document.getElementById('brushSize').addEventListener('input', e=>{
+    brushSize = parseInt(e.target.value,10) || 4;
+  });
+
+  document.getElementById('colorPalette').addEventListener('click', e=>{
+    const dot = e.target.closest('.color-dot');
+    if(!dot) return;
+    eraserMode = false;
+    document.getElementById('eraserBtn').classList.remove('active');
+    brushColor = dot.dataset.color;
+    document.querySelectorAll('.color-dot').forEach(d=>d.classList.remove('active'));
+    dot.classList.add('active');
+  });
+
+  /* ---------- Tools: eraser / clear / save ---------- */
+  document.getElementById('eraserBtn').addEventListener('click',()=>{
+    eraserMode = !eraserMode;
+    document.getElementById('eraserBtn').classList.toggle('active',eraserMode);
+  });
+
+  document.getElementById('clearBtn').addEventListener('click',()=>{
+    drawCtx.clearRect(0,0,drawCanvas.width,drawCanvas.height);
+  });
+
+  document.getElementById('saveBtn').addEventListener('click',()=>{
+    const temp = document.createElement('canvas');
+    temp.width = drawCanvas.width;
+    temp.height = drawCanvas.height;
+    const tctx = temp.getContext('2d');
+    tctx.fillStyle = '#f9fafb';
+    tctx.fillRect(0,0,temp.width,temp.height);
+    if(guideVisible) tctx.drawImage(guideCanvas,0,0);
+    tctx.drawImage(drawCanvas,0,0);
+    const link = document.createElement('a');
+    link.href = temp.toDataURL('image/png');
+    link.download = 'sketch_lab.png';
+    link.click();
+  });
+
+  /* ---------- Template drawing ---------- */
+  function clearGuide(){
+    guideCtx.clearRect(0,0,guideCanvas.width,guideCanvas.height);
+  }
+
+  function applyGuideStrokeStyle(){
+    // Step 1: strongest, Step 3: faintest
+    let alpha;
+    if(currentStep === 1) alpha = 0.38;
+    else if(currentStep === 2) alpha = 0.22;
+    else alpha = 0.10;
+    guideCtx.strokeStyle = currentMode === 'color'
+      ? 'rgba(15,23,42,'+Math.max(alpha,0.4)+')'   // keep outlines darker for coloring pages
+      : 'rgba(15,23,42,'+alpha+')';
+    guideCtx.lineWidth = (currentMode === 'color' ? 2.2 : (currentStep === 1 ? 2 : 1.5));
+    guideCtx.lineCap = 'round';
+    guideCtx.lineJoin = 'round';
+  }
+
+  /* --- Advanced guides --- */
+  function drawCube(){
+    clearGuide();
+    guideCtx.save();
+    applyGuideStrokeStyle();
+    // Front square
+    guideCtx.strokeRect(80,120,80,80);
+    // Back square (offset)
+    guideCtx.strokeRect(100,100,80,80);
+    // Connect corners
+    guideCtx.beginPath();
+    guideCtx.moveTo(80,120); guideCtx.lineTo(100,100);
+    guideCtx.moveTo(160,120); guideCtx.lineTo(180,100);
+    guideCtx.moveTo(80,200); guideCtx.lineTo(100,180);
+    guideCtx.moveTo(160,200); guideCtx.lineTo(180,180);
+    guideCtx.stroke();
+    guideCtx.restore();
+  }
+
+  function drawEye(){
+    clearGuide();
+    guideCtx.save();
+    applyGuideStrokeStyle();
+    guideCtx.translate(0.5,0.5);
+    // outer eye shape
+    guideCtx.beginPath();
+    guideCtx.moveTo(60,150);
+    guideCtx.quadraticCurveTo(140,90,220,150);
+    guideCtx.quadraticCurveTo(140,210,60,150);
+    guideCtx.stroke();
+    // iris
+    guideCtx.beginPath();
+    guideCtx.arc(140,150,28,0,Math.PI*2);
+    guideCtx.stroke();
+    // pupil
+    guideCtx.beginPath();
+    guideCtx.arc(140,150,12,0,Math.PI*2);
+    guideCtx.stroke();
+    // highlight
+    guideCtx.beginPath();
+    guideCtx.arc(130,140,5,0,Math.PI*2);
+    guideCtx.stroke();
+    // top lid
+    guideCtx.beginPath();
+    guideCtx.moveTo(60,145);
+    guideCtx.quadraticCurveTo(140,115,220,145);
+    guideCtx.stroke();
+    // lashes (simple)
+    guideCtx.beginPath();
+    guideCtx.moveTo(90,135); guideCtx.lineTo(80,120);
+    guideCtx.moveTo(115,127); guideCtx.lineTo(110,112);
+    guideCtx.moveTo(165,127); guideCtx.lineTo(170,112);
+    guideCtx.moveTo(190,135); guideCtx.lineTo(200,120);
+    guideCtx.stroke();
+    guideCtx.restore();
+  }
+
+  function drawDragon(){
+    clearGuide();
+    guideCtx.save();
+    applyGuideStrokeStyle();
+    guideCtx.translate(0.5,0.5);
+    // head outline
+    guideCtx.beginPath();
+    guideCtx.moveTo(70,90);
+    guideCtx.quadraticCurveTo(110,60,160,70);
+    guideCtx.quadraticCurveTo(205,80,215,115);
+    guideCtx.quadraticCurveTo(190,130,175,150);
+    guideCtx.quadraticCurveTo(160,175,165,210);
+    guideCtx.quadraticCurveTo(125,210,95,195);
+    guideCtx.quadraticCurveTo(70,180,60,150);
+    guideCtx.quadraticCurveTo(55,120,70,90);
+    guideCtx.stroke();
+    // snout edge
+    guideCtx.beginPath();
+    guideCtx.moveTo(185,120);
+    guideCtx.quadraticCurveTo(205,125,215,115);
+    guideCtx.stroke();
+    // eye
+    guideCtx.beginPath();
+    guideCtx.ellipse(135,120,18,10,0,0,Math.PI*2);
+    guideCtx.stroke();
+    guideCtx.beginPath();
+    guideCtx.arc(140,120,5,0,Math.PI*2);
+    guideCtx.stroke();
+    // horn
+    guideCtx.beginPath();
+    guideCtx.moveTo(105,75);
+    guideCtx.lineTo(115,40);
+    guideCtx.lineTo(130,70);
+    guideCtx.stroke();
+    // scales along neck
+    guideCtx.beginPath();
+    for(let y=150;y<=200;y+=12){
+      guideCtx.moveTo(85,y);
+      guideCtx.quadraticCurveTo(95,y-6,105,y);
+    }
+    guideCtx.stroke();
+    guideCtx.restore();
+  }
+
+  function drawRose(){
+    clearGuide();
+    guideCtx.save();
+    applyGuideStrokeStyle();
+    guideCtx.translate(0.5,0.5);
+    // center spiral
+    guideCtx.beginPath();
+    guideCtx.arc(140,130,14,0,Math.PI*2);
+    guideCtx.stroke();
+    guideCtx.beginPath();
+    guideCtx.arc(140,130,8,0,Math.PI*2);
+    guideCtx.stroke();
+    // petals
+    guideCtx.beginPath();
+    guideCtx.moveTo(120,130);
+    guideCtx.quadraticCurveTo(110,110,130,105);
+    guideCtx.quadraticCurveTo(150,100,160,115);
+    guideCtx.quadraticCurveTo(170,130,155,140);
+    guideCtx.quadraticCurveTo(140,150,125,145);
+    guideCtx.quadraticCurveTo(110,140,120,130);
+    guideCtx.stroke();
+    // outer petals
+    guideCtx.beginPath();
+    guideCtx.moveTo(110,135);
+    guideCtx.quadraticCurveTo(90,120,105,100);
+    guideCtx.quadraticCurveTo(130,80,155,90);
+    guideCtx.quadraticCurveTo(185,100,185,130);
+    guideCtx.quadraticCurveTo(180,160,150,170);
+    guideCtx.quadraticCurveTo(130,180,110,170);
+    guideCtx.quadraticCurveTo(90,160,100,145);
+    guideCtx.stroke();
+    // stem
+    guideCtx.beginPath();
+    guideCtx.moveTo(140,170);
+    guideCtx.quadraticCurveTo(130,210,135,250);
+    guideCtx.stroke();
+    // leaves
+    guideCtx.beginPath();
+    guideCtx.moveTo(130,195);
+    guideCtx.quadraticCurveTo(105,190,95,205);
+    guideCtx.quadraticCurveTo(112,205,122,210);
+    guideCtx.stroke();
+    guideCtx.beginPath();
+    guideCtx.moveTo(145,205);
+    guideCtx.quadraticCurveTo(170,205,180,220);
+    guideCtx.quadraticCurveTo(160,218,150,215);
+    guideCtx.stroke();
+    guideCtx.restore();
+  }
+
+  function drawLandscape(){
+    clearGuide();
+    guideCtx.save();
+    applyGuideStrokeStyle();
+    guideCtx.translate(0.5,0.5);
+    // horizon
+    guideCtx.beginPath();
+    guideCtx.moveTo(30,170);
+    guideCtx.lineTo(250,170);
+    guideCtx.stroke();
+    // mountains
+    guideCtx.beginPath();
+    guideCtx.moveTo(40,170);
+    guideCtx.lineTo(95,110);
+    guideCtx.lineTo(140,170);
+    guideCtx.lineTo(190,120);
+    guideCtx.lineTo(240,170);
+    guideCtx.stroke();
+    // sun
+    guideCtx.beginPath();
+    guideCtx.arc(70,110,18,0,Math.PI*2);
+    guideCtx.stroke();
+    // tree
+    guideCtx.beginPath();
+    guideCtx.moveTo(190,170);
+    guideCtx.lineTo(190,215);
+    guideCtx.stroke();
+    guideCtx.beginPath();
+    guideCtx.moveTo(170,180);
+    guideCtx.quadraticCurveTo(190,150,210,180);
+    guideCtx.quadraticCurveTo(190,190,170,180);
+    guideCtx.stroke();
+    // river
+    guideCtx.beginPath();
+    guideCtx.moveTo(120,170);
+    guideCtx.quadraticCurveTo(110,195,130,220);
+    guideCtx.quadraticCurveTo(150,245,140,260);
+    guideCtx.stroke();
+    guideCtx.restore();
+  }
+
+  function drawCrystal(){
+    clearGuide();
+    guideCtx.save();
+    applyGuideStrokeStyle();
+    guideCtx.translate(0.5,0.5);
+    // main crystal
+    guideCtx.beginPath();
+    guideCtx.moveTo(140,60);
+    guideCtx.lineTo(110,120);
+    guideCtx.lineTo(125,220);
+    guideCtx.lineTo(155,220);
+    guideCtx.lineTo(170,120);
+    guideCtx.closePath();
+    guideCtx.stroke();
+    // facets
+    guideCtx.beginPath();
+    guideCtx.moveTo(140,60); guideCtx.lineTo(140,220);
+    guideCtx.moveTo(110,120); guideCtx.lineTo(170,120);
+    guideCtx.moveTo(110,120); guideCtx.lineTo(155,220);
+    guideCtx.moveTo(170,120); guideCtx.lineTo(125,220);
+    guideCtx.stroke();
+    // side shards
+    guideCtx.beginPath();
+    guideCtx.moveTo(90,150);
+    guideCtx.lineTo(75,200);
+    guideCtx.lineTo(100,210);
+    guideCtx.closePath();
+    guideCtx.moveTo(190,150);
+    guideCtx.lineTo(205,200);
+    guideCtx.lineTo(180,210);
+    guideCtx.closePath();
+    guideCtx.stroke();
+    guideCtx.restore();
+  }
+
+  /* --- Coloring pages (thicker outlines) --- */
+  function drawButterfly(){
+    clearGuide();
+    guideCtx.save();
+    applyGuideStrokeStyle();
+    guideCtx.translate(0.5,0.5);
+    // body
+    guideCtx.beginPath();
+    guideCtx.moveTo(140,90); guideCtx.lineTo(140,190);
+    guideCtx.stroke();
+    guideCtx.beginPath();
+    guideCtx.arc(140,80,10,0,Math.PI*2);
+    guideCtx.stroke();
+    // antennae
+    guideCtx.beginPath();
+    guideCtx.moveTo(140,75);
+    guideCtx.quadraticCurveTo(130,55,120,60);
+    guideCtx.moveTo(140,75);
+    guideCtx.quadraticCurveTo(150,55,160,60);
+    guideCtx.stroke();
+    // left top wing
+    guideCtx.beginPath();
+    guideCtx.moveTo(140,110);
+    guideCtx.quadraticCurveTo(90,60,70,110);
+    guideCtx.quadraticCurveTo(60,150,110,150);
+    guideCtx.quadraticCurveTo(120,135,140,110);
+    guideCtx.stroke();
+    // left bottom wing
+    guideCtx.beginPath();
+    guideCtx.moveTo(140,140);
+    guideCtx.quadraticCurveTo(95,155,80,200);
+    guideCtx.quadraticCurveTo(115,205,135,180);
+    guideCtx.quadraticCurveTo(138,165,140,140);
+    guideCtx.stroke();
+    // right wings (mirror-ish)
+    guideCtx.beginPath();
+    guideCtx.moveTo(140,110);
+    guideCtx.quadraticCurveTo(190,60,210,110);
+    guideCtx.quadraticCurveTo(220,150,170,150);
+    guideCtx.quadraticCurveTo(160,135,140,110);
+    guideCtx.stroke();
+    guideCtx.beginPath();
+    guideCtx.moveTo(140,140);
+    guideCtx.quadraticCurveTo(185,155,200,200);
+    guideCtx.quadraticCurveTo(165,205,145,180);
+    guideCtx.quadraticCurveTo(142,165,140,140);
+    guideCtx.stroke();
+    // patterns
+    guideCtx.beginPath();
+    guideCtx.arc(105,120,8,0,Math.PI*2);
+    guideCtx.arc(175,120,8,0,Math.PI*2);
+    guideCtx.arc(110,175,6,0,Math.PI*2);
+    guideCtx.arc(170,175,6,0,Math.PI*2);
+    guideCtx.stroke();
+    guideCtx.restore();
+  }
+
+  function drawForest(){
+    clearGuide();
+    guideCtx.save();
+    applyGuideStrokeStyle();
+    guideCtx.translate(0.5,0.5);
+    // ground
+    guideCtx.beginPath();
+    guideCtx.moveTo(20,210); guideCtx.lineTo(260,210);
+    guideCtx.stroke();
+    // trees
+    function tree(x){
+      guideCtx.beginPath();
+      guideCtx.moveTo(x,210); guideCtx.lineTo(x,170); guideCtx.stroke();
+      guideCtx.beginPath();
+      guideCtx.moveTo(x-20,175);
+      guideCtx.quadraticCurveTo(x,145,x+20,175);
+      guideCtx.quadraticCurveTo(x,185,x-20,175);
+      guideCtx.stroke();
+      guideCtx.beginPath();
+      guideCtx.moveTo(x-16,160);
+      guideCtx.quadraticCurveTo(x,130,x+16,160);
+      guideCtx.quadraticCurveTo(x,170,x-16,160);
+      guideCtx.stroke();
+    }
+    tree(70);
+    tree(140);
+    tree(210);
+    // sun + clouds
+    guideCtx.beginPath();
+    guideCtx.arc(55,70,18,0,Math.PI*2);
+    guideCtx.stroke();
+    guideCtx.beginPath();
+    guideCtx.moveTo(150,70);
+    guideCtx.quadraticCurveTo(160,60,170,70);
+    guideCtx.quadraticCurveTo(180,60,190,70);
+    guideCtx.quadraticCurveTo(200,80,190,85);
+    guideCtx.lineTo(150,85);
+    guideCtx.quadraticCurveTo(140,80,150,70);
+    guideCtx.stroke();
+    guideCtx.restore();
+  }
+
+  function drawMandala(){
+    clearGuide();
+    guideCtx.save();
+    applyGuideStrokeStyle();
+    guideCtx.translate(140,140);
+    // circles
+    [25,50,75].forEach(r=>{
+      guideCtx.beginPath();
+      guideCtx.arc(0,0,r,0,Math.PI*2);
+      guideCtx.stroke();
+    });
+    // petals
+    for(let i=0;i<8;i++){
+      const angle = (Math.PI*2/8)*i;
+      const x = Math.cos(angle)*75;
+      const y = Math.sin(angle)*75;
+      guideCtx.beginPath();
+      guideCtx.moveTo(0,0);
+      guideCtx.quadraticCurveTo(Math.cos(angle)*40,Math.sin(angle)*40,x,y);
+      guideCtx.stroke();
+      guideCtx.beginPath();
+      guideCtx.arc(Math.cos(angle)*50,Math.sin(angle)*50,8,0,Math.PI*2);
+      guideCtx.stroke();
+    }
+    guideCtx.restore();
+  }
+
+  function drawOcean(){
+    clearGuide();
+    guideCtx.save();
+    applyGuideStrokeStyle();
+    guideCtx.translate(0.5,0.5);
+    // water line
+    guideCtx.beginPath();
+    guideCtx.moveTo(20,170);
+    guideCtx.bezierCurveTo(80,150,120,190,180,170);
+    guideCtx.bezierCurveTo(210,160,235,175,260,170);
+    guideCtx.stroke();
+    // fish
+    function fish(x,y,size){
+      guideCtx.beginPath();
+      guideCtx.ellipse(x,y,size, size*0.6,0,0,Math.PI*2);
+      guideCtx.stroke();
+      guideCtx.beginPath();
+      guideCtx.moveTo(x+size,y);
+      guideCtx.lineTo(x+size+size*0.8,y-size*0.6);
+      guideCtx.lineTo(x+size+size*0.8,y+size*0.6);
+      guideCtx.closePath();
+      guideCtx.stroke();
+      guideCtx.beginPath();
+      guideCtx.arc(x-size*0.4,y-size*0.1,2,0,Math.PI*2);
+      guideCtx.stroke();
+    }
+    fish(90,190,18);
+    fish(190,200,12);
+    // waves above
+    guideCtx.beginPath();
+    guideCtx.moveTo(30,140);
+    guideCtx.quadraticCurveTo(60,130,90,140);
+    guideCtx.quadraticCurveTo(120,130,150,140);
+    guideCtx.quadraticCurveTo(180,130,210,140);
+    guideCtx.stroke();
+    // sun
+    guideCtx.beginPath();
+    guideCtx.arc(60,80,16,0,Math.PI*2);
+    guideCtx.stroke();
+    guideCtx.restore();
+  }
+
+  /* ---------- Template registry ---------- */
+  const TEMPLATES = {
+    guide: [
+      {id:'cube',      label:'⬛ 3D Cube'},
+      {id:'eye',       label:'👁️ Anime Eye'},
+      {id:'dragon',    label:'🐉 Dragon Head'},
+      {id:'rose',      label:'🌹 Rose'},
+      {id:'landscape', label:'🏞️ Landscape'},
+      {id:'crystal',   label:'💎 Crystal'}
+    ],
+    color: [
+      {id:'butterfly', label:'🦋 Butterfly'},
+      {id:'forest',    label:'🌲 Forest'},
+      {id:'mandala',   label:'✴️ Mandala'},
+      {id:'ocean',     label:'🌊 Ocean'}
+    ]
+  };
+
+  const TEMPLATE_DRAW_MAP = {
+    cube:      drawCube,
+    eye:       drawEye,
+    dragon:    drawDragon,
+    rose:      drawRose,
+    landscape: drawLandscape,
+    crystal:   drawCrystal,
+    butterfly: drawButterfly,
+    forest:    drawForest,
+    mandala:   drawMandala,
+    ocean:     drawOcean
+  };
+
+  function drawCurrentTemplate(){
+    const fn = TEMPLATE_DRAW_MAP[currentTemplate];
+    if(!fn) return;
+    fn();
+  }
+
+  /* ---------- Mode & template UI ---------- */
+  function renderTemplateButtons(){
+    const container = document.getElementById('templateButtons');
+    container.innerHTML = '';
+    const list = TEMPLATES[currentMode];
+    list.forEach(tpl=>{
+      const btn = document.createElement('button');
+      btn.className = 'guide-btn' + (tpl.id === currentTemplate ? ' active':'');
+      btn.textContent = tpl.label;
+      btn.dataset.id = tpl.id;
+      container.appendChild(btn);
+    });
+  }
+
+  function setMode(mode){
+    currentMode = mode;
+    // pick first template in that mode if current one doesn't exist there
+    const list = TEMPLATES[currentMode];
+    if(!list.some(t=>t.id === currentTemplate)){
+      currentTemplate = list[0].id;
+    }
+    document.querySelectorAll('.mode-btn').forEach(btn=>{
+      btn.classList.toggle('active', btn.dataset.mode === currentMode);
+    });
+    renderTemplateButtons();
+    drawCurrentTemplate();
+  }
+
+  document.getElementById('modeToggle').addEventListener('click', e=>{
+    const btn = e.target.closest('.mode-btn');
+    if(!btn) return;
+    setMode(btn.dataset.mode);
+  });
+
+  document.getElementById('templateButtons').addEventListener('click', e=>{
+    const btn = e.target.closest('.guide-btn');
+    if(!btn) return;
+    currentTemplate = btn.dataset.id;
+    renderTemplateButtons();
+    drawCurrentTemplate();
+  });
+
+  /* ---------- Steps UI ---------- */
+  function updateStepUI(){
+    document.querySelectorAll('.step-dot').forEach(dot=>{
+      dot.classList.toggle('active', parseInt(dot.dataset.step,10) === currentStep);
+    });
+  }
+
+  function setStep(step){
+    currentStep = step;
+    if(currentStep < 1) currentStep = 1;
+    if(currentStep > 3) currentStep = 3;
+    updateStepUI();
+    drawCurrentTemplate();
+  }
+
+  document.getElementById('nextStepBtn').addEventListener('click', ()=>{
+    let next = currentStep + 1;
+    if(next > 3) next = 1;
+    setStep(next);
+  });
+
+  document.querySelectorAll('.step-dot').forEach(dot=>{
+    dot.addEventListener('click', ()=>{
+      const step = parseInt(dot.dataset.step,10);
+      setStep(step);
+    });
+  });
+
+  /* ---------- Template visibility toggle ---------- */
+  document.getElementById('toggleGuideBtn').addEventListener('click',()=>{
+    guideVisible = !guideVisible;
+    guideCanvas.style.opacity = guideVisible ? '1' : '0';
+    document.getElementById('toggleGuideBtn').textContent =
+      guideVisible ? 'Hide template' : 'Show template';
+  });
+
+  /* ---------- Init ---------- */
+  setBrush();
+  setMode('guide'); // sets template buttons and draws default template
+  setStep(1);
+</script>
+</body>
+</html>
