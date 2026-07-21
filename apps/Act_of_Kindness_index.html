@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Act of Kindness</title>
+  <!-- Fonts (swap URLs for CITZEN/Brandon Grotesque if needed) -->
+  <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(120deg, #3b215c 0%, #293673 100%);
+      font-family: 'Epilogue', 'Brandon Grotesque', Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.5s;
+    }
+    .kindness-wrap {
+      background: linear-gradient(100deg, #fdf6e6 70%, #f7e7be 100%);
+      border-radius: 30px;
+      box-shadow: 0 10px 40px rgba(44,32,84,0.19), 0 1.5px 16px rgba(60,30,80,0.12);
+      max-width: 430px;
+      width: 95vw;
+      margin: 0 auto;
+      padding: 44px 32px 34px 32px;
+      text-align: center;
+      position: relative;
+    }
+    h1 {
+      font-family: 'Epilogue', Arial, sans-serif;
+      letter-spacing: 2.5px;
+      color: #49277a;
+      font-size: 2.1em;
+      font-weight: 800;
+      margin: 0 0 14px 0;
+    }
+    .desc {
+      color: #624fa0;
+      font-size: 1.11em;
+      margin-bottom: 16px;
+    }
+    .kindness-card {
+      background: #fffdf7;
+      border-radius: 18px;
+      margin: 26px 0 0 0;
+      min-height: 72px;
+      font-size: 1.19em;
+      font-weight: 500;
+      color: #3a224b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2.5px 12px rgba(80,55,90,0.07);
+      padding: 26px 18px;
+      transition: background 0.5s;
+      position: relative;
+      min-width: 220px;
+    }
+    .kindness-card.streak {
+      font-size: 1.01em;
+      color: #7d6aa3;
+      background: #f4f0ff;
+      margin-top: 14px;
+      font-style: italic;
+    }
+    .kindness-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+      margin: 28px 0 0 0;
+    }
+    .btn-kindness {
+      background: linear-gradient(90deg,#f8cf6a 70%, #fd8791 120%);
+      color: #49277a;
+      font-weight: bold;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.07em;
+      letter-spacing: 1.2px;
+      padding: 14px 26px;
+      margin: 0;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(255,202,87,0.09);
+      transition: background 0.18s, box-shadow 0.23s;
+      outline: none;
+    }
+    .btn-kindness:hover {
+      background: linear-gradient(90deg,#ffd86a 60%, #fd8791 130%);
+      box-shadow: 0 2px 22px rgba(252,180,98,0.19);
+    }
+    .btn-alt {
+      background: #ede2c9;
+      color: #8e6ebb;
+      border: 1.4px solid #e8dac4;
+      font-weight: 500;
+      box-shadow: none;
+    }
+    .btn-alt:hover {
+      background: #f5e6be;
+      color: #6742ad;
+    }
+    .share-btn {
+      background: #49338c;
+      color: #fff5e7;
+      border: none;
+      margin-left: 0;
+      margin-right: 0;
+      font-weight: 600;
+      letter-spacing: 1px;
+      transition: background 0.15s;
+    }
+    .share-btn:hover {
+      background: #624fa0;
+      color: #ffd86a;
+    }
+    .checked {
+      color: #24a05a;
+      font-weight: 600;
+      font-size: 1.13em;
+      margin-left: 0.5em;
+    }
+    .history-list {
+      margin: 19px 0 0 0;
+      text-align: left;
+      background: #f8f6fd;
+      border-radius: 12px;
+      padding: 16px 18px 8px 18px;
+      font-size: 1em;
+      color: #57417a;
+      box-shadow: 0 1.5px 9px rgba(92,69,122,0.09);
+      max-height: 150px;
+      overflow-y: auto;
+    }
+    .history-title {
+      font-size: 1.07em;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #7c53c1;
+      letter-spacing: 1.3px;
+    }
+    @media (max-width: 560px) {
+      .kindness-wrap { padding: 18px 5vw 22px 5vw;}
+      h1 { font-size: 1.28em; }
+      .kindness-card { font-size: 1.01em; min-width: 0;}
+      .btn-kindness, .btn-alt, .share-btn { padding: 11px 10px; font-size: 0.99em;}
+      .history-list { font-size: 0.97em;}
+    }
+  </style>
+</head>
+<body>
+  <div class="kindness-wrap">
+    <h1>Acts of Kindness</h1>
+    <div class="desc">Click to receive a daily creative kindness idea!<br>Check off or share when you complete an act.</div>
+    <div id="kindnessCard" class="kindness-card"></div>
+    <div class="kindness-actions">
+      <button class="btn-kindness" id="nextBtn">💡 New Idea</button>
+      <button class="btn-kindness btn-alt" id="checkBtn">✅ I Did This!</button>
+      <button class="btn-kindness share-btn" id="shareBtn">📤 Share</button>
+    </div>
+    <div id="streakCard" class="kindness-card streak"></div>
+    <div class="history-list" id="historyList" style="display:none;">
+      <div class="history-title">Your Kindness Acts:</div>
+      <ul id="historyItems" style="padding-left:18px; margin:0;"></ul>
+    </div>
+    <button class="btn-kindness btn-alt" id="toggleHistory" style="margin-top:16px;">Show Kindness History</button>
+  </div>
+
+<script>
+const KINDNESS_PROMPTS = [
+  "Paint a small stone and leave it in a public place.",
+   "Leave an uplifting sticky note on a public mirror.",
+  "Compliment a stranger on something genuine.",
+  "Pick up litter during your walk and recycle what you can.",
+  "Send an encouraging message to someone going through a tough time.",
+  "Hold the door open for someone with a smile.",
+  "Donate a book you loved to a community library or shelter.",
+  "Leave a positive online review for a small business you appreciate.",
+  "Offer to help a neighbor with groceries or yard work.",
+  "Share your favorite motivational quote with a friend.",
+  
+  "Take a deep breath and remind yourself that calm is available now.",
+  "Notice how your body feels when you let go of tension.",
+  "Write down one thought you can release today.",
+  "Reflect on a moment when you felt truly at peace.",
+  "Pause and appreciate how stillness feels in your body.",
+  "Write about what serenity means to you.",
+  "List five things that help you find calm.",
+  "Spend one minute observing your breath without changing it.",
+  "Reflect on how peace can exist even in small moments.",
+  "Write about a place where your mind naturally quiets.",
+  "Think of someone whose presence feels peaceful.",
+  "Notice the rhythm of your breathing and let it soothe you.",
+  "Write down three calming thoughts you can return to anytime.",
+  "Spend time in silence and see what thoughts soften.",
+  "Reflect on a color or sound that feels peaceful to you.",
+  "Let yourself imagine a calm ocean and breathe with its waves.",
+  "Write about how peace feels in your heart.",
+  "Think of a memory that brings stillness to your mind.",
+  "List five gentle things that help you slow down.",
+  "Reflect on how slowing down changes your energy.",
+  "Notice the quiet between sounds and rest in it.",
+  "Write about a time you felt safe in stillness.",
+  "Take a few moments to feel gratitude for calm energy.",
+  "Write one sentence that brings you back to center.",
+  "Reflect on how peace begins within you.",
+  "List three ways you can create calm in your surroundings.",
+  "Write about how acceptance brings inner peace.",
+  "Spend a moment focusing on your heartbeat and rhythm.",
+  "Reflect on a morning when the world felt quiet and kind.",
+  "Notice how your breath grounds you in the present.",
+  "Write about something that helps you feel grounded.",
+  "Take five deep breaths and release any mental clutter.",
+  "Reflect on a peaceful moment from your past.",
+  "Write about how peace can coexist with imperfection.",
+  "Spend a moment observing how your mind slows with awareness.",
+  "List five peaceful habits you’d like to cultivate.",
+  "Write down one thought that brings you comfort.",
+  "Reflect on how nature teaches calm and balance.",
+  "Notice one peaceful detail around you right now.",
+  "Write about a time you chose calm over reaction.",
+  "Take a few seconds to unclench your jaw and soften your shoulders.",
+  "Reflect on how letting go can create inner peace.",
+  "Write about the freedom of quiet moments.",
+  "Notice the beauty in doing one thing slowly.",
+  "List three things that help your mind rest.",
+  "Write about the connection between peace and gratitude.",
+  "Reflect on how simplicity nurtures calm.",
+  "Take a quiet walk and let your senses guide you.",
+  "Write one affirmation for peace you can repeat daily.",
+  "Reflect on how your environment affects your sense of calm.",
+  "Notice the comfort of being present with yourself.",
+  "Write about how you find peace after chaos.",
+  "List five peaceful things you can do this week.",
+  "Reflect on the idea that peace is not the absence of noise, but acceptance of it.",
+  "Write about how breathing can change your mood.",
+  "Notice how calm feels in your hands, feet, and chest.",
+  "Spend a few moments focusing only on gentle sensations.",
+  "Write about how forgiveness opens space for peace.",
+  "Reflect on how stillness feels like strength, not absence.",
+  "List three peaceful rituals you can practice daily.",
+  "Write about how calm energy influences those around you.",
+  "Notice how your thoughts slow when you listen fully.",
+  "Reflect on a peaceful person and what you can learn from them.",
+  "Write down five ways to simplify your day.",
+  "Take a moment to release expectations and find stillness.",
+  "Reflect on how peace is an active choice, not a condition.",
+  "Write about what a peaceful day would look like for you.",
+  "Spend one minute sitting in silence, observing your thoughts pass.",
+  "Reflect on how your body signals peace and comfort.",
+  "Write about how compassion leads to a calm heart.",
+  "Notice how gratitude naturally softens the mind.",
+  "List five peaceful sounds that bring you ease.",
+  "Write about the peace found in moments of honesty.",
+  "Reflect on how being kind to yourself feels peaceful.",
+  "Take a deep breath and imagine exhaling all tension.",
+  "Write about what inner balance means to you.",
+  "Notice how your breath slows when you smile softly.",
+  "Reflect on a phrase that helps you stay calm under stress.",
+  "Write down what peace looks like in your daily life.",
+  "Spend a moment feeling thankful for quiet moments.",
+  "Reflect on how mindfulness connects you to serenity.",
+  "Write about a ritual that helps you reset mentally.",
+  "Notice a moment today when you felt safe and calm.",
+  "List three calming activities that help you feel whole.",
+  "Reflect on the peace in doing nothing for a little while.",
+  "Write about a natural element that brings you tranquility.",
+  "Notice how your environment changes when you are peaceful.",
+  "Write about how peace allows you to listen more deeply.",
+  "Reflect on how gentleness transforms your energy.",
+  "Write about the calm you find in creative flow.",
+  "Spend a few minutes appreciating silence as a friend.",
+  "Reflect on a quote or idea that centers you.",
+  "Write about how peace lives in small daily choices.",
+  "List five reasons to slow down today.",
+  "Write about what it feels like to rest without guilt.",
+  "Reflect on the relief that comes from letting things be.",
+  "Write about the beauty of quiet confidence.",
+  "Write down one quality about yourself you appreciate today.",
+  "Reflect on a challenge you overcame and celebrate your resilience.",
+  "List three things you like about your personality.",
+  "Write a letter to yourself offering understanding and kindness.",
+  "Notice one way you’ve grown in the past year.",
+  "Write about a past mistake and what it taught you about yourself.",
+  "Reflect on a habit you’re proud of maintaining.",
+  "List five ways you honor your needs and boundaries.",
+  "Write about a trait that makes you unique.",
+  "Reflect on a compliment you received and accept it fully.",
+  "Write one affirmation that reminds you of your worth.",
+  "Notice how your strengths help you navigate daily life.",
+  "Write about a time you trusted yourself successfully.",
+  "Reflect on your ability to handle difficult emotions.",
+  "List three things you do that make your life better.",
+  "Write about a time you chose yourself without guilt.",
+  "Notice the ways you care for your mind, body, or soul.",
+  "Write about a moment when you felt proud of yourself.",
+  "Reflect on a mistake that became a learning opportunity.",
+  "List five qualities you admire in yourself.",
+  "Write a note of forgiveness to yourself.",
+  "Notice one habit that reflects your self-respect.",
+  "Reflect on the courage you’ve shown in difficult times.",
+  "Write about something you accomplished recently.",
+  "List three ways you honor your feelings.",
+  "Write a sentence that acknowledges your growth.",
+  "Reflect on a decision that required trusting yourself.",
+  "Write about a fear you faced and overcame.",
+  "List three ways you show yourself kindness daily.",
+  "Reflect on how you respond to criticism with self-awareness.",
+  "Write about a personal value you consistently uphold.",
+  "Notice one way your intuition has guided you well.",
+  "Write a letter of appreciation to yourself for trying.",
+  "Reflect on a time you acted with integrity.",
+  "List five ways your presence positively impacts others.",
+  "Write about an area of life where you’ve accepted yourself fully.",
+  "Notice one way your body serves you every day.",
+  "Reflect on a moment you felt aligned with your values.",
+  "Write down three achievements, big or small, you’re proud of.",
+  "List ways you nurture your mental and emotional health.",
+  "Write about a talent or skill you’ve cultivated.",
+  "Reflect on a choice that honored your authentic self.",
+  "Write a note reminding yourself that imperfection is natural.",
+  "Notice one way you bounce back from setbacks.",
+  "Write about a time you acted authentically despite fear.",
+  "List three compliments you can give yourself right now.",
+  "Reflect on how your experiences have shaped your wisdom.",
+  "Write about a habit that helps you feel confident.",
+  "Notice a time you stood up for your beliefs.",
+  "Write about a moment you embraced vulnerability.",
+  "List five ways you treat yourself with compassion.",
+  "Reflect on a challenge that showed your inner strength.",
+  "Write about a personal boundary you successfully maintained.",
+  "Notice a time when you accepted help graciously.",
+  "Write about a part of your personality you’ve learned to love.",
+  "List three ways you practice patience with yourself.",
+  "Reflect on how self-acceptance has improved your relationships.",
+  "Write a sentence acknowledging your emotional growth.",
+  "Notice a way you express yourself authentically every day.",
+  "Write about a fear you’ve learned to coexist with.",
+  "List three moments when you trusted your instincts.",
+  "Reflect on a time you celebrated your achievements honestly.",
+  "Write a note of encouragement to yourself for today.",
+  "Notice one thing you’ve done recently that reflects your values.",
+  "Write about a personal challenge you handled gracefully.",
+  "List three ways you honor your limits.",
+  "Reflect on a time you forgave yourself.",
+  "Write about a strength you relied on this past week.",
+  "Notice one thing you love about your appearance or style.",
+  "Write a letter to your younger self offering compassion.",
+  "List three ways your creativity reflects who you are.",
+  "Reflect on a time you acted with courage or honesty.",
+  "Write about how you accept change in your life.",
+  "Notice a time you were patient with yourself during learning.",
+  "Write a mantra reminding yourself of your intrinsic value.",
+  "List three ways you show gratitude toward yourself.",
+  "Reflect on a moment when you embraced your limits with grace.",
+  "Write about how you handle mistakes without harsh judgment.",
+  "Notice one habit that demonstrates self-care.",
+  "Write a sentence recognizing your personal progress.",
+  "List three ways you honor your emotions daily.",
+  "Reflect on a choice that reflects your authenticity.",
+  "Write about how you practice self-love during hard times.",
+  "Notice one part of yourself that deserves appreciation.",
+  "Write a note of pride for a recent accomplishment.",
+  "List three ways you forgive yourself for past mistakes.",
+  "Reflect on how embracing your imperfections empowers you.",
+  "Write about a recent moment you felt truly confident.",
+  "Notice a daily ritual that nurtures your sense of self-worth.",
+  "Write a letter reminding yourself of your resilience.",
+  "List three things you enjoy about being yourself.",
+  "Reflect on a time you set healthy boundaries and felt relief.",
+  "Write about a quality that makes you a good friend or partner.",
+  "Notice how you handle setbacks with grace and learning.",
+  "Write a sentence acknowledging your self-respect today.",
+  "List three ways your choices reflect your authentic self.",
+  "Reflect on how self-acceptance changes your perspective.",
+  "Write about one thing you can celebrate about yourself right now.",
+  
+  "Notice how calm expands when you pause before reacting.",
+  "Write about the softness of a peaceful mind.",
+  "Reflect on how peace is always waiting beneath the noise.",
+  "Write about how trust creates inner calm.",
+  "Take a breath and silently thank yourself for seeking peace.",
+  "Send a surprise postcard to a family member.",
+  "Pay for the coffee of the person behind you in line.",
+  "Compliment a coworker’s effort instead of their results.",
+  "Write a kind comment on someone’s creative work or post.",
+  "Return a misplaced shopping cart to the corral.",
+  "Bring snacks or drinks for your coworkers or classmates.",
+  "Donate gently used clothes to a local charity.",
+  "Water a neighbor’s plants while they’re away.",
+  "Let someone merge in front of you in traffic without frustration.",
+  "Send flowers or a small plant to someone unexpectedly.",
+  "Leave quarters at a laundromat for someone to find.",
+  "Write down three things you’re grateful for right now.",
+  "Notice one thing today you often take for granted.",
+  "Write a thank-you note to your present moment.",
+  "List five small joys that made you smile recently.",
+  "Reflect on a challenge that taught you something valuable.",
+  "Write about someone whose kindness changed your life.",
+  "Take a walk and notice things that make you feel thankful.",
+  "Name one comfort that brings you peace each day.",
+  "Write about a person you’re grateful to have known.",
+  "Think of a meal you’ve enjoyed and savor the memory.",
+  "Reflect on a recent laugh and what sparked it.",
+  "Write about something in nature that fills you with gratitude.",
+  "List ten things your body allows you to experience.",
+  "Recall a time someone believed in you when you didn’t.",
+  "Write about a place where you always feel calm or inspired.",
+  "Think of a lesson you learned the hard way and now appreciate.",
+  "Reflect on one thing that made today a little easier.",
+  "Write about someone who made you feel seen or understood.",
+  "List three objects in your home that make life better.",
+  "Write about a moment when you felt deeply loved.",
+  "Name one sound that always soothes or uplifts you.",
+  "Reflect on how you’ve grown in the past year.",
+  "Write about a childhood memory that brings warmth.",
+  "List five people you’re thankful to have in your circle.",
+  "Think of something that used to upset you but now feels resolved.",
+  "Write about an act of kindness you witnessed recently.",
+  "Reflect on what gratitude feels like in your body.",
+  "List three things about your work or hobbies you appreciate.",
+  "Write about something simple that brings daily joy.",
+  "Think of someone who inspires you and why.",
+  "Write about a morning you woke up feeling peaceful.",
+  "List five small miracles you’ve experienced in life.",
+  "Write about a mistake that helped you grow.",
+  "Reflect on a piece of music that always lifts your spirit.",
+  "Write about a person who brings light into your life.",
+  "Name one privilege or opportunity you’re grateful for.",
+  "List three things in your environment that bring beauty.",
+  "Write about a teacher or mentor who shaped you positively.",
+  "Reflect on a time when you felt grateful for your strength.",
+  "Write about a friend who has been there through thick and thin.",
+  "List three moments that recently made you feel safe.",
+  "Think of one comforting ritual you’re thankful for.",
+  "Write about a stranger who once showed you kindness.",
+  "List five things your past self would be thankful for today.",
+  "Reflect on the beauty of ordinary moments in your routine.",
+  "Write about someone you miss and what they gave you.",
+  "Think of something you often overlook and appreciate it now.",
+  "Write about an experience that reminded you of life’s goodness.",
+  "List five things that bring warmth to your day.",
+  "Reflect on how far you’ve come in your healing journey.",
+  "Write about a time you received unexpected help.",
+  "List three lessons you’re thankful life taught you.",
+  "Write about a loved one’s habit that makes you smile.",
+  "Think of something that used to be hard but is easier now.",
+  "Reflect on the joy of giving and being generous.",
+  "Write about your favorite time of day and why it matters.",
+  "List three creative gifts you’re thankful for.",
+  "Write about the last time you felt truly at peace.",
+  "Reflect on the people who make you laugh.",
+  "Write about a challenge that revealed your resilience.",
+  "List five reasons to be grateful for your present circumstances.",
+  "Think of one object you own that holds special meaning.",
+  "Write about how gratitude changes your perspective.",
+  "Reflect on something beautiful that exists without effort.",
+  "Write about a recent experience that filled you with wonder.",
+  "List three emotions you’re grateful to have felt recently.",
+  "Think of a time someone forgave you and how it felt.",
+  "Write about a smell or taste that reminds you of home.",
+  "Reflect on the peace that comes from letting go.",
+  "List five everyday conveniences you appreciate.",
+  "Write about a talent or skill you’re thankful to possess.",
+  "Think of someone who helped you when you were struggling.",
+  "Write about a journey that made you wiser.",
+  "Reflect on the last time you felt deeply connected to someone.",
+  "List three ways nature supports your wellbeing.",
+  "Write about the joy of resting after a long day.",
+  "Think of something that once felt small but now feels meaningful.",
+  "Write about the people who have supported your dreams.",
+  "List three sounds that remind you of happiness.",
+  "Reflect on a time you received unexpected love.",
+  "Write about a memory that brings instant peace.",
+  "Think of a recent conversation that uplifted you.",
+  "List five reasons to be grateful for where you live.",
+  "Write about the comfort of familiar routines.",
+  "Reflect on how your creative side brings you joy.",
+  "Write about the beauty in imperfection.",
+  "List three ways your life is better than last year.",
+  "Think of a time you felt gratitude for something small.",
+  "Write about an experience that reminded you of kindness.",
+  "Reflect on a pet, plant, or companion that brings comfort.",
+  "Write about a simple moment that felt extraordinary.",
+  "List three people who have made you smile this week.",
+  "Think of one resource or opportunity that enriches your life.",
+  "Write about a recent sunset, sunrise, or moment of beauty.",
+  "Reflect on a challenge that deepened your appreciation for life.",
+  "List five things your senses are thankful for right now.",
+  "Write about the magic of feeling understood.",
+  "Think of one thing today that feels like a gift.",
+  "Write about how gratitude helps you feel more alive.",
+  
+  "Share your umbrella with someone caught in the rain.",
+  "Give a sincere compliment to someone you usually overlook.",
+  "Offer to babysit or pet-sit so someone can rest or go out.",
+  "Bake extra cookies and deliver them to a neighbor.",
+  "Text three people and tell them one thing you admire about them.",
+  "Donate art supplies or creative tools to a local school.",
+  "Write an anonymous thank-you card for a teacher or nurse.",
+  "Share a skill or talent freely with someone who wants to learn.",
+  "Let someone go ahead of you in a long line.",
+  "Smile and say hello to everyone you pass today.",
+  
+   "Leave a kind note inside a library book for the next reader to find.",
+  "Give your seat to someone on public transportation.",
+  "Send a surprise message of appreciation to an old friend.",
+  "Offer directions to someone who looks lost.",
+  "Bring a meal or treat to a new parent or neighbor.",
+  "Let a car pull out ahead of you during rush hour.",
+  "Write a thank-you email to customer service after a positive experience.",
+  "Leave cold bottled water for delivery workers on a hot day.",
+  "Donate extra pet food to a local shelter.",
+  "Hold the elevator for someone instead of rushing off.",
+  "Offer genuine praise to a service worker or cashier.",
+  "Plant a tree or flower in a public green space.",
+  "Pick up trash at the beach or in a park.",
+  "Compliment a teacher on their hard work.",
+  "Donate blood or register as an organ donor.",
+  "Help someone carry heavy bags or groceries.",
+  "Buy extra canned goods and drop them off at a food pantry.",
+  "Share your umbrella with a stranger during a storm.",
+  "Leave a generous tip when you can.",
+  "Offer your parking space to someone who looks like they need it more.",
+  "Send an encouraging note to someone facing a challenge.",
+  "Share an artist or musician’s work with your friends online.",
+  "Make a handmade card for someone you care about.",
+  "Ask someone how they’re really doing—and listen fully.",
+  "Compliment a child for being kind or creative.",
+  "Bring reusable bags and offer one to someone who forgot theirs.",
+  "Donate blankets or warm clothes in winter.",
+  "Help a small business by sharing their post or leaving a review.",
+  "Offer to take a photo for a group trying to get everyone in the frame.",
+  "Refill the office coffee pot when it’s empty.",
+  "Call an elderly relative or neighbor just to chat.",
+  "Let someone with fewer items go ahead of you in line.",
+  "Thank a bus driver or train operator for their service.",
+  "Write a thank-you letter to your local firefighters or police.",
+  "Leave snacks and water out for delivery drivers.",
+  "Donate school supplies to a local classroom.",
+  "Send a kind message to a creator whose work inspires you.",
+  "Plant herbs or flowers in a shared space for others to enjoy.",
+  "Bring in your neighbor’s trash or recycling bin for them.",
+  "Leave a good book in a public place with a note that says 'Free to take.'",
+  "Help someone load their groceries into their car.",
+  "Offer to take a friend’s dog for a walk.",
+  "Smile and wave at people you pass on your walk.",
+  "Share a free resource or opportunity with your community.",
+  "Send an anonymous donation to a cause you believe in.",
+  "Ask someone for their opinion and thank them for sharing.",
+  "Bring extra gloves or hats to give away in cold weather.",
+  "Offer your seat in a waiting room to someone older or tired.",
+  "Encourage a shy person to share their ideas in a group setting.",
+  "Donate unused toiletries to a shelter.",
+  "Hold a door open for multiple people in a row.",
+  "Bring treats for your coworkers to share.",
+  "Say thank you to your postal carrier.",
+  "Send a motivational quote to a friend who needs a boost.",
+  "Offer to proofread or review a friend’s project or résumé.",
+  "Check in on a friend you haven’t heard from in a while.",
+  "Donate your gently used toys or games to a children’s charity.",
+  "Forgive someone silently, even if they never apologize.",
+  "Invite someone who’s alone to join you for lunch or coffee.",
+  "Return an item someone dropped without hesitation.",
+  "Share your favorite recipe with a friend.",
+  "Pay for someone’s parking meter or ticket in advance.",
+  "Compliment someone’s laugh or energy instead of their looks.",
+  "Support a local artist by buying or sharing their work.",
+  "Bake something and share it with neighbors.",
+  "Offer encouragement to a student or young person.",
+  "Pick flowers and give them to someone unexpectedly.",
+  "Let a parent with small children cut in line.",
+  "Donate art, crafts, or handmade cards to a hospital or nursing home.",
+  "Say something kind about someone behind their back.",
+  "Bring reusable cups or bottles to share water at an event.",
+  "Send an email to thank your manager or mentor.",
+  "Help translate or explain something for someone who struggles with language.",
+  "Offer to walk an elderly neighbor’s dog.",
+  "Leave a coin in a vending machine for the next person.",
+  "Compliment a musician or street performer.",
+  "Offer to water someone’s garden while they’re on vacation.",
+  "Support a friend’s creative project or fundraiser.",
+  "Let someone else choose the restaurant or movie.",
+  "Help a lost pet find its owner.",
+  "Share your umbrella, blanket, or jacket when someone needs it.",
+  "Send a random 'thinking of you' text to a friend.",
+  "Encourage someone to chase a dream they’ve mentioned.",
+  "Give someone a genuine, thoughtful smile.",
+  "Recycle bottles or cans left behind by others.",
+  "Offer your phone charger to someone running low on battery.",
+  "Give directions patiently to a tourist.",
+  "Write a positive note and slip it into a returned library book.",
+  "Thank a janitor or maintenance worker for keeping things clean.",
+  "Hold a community free swap of clothes, books, or plants.",
+  "Return someone’s shopping cart to the store for them.",
+  "Bring coffee or tea to a coworker who’s having a busy morning.",
+  "Donate gently used towels to an animal rescue.",
+  "Send a kind message to a local teacher or coach.",
+  "Offer to take notes for a classmate who’s absent.",
+  "Share an inspiring story online instead of negative news.",
+  "Say something kind to yourself in the mirror.",
+  "Let someone know they inspire you.",
+  "Thank a healthcare worker for their dedication.",
+  "Send flowers or a small plant to a hospital patient.",
+  "Encourage someone who feels nervous about trying something new.",
+  "Invite someone new to sit with you at lunch or an event.",
+  "Be patient and kind when someone makes a mistake.",
+  
+  "Take a slow morning with no rush or alarms.",
+  "Drink a full glass of water first thing when you wake up.",
+  "Go for a walk without your phone and just notice your surroundings.",
+  "Write three things you’re grateful for today.",
+  "Stretch your body for five peaceful minutes.",
+  "Make a cup of tea and sip it mindfully.",
+  "Spend a few minutes in the sun to recharge.",
+  "Unplug from social media for the day.",
+  "Take deep breaths and let your shoulders relax.",
+  "Listen to your favorite calming music.",
+  "Light a candle and enjoy the scent in silence.",
+  "Write a kind letter to your future self.",
+  "Take a warm bath or shower with no hurry.",
+  "Watch a comforting movie or show you love.",
+  "Say no to something that drains your energy.",
+  "Clean one small area of your space to feel refreshed.",
+  "Journal your thoughts without judgment.",
+  
+  "Draw or paint a single object from multiple perspectives.",
+  "Write a short story inspired by the first sound you hear.",
+  "Create a pattern using only circles, lines, or dots.",
+  "Observe a natural object and recreate it with abstract shapes.",
+  "Write a few lines of dialogue for two imaginary characters.",
+  "Take five minutes to doodle with your non-dominant hand.",
+  "Create a color palette from your surroundings and sketch with it.",
+  "Write a poem describing a texture you can touch.",
+  "Draw your emotions using only geometric shapes.",
+  "Paint or sketch to the rhythm of your breath.",
+  "Make a collage using scraps or recycled materials.",
+  "Write down five unusual combinations of objects and sketch them.",
+  "Draw a scene without lifting your pen from the paper.",
+  "Create art inspired by the first memory that comes to mind.",
+  "Write a short paragraph imagining a world with no gravity.",
+  "Sketch an abstract version of your current mood.",
+  "Use only three colors to create a complete artwork.",
+  "Write a haiku about an everyday object in your room.",
+  "Draw or paint your shadow as it appears in the light.",
+  "Sketch something upside down to challenge your perspective.",
+  "Write a dialogue between your inner critic and your inner muse.",
+  "Draw a mandala while focusing on each breath.",
+  "Create a texture chart using pens, pencils, or brushes.",
+  "Write a descriptive paragraph without naming any objects.",
+  "Draw or paint a repeating pattern inspired by nature.",
+  "Use a timer and make as many quick sketches as possible in five minutes.",
+  "Write a poem using only one-syllable words.",
+  "Draw a small object at an enormous scale.",
+  "Create a drawing using only one continuous line.",
+  "Write a short story from the point of view of an inanimate object.",
+  "Sketch your hands in different positions throughout the day.",
+  "Paint abstract emotions using colors and brushstrokes.",
+  "Write a list of five things you notice when you slow down.",
+  "Draw an imaginary landscape inspired by a dream.",
+  "Make a visual representation of your favorite sound.",
+  "Write a sentence and illustrate it literally or abstractly.",
+  "Create a visual diary entry with only symbols and shapes.",
+  "Draw your favorite word as if it were alive.",
+  "Write a micro-story in exactly six sentences.",
+  "Sketch an object while focusing only on negative space.",
+  "Use watercolor to represent the flow of your thoughts.",
+  "Write about a color and what memories it evokes.",
+  "Draw a map of your imagination with no limits.",
+  "Sketch a memory using only abstract forms and lines.",
+  "Write a poem inspired by the weather outside.",
+  "Draw a pattern that repeats but changes slightly each time.",
+  "Write a short dialogue between two colors.",
+  "Paint or sketch without using your dominant hand.",
+  "Write a list of textures you can feel and illustrate them.",
+  "Create a drawing inspired by the movement of your favorite music.",
+  "Write about an object as if it has a personality.",
+  "Draw something that cannot exist in reality.",
+  "Write a scene focusing only on sounds and sensations.",
+  "Sketch an emotion as a landscape.",
+  "Create a page of tiny sketches inspired by small objects.",
+  "Write a micro-story that starts with the word 'imagine.'",
+  "Draw a familiar place from an unusual angle.",
+  "Paint or doodle using only shades of one color.",
+  "Write a paragraph inspired by your last dream.",
+  "Create a visual representation of a metaphor.",
+  "Draw an object using only triangles, circles, or squares.",
+  "Write a haiku inspired by your current mood.",
+  "Sketch the first thing you see without thinking.",
+  "Write a short story inspired by a sound outside your window.",
+  "Draw abstract shapes to represent a recent conversation.",
+  "Paint or sketch while imagining your breath moves the brush.",
+  "Write a few lines describing a scene only by colors.",
+  "Draw something as it would appear in a reflection.",
+  "Write a sentence and illustrate its meaning visually.",
+  "Create a mini comic about your day using stick figures.",
+  "Draw an emotion using only curved or straight lines.",
+  "Write a story with only dialogue, no narration.",
+  "Sketch something small but give it exaggerated scale.",
+  "Draw an object that is important to you from memory.",
+  "Write a paragraph using only sensory descriptions, no nouns.",
+  "Create a doodle inspired by your favorite song lyrics.",
+  "Draw a series of shapes that feel like your current mood.",
+  "Write a micro-poem inspired by a fleeting thought.",
+  "Sketch an imaginary creature with features from different animals.",
+  "Write a sentence and turn it into a visual pattern.",
+  "Draw a pathway inspired by your mind’s current state.",
+  "Write about a color without using its name.",
+  "Sketch your surroundings in extreme detail in five minutes.",
+  "Draw your favorite object as if it were alive.",
+  "Write a poem where each line represents a sense.",
+  "Create a visual timeline of your day using only shapes and colors.",
+  "Draw a window or doorway and imagine what’s beyond it.",
+  "Write a scene using abstract words to convey emotion.",
+  "Sketch something ordinary and transform it into something magical.",
+  "Write a short story inspired by a smell in the room.",
+  "Draw a pattern inspired by the rhythm of your heartbeat.",
+  "Write a poem about movement without using action verbs.",
+  "Create an abstract self-portrait using only symbols.",
+  "Draw a place you’ve never been but imagine vividly.",
+  "Write a paragraph inspired by the texture of an object near you.",
+  "Sketch the sound of something in your environment.",
+  "Write a dialogue between two shapes or colors.",
+  "Draw a scene focusing only on shadows and light.",
+  "Write a micro-story starting with a single word: 'Today.'",
+  "Sketch a scene from a story you want to write.",
+  "Draw your favorite word as a visual composition.",
+  "Write a paragraph imagining your thoughts as physical objects.",
+  "Draw a pattern inspired by the movement of water.",
+  "Write a poem from the perspective of an object in your room.",
+  "Sketch your current mood as a landscape or abstract shapes.",
+  "Write a sentence describing a color using only emotion.",
+  "Draw five small objects and connect them with an imaginary story.",
+  "Write a haiku inspired by the objects around you.",
+  "Dance to your favorite song in your living room.",
+  "Take a nap without guilt.",
+  "Cook yourself a nourishing meal from scratch.",
+  "Buy yourself fresh flowers or a small plant.",
+  "Sit outside and listen to nature sounds.",
+  "Read a chapter of a book just for pleasure.",
+  "Take a few minutes to simply do nothing.",
+  "Compliment yourself out loud.",
+  "Drink your favorite beverage slowly and mindfully.",
+  "Do something creative without worrying about results.",
+  "Spend time with someone who makes you laugh.",
+  "Write down one thing you like about yourself.",
+  "Set a gentle boundary and stick to it.",
+  "Wear your most comfortable clothes today.",
+  "Take a few mindful breaths before opening your phone.",
+  "Plan a slow, cozy evening with no obligations.",
+  "Give yourself permission to rest.",
+  "Listen to a guided meditation or calming podcast.",
+  "Take a walk somewhere beautiful and quiet.",
+  "Write down a list of small things that make you happy.",
+  "Unfollow accounts that make you feel less than enough.",
+  "Draw or doodle freely for fun.",
+  "Revisit a childhood hobby or activity you loved.",
+  "Spend time watching the clouds or stars.",
+  "Celebrate a small win from your week.",
+  "Make your bed and enjoy the sense of order.",
+  "Stretch before bed to release tension.",
+  "Spend the day without multitasking.",
+  "Cook your favorite comfort food and savor it slowly.",
+  "Do something kind for your body, like moisturizing or massaging your hands.",
+  "Turn off notifications for an hour of peace.",
+  "Take a scenic drive or bike ride.",
+  "Watch the sunrise or sunset.",
+  "Write a gratitude note for yourself.",
+  "Treat yourself to an early bedtime.",
+  "Try a new recipe just for fun.",
+  "Spend an hour offline doing something tactile.",
+  "Listen to an uplifting playlist while tidying up.",
+  "Declutter one drawer or shelf to clear your mind.",
+  "Forgive yourself for a past mistake.",
+  "Take time to stretch your neck and back.",
+  "Make a vision board or collage of dreams.",
+  "Compliment yourself in the mirror with sincerity.",
+  "Read a poem slowly and reflect on it.",
+  "Let yourself cry if you need to.",
+  "Make a cozy corner for relaxation and creativity.",
+  "Give yourself permission to say 'I’ve done enough today.'",
+  "Eat slowly and truly taste your food.",
+  "Set a small intention for your day.",
+  "Spend time with a pet or visit an animal shelter.",
+  "Breathe deeply and count each breath to ten.",
+  "Take a break from news or negativity.",
+  "Drink a warm beverage while sitting quietly.",
+  "Write down what you’re proud of this week.",
+  "Wear something that makes you feel confident.",
+  "Allow yourself to dream about the future.",
+  "Decline an invitation if rest feels more right.",
+  "Give yourself a facial mask or skincare treatment.",
+  "Write a list of your strengths and accomplishments.",
+  "Let your phone stay on silent for a while.",
+  "Spend time in nature and touch the earth.",
+  "Rewatch a movie that makes you feel safe and happy.",
+  "Light incense or diffuse essential oils you enjoy.",
+  "Spend time alone without distractions.",
+  "Take a gentle yoga or stretching session.",
+  "Enjoy a slow breakfast without screens.",
+  "Do something playful just for fun.",
+  "Send yourself a kind text or email.",
+  "Take a digital photo walk and capture beauty around you.",
+  "Make a playlist of songs that soothe your mood.",
+  "Say positive affirmations to yourself in the mirror.",
+  "Sit by a window and daydream for a bit.",
+  "Write about something you’re looking forward to.",
+  "Treat yourself to your favorite dessert or snack.",
+  "Let yourself rest without explaining why.",
+  "Go to bed early and wake up refreshed.",
+  "Spend an hour doing something creative and free.",
+  "Look through old photos that make you smile.",
+  "Write down a list of things that bring you peace.",
+  "Try a new form of movement or gentle exercise.",
+  "Speak kindly to yourself all day long.",
+  
+  "Write a short poem about your current mood.",
+  "Draw or doodle without any plan or pressure.",
+  "Start a journal just for creative ideas and dreams.",
+  "Make something messy and enjoy the process.",
+  "Paint with your fingers instead of a brush.",
+  "Try taking one creative photo every day for a week.",
+  "Write a letter to your future artistic self.",
+  "Collage images from magazines that inspire you.",
+  "Play your favorite song and move however you feel.",
+  "Decorate your journal pages with color and texture.",
+  "Start a playlist that represents your current season of life.",
+  "Sculpt or mold something out of clay or dough.",
+  "Make up a story from a random object on your desk.",
+  "Experiment with a new art medium just for fun.",
+  "Take a creative break with crayons or colored pencils.",
+  "Try blackout poetry using an old magazine page.",
+  "Take photos of shadows, light, or patterns around you.",
+  "Make a tiny handmade card for yourself.",
+  "Collect found objects and arrange them into a mini artwork.",
+  "Write a haiku about something ordinary.",
+  "Start a sketchbook just for experimenting.",
+  "Record your voice reading your favorite poem.",
+  "Create a vision board for your dreams.",
+  "Write down ten things that inspire your imagination.",
+  "Make something beautiful out of recycled materials.",
+  "Draw your feelings instead of writing about them.",
+  "Play with digital art or a new creative app.",
+  "Design a simple logo or symbol that represents your energy today.",
+  "Create a playlist that matches your creative mood.",
+  "Spend an afternoon photographing color combinations you love.",
+  "Write a small scene from an imaginary story.",
+  "Make a list of creative projects you’d like to try.",
+  "Recreate a childhood craft just for nostalgia.",
+  "Paint or draw with your non-dominant hand.",
+  "Make a creative gratitude list using colors or doodles.",
+  "Write a letter of encouragement to your inner artist.",
+  "Decorate your workspace with things that inspire you.",
+  "Try origami or paper folding to relax your mind.",
+  "Make a flower arrangement or nature collage.",
+  "Design your own postcard and send it to a friend.",
+  "Try freewriting for five minutes without stopping.",
+  "Create art using items from nature like leaves or stones.",
+  "Start a simple creative ritual at the same time each day.",
+  "Write down a dream and illustrate it.",
+  "Invent a new color and describe what it feels like.",
+  "Draw an abstract map of your imagination.",
+  "Try making music using random household objects.",
+  "Write a few lines of a song, even if you can’t sing.",
+  "Photograph something from five different angles.",
+  "Make a mini zine about something you love.",
+  "Create a small altar or display of your favorite art supplies.",
+  "Write affirmations in bright, creative lettering.",
+  "Draw a self-portrait in a fun, exaggerated style.",
+  "Try embroidery, beading, or textile art for mindfulness.",
+  "Make a playlist that captures your current emotions.",
+  "Use watercolor or ink to create fluid, spontaneous art.",
+  "Write your name or a favorite word in different styles.",
+  "Collect color swatches or paint samples that make you happy.",
+  "Compose a short poem from random words you see around you.",
+  "Make a gratitude collage of things that make you smile.",
+  "Decorate your mirror with sticky notes of inspiration.",
+  "Try journaling with sketches instead of words.",
+  "Build a simple sculpture from things you already have.",
+  "Write a list of sensory experiences that make you feel alive.",
+  "Create a small book of your doodles or poems.",
+  "Draw or paint to a song without stopping until it ends.",
+  "Experiment with calligraphy or creative lettering.",
+  "Write a fairy tale with yourself as the main character.",
+  "Design your dream creative studio on paper.",
+  "Try painting to express your emotions rather than depict reality.",
+  "Take a photo walk focused only on textures.",
+  "Create a comic strip of your day.",
+  "Make your own set of creative affirmation cards.",
+  "Use found poetry to create something new from an old text.",
+  "Draw a series of circles and fill each one differently.",
+  "Invent a new holiday and create decorations for it.",
+  "Make a list of things that ignite your creative spark.",
+  "Photograph something that others might overlook.",
+  "Write a dialogue between your inner critic and your inner muse.",
+  "Decorate an envelope and send yourself a note of encouragement.",
+  "Try painting to instrumental or ambient music.",
+  "Keep a collection of words that feel beautiful to you.",
+  "Design your own bookmark and use it in your current read.",
+  "Draw a map of your favorite imaginary place.",
+  "Make a list of creative things you loved as a child and try one again.",
+  "Collect leaves or flowers and press them into a notebook.",
+  "Create a pattern using shapes or colors that relax you.",
+  "Design a homemade label for a jar, candle, or potion you love.",
+  "Try mindful photography—capture one peaceful image per day.",
+  "Make a gratitude jar and decorate it artistically.",
+  "Write your feelings using colors or symbols instead of words.",
+  "Revisit an unfinished creative project with fresh eyes.",
+  "Draw something using only geometric shapes.",
+  "Try collage journaling with photos, quotes, and scraps.",
+  "Write a creative mission statement for your life.",
+  "Create a mini gallery wall of your own work.",
+  "Decorate your planner or notebook with stickers and doodles.",
+  "Make a playlist for creating art and one for resting after.",
+  "Record a short voice memo of an idea before you forget it.",
+  "Draw or paint what peace looks like to you.",
+  "Create a morning ritual that includes five minutes of making.",
+  "Celebrate a creative success with something small and joyful.",
+  "Wrap yourself in a blanket and rest in silence.",
+  "Take five minutes to appreciate how far you’ve come.",
+  "Let yourself be imperfect and okay with it.",
+  "Plan a small solo date to do something you love.",
+  "Take a moment to breathe deeply and smile.",
+  "Thank yourself for trying your best.",
+  "Leave a doodle or poem in a library book for someone to find.",
+  "Make a handmade bookmark and give it away.",
+  "Draw a chalk message on the sidewalk: 'You are loved!'",
+  "Share a positive comment on someone’s art online.",
+  "Make a card for a neighbor or community helper.",
+  "Donate art supplies to a school or shelter.",
+  "Offer a free mini art lesson to a friend or child.",
+  "Draw your favorite uplifting word and hang it in your window.",
+  "Send a supportive message to an artist you admire.",
+  "Create a 'Take What You Need' sign with encouraging words.",
+  "Frame or share a friend's art and celebrate their talent.",
+  "Plant a flower and dedicate it to someone you love.",
+  "Leave a gentle affirmation note in a public space.",
+  "Make a playlist and share it with a friend.",
+  "Send a handwritten letter to a distant family member.",
+  "Give away a favorite book with a note inside.",
+  "Make a gratitude list and share it with someone.",
+  "Bake cookies or a treat and deliver them to someone nearby.",
+  "Start a 'kindness chain'—ask someone to pass it on.",
+  "Compliment a stranger sincerely.",
+  "Share a story or lesson you learned with someone younger.",
+  "Offer to help with a chore or task without being asked.",
+  "Make a tiny art piece (mini painting, origami, etc.) and gift it.",
+  "Leave a flower or small gift on someone’s doorstep.",
+  "Create a public gratitude post tagging people who inspire you.",
+  "Help someone who looks lost or confused.",
+  "Send an encouraging message to an old friend.",
+  "Offer to take a photo for tourists or people at a scenic spot.",
+  "Buy coffee or a snack for the next person in line.",
+  "Make a welcome sign for your home or community.",
+  "Share a favorite recipe with a neighbor.",
+  "Give a sincere thank-you to a service worker.",
+  "Organize a small creative meet-up (virtual or in-person).",
+  "Let someone go ahead of you in line.",
+  "Donate unused clothes or items to a charity.",
+  "Pick up litter in your neighborhood park.",
+  "Draw a cartoon and post it for others to enjoy.",
+  "Make an inspiration collage and share a picture of it.",
+  "Leave your favorite poem for someone to discover.",
+  "Record a short video greeting and send it to a friend.",
+  "Make a list of local places you love and share it.",
+  "Support a small/local artist by buying or sharing their work."
+];
+
+let streak = Number(localStorage.getItem("kindStreak")) || 0;
+let lastChecked = localStorage.getItem("kindLast") || "";
+let completed = JSON.parse(localStorage.getItem("kindCompleted")||"[]");
+let currentPrompt = "";
+
+function getRandomPrompt() {
+  let idx = Math.floor(Math.random()*KINDNESS_PROMPTS.length);
+  let prompt = KINDNESS_PROMPTS[idx];
+  // Avoid immediate repeats
+  while (prompt === currentPrompt && KINDNESS_PROMPTS.length > 1) {
+    idx = Math.floor(Math.random()*KINDNESS_PROMPTS.length);
+    prompt = KINDNESS_PROMPTS[idx];
+  }
+  return prompt;
+}
+
+function showPrompt(prompt) {
+  currentPrompt = prompt;
+  document.getElementById("kindnessCard").innerHTML = prompt;
+}
+
+function updateStreak() {
+  let msg = `Streak: <b>${streak}</b> acts completed`;
+  if (streak >= 5 && streak < 10) msg += " ✨";
+  if (streak >= 10) msg += " 🌟";
+  document.getElementById("streakCard").innerHTML = msg;
+}
+
+function addToHistory(prompt) {
+  if (!completed.includes(prompt)) completed.push(prompt);
+  localStorage.setItem("kindCompleted", JSON.stringify(completed));
+  renderHistory();
+}
+function renderHistory() {
+  const list = document.getElementById("historyItems");
+  list.innerHTML = "";
+  completed.slice().reverse().forEach(item => {
+    const li = document.createElement("li");
+    li.textContent = item;
+    list.appendChild(li);
+  });
+}
+
+function sharePrompt() {
+  const shareMsg = `I just completed a creative act of kindness: "${currentPrompt}" 🌟 Join me at MyArtGallery.online!`;
+  if (navigator.share) {
+    navigator.share({title: "Random Act of Kindness", text: shareMsg, url: location.href});
+  } else {
+    // Clipboard fallback
+    navigator.clipboard.writeText(shareMsg).then(() => {
+      alert("Prompt copied to clipboard! Paste to Facebook, Instagram, or anywhere you wish to share.");
+    });
+  }
+}
+
+document.getElementById("nextBtn").onclick = function() {
+  showPrompt(getRandomPrompt());
+};
+
+document.getElementById("checkBtn").onclick = function() {
+  if (!currentPrompt) return;
+  if (!completed.includes(currentPrompt)) {
+    streak += 1;
+    localStorage.setItem("kindStreak", streak);
+    addToHistory(currentPrompt);
+    localStorage.setItem("kindLast", currentPrompt);
+    updateStreak();
+  }
+  // Show a happy checkmark!
+  document.getElementById("kindnessCard").innerHTML = `<span>${currentPrompt}</span> <span class="checked">✔️</span>`;
+};
+
+document.getElementById("shareBtn").onclick = sharePrompt;
+
+let showHist = false;
+document.getElementById("toggleHistory").onclick = function() {
+  showHist = !showHist;
+  document.getElementById("historyList").style.display = showHist ? "block" : "none";
+  this.textContent = showHist ? "Hide Kindness History" : "Show Kindness History";
+};
+
+// Init
+(function() {
+  if (!currentPrompt) showPrompt(getRandomPrompt());
+  updateStreak();
+  renderHistory();
+})();
+</script>
+</body>
+</html>
