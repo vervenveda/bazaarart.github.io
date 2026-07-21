@@ -54,3 +54,8 @@ The source vault is grounded in respected music-education pathways. The National
 I added score/resource cautions around public-domain use because IMSLP notes that public-domain status varies by country, and I included hearing-safety guidance through NIDCD/NIH resources.
 
 ​
+Sagaen Studio has a large workspace plus a right-hand sidebar of controls (brush/eraser, undo/redo, brush size, zoom, image opacity, color picker) and a comprehensive set of image filters (brightness, contrast, hue, saturation, blur) that can be applied either to the whole canvas or
+
+only to an imported image.
+
+The app supports image import, draws the image centered/scaled according to a zoom factor, and lets the user paint directly on top of it using mouse or touch events.
