@@ -1,0 +1,606 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Harmony Haven — Intro to the Staff</title>
+<style>
+  /* ---------- Core layout ---------- */
+  :root{
+    --accent:#6f5aa7;
+    --bg-a:#706C6B;
+    --bg-b:#d5e6fa;
+    --text:#32274c;
+    --card:#fffdfc;
+  }
+  *{box-sizing:border-box}
+  html,body{
+    height:100%;
+    margin:0;
+    padding:0;
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,Poppins,Arial;
+    color:var(--text);
+    -webkit-font-smoothing:antialiased;
+  }
+  body{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg,var(--bg-a) 40%,var(--bg-b) 100%);
+  }
+  .wrap{
+    width:100%;
+    max-width:740px;
+    margin:32px;
+    padding:26px;
+    border-radius:18px;
+    background:var(--card);
+    box-shadow:0 10px 30px rgba(80,60,110,0.08);
+  }
+  h1{font-size:1.9rem;margin:0 0 8px}
+  p.lead{margin:6px 0 14px;color:rgba(50,39,76,0.8)}
+
+  /* ---------- header controls ---------- */
+  .top-row{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .controls{
+    display:flex;
+    gap:8px;
+    align-items:center;
+  }
+  select, button{
+    font-size:0.98rem;
+    padding:10px 12px;
+    border-radius:10px;
+    border:1px solid rgba(0,0,0,0.06);
+    background:#fff;
+    cursor:pointer;
+  }
+  .btn-primary{
+    background:var(--accent);
+    color:white;
+    border:none;
+    font-weight:700;
+  }
+
+  /* ---------- staff area ---------- */
+  .staff-area{margin:22px 0}
+  #staffWrap{
+    position:relative;
+    width:100%;
+    height:280px;
+    background:#fcfbff;
+    border-radius:12px;
+    box-shadow:0 2px 14px rgba(70,60,110,0.06);
+    overflow:hidden;
+  }
+  svg#staffSVG{display:block;width:100%;height:100%}
+  .line-hit{cursor:pointer}
+
+  /* trace dots (small ink marks) */
+  .ink{
+    position:absolute;
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:rgba(80,60,140,0.16);
+    pointer-events:none;
+    transform:translate(-50%,-50%);
+    animation:inkFade 2000ms linear forwards;
+  }
+  @keyframes inkFade {
+    0% {opacity:1; transform:translate(-50%,-50%) scale(1);}
+    100% {opacity:0; transform:translate(-50%,-50%) scale(2.2);}
+  }
+
+  /* ripple when clicking line / space */
+  .ripple{
+    position:absolute;
+    width:18px;
+    height:18px;
+    border-radius:50%;
+    background:rgba(162,140,255,0.2);
+    pointer-events:none;
+    transform:translate(-50%,-50%);
+    animation:rippleAnim 700ms ease-out forwards;
+  }
+  @keyframes rippleAnim {
+    from {opacity:0.9; transform:translate(-50%,-50%) scale(0.6);}
+    to   {opacity:0;   transform:translate(-50%,-50%) scale(3.2);}
+  }
+
+  /* ---------- text output + quiz ---------- */
+  #lsOut{margin:12px 0;font-size:1.05rem}
+  .btn{margin-top:12px}
+  .note-mnemonic{font-size:1.06em;margin:12px 0}
+  .quiz{margin-top:18px}
+  .quiz-q{font-weight:600;margin-bottom:8px}
+  .choices button{
+    margin:6px 8px 6px 0;
+    padding:10px 18px;
+    border-radius:8px;
+    border:1px solid rgba(0,0,0,0.06);
+    background:#ece6ff;
+    cursor:pointer;
+  }
+  .choices button.correct{background:#b0e7b1;color:#245726}
+  .choices button.incorrect{background:#fa9797;color:#902a2a}
+  .score{margin-top:18px;font-weight:700}
+  .footer-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:18px;
+    color:rgba(50,39,76,0.65);
+    font-size:0.95rem;
+    gap:8px;
+    flex-wrap:wrap;
+  }
+
+  /* responsive */
+  @media (max-width:720px){
+    .wrap{padding:18px}
+    #staffWrap{height:240px}
+    .controls{flex-wrap:wrap}
+  }
+</style>
+</head>
+<body>
+  <div class="wrap" role="main" aria-labelledby="title">
+    <div class="top-row">
+      <div>
+        <h1 id="title">🎼 Harmony Haven <br> Intro to the Staff</h1>
+        <div class="note">
+          Tap lines to hear tones. Trace the staff with your finger or mouse to "draw sound."
+          Choose a mood to set the learning tone.
+        </div>
+      </div>
+      <div class="controls" aria-hidden="false">
+        <label for="themeSelect" style="font-size:0.95rem;margin-right:6px">Mood</label>
+        <select id="themeSelect" aria-label="Choose theme">
+          <option value="calm">Calm Ivory</option>
+          <option value="indigo">Deep Indigo</option>
+          <option value="sienna">Warm Sienna</option>
+          <option value="moon">Moonlit Silver</option>
+          <option value="gold">Golden Dawn</option>
+        </select>
+        <button id="speakBtn" title="Narration">🔊 Narrate</button>
+      </div>
+    </div>
+
+    <p class="lead">
+      Draw five lines. Tap each line as you say “This is where sound lives.”
+      Now add note names: E–G–B–D–F on the lines, and F–A–C–E on the spaces.
+    </p>
+
+    <div class="staff-area">
+      <div id="staffWrap" aria-label="Interactive musical staff">
+        <svg id="staffSVG" viewBox="0 0 700 280" role="img" aria-labelledby="staffTitle">
+          <title id="staffTitle">Five-line staff</title>
+        </svg>
+      </div>
+      <div id="lsOut" aria-live="polite"></div>
+    </div>
+
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn btn-primary" id="nextBtn">Begin Class</button>
+      <button class="btn" id="traceToggle">Start Tracing</button>
+      <button class="btn" id="clearTracesBtn">Clear Traces</button>
+    </div>
+
+    <div id="module" style="margin-top:20px"></div>
+
+    <div class="footer-row">
+      <div>Created for mindful music learning • No external resources</div>
+      <div id="progressText"></div>
+    </div>
+  </div>
+
+<script>
+/* ================== State & Elements ================== */
+const staffSVG = document.getElementById('staffSVG');
+const staffWrap = document.getElementById('staffWrap');
+const lsOut = document.getElementById('lsOut');
+const themeSelect = document.getElementById('themeSelect');
+const traceToggle = document.getElementById('traceToggle');
+const speakBtn = document.getElementById('speakBtn');
+const moduleEl = document.getElementById('module');
+const progressText = document.getElementById('progressText');
+const nextBtn = document.getElementById('nextBtn');
+const clearTracesBtn = document.getElementById('clearTracesBtn');
+
+let tracing = false;
+let pointerDown = false;
+let step = 0;
+let lines = [];
+let audioCtx = null;
+
+/* ================== THEMES ================== */
+const THEMES = {
+  calm:   { '--bg-a':'#f6eefd', '--bg-b':'#d5e6fa', '--accent':'#6f5aa7' },
+  indigo: { '--bg-a':'#eef2ff', '--bg-b':'#e6eafc', '--accent':'#37328a' },
+  sienna: { '--bg-a':'#fff6f0', '--bg-b':'#fde7d9', '--accent':'#a85b3a' },
+  moon:   { '--bg-a':'#f6f8fb', '--bg-b':'#eef1f6', '--accent':'#6b6f86' },
+  gold:   { '--bg-a':'#fffaf0', '--bg-b':'#fff6e0', '--accent':'#b8892f' }
+};
+
+function applyTheme(name){
+  const t = THEMES[name] || THEMES.calm;
+  for(const k in t){
+    document.documentElement.style.setProperty(k, t[k]);
+  }
+  document.documentElement.style.setProperty('--accent', t['--accent']);
+}
+
+themeSelect.addEventListener('change', ()=>{
+  applyTheme(themeSelect.value);
+  buildStaff();               // rebuild with fresh accent colour
+});
+
+/* ================== Build the staff SVG ================== */
+
+const LINE_NOTE_NAMES  = ['E','G','B','D','F'];  // bottom → top
+const SPACE_NOTE_NAMES = ['F','A','C','E'];
+
+function buildStaff(){
+  staffSVG.innerHTML = '';
+  lines = [];
+
+  const left = 40, right = 660;
+  const startY = 70;
+  const gap = 28;
+  const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent') || '#6f5aa7';
+
+  // 5 lines
+  for(let i=0;i<5;i++){
+    const y = startY + i*gap;
+
+    const line = document.createElementNS('http://www.w3.org/2000/svg','rect');
+    line.setAttribute('x', left);
+    line.setAttribute('y', y);
+    line.setAttribute('width', right-left);
+    line.setAttribute('height', 3);
+    line.setAttribute('fill', accent.trim());
+    line.dataset.role = 'staff-line';
+    staffSVG.appendChild(line);
+
+    const hit = document.createElementNS('http://www.w3.org/2000/svg','rect');
+    hit.setAttribute('x', left);
+    hit.setAttribute('y', y - 10);
+    hit.setAttribute('width', right-left);
+    hit.setAttribute('height', 20);
+    hit.setAttribute('fill', 'transparent');
+    hit.classList.add('line-hit');
+    hit.style.cursor = 'pointer';
+    hit.dataset.index = i;
+    staffSVG.appendChild(hit);
+
+    lines.push({ y, svgLine: line, hit });
+  }
+
+  // 4 spaces
+  for(let i=0;i<4;i++){
+    const y = startY + i*gap + gap/2;
+    const spaceHit = document.createElementNS('http://www.w3.org/2000/svg','rect');
+    spaceHit.setAttribute('x', left);
+    spaceHit.setAttribute('y', y - 12);
+    spaceHit.setAttribute('width', right-left);
+    spaceHit.setAttribute('height', 24);
+    spaceHit.setAttribute('fill', 'transparent');
+    spaceHit.style.cursor = 'pointer';
+    spaceHit.dataset.space = i;
+    staffSVG.appendChild(spaceHit);
+
+    spaceHit.addEventListener('click', (ev)=>{
+      const spaceIdx = parseInt(ev.target.dataset.space,10);
+      const noteName = SPACE_NOTE_NAMES[spaceIdx] || '';
+      const txt = `Space ${spaceIdx + 1} from the bottom — note ${noteName}.`;
+      speakText(txt);
+      playToneAt(spaceFreq(spaceIdx));
+      showLSOut(txt);
+      createRippleAt(ev.clientX, ev.clientY);
+    });
+  }
+
+  // line click handlers (after creation)
+  staffSVG.querySelectorAll('.line-hit').forEach(hit=>{
+    hit.addEventListener('click', (ev)=>{
+      const idx = parseInt(ev.target.dataset.index,10);
+      const noteName = LINE_NOTE_NAMES[idx] || '';
+      const txt = `Line ${idx + 1} from the bottom — note ${noteName}.`;
+      speakLineAndTone(idx, txt, ev.clientX, ev.clientY);
+    });
+  });
+}
+
+/* ================== Speech and Tone ================== */
+function ensureAudio(){
+  if(!audioCtx){
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+}
+
+function speakText(text){
+  if('speechSynthesis' in window){
+    const u = new SpeechSynthesisUtterance(text);
+    u.rate = 1.02;
+    u.pitch = 1.05;
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(u);
+  }
+}
+
+function playToneAt(freq, duration=0.6){
+  ensureAudio();
+  try{
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.type = 'sine';
+    o.frequency.value = freq;
+    o.connect(g);
+    g.connect(audioCtx.destination);
+
+    g.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+    g.gain.linearRampToValueAtTime(0.14, audioCtx.currentTime + 0.015);
+    g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+
+    o.start();
+    o.stop(audioCtx.currentTime + duration + 0.03);
+  }catch(e){}
+}
+
+// soft major-ish scale for 5 lines
+const LINE_FREQS  = [330,392,440,494,523];
+const SPACE_FREQS = [349,415,466,587];
+
+function lineFreq(idx){ return LINE_FREQS[idx] || 440; }
+function spaceFreq(idx){ return SPACE_FREQS[idx] || 440; }
+
+function speakLineAndTone(idx, txt, clientX, clientY){
+  speakText(txt);
+  playToneAt(lineFreq(idx));
+  createRippleAt(clientX, clientY);
+  showLSOut(txt);
+}
+
+/* visual output area */
+function showLSOut(txt){
+  lsOut.textContent = txt;
+}
+
+/* ripple helper (page coords) */
+function createRippleAt(x,y){
+  const r = document.createElement('div');
+  r.className = 'ripple';
+  r.style.left = x + 'px';
+  r.style.top  = y + 'px';
+  document.body.appendChild(r);
+  setTimeout(()=> r.remove(), 800);
+}
+
+/* ================== Tracing (mouse/touch) ================== */
+function hexToRgba(hex,alpha){
+  if(!/^#/.test(hex)) return hex;
+  let c = hex.replace('#','');
+  if(c.length===3){ c = c.split('').map(ch=>ch+ch).join(''); }
+  const r = parseInt(c.substr(0,2),16);
+  const g = parseInt(c.substr(2,2),16);
+  const b = parseInt(c.substr(4,2),16);
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+
+function createInkAt(clientX, clientY){
+  const rect = staffWrap.getBoundingClientRect();
+  const x = clientX - rect.left;
+  const y = clientY - rect.top;
+  if(x<0 || y<0 || x>rect.width || y>rect.height) return;
+
+  const el = document.createElement('div');
+  el.className = 'ink';
+  el.style.left = (rect.left + x) + 'px';
+  el.style.top  = (rect.top + y) + 'px';
+
+  const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent') || '#6f5aa7';
+  el.style.background = hexToRgba(accent.trim(), 0.14);
+
+  document.body.appendChild(el);
+  setTimeout(()=> el.remove(), 2000);
+}
+
+staffWrap.addEventListener('pointerdown', (e)=>{
+  if(!tracing) return;
+  pointerDown = true;
+  staffWrap.setPointerCapture(e.pointerId);
+  createInkAt(e.clientX, e.clientY);
+});
+
+staffWrap.addEventListener('pointermove', (e)=>{
+  if(!tracing || !pointerDown) return;
+  createInkAt(e.clientX, e.clientY);
+});
+
+staffWrap.addEventListener('pointerup', (e)=>{
+  pointerDown = false;
+  try{ staffWrap.releasePointerCapture(e.pointerId); }catch(e){}
+});
+
+staffWrap.addEventListener('pointercancel', ()=>{ pointerDown = false; });
+
+traceToggle.addEventListener('click', ()=>{
+  tracing = !tracing;
+  traceToggle.textContent = tracing ? 'Tracing: ON (tap to draw)' : 'Start Tracing';
+  traceToggle.classList.toggle('btn-primary', tracing);
+});
+
+clearTracesBtn.addEventListener('click', resetTraces);
+
+function resetTraces(){
+  document.querySelectorAll('.ink').forEach(n=> n.remove());
+}
+
+/* ================== Step flow (welcome → basics → treble → quiz → FAQ) ================== */
+
+function updateProgress(){
+  progressText.textContent = `Step ${step} of 4`;
+}
+
+function showWelcomeStep(){
+  moduleEl.innerHTML = `
+    <h2>Welcome to Harmony Haven!</h2>
+    <p>
+      This lesson introduces the musical staff. Tap lines and spaces to hear them.
+      Use the trace tool to draw and imagine sound moving along each line.
+    </p>
+  `;
+  nextBtn.textContent = 'Begin Class';
+  updateProgress();
+}
+
+function showStaffBasics(){
+  moduleEl.innerHTML = `
+    <h2>The Musical Staff</h2>
+    <p>
+      Tap a line or a space to hear it and see its name.
+      Lines are counted from the <b>bottom</b>. Try saying each out loud:
+      <b>E, G, B, D, F</b> on the lines and <b>F, A, C, E</b> in the spaces.
+    </p>
+    <div style="margin-top:10px">
+      <button onclick="speakText('Lines are counted from the bottom: E, G, B, D, F. Spaces spell F, A, C, E.')">
+        🔊 Say the pattern
+      </button>
+    </div>
+  `;
+  nextBtn.textContent = 'Next: Treble Clef';
+  updateProgress();
+}
+
+function showTrebleClef(){
+  const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent') || '#6f5aa7';
+  moduleEl.innerHTML = `
+    <h2>The Treble Clef</h2>
+    <div style="margin:10px 0">
+      <svg width="100%" height="120" viewBox="0 0 700 120" aria-hidden="true">
+        ${[0,1,2,3,4].map(i =>
+          `<rect x="30" y="${20+i*20}" width="640" height="2" fill="${accent.trim()}"></rect>`
+        ).join('')}
+        <path d="M92,60 C120,40 110,14 86,26 C66,36 76,70 94,78 C118,88 132,64 98,64"
+              stroke="${accent.trim()}" stroke-width="4" fill="none" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="note-mnemonic"><b>Lines:</b> E G B D F — <i>"Every Good Boy Does Fine"</i></div>
+    <div class="note-mnemonic"><b>Spaces:</b> F A C E — <i>"FACE"</i></div>
+  `;
+  nextBtn.textContent = 'Practice Quiz';
+  updateProgress();
+}
+
+function showTrebleQuiz(){
+  moduleEl.innerHTML = `
+    <h2>Treble Clef Lines & Spaces Quiz</h2>
+    <div class="quiz">
+      <div class="quiz-q">
+        Which note is on the <b>second line</b> (from the bottom) of the treble staff?
+      </div>
+      <div class="choices">
+        <button onclick="answerQuiz(this,false)">E</button>
+        <button onclick="answerQuiz(this,true)">G</button>
+        <button onclick="answerQuiz(this,false)">D</button>
+      </div>
+
+      <div class="quiz-q" style="margin-top:20px;">
+        Which note is in the <b>top space</b> of the treble staff?
+      </div>
+      <div class="choices">
+        <button onclick="answerQuiz(this,false)">A</button>
+        <button onclick="answerQuiz(this,false)">C</button>
+        <button onclick="answerQuiz(this,true)">E</button>
+      </div>
+    </div>
+    <div class="score" id="quizScore"></div>
+  `;
+  window.quizScore = { score:0, answered:0 };
+  nextBtn.textContent = 'Learn More & FAQ';
+  updateProgress();
+}
+
+function showFAQ(){
+  moduleEl.innerHTML = `
+    <h2>FAQ & Next Steps</h2>
+    <ul>
+      <li><b>Other clefs:</b> Alto, tenor, and bass are used for different instruments and voices.</li>
+      <li><b>Ledger lines:</b> Notes above or below the staff use small extra lines (for example, middle C).</li>
+      <li><b>Practice idea:</b> Pick one line or space and tap it in a steady rhythm while saying its name.</li>
+    </ul>
+    <div style="margin-top:12px">
+      You can restart the class or continue exploring the staff—trace, tap, and invent little patterns.
+    </div>
+  `;
+  nextBtn.textContent = 'Restart Class';
+  updateProgress();
+}
+
+function nextStep(){
+  step++;
+  if(step === 1)      showStaffBasics();
+  else if(step === 2) showTrebleClef();
+  else if(step === 3) showTrebleQuiz();
+  else if(step === 4) showFAQ();
+  else {
+    step = 0;
+    showWelcomeStep();
+  }
+}
+
+nextBtn.addEventListener('click', nextStep);
+
+/* quiz handler (global so inline calls work) */
+function answerQuiz(btn, correct){
+  if(btn.classList.contains('correct') || btn.classList.contains('incorrect')) return;
+  btn.classList.add(correct ? 'correct' : 'incorrect');
+  if(!window.quizScore) window.quizScore = {score:0,answered:0};
+  if(correct) window.quizScore.score++;
+  window.quizScore.answered++;
+  if(window.quizScore.answered >= 2){
+    document.getElementById('quizScore').textContent =
+      `Score: ${window.quizScore.score}/2`;
+  }
+}
+
+/* Narration button */
+speakBtn.addEventListener('click', ()=>{
+  speakText('Tap the staff lines, and say: E, G, B, D, F. The spaces spell F, A, C, E. Try tracing them with your finger.');
+});
+
+/* Accessibility helpers */
+document.addEventListener('keydown', (e)=>{
+  if(e.key === ' '){
+    tracing = !tracing;
+    traceToggle.textContent = tracing ? 'Tracing: ON (tap to draw)' : 'Start Tracing';
+    traceToggle.classList.toggle('btn-primary', tracing);
+    e.preventDefault();
+  }
+});
+
+/* Prevent accidental text selection while tracing */
+staffWrap.addEventListener('mousedown', e => e.preventDefault());
+
+/* Keep staff line colours synced to theme accent */
+const observer = new MutationObserver(()=>{
+  const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent') || '#6f5aa7';
+  staffSVG.querySelectorAll('rect[data-role="staff-line"]').forEach(r=>{
+    r.setAttribute('fill', accent.trim());
+  });
+});
+observer.observe(document.documentElement, { attributes:true, attributeFilter:['style'] });
+
+/* ================== Init ================== */
+applyTheme('calm');
+buildStaff();
+showWelcomeStep();
+</script>
+</body>
+</html>
