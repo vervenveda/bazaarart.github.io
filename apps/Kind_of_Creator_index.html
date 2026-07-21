@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catalyst™  <br> What Kind of Creator Are You?</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Brandon+Grotesque&display=swap" rel="stylesheet">
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background: #000000;
+    font-family: 'Brandon Grotesque', sans-serif;
+    color: #2a2a2a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  .quiz-container {
+    background: #fff;
+    border-radius: 20px;
+    padding: 30px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    text-align: center;
+    animation: fadeIn 0.8s ease;
+  }
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.8rem;
+    margin-bottom: 1.2em;
+    color: #333;
+  }
+  .question { font-size: 1.1rem; margin-bottom: 1em; }
+  .option {
+    display: block;
+    background: #f3eee9;
+    margin: 0.4em 0;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  .option:hover { background: #e6ded6; }
+  #nextBtn, .cta-btn, .share-btn {
+    margin-top: 1em;
+    padding: 10px 20px;
+    background: #2a2a2a;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  #nextBtn:hover, .cta-btn:hover, .share-btn:hover {
+    background: #444;
+  }
+  #result { display: none; font-size: 1.1rem; margin-top: 1.2em; }
+  .optin-section {
+    background: #f9f7f4;
+    margin-top: 1em;
+    padding: 15px;
+    border-radius: 12px;
+  }
+  .optin-section input {
+    width: 80%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin-top: 8px;
+  }
+  .social-icons {
+    margin-top: 1em;
+  }
+  .social-icons a {
+    margin: 0 8px;
+    text-decoration: none;
+    color: #2a2a2a;
+    font-size: 1.4rem;
+  }
+  #copiedMsg {
+    margin-top: 0.5em;
+    color: #007a5a;
+    font-size: 0.9rem;
+    display: none;
+  }
+  @keyframes fadeIn {
+    from {opacity: 0; transform: translateY(10px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
+</style>
+</head>
+<body>
+
+<div class="quiz-container" id="quizBox">
+  <h1>Catalyst™  <br> What Kind of Creator Are You?</h1>
+  <div id="quizContent">
+    <div id="question" class="question"></div>
+    <div id="options"></div>
+    <button id="nextBtn">Next</button>
+  </div>
+  <div id="result"></div>
+  <div id="copiedMsg">Copied to clipboard!</div>
+</div>
+
+<script>
+// --- Quiz Data (can be expanded to 600 randomized later) ---
+const quizData = [
+  {
+    question: "When you start a creative project, what draws you in first?",
+    options: {
+      A: "The play of light and color — painting feels like breathing.",
+      B: "Capturing a moment through a lens — photography speaks truth.",
+      C: "The rhythm of words — poetry lets my emotions dance.",
+      D: "Blending visuals and verse — mixed media feels limitless."
+    }
+  },
+  {
+    question: "Your ideal studio vibe is:",
+    options: {
+      A: "Quiet and filled with brushes, textures, and scent of paint.",
+      B: "Dimly lit with a camera ready and music in the background.",
+      C: "Candlelight, journal, and soft rain outside.",
+      D: "A mix of chaos and beauty — everything within reach."
+    }
+  },
+  {
+    question: "What do you want your art to *do*?",
+    options: {
+      A: "Move people through color and form.",
+      B: "Reveal the unseen beauty of reality.",
+      C: "Speak to the soul through words.",
+      D: "Bridge emotion, vision, and sound in new ways."
+    }
+  },
+  {
+    question: "Which phrase feels most like you?",
+    options: {
+      A: "I see emotion in color.",
+      B: "I see stories in faces.",
+      C: "I see music in language.",
+      D: "I see unity in chaos."
+    }
+  }
+];
+
+let current = 0;
+let scores = {A:0, B:0, C:0, D:0};
+
+function loadQuestion() {
+  const q = quizData[current];
+  document.getElementById('question').innerText = q.question;
+  const opts = document.getElementById('options');
+  opts.innerHTML = '';
+  for (const [key, value] of Object.entries(q.options)) {
+    const div = document.createElement('div');
+    div.className = 'option';
+    div.innerText = value;
+    div.onclick = () => selectOption(key);
+    opts.appendChild(div);
+  }
+}
+
+function selectOption(choice) {
+  scores[choice]++;
+  document.querySelectorAll('.option').forEach(opt => opt.style.pointerEvents = 'none');
+  setTimeout(() => nextQuestion(), 400);
+}
+
+function nextQuestion() {
+  if (current < quizData.length - 1) {
+    current++;
+    loadQuestion();
+  } else {
+    showResult();
+  }
+}
+
+function showResult() {
+  document.getElementById('quizContent').style.display = 'none';
+  const resultDiv = document.getElementById('result');
+  resultDiv.style.display = 'block';
+  let maxKey = Object.keys(scores).reduce((a,b) => scores[a] > scores[b] ? a : b);
+  let resultText = "";
+  switch(maxKey) {
+    case 'A': resultText = "🎨 You are a Painter — your heart speaks through color and texture."; break;
+    case 'B': resultText = "📸 You are a Photographer — your vision captures truth and emotion."; break;
+    case 'C': resultText = "🖋️ You are a Poet — your words shape worlds and stir hearts."; break;
+    case 'D': resultText = "🌈 You are a Mixed Media Creator — blending worlds into something new."; break;
+  }
+
+  resultDiv.innerHTML = `
+    <h2>${resultText}</h2>
+    <button class="cta-btn" onclick="openSignup()">Unlock My Free Artist Profile</button>
+
+    <div class="optin-section">
+      <p><strong>Want your full creative profile, journal, and community access?</strong></p>
+      <form id="signupForm" onsubmit="handleSignup(event)">
+        <input type="email" id="emailInput" placeholder="Enter your email" required>
+        <button type="submit" class="cta-btn">Unlock My Free Profile</button>
+      </form>
+      <p style="font-size:0.9em; color:#777;">No spam, ever. Only creative inspiration and your welcome gift.</p>
+    </div>
+
+    <div class="social-icons">
+      <p>Share your result:</p>
+      <a href="#" onclick="shareSocial('facebook')" title="Share on Facebook">📘</a>
+      <a href="#" onclick="shareSocial('twitter')" title="Share on X/Twitter">🐦</a>
+      <a href="#" onclick="shareSocial('instagram')" title="Share on Instagram">📸</a>
+      <a href="#" onclick="shareSocial('tiktok')" title="Share on TikTok">🎵</a>
+    </div>
+
+    <button class="share-btn" onclick="copyResult('${resultText}')">Copy Result</button>
+  `;
+}
+
+function handleSignup(e){
+  e.preventDefault();
+  const email = document.getElementById('emailInput').value;
+  alert(`Thank you, ${email}! Your creative journey begins soon.`);
+  window.location.href = "https://www.myartgallery.online/pricing-plans"; // redirect or modal
+}
+
+function openSignup(){
+  document.querySelector('.optin-section').scrollIntoView({behavior:'smooth'});
+}
+
+function shareSocial(platform){
+  const url = encodeURIComponent("https://myartgallery.online");
+  const text = encodeURIComponent("I just discovered what kind of creator I am at My Art Gallery!");
+  let shareUrl = "";
+  switch(platform){
+    case "facebook": shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`; break;
+    case "twitter": shareUrl = `https://twitter.com/intent/tweet?text=${text}&url=${url}`; break;
+    case "instagram": shareUrl = `https://instagram.com/intent/share?text=${text}&url=${url}`; break;
+    case "tiktok": shareUrl = `https://tiktok.com/intent/share?text=${text}&url=${url}`; break;
+  }
+  window.open(shareUrl, "_blank");
+}
+
+function copyResult(resultText) {
+  const shareMsg = `${resultText} — Discover your creative path at My Art Gallery: https://myartgallery.online`;
+  navigator.clipboard.writeText(shareMsg).then(() => {
+    const msg = document.getElementById('copiedMsg');
+    msg.style.display = 'block';
+    setTimeout(() => msg.style.display = 'none', 2000);
+  });
+}
+
+document.getElementById('nextBtn').onclick = nextQuestion;
+loadQuestion();
+</script>
+
+</body>
+</html>
