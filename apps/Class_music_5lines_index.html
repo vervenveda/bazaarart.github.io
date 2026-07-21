@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>The Staff: 5 Lines of Sound</title>
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at center, #f8f6f2, #e9e4df);
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+  overflow: hidden;
+}
+h1 {
+  font-weight: 600;
+  font-size: 1.5rem;
+  margin-bottom: 0.25em;
+}
+p {
+  max-width: 600px;
+  text-align: center;
+  font-size: 1rem;
+  color: #555;
+}
+#staff {
+  position: relative;
+  width: 90%;
+  max-width: 700px;
+  height: 300px;
+  margin-top: 2em;
+  cursor: pointer;
+}
+.line {
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: #333;
+  left: 0;
+  transition: background 0.2s ease;
+}
+.ripple {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.1);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  animation: ripple 0.8s ease-out forwards;
+}
+@keyframes ripple {
+  from {transform: translate(-50%, -50%) scale(0.5); opacity: 0.7;}
+  to {transform: translate(-50%, -50%) scale(3); opacity: 0;}
+}
+#modeBtn {
+  margin-top: 2em;
+  padding: 0.7em 1.4em;
+  border: none;
+  border-radius: 10px;
+  background: #222;
+  color: white;
+  cursor: pointer;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+}
+#modeBtn.active {
+  background: #aaa;
+  color: #111;
+}
+.float {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: rgba(0,0,0,0.2);
+  border-radius: 50%;
+  animation: float 4s ease-in-out infinite;
+}
+@keyframes float {
+  0% {transform: translateY(0) scale(0.8); opacity: 0.8;}
+  50% {transform: translateY(-40px) scale(1.2); opacity: 0.6;}
+  100% {transform: translateY(0) scale(0.8); opacity: 0.8;}
+}
+</style>
+</head>
+<body>
+
+<h1>The Staff: 5 Lines of Sound</h1>
+<p>Tap each line — “This is where sound lives.” Then close your eyes and listen as the lines float in silence.</p>
+
+<div id="staff"></div>
+<button id="modeBtn">🌙 Close Eyes Mode</button>
+
+<script>
+const staff = document.getElementById('staff');
+const modeBtn = document.getElementById('modeBtn');
+const ctx = new (window.AudioContext || window.webkitAudioContext)();
+let closeEyesMode = false;
+
+// Draw 5 lines
+for(let i=0;i<5;i++){
+  const line = document.createElement('div');
+  line.className = 'line';
+  line.style.top = `${40 + i*40}px`;
+  line.dataset.index = i;
+  staff.appendChild(line);
+}
+
+// Tap sound
+staff.addEventListener('click', e=>{
+  if(closeEyesMode) return;
+  const y = e.offsetY;
+  const lines = [...staff.querySelectorAll('.line')];
+  let nearest = lines.reduce((a,b)=>{
+    return Math.abs(b.offsetTop - y) < Math.abs(a.offsetTop - y)? b : a;
+  });
+  playTone(nearest.dataset.index);
+  createRipple(e.pageX, nearest.offsetTop + staff.offsetTop);
+});
+
+// Audio tone generator
+function playTone(i){
+  const freqs = [440,494,523,587,659]; // simple scale
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.frequency.value = freqs[i];
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  gain.gain.setValueAtTime(0.2, ctx.currentTime);
+  osc.start();
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.6);
+  osc.stop(ctx.currentTime + 0.6);
+}
+
+// Ripple visual
+function createRipple(x,y){
+  const r = document.createElement('div');
+  r.className = 'ripple';
+  r.style.left = x+'px';
+  r.style.top = y+'px';
+  document.body.appendChild(r);
+  setTimeout(()=>r.remove(),800);
+}
+
+// Close Eyes Mode
+modeBtn.onclick=()=>{
+  closeEyesMode = !closeEyesMode;
+  modeBtn.classList.toggle('active');
+  if(closeEyesMode){
+    modeBtn.textContent = '☀️ Open Eyes Mode';
+    startFloaters();
+  } else {
+    modeBtn.textContent = '🌙 Close Eyes Mode';
+    stopFloaters();
+  }
+};
+
+let floaters = [];
+function startFloaters(){
+  const lines = staff.querySelectorAll('.line');
+  lines.forEach((line,idx)=>{
+    for(let i=0;i<5;i++){
+      const f = document.createElement('div');
+      f.className='float';
+      f.style.left = Math.random()*90 + '%';
+      f.style.top = (line.offsetTop-10) + 'px';
+      f.style.animationDelay = (Math.random()*4)+'s';
+      document.body.appendChild(f);
+      floaters.push(f);
+    }
+  });
+}
+function stopFloaters(){
+  floaters.forEach(f=>f.remove());
+  floaters=[];
+}
+</script>
+
+</body>
+</html>
