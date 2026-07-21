@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sagaen™ Studio v1.6.2 — Filter Sync Edition</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Brandon+Grotesque:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --ivory:#f9f6f1;
+  --sage:#8AA78A;
+  --gold:#c7a85b;
+  --muted:#666;
+  --shadow:rgba(0,0,0,0.06);
+}
+html,body{
+  margin:0;padding:0;height:100%;
+  background:var(--ivory);
+  font-family:"Brandon Grotesque",sans-serif;color:#222;
+  overflow:hidden;
+}
+header{
+  background:var(--ivory);
+  border-bottom:1px solid #e8e3d9;
+  padding:10px 20px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+header h1{font-family:Cinzel,serif;font-size:1.5rem;color:#333;margin:0;}
+header small{color:var(--muted);font-size:0.9rem;}
+.wrap{display:grid;grid-template-columns:1fr 320px;height:calc(100vh - 60px);}
+main{padding:10px;position:relative;}
+.panel{
+  background:#fff;border-radius:12px;padding:12px;
+  box-shadow:0 6px 18px var(--shadow);margin-bottom:10px;
+}
+canvas{
+  width:100%;
+  border-radius:10px;
+  background:#fff;
+  cursor:crosshair;
+  touch-action:none;
+}
+button{
+  background:var(--sage);color:#fff;border:none;
+  padding:8px 12px;border-radius:8px;cursor:pointer;
+  font-family:"Brandon Grotesque",sans-serif;
+}
+button:hover{opacity:0.9;}
+button.ghost{
+  background:transparent;border:1px solid #ddd;color:#444;
+}
+.sidebar{
+  background:#fff;
+  border-left:1px solid #eae4da;
+  padding:12px;
+  overflow-y:auto;
+}
+label{font-size:0.85rem;color:var(--muted);}
+input[type=range],select{width:100%;}
+.section{margin-bottom:16px;}
+h3{font-family:Cinzel,serif;margin:8px 0;color:#333;font-size:1.1rem;}
+footer{
+  text-align:center;padding:6px 0;font-size:0.8rem;color:var(--muted);
+  border-top:1px solid #e8e3d9;background:var(--ivory);
+}
+.dropdown{position:relative;display:inline-block;}
+.dropdown-content{
+  display:none;position:absolute;background:#fff;min-width:120px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);border-radius:6px;z-index:5;
+}
+.dropdown-content button{
+  width:100%;background:none;color:#333;padding:8px;border:none;text-align:left;
+}
+.dropdown:hover .dropdown-content{display:block;}
+input[type="file"]{width:100%;margin-top:4px;}
+input[type="text"]{
+  width:100%;
+  padding:6px 8px;
+  margin-bottom:8px;
+  border:1px solid #ccc;
+  border-radius:6px;
+  font-size:0.9rem;
+}
+.fullscreen{position:absolute;top:10px;right:10px;cursor:pointer;color:#666;font-size:1.1rem;}
+
+.divider{
+  height:1px;
+  background:linear-gradient(90deg,var(--ivory),var(--gold),var(--ivory));
+  border:none;
+  margin:10px 0;
+}
+
+/* Responsive sidebar */
+@media (max-width:900px){
+  .wrap{grid-template-columns:1fr;}
+  .sidebar{border-left:none;border-top:1px solid #eae4da;}
+}
+</style>
+</head>
+
+<body>
+<header>
+  <div>
+    <h1>Sagaen™ Studio</h1>
+    <small>“Manual Master Edition v1.6.2 — Filter Sync Edition”</small>
+  </div>
+  <div class="dropdown">
+    <button>Export ▼</button>
+    <div class="dropdown-content">
+      <button onclick="exportImage('png')">Save as PNG</button>
+      <button onclick="exportImage('jpeg')">Save as JPG</button>
+      <button onclick="exportImage('webp')">Save as WEBP</button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <main>
+    <input id="artTitle" type="text" placeholder="Title your artwork …" />
+    <div class="panel" style="position:relative;">
+      <canvas id="canvas" width="900" height="600"></canvas>
+      <span class="fullscreen" onclick="toggleFull()">⤢</span>
+    </div>
+
+    <div class="panel">
+      <label>Upload Image</label>
+      <input id="imgInput" type="file" accept="image/*">
+    </div>
+  </main>
+
+  <aside class="sidebar">
+    <h3>Controls 🎨</h3>
+
+    <div class="section">
+      <button onclick="setTool('brush')">Brush</button>
+      <button onclick="setTool('eraser')">Eraser</button>
+      <button class="ghost" onclick="undo()">Undo</button>
+      <button class="ghost" onclick="redo()">Redo</button>
+    </div>
+
+    <div class="section">
+      <label>Brush Size</label>
+      <input id="brushSize" type="range" min="1" max="50" value="10">
+    </div>
+
+    <div class="section">
+      <label>Zoom</label>
+      <input id="zoom" type="range" min="0.5" max="2" step="0.1" value="1">
+    </div>
+
+    <div class="section">
+      <label>Image Opacity</label>
+      <input id="opacity" type="range" min="0" max="1" step="0.05" value="1">
+    </div>
+
+    <div class="section">
+      <label>Color Picker</label>
+      <input id="colorPicker" type="color" value="#000000">
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="section">
+      <h3>Filters</h3>
+      <label>Brightness</label>
+      <input id="brightness" type="range" min="-100" max="100" value="0">
+      <label>Contrast</label>
+      <input id="contrast" type="range" min="-100" max="100" value="0">
+      <label>Hue</label>
+      <input id="hue" type="range" min="-180" max="180" value="0">
+      <label>Saturation</label>
+      <input id="saturation" type="range" min="-100" max="200" value="0">
+      <label>Blur</label>
+      <input id="blur" type="range" min="0" max="10" value="0">
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="section">
+      <label><strong>Filter Mode</strong></label><br>
+      <label><input type="radio" name="filterMode" value="canvas" checked> Whole Canvas</label><br>
+      <label><input type="radio" name="filterMode" value="image"> Import Image Only</label>
+    </div>
+
+    <div class="section">
+      <button class="ghost" onclick="resetCanvas()">Reset</button>
+    </div>
+  </aside>
+</div>
+
+<footer>
+  Sagaen™ Studio — © 2025 My Art Gallery Online and Khaemenes Academy. All Rights Reserved.
+</footer>
+
+<script>
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+let img = null;
+let drawing = false;
+let tool = "brush";
+let zoom = 1;
+let offsetX = 0, offsetY = 0;
+let brushColor = "#000000";
+let brushSize = 10;
+let history = [];
+let redoStack = [];
+
+// Save canvas state
+function saveState() {
+  history.push(canvas.toDataURL());
+  if (history.length > 50) history.shift();
+  redoStack = [];
+}
+
+// Redraw image if present
+function drawImage() {
+  if (!img) return;
+  const ratio = img.width / img.height;
+  let w = canvas.width * zoom, h = w / ratio;
+  if (h > canvas.height * zoom) { h = canvas.height * zoom; w = h * ratio; }
+  const x = (canvas.width - w) / 2 + offsetX;
+  const y = (canvas.height - h) / 2 + offsetY;
+  ctx.globalAlpha = parseFloat(document.getElementById("opacity").value);
+  ctx.drawImage(img, x, y, w, h);
+  ctx.globalAlpha = 1.0;
+}
+
+// Drawing functions
+function startDraw(e) {
+  drawing = true;
+  saveState();
+  draw(e);
+}
+function endDraw() { drawing = false; ctx.beginPath(); }
+function draw(e) {
+  if (!drawing) return;
+  const rect = canvas.getBoundingClientRect();
+  const x = (e.clientX - rect.left) / (rect.width / canvas.width);
+  const y = (e.clientY - rect.top) / (rect.height / canvas.height);
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
+  ctx.lineWidth = brushSize;
+  ctx.strokeStyle = (tool === "eraser") ? "#ffffff" : brushColor;
+  ctx.lineTo(x, y);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(x, y);
+}
+
+// Undo / Redo
+function undo() {
+  if (history.length > 1) {
+    redoStack.push(history.pop());
+    const imgData = new Image();
+    imgData.src = history[history.length - 1];
+    imgData.onload = () => ctx.drawImage(imgData, 0, 0, canvas.width, canvas.height);
+  }
+}
+function redo() {
+  if (redoStack.length > 0) {
+    const data = redoStack.pop();
+    history.push(data);
+    const imgData = new Image();
+    imgData.src = data;
+    imgData.onload = () => ctx.drawImage(imgData, 0, 0, canvas.width, canvas.height);
+  }
+}
+
+// Tool + color + size
+function setTool(t) { tool = t; }
+document.getElementById("colorPicker").oninput = e => brushColor = e.target.value;
+document.getElementById("brushSize").oninput = e => brushSize = parseInt(e.target.value);
+
+// Zoom
+document.getElementById("zoom").oninput = e => { zoom = parseFloat(e.target.value); redraw(); };
+document.getElementById("opacity").oninput = redraw;
+
+// Image upload
+document.getElementById("imgInput").onchange = e => {
+  const f = e.target.files[0];
+  if (!f) return;
+  const url = URL.createObjectURL(f);
+  img = new Image();
+  img.onload = () => { redraw(); saveState(); URL.revokeObjectURL(url); };
+  img.src = url;
+};
+
+// Redraw helper (image + current filters)
+function redraw() {
+  ctx.save();
+  applyFilters();
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawImage();
+  ctx.restore();
+}
+
+// Apply filters
+function applyFilters() {
+  const brightness = parseInt(document.getElementById("brightness").value);
+  const contrast = parseInt(document.getElementById("contrast").value);
+  const hue = parseInt(document.getElementById("hue").value);
+  const saturation = parseInt(document.getElementById("saturation").value);
+  const blur = parseInt(document.getElementById("blur").value);
+  const filterMode = document.querySelector('input[name="filterMode"]:checked').value;
+
+  const filterStr =
+    `brightness(${100 + brightness}%) contrast(${100 + contrast}%) saturate(${100 + saturation}%) hue-rotate(${hue}deg) blur(${blur}px)`;
+
+  if (filterMode === "canvas") ctx.filter = filterStr;
+  else if (filterMode === "image") {
+    // temporarily store image filters only
+    ctx.filter = "none";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.filter = filterStr;
+    drawImage();
+    ctx.filter = "none";
+    return;
+  }
+}
+["brightness","contrast","hue","saturation","blur"].forEach(id=>{
+  document.getElementById(id).oninput = ()=>{ redraw(); };
+});
+
+// Mouse / touch events
+canvas.addEventListener("mousedown", startDraw);
+canvas.addEventListener("mouseup", endDraw);
+canvas.addEventListener("mouseout", endDraw);
+canvas.addEventListener("mousemove", draw);
+canvas.addEventListener("touchstart", e=>startDraw(e.touches[0]));
+canvas.addEventListener("touchend", endDraw);
+canvas.addEventListener("touchmove", e=>{ e.preventDefault(); draw(e.touches[0]); });
+
+// Export
+function exportImage(fmt){
+  const title = document.getElementById("artTitle").value.trim() || "Sagaen_Artwork";
+  const dataURL = canvas.toDataURL(`image/${fmt}`,0.92);
+  const a = document.createElement("a");
+  a.href = dataURL;
+  a.download = `${title.replace(/\s+/g,'_')}.${fmt}`;
+  a.click();
+}
+
+// Reset
+function resetCanvas(){
+  ctx.filter="none";
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  if (img) drawImage();
+  saveState();
+}
+
+// Fullscreen toggle
+let full = false;
+function toggleFull(){
+  full = !full;
+  if(full){
+    canvas.style.width='100vw';
+    canvas.style.height='100vh';
+    document.body.style.overflow='hidden';
+  } else {
+    canvas.style.width='';
+    canvas.style.height='';
+    document.body.style.overflow='';
+  }
+}
+
+// Initial state
+saveState();
+</script>
+</body>
+</html>
