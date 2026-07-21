@@ -1,0 +1,658 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Trace & Draw — Kids Practice Pad</title>
+<style>
+  :root{
+    --bg:#fff7f0;
+    --card:#ffffff;
+    --muted:#6b7280;
+    --accent:#ff8a65;
+    --accent2:#66bb6a;
+    --text:#09202b;
+  }
+  html,body{
+    margin:0;
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    color:var(--text);
+    background:linear-gradient(180deg,#fff7f0 0%, #f0fbf4 100%);
+    overflow-x:hidden;
+  }
+  body{
+    display:flex;
+    justify-content:center;
+    padding:16px 0;
+  }
+  .app{
+    width:100%;
+    max-width:666px;
+    padding:0 8px;
+    box-sizing:border-box;
+  }
+
+  header{
+    text-align:center;
+    margin-bottom:8px;
+  }
+  h1{
+    font-size:33px;
+    margin:0;
+    color:var(--accent);
+  }
+  .tagline{
+    font-size:24px;
+    color:var(--muted);
+  }
+
+  .card{
+    background:var(--card);
+    border-radius:14px;
+    padding:10px;
+    box-shadow:0 10px 24px rgba(6,22,34,0.08);
+    margin-top:10px;
+  }
+
+  .canvas-wrap{
+    position:relative;
+    width:100%;
+    max-width:555px;
+    margin:8px auto 0;
+    aspect-ratio:1/1;
+  }
+  .canvas-wrap canvas{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    border-radius:14px;
+  }
+  #guideCanvas{
+    background:#fffdf8;
+    border:1px dashed #ffd29a;
+  }
+  #drawCanvas{
+    background:transparent;
+  }
+
+  .guide-buttons{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-top:6px;
+    justify-content:center;
+  }
+  .guide-btn{
+    border:0;
+    border-radius:999px;
+    padding:5px 10px;
+    font-size:11px;
+    background:#fff;
+    color:var(--muted);
+    box-shadow:0 1px 4px rgba(0,0,0,0.08);
+    cursor:pointer;
+  }
+  .guide-btn.active{
+    background:linear-gradient(90deg,var(--accent),var(--accent2));
+    color:#fff;
+  }
+
+  /* Step bar */
+  .steps{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-top:6px;
+    font-size:11px;
+    color:var(--muted);
+  }
+  .step-label{
+    white-space:nowrap;
+    margin-right:4px;
+  }
+  .step-dots{
+    display:flex;
+    gap:4px;
+    align-items:center;
+  }
+  .step-dot{
+    width:20px;
+    height:20px;
+    border-radius:999px;
+    border:1px solid #e5e7eb;
+    background:#ffffff;
+    color:#6b7280;
+    font-size:11px;
+    cursor:pointer;
+    padding:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 1px 3px rgba(0,0,0,0.06);
+  }
+  .step-dot.active{
+    background:linear-gradient(90deg,var(--accent),var(--accent2));
+    color:#fff;
+    border-color:var(--accent);
+    box-shadow:0 0 0 1px rgba(248,113,113,0.4);
+  }
+  .step-next{
+    border:0;
+    border-radius:999px;
+    padding:5px 9px;
+    font-size:11px;
+    cursor:pointer;
+    background:#ffffff;
+    color:#6b7280;
+    box-shadow:0 1px 4px rgba(0,0,0,0.12);
+    white-space:nowrap;
+  }
+
+  .controls{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    align-items:center;
+    margin-top:6px;
+    justify-content:space-between;
+  }
+
+  .colors{
+    display:flex;
+    gap:4px;
+  }
+  .color-dot{
+    width:18px;
+    height:18px;
+    border-radius:999px;
+    border:2px solid #fff;
+    box-shadow:0 0 0 1px rgba(0,0,0,0.12);
+    cursor:pointer;
+  }
+  .color-dot.active{
+    box-shadow:0 0 0 2px var(--accent);
+  }
+<br>
+  .slider-wrap{
+    flex:1;
+    min-width:0;
+    display:flex;
+    align-items:center;
+    gap:4px;
+    font-size:11px;
+    color:var(--muted);
+  }
+  .slider-wrap input[type="range"]{
+    flex:1;
+  }
+
+  .tool-buttons{
+    display:flex;
+    flex-wrap:wrap;
+    gap:4px;
+    margin-top:6px;
+    justify-content:flex-end;
+  }
+  button.tool{
+    border:0;
+    border-radius:999px;
+    padding:5px 10px;
+    font-size:11px;
+    font-weight:600;
+    cursor:pointer;
+    background:linear-gradient(90deg,var(--accent),var(--accent2));
+    color:#fff;
+    box-shadow:0 2px 6px rgba(0,0,0,0.2);
+  }
+  button.tool.secondary{
+    background:#ffffff;
+    color:var(--muted);
+    box-shadow:0 1px 4px rgba(0,0,0,0.12);
+  }
+  button.tool.secondary.active{
+    background:#111827;
+    color:#fff;
+  }
+
+  footer{
+    margin-top:8px;
+    text-align:center;
+    font-size:11px;
+    color:var(--muted);
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <h1>Trace & Draw 🖍️</h1>
+    <div class="tagline">Pick a guide, then trace and decorate it!</div>
+  </header>
+
+  <div class="card">
+    <!-- CANVAS AREA -->
+    <div class="canvas-wrap">
+      <canvas id="guideCanvas" width="280" height="280"></canvas>
+      <canvas id="drawCanvas" width="280" height="280"></canvas>
+    </div>
+
+    <!-- GUIDE BUTTONS -->
+    <div class="guide-buttons" id="guideButtons">
+      <button class="guide-btn active" data-guide="star">⭐ Star</button>
+      <button class="guide-btn" data-guide="house">🏠 House</button>
+      <button class="guide-btn" data-guide="cat">🐱 Cat</button>
+      <button class="guide-btn" data-guide="rocket">🚀 Rocket</button>
+      <button class="guide-btn" data-guide="face">😊 Face</button>
+      <button class="guide-btn" data-guide="grid">📐 Grid</button>
+    </div>
+
+    <!-- STEP PROGRESS BAR -->
+    <div class="steps">
+      <span class="step-label">Step:</span>
+      <div class="step-dots">
+        <button class="step-dot active" data-step="1">1</button>
+        <button class="step-dot" data-step="2">2</button>
+        <button class="step-dot" data-step="3">3</button>
+      </div>
+      <button class="step-next" id="nextStepBtn">Next ▶</button>
+    </div>
+
+    <!-- DRAW CONTROLS -->
+    <div class="controls">
+      <div class="colors" id="colorPalette">
+        <div class="color-dot active" data-color="#1f2933" style="background:#1f2933;"></div>
+        <div class="color-dot" data-color="#e11d48" style="background:#e11d48;"></div>
+        <div class="color-dot" data-color="#0ea5e9" style="background:#0ea5e9;"></div>
+        <div class="color-dot" data-color="#16a34a" style="background:#16a34a;"></div>
+        <div class="color-dot" data-color="#facc15" style="background:#facc15;"></div>
+        <div class="color-dot" data-color="#f97316" style="background:#f97316;"></div>
+      </div>
+      <div class="slider-wrap">
+        <span>Brush</span>
+        <input type="range" id="brushSize" min="2" max="18" value="4">
+      </div>
+    </div>
+
+    <div class="tool-buttons">
+      <button class="tool secondary" id="toggleGuideBtn">Hide guide</button>
+      <button class="tool secondary" id="eraserBtn">Eraser</button>
+      <button class="tool secondary" id="clearBtn">Clear</button>
+      <button class="tool" id="saveBtn">Save</button>
+    </div>
+  </div>
+
+  <footer>
+    Tip: On touch screens, use one finger to draw. Try different guides, colors, and steps!
+  </footer>
+</div>
+
+<script>
+  const drawCanvas = document.getElementById('drawCanvas');
+  const drawCtx = drawCanvas.getContext('2d');
+  const guideCanvas = document.getElementById('guideCanvas');
+  const guideCtx = guideCanvas.getContext('2d');
+
+  let drawing = false;
+  let brushColor = '#1f2933';
+  let brushSize = 4;
+  let eraserMode = false;
+  let guideVisible = true;
+  let currentGuide = 'star';
+  let currentStep = 1; // 1 = bold, 2 = lighter, 3 = very faint
+
+  /* ---------- Drawing logic ---------- */
+  function setBrush(){
+    if(eraserMode){
+      drawCtx.globalCompositeOperation = 'destination-out';
+      drawCtx.strokeStyle = 'rgba(0,0,0,1)';
+    }else{
+      drawCtx.globalCompositeOperation = 'source-over';
+      drawCtx.strokeStyle = brushColor;
+    }
+    drawCtx.lineWidth = brushSize;
+    drawCtx.lineCap = 'round';
+    drawCtx.lineJoin = 'round';
+  }
+
+  function getOffset(e){
+    const rect = drawCanvas.getBoundingClientRect();
+    const clientX = e.clientX ?? (e.touches && e.touches[0].clientX);
+    const clientY = e.clientY ?? (e.touches && e.touches[0].clientY);
+    const x = ((clientX - rect.left) / rect.width) * drawCanvas.width;
+    const y = ((clientY - rect.top) / rect.height) * drawCanvas.height;
+    return {x,y};
+  }
+
+  function pointerDown(e){
+    e.preventDefault();
+    drawing = true;
+    setBrush();
+    drawCtx.beginPath();
+    const {x,y} = getOffset(e);
+    drawCtx.moveTo(x,y);
+  }
+  function pointerMove(e){
+    if(!drawing) return;
+    e.preventDefault();
+    const {x,y} = getOffset(e);
+    drawCtx.lineTo(x,y);
+    drawCtx.stroke();
+  }
+  function pointerUp(e){
+    if(!drawing) return;
+    e && e.preventDefault();
+    drawing = false;
+    drawCtx.closePath();
+  }
+
+  drawCanvas.addEventListener('pointerdown', pointerDown);
+  drawCanvas.addEventListener('pointermove', pointerMove);
+  drawCanvas.addEventListener('pointerup', pointerUp);
+  drawCanvas.addEventListener('pointerleave', pointerUp);
+  drawCanvas.addEventListener('pointercancel', pointerUp);
+
+  /* ---------- Color & size controls ---------- */
+  document.getElementById('brushSize').addEventListener('input', (e)=>{
+    brushSize = parseInt(e.target.value,10) || 4;
+  });
+
+  document.getElementById('colorPalette').addEventListener('click',(e)=>{
+    const dot = e.target.closest('.color-dot');
+    if(!dot) return;
+    eraserMode = false;
+    document.getElementById('eraserBtn').classList.remove('active');
+    brushColor = dot.dataset.color;
+    document.querySelectorAll('.color-dot').forEach(d=>d.classList.remove('active'));
+    dot.classList.add('active');
+  });
+
+  /* ---------- Tools: eraser / clear / save ---------- */
+  document.getElementById('eraserBtn').addEventListener('click',()=>{
+    eraserMode = !eraserMode;
+    document.getElementById('eraserBtn').classList.toggle('active',eraserMode);
+  });
+
+  document.getElementById('clearBtn').addEventListener('click',()=>{
+    drawCtx.clearRect(0,0,drawCanvas.width,drawCanvas.height);
+  });
+
+  document.getElementById('saveBtn').addEventListener('click',()=>{
+    const temp = document.createElement('canvas');
+    temp.width = drawCanvas.width;
+    temp.height = drawCanvas.height;
+    const tctx = temp.getContext('2d');
+    tctx.fillStyle = '#fffdf8';
+    tctx.fillRect(0,0,temp.width,temp.height);
+    if(guideVisible) tctx.drawImage(guideCanvas,0,0);
+    tctx.drawImage(drawCanvas,0,0);
+    const link = document.createElement('a');
+    link.href = temp.toDataURL('image/png');
+    link.download = 'my_drawing.png';
+    link.click();
+  });
+
+  /* ---------- Guide helpers & styles ---------- */
+  function clearGuide(){
+    guideCtx.clearRect(0,0,guideCanvas.width,guideCanvas.height);
+  }
+
+  function applyGuideStrokeStyle(){
+    let alpha;
+    if(currentStep === 1) alpha = 0.32;
+    else if(currentStep === 2) alpha = 0.18;
+    else alpha = 0.08; // step 3 very faint
+    guideCtx.strokeStyle = 'rgba(0,0,0,'+alpha+')';
+    guideCtx.lineWidth = (currentStep === 1) ? 2 : 1.5;
+  }
+
+  function drawStar(){
+    clearGuide();
+    guideCtx.save();
+    applyGuideStrokeStyle();
+    guideCtx.translate(140,140);
+    const spikes = 5;
+    const outerRadius = 110;
+    const innerRadius = 45;
+    let rot = Math.PI/2 * 3;
+    let x = 0;
+    let y = 0;
+    guideCtx.beginPath();
+    guideCtx.moveTo(0,-outerRadius);
+    for(let i=0;i<spikes;i++){
+      x = Math.cos(rot) * outerRadius;
+      y = Math.sin(rot) * outerRadius;
+      guideCtx.lineTo(x,y);
+      rot += Math.PI/spikes;
+
+      x = Math.cos(rot) * innerRadius;
+      y = Math.sin(rot) * innerRadius;
+      guideCtx.lineTo(x,y);
+      rot += Math.PI/spikes;
+    }
+    guideCtx.closePath();
+    guideCtx.stroke();
+    guideCtx.restore();
+  }
+
+  function drawHouse(){
+    clearGuide();
+    guideCtx.save();
+    applyGuideStrokeStyle();
+    // body
+    guideCtx.strokeRect(70,120,140,110);
+    // roof
+    guideCtx.beginPath();
+    guideCtx.moveTo(60,120);
+    guideCtx.lineTo(140,60);
+    guideCtx.lineTo(220,120);
+    guideCtx.closePath();
+    guideCtx.stroke();
+    // door
+    guideCtx.strokeRect(120,150,40,80);
+    // windows
+    guideCtx.strokeRect(85,140,30,30);
+    guideCtx.strokeRect(165,140,30,30);
+    guideCtx.restore();
+  }
+
+  function drawCat(){
+    clearGuide();
+    guideCtx.save();
+    applyGuideStrokeStyle();
+    // head
+    guideCtx.beginPath();
+    guideCtx.arc(140,130,70,0,Math.PI*2);
+    guideCtx.stroke();
+    // ears
+    guideCtx.beginPath();
+    guideCtx.moveTo(90,90); guideCtx.lineTo(110,60); guideCtx.lineTo(130,90);
+    guideCtx.moveTo(190,90); guideCtx.lineTo(170,60); guideCtx.lineTo(150,90);
+    guideCtx.stroke();
+    // eyes
+    guideCtx.beginPath();
+    guideCtx.arc(120,125,8,0,Math.PI*2);
+    guideCtx.arc(160,125,8,0,Math.PI*2);
+    guideCtx.stroke();
+    // nose + mouth (start a little lower so it doesn't connect between eyes)
+    guideCtx.beginPath();
+    guideCtx.moveTo(140,138);  // was 130 – lowered to avoid “between-eyes” line
+    guideCtx.lineTo(140,155);
+    guideCtx.moveTo(130,155);
+    guideCtx.lineTo(150,155);
+    guideCtx.stroke();
+    // whiskers
+    guideCtx.beginPath();
+    guideCtx.moveTo(100,145); guideCtx.lineTo(70,140);
+    guideCtx.moveTo(100,155); guideCtx.lineTo(70,160);
+    guideCtx.moveTo(180,145); guideCtx.lineTo(210,140);
+    guideCtx.moveTo(180,155); guideCtx.lineTo(210,160);
+    guideCtx.stroke();
+    // simple body curves
+    guideCtx.beginPath();
+    guideCtx.moveTo(110,190);
+    guideCtx.quadraticCurveTo(60,240,110,260);
+    guideCtx.moveTo(170,190);
+    guideCtx.quadraticCurveTo(220,240,170,260);
+    guideCtx.stroke();
+    guideCtx.restore();
+  }
+
+  function drawRocket(){
+    clearGuide();
+    guideCtx.save();
+    applyGuideStrokeStyle();
+    // body
+    guideCtx.beginPath();
+    guideCtx.moveTo(140,40);
+    guideCtx.lineTo(190,130);
+    guideCtx.lineTo(190,210);
+    guideCtx.lineTo(90,210);
+    guideCtx.lineTo(90,130);
+    guideCtx.closePath();
+    guideCtx.stroke();
+    // window
+    guideCtx.beginPath();
+    guideCtx.arc(140,135,20,0,Math.PI*2);
+    guideCtx.stroke();
+    // fins
+    guideCtx.beginPath();
+    guideCtx.moveTo(90,210); guideCtx.lineTo(60,240); guideCtx.lineTo(90,230);
+    guideCtx.moveTo(190,210); guideCtx.lineTo(220,240); guideCtx.lineTo(190,230);
+    guideCtx.stroke();
+    // flame
+    guideCtx.beginPath();
+    guideCtx.moveTo(90,210);
+    guideCtx.lineTo(140,255);
+    guideCtx.lineTo(190,210);
+    guideCtx.stroke();
+    guideCtx.restore();
+  }
+
+  function drawFace(){
+    clearGuide();
+    guideCtx.save();
+    applyGuideStrokeStyle();
+    // outer circle
+    guideCtx.beginPath();
+    guideCtx.arc(140,140,90,0,Math.PI*2);
+    guideCtx.stroke();
+    // eyes
+    guideCtx.beginPath();
+    guideCtx.arc(110,120,10,0,Math.PI*2);
+    guideCtx.arc(170,120,10,0,Math.PI*2);
+    guideCtx.stroke();
+    // smile
+    guideCtx.beginPath();
+    guideCtx.arc(140,150,45,0.2*Math.PI,0.8*Math.PI);
+    guideCtx.stroke();
+    // symmetry guidelines with a gap between the eyes
+    guideCtx.setLineDash([4,6]);
+    // vertical top segment
+    guideCtx.beginPath();
+    guideCtx.moveTo(140,50);
+    guideCtx.lineTo(140,105);   // stop above eyes
+    guideCtx.stroke();
+    // vertical bottom segment
+    guideCtx.beginPath();
+    guideCtx.moveTo(140,175);   // start below eyes/mouth
+    guideCtx.lineTo(140,230);
+    guideCtx.stroke();
+    // horizontal guideline (through the middle)
+    guideCtx.beginPath();
+    guideCtx.moveTo(50,140);
+    guideCtx.lineTo(230,140);
+    guideCtx.stroke();
+    guideCtx.setLineDash([]);
+    guideCtx.restore();
+  }
+
+  function drawGrid(){
+    clearGuide();
+    guideCtx.save();
+    applyGuideStrokeStyle();
+    const step = 40;
+    for(let x=step;x<guideCanvas.width;x+=step){
+      guideCtx.beginPath();
+      guideCtx.moveTo(x,0); guideCtx.lineTo(x,guideCanvas.height);
+      guideCtx.stroke();
+    }
+    for(let y=step;y<guideCanvas.height;y+=step){
+      guideCtx.beginPath();
+      guideCtx.moveTo(0,y); guideCtx.lineTo(guideCanvas.width,y);
+      guideCtx.stroke();
+    }
+    guideCtx.restore();
+  }
+
+  const GUIDE_MAP = {
+    star:   drawStar,
+    house:  drawHouse,
+    cat:    drawCat,
+    rocket: drawRocket,
+    face:   drawFace,
+    grid:   drawGrid
+  };
+
+  function drawCurrentGuide(){
+    const fn = GUIDE_MAP[currentGuide] || GUIDE_MAP.star;
+    fn();
+  }
+
+  function setGuide(name){
+    currentGuide = name;
+    document.querySelectorAll('.guide-btn').forEach(btn=>{
+      btn.classList.toggle('active', btn.dataset.guide === name);
+    });
+    drawCurrentGuide();
+  }
+
+  /* ---------- Steps UI ---------- */
+  function updateStepUI(){
+    document.querySelectorAll('.step-dot').forEach(dot=>{
+      dot.classList.toggle('active', parseInt(dot.dataset.step,10) === currentStep);
+    });
+  }
+
+  function setStep(step){
+    currentStep = step;
+    if(currentStep < 1) currentStep = 1;
+    if(currentStep > 3) currentStep = 3;
+    updateStepUI();
+    drawCurrentGuide();
+  }
+
+  document.getElementById('nextStepBtn').addEventListener('click', ()=>{
+    let next = currentStep + 1;
+    if(next > 3) next = 1;
+    setStep(next);
+  });
+
+  document.querySelectorAll('.step-dot').forEach(dot=>{
+    dot.addEventListener('click', ()=>{
+      const step = parseInt(dot.dataset.step,10);
+      setStep(step);
+    });
+  });
+
+  /* ---------- Guide + UI wiring ---------- */
+  document.getElementById('guideButtons').addEventListener('click',(e)=>{
+    const btn = e.target.closest('.guide-btn');
+    if(!btn) return;
+    setGuide(btn.dataset.guide);
+  });
+
+  document.getElementById('toggleGuideBtn').addEventListener('click',()=>{
+    guideVisible = !guideVisible;
+    guideCanvas.style.opacity = guideVisible ? '1' : '0';
+    document.getElementById('toggleGuideBtn').textContent =
+      guideVisible ? 'Hide guide' : 'Show guide';
+  });
+
+  // Initial state
+  setBrush();
+  setGuide('star');
+  setStep(1);
+</script>
+</body>
+</html>
