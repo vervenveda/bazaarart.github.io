@@ -1,0 +1,1581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Sovereign Family Photo Album — Flip Book</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0d0f1a;
+    --ink:#2a2520;
+    --ink-soft:#5c5146;
+    --paper:#fffcf5;
+    --edge:#efe3cf;
+    --gold:#d9b878;
+    --gold2:#b89252;
+    --radius:7px;
+    --shadow:0 24px 44px rgba(0,0,0,.45);
+    --line-height:1.7;
+    --ok:#0f766e;
+    --bad:#b42318;
+    --default-frame:#f3ebdd;
+  }
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0;
+    min-height:100vh;
+    background:
+      radial-gradient(circle at 50% 0%, rgba(60,90,150,.35), transparent 55%),
+      var(--bg);
+    color:#f8f4ec;
+    font-family:"Cormorant Garamond",serif;
+  }
+  body{
+    padding:16px;
+  }
+  .wrap{
+    max-width:1333px;
+    margin:0 auto;
+    padding:16px;
+  }
+  header{text-align:center;margin:8px 8px 18px;}
+  .title{
+    font-family:"Cinzel",serif;
+    letter-spacing:.28em;
+    text-transform:uppercase;
+    font-size:32px;
+  }
+  .sub{opacity:.85; letter-spacing:.18em; font-size:12px;}
+
+  .controls{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:8px;
+    margin:10px 4px 8px;
+  }
+  .btn{
+    border:2px solid rgba(255,255,255,.45);
+    background:rgba(10,18,40,.9);
+    color:#fff;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    font-size:10px;
+    padding:8px 12px;
+    border-radius:7px;
+    cursor:pointer;
+    transition:.15s ease;
+  }
+  .btn:hover{
+    transform:translateY(-1px);
+    box-shadow:0 7px 14px rgba(0,0,0,.4);
+  }
+  .btn.gold{
+    border-color:var(--gold);
+    background:linear-gradient(135deg,#3b2a17,#6c4a22);
+  }
+  .btn.ghost{
+    background:transparent;
+    border-color:rgba(255,255,255,.25);
+  }
+  .btn.small{
+    padding:6px 9px;
+    font-size:9px;
+  }
+  .btn:disabled{
+    opacity:.4;
+    cursor:default;
+    transform:none;
+    box-shadow:none;
+  }
+  .select, .input{
+    border:2px solid rgba(255,255,255,.45);
+    background:rgba(10,18,40,.9);
+    color:#fff;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    font-size:10px;
+    padding:7px 9px;
+    border-radius:7px;
+    outline:none;
+  }
+
+  .status{
+    max-width:999px;
+    margin:0 auto 10px;
+    padding:8px 10px;
+    border-radius:9px;
+    border:1px solid rgba(255,255,255,.18);
+    background:rgba(0,0,0,.28);
+    color:#f8f4ec;
+    text-align:center;
+    letter-spacing:.06em;
+    font-size:11px;
+  }
+  .status.ok{border-color:rgba(15,118,110,.35); background:rgba(15,118,110,.12);}
+  .status.bad{border-color:rgba(180,35,24,.35); background:rgba(180,35,24,.12);}
+
+  .page-info{text-align:center; font-size:11px; margin-bottom:6px; color:#e9dfcc;}
+
+  .book{
+    perspective:1222px;
+    margin:7px auto;
+    max-width:920px;
+    padding:16px;
+    background:radial-gradient(circle at 50% 0%, rgba(255,255,255,.05), rgba(0,0,0,.7));
+    border:11px solid rgba(255,255,255,.08);
+    border-radius:7px;
+    box-shadow:var(--shadow);
+  }
+  .spread{
+    display:flex;
+    gap:3px;
+    justify-content:center;
+    align-items:stretch;
+    flex-wrap:nowrap;           /* keep side-by-side */
+    overflow-x:auto;            /* scroll if frame is narrow (Wix) */
+  }
+  .page{
+    flex:0 0 50%;
+    max-width:50%;
+    min-width:260px;
+    min-height:320px;
+    background:var(--paper);
+    color:var(--ink);
+    border:11px solid var(--edge);
+    border-radius:7px;
+    box-shadow:0 11px 24px rgba(0,0,0,.35);
+    padding:18px 22px 26px;
+    position:relative;
+    overflow:hidden;
+  }
+  .page-inner{
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+  .pagetitle{
+    font-family:"Cinzel",serif;
+    font-size:13px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:#3b2a17;
+  }
+  .meta{
+    font-size:10px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:#b19a7a;
+  }
+  .photo-frame{
+    position:relative;
+    flex:1;
+    min-height:160px;
+    margin:4px 0;
+    border-radius:6px;
+    background:var(--default-frame);   /* SOLID canvas */
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+  }
+  .photo-frame img{
+    max-width:100%;
+    max-height:100%;
+    object-fit:contain;
+    transition:filter .25s ease, transform .25s ease;
+    display:block;
+  }
+  .photo-frame:hover img{
+    transform:scale(1.02);
+  }
+  .placeholder{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:12px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:#bca58a;
+    background:transparent;
+  }
+  .body{
+    flex:0 0 auto;
+    max-height:120px;
+    overflow:auto;
+    line-height:var(--line-height);
+    font-size:13px;
+    color:var(--ink-soft);
+    white-space:pre-wrap;
+    border-top:1px solid #e1d4c0;
+    padding-top:6px;
+  }
+  .num{
+    position:absolute;
+    right:8px;
+    bottom:4px;
+    font-size:9px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:#957f66;
+  }
+
+  .book.turn-left .page.right,
+  .book.turn-right .page.left{
+    animation:flipOut .35s ease forwards;
+    transform-origin:left center;
+  }
+  .book.turn-left .page.left,
+  .book.turn-right .page.right{
+    animation:flipIn .35s ease forwards;
+    transform-origin:right center;
+  }
+  @keyframes flipOut{
+    0%{transform:rotateY(0) translateX(0); filter:brightness(1);}
+    100%{transform:rotateY(12deg) translateX(-8px); filter:brightness(.94);}
+  }
+  @keyframes flipIn{
+    0%{transform:rotateY(-10deg) translateX(8px); filter:brightness(.94);}
+    100%{transform:rotateY(0) translateX(0); filter:brightness(1);}
+  }
+
+  .navrow{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-top:10px;
+  }
+
+  .panel-row{
+    max-width:999px;
+    margin:16px auto 0;
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+  }
+  .panel{
+    flex:1;
+    min-width:260px;
+    background:rgba(0,0,0,.38);
+    border-radius:10px;
+    padding:12px 14px;
+    border:1px solid rgba(255,255,255,.15);
+  }
+  .panel h3{
+    margin:0 0 8px;
+    font-size:13px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:#fbe6c8;
+  }
+  .panel label{
+    font-size:11px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    display:block;
+    margin:6px 0 2px;
+    color:#f0e0c5;
+  }
+  .panel input[type="text"],
+  .panel textarea,
+  .panel select{
+    width:100%;
+    padding:6px 8px;
+    border-radius:7px;
+    border:1px solid rgba(255,255,255,.25);
+    background:rgba(13,15,26,.9);
+    color:#f8f4ec;
+    font-family:inherit;
+    font-size:12px;
+    resize:vertical;
+  }
+  .panel textarea{min-height:70px;}
+  .range-row{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:11px;
+  }
+  .range-row input[type="range"]{
+    flex:1;
+  }
+
+  .sticker-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    align-items:center;
+    margin-top:6px;
+  }
+  .sticker-tabs{
+    display:flex;
+    flex-wrap:wrap;
+    gap:4px;
+    margin:4px 0;
+  }
+  .sticker-tab{
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.25);
+    padding:3px 8px;
+    font-size:9px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    background:transparent;
+    color:#f8f4ec;
+    cursor:pointer;
+  }
+  .sticker-tab.active{
+    border-color:var(--gold);
+    background:rgba(217,184,120,.18);
+  }
+  .sticker-panel{
+    display:flex;
+    flex-wrap:wrap;
+    gap:5px;
+    margin-top:4px;
+  }
+  .sticker-chip{
+    width:30px;
+    height:30px;
+    border-radius:7px;
+    border:1px solid rgba(255,255,255,.3);
+    background:rgba(10,18,40,.9);
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:18px;
+    transition:.15s;
+  }
+  .sticker-chip:hover{
+    transform:translateY(-1px);
+    box-shadow:0 3px 8px rgba(0,0,0,.4);
+  }
+
+  .sticker-layer{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+  }
+  .sticker{
+    position:absolute;
+    transform:translate(-50%,-50%) scale(1);
+    cursor:grab;
+    pointer-events:auto;
+  }
+  .sticker-emoji{
+    font-size:36px;
+    text-shadow:1px 1px 2px rgba(0,0,0,.4);
+  }
+  .sticker-handle{
+    position:absolute;
+    right:-4px;
+    bottom:-4px;
+    width:14px;
+    height:14px;
+    border-radius:50%;
+    border:1px solid rgba(0,0,0,.35);
+    background:rgba(255,255,255,.85);
+    cursor:nwse-resize;
+    box-shadow:0 1px 3px rgba(0,0,0,.4);
+  }
+
+  .note{
+    font-size:11px;
+    color:#f0e0c5;
+    opacity:.9;
+  }
+
+  .lightbox{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.85);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:9999;
+  }
+  .lightbox.hidden{
+    display:none;
+  }
+  .lightbox-inner{
+    position:relative;
+    max-width:95vw;
+    max-height:95vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+  }
+  .lightbox-content{
+    position:relative;
+    max-width:100%;
+    max-height:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:10px;
+  }
+  #lightboxImg{
+    max-width:100%;
+    max-height:70vh;
+    border-radius:8px;
+    box-shadow:0 18px 40px rgba(0,0,0,.6);
+    background:#111;
+  }
+  .lightbox-meta{
+    text-align:center;
+    color:#f8f4ec;
+    font-size:13px;
+  }
+  .lightbox-title{
+    font-family:"Cinzel",serif;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    margin-bottom:4px;
+  }
+  .lightbox-page{
+    font-size:11px;
+    opacity:.85;
+    margin-bottom:6px;
+  }
+  .lightbox-notes{
+    font-size:12px;
+    max-height:20vh;
+    overflow:auto;
+    white-space:pre-wrap;
+  }
+  .lightbox-close{
+    position:absolute;
+    top:-10px;
+    right:-10px;
+    width:26px;
+    height:26px;
+    border-radius:50%;
+    border:none;
+    background:#f8f4ec;
+    color:#222;
+    cursor:pointer;
+    font-size:18px;
+    line-height:26px;
+    text-align:center;
+    box-shadow:0 5px 12px rgba(0,0,0,.6);
+  }
+  .lightbox-nav{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    border:none;
+    background:rgba(248,244,236,.95);
+    color:#111;
+    cursor:pointer;
+    font-size:20px;
+    line-height:34px;
+    text-align:center;
+    box-shadow:0 5px 14px rgba(0,0,0,.7);
+  }
+  .lightbox-nav.prev{left:-40px;}
+  .lightbox-nav.next{right:-40px;}
+  .lightbox-nav:disabled{
+    opacity:.4;
+    cursor:default;
+    box-shadow:none;
+  }
+  @media(max-width:700px){
+    .lightbox-nav.prev{left:10px;}
+    .lightbox-nav.next{right:10px;}
+    .lightbox-close{top:8px; right:8px;}
+  }
+
+  .app-footer{
+    margin-top:18px;
+    text-align:center;
+    font-size:10px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:#c9bba3;
+    opacity:.8;
+  }
+
+  #printLayout{display:none;}
+
+  @media print{
+    @page{ margin:15mm; }
+    body{
+      background:#ffffff !important;
+      padding:0;
+    }
+    .status,
+    .controls,
+    .panel-row,
+    .page-info,
+    .book,
+    .lightbox{
+      display:none !important;
+    }
+    .wrap{
+      max-width:none;
+      padding:0;
+    }
+    #printLayout{
+      display:block !important;
+      padding:0;
+    }
+    .app-footer{
+      position:fixed;
+      bottom:0;
+      left:0;
+      right:0;
+      text-align:center;
+      font-size:9px;
+      color:#555;
+      background:#fff;
+      padding:4px 0;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="title">Verve N Veda<br> Photo Album</div>
+    <div class="sub">Sovereign Flip Book • Local-Only Memories</div>
+  </header>
+
+  <div class="controls">
+    <button class="btn gold" id="addPhotoBtn">➕ Add Photo</button>
+    <input type="file" id="fileInput" accept="image/*" style="display:none" />
+    <button class="btn" id="editTextBtn">✏️ Edit Page Text</button>
+    <button class="btn ghost small" id="prevBtn">&laquo; Previous</button>
+    <button class="btn ghost small" id="nextBtn">Next &raquo;</button>
+    <button class="btn small" id="printBtn">🖨 Print Album</button>
+  </div>
+
+  <div id="status" class="status ok">All data is stored locally in this browser only. Use JSON or HTML backup to move albums between devices.</div>
+  <div id="pageInfo" class="page-info">No pages yet. Add a photo to begin.</div>
+
+  <div class="book" id="book">
+    <div class="spread">
+      <article class="page left">
+        <div class="page-inner">
+          <div class="pagetitle" id="L_title"></div>
+          <div class="meta" id="L_meta"></div>
+          <div class="photo-frame" id="L_frame">
+            <img id="L_img" alt="Left page photo" />
+            <div class="sticker-layer" id="L_stickers"></div>
+            <div class="placeholder" id="L_placeholder">Left page — no photo yet</div>
+          </div>
+          <div class="body" id="L_notes"></div>
+          <div class="num" id="L_num"></div>
+        </div>
+      </article>
+
+      <article class="page right">
+        <div class="page-inner">
+          <div class="pagetitle" id="R_title"></div>
+          <div class="meta" id="R_meta"></div>
+          <div class="photo-frame" id="R_frame">
+            <img id="R_img" alt="Right page photo" />
+            <div class="sticker-layer" id="R_stickers"></div>
+            <div class="placeholder" id="R_placeholder">Right page — no photo yet</div>
+          </div>
+          <div class="body" id="R_notes"></div>
+          <div class="num" id="R_num"></div>
+        </div>
+      </article>
+    </div>
+    <div class="navrow">
+      <button class="btn small" id="prevBtnBottom">&laquo; Previous Spread</button>
+      <button class="btn small" id="nextBtnBottom">Next Spread &raquo;</button>
+    </div>
+  </div>
+
+  <div class="panel-row">
+    <section class="panel" id="editPanel">
+      <h3>Page Editor &amp; Adjustments</h3>
+
+      <label for="pageSelect">Target Page</label>
+      <select id="pageSelect">
+        <option value="left">Left Page</option>
+        <option value="right">Right Page</option>
+      </select>
+
+      <label for="titleInput">Title</label>
+      <input id="titleInput" type="text" placeholder="Page title…" />
+
+      <label for="notesInput">Description / Notes</label>
+      <textarea id="notesInput" placeholder="Write a short memory for this page…"></textarea>
+
+      <button class="btn small" id="saveTextBtn">Save Text</button>
+
+      <hr style="margin:10px 0; border-color:rgba(255,255,255,.1);" />
+
+      <h3 style="margin-top:0;">Simple Image Editing</h3>
+      <div class="range-row">
+        <span>Brightness</span>
+        <input type="range" id="brightnessRange" min="0.5" max="1.5" step="0.05" />
+      </div>
+      <div class="range-row">
+        <span>Contrast</span>
+        <input type="range" id="contrastRange" min="0.5" max="1.5" step="0.05" />
+      </div>
+      <div class="range-row">
+        <span>Zoom</span>
+        <input type="range" id="zoomRange" min="0.75" max="2" step="0.05" />
+      </div>
+      <button class="btn small" id="resetAdjustBtn" style="margin-top:6px;">Reset Adjustments</button>
+
+      <hr style="margin:10px 0; border-color:rgba(255,255,255,.1);" />
+
+      <h3 style="margin-top:0;">Page Background</h3>
+      <label for="bgColorInput">Canvas Color</label>
+      <input type="color" id="bgColorInput" value="#f3ebdd" />
+      <button class="btn small" id="applyBgBtn" style="margin-top:6px;">Apply to Page</button>
+
+      <hr style="margin:10px 0; border-color:rgba(255,255,255,.1);" />
+
+      <h3 style="margin-top:0;">Stickers</h3>
+
+      <div class="sticker-row">
+        <label for="stickerTarget" style="margin:0;">Sticker Target Page</label>
+        <select id="stickerTarget" style="max-width:140px;">
+          <option value="left">Left Page</option>
+          <option value="right">Right Page</option>
+        </select>
+      </div>
+
+      <div class="sticker-tabs" id="stickerTabs">
+        <button class="sticker-tab active" data-cat="birthday">Birthday</button>
+        <button class="sticker-tab" data-cat="holidays">Holidays</button>
+        <button class="sticker-tab" data-cat="seasonal">Seasonal</button>
+      </div>
+
+      <div class="sticker-panel" id="stickerPanel"></div>
+      <p class="note">Tap a sticker to add it. Drag on the photo to move it; use the tiny circle to resize. Stickers are stored locally with the page.</p>
+    </section>
+
+    <section class="panel">
+      <h3>Share &amp; Backup</h3>
+      <label for="shareMessage">Share Message (Email / Text / X)</label>
+      <textarea id="shareMessage" placeholder="I’m building a sovereign family photo album with Verve N Veda &amp; Khaemenes Academy…"></textarea>
+
+      <div style="margin-top:8px; display:flex; flex-wrap:wrap; gap:6px;">
+        <button class="btn small ghost" id="shareFacebook">Facebook</button>
+        <button class="btn small ghost" id="shareInstagram">Instagram</button>
+        <button class="btn small ghost" id="shareTiktok">TikTok</button>
+        <button class="btn small ghost" id="shareX">X / Twitter</button>
+        <button class="btn small ghost" id="shareEmail">Email</button>
+        <button class="btn small ghost" id="shareSMS">Text / SMS</button>
+      </div>
+
+      <p class="note" style="margin-top:6px;">Social buttons open your sign-in pages or share composer in a new tab. Your album itself stays on this device.</p>
+
+      <hr style="margin:10px 0; border-color:rgba(255,255,255,.1);" />
+
+      <p class="note">Download a JSON backup of your album to move it to another device or browser.</p>
+      <button class="btn small gold" id="downloadBackupBtn">⬇️ Download JSON Backup</button>
+      <br/><br/>
+      <button class="btn small" id="importBackupBtn">⬆️ Import JSON Backup</button>
+      <input type="file" id="importFileInput" accept="application/json" style="display:none;" />
+    </section>
+  </div>
+
+  <footer class="app-footer">
+    Verve N Veda &amp; Khaemenes Academy © 2026
+  </footer>
+
+  <div id="printLayout"></div>
+</div>
+
+<div class="lightbox hidden" id="lightbox">
+  <div class="lightbox-inner">
+    <button id="lightboxClose" class="lightbox-close" aria-label="Close full-screen view">&times;</button>
+    <button id="lightboxPrev" class="lightbox-nav prev" aria-label="Previous photo">&#10094;</button>
+    <button id="lightboxNext" class="lightbox-nav next" aria-label="Next photo">&#10095;</button>
+    <div class="lightbox-content">
+      <img id="lightboxImg" alt="Full-size photo">
+      <div class="lightbox-meta">
+        <div id="lightboxTitle" class="lightbox-title"></div>
+        <div id="lightboxPage" class="lightbox-page"></div>
+        <div id="lightboxNotes" class="lightbox-notes"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  const STORAGE_KEY = "sovereign_album_v3";
+  const LS_SHARE_MSG = "album_share_msg_v1";
+
+  const L = {
+    title: document.getElementById("L_title"),
+    meta: document.getElementById("L_meta"),
+    img: document.getElementById("L_img"),
+    frame: document.getElementById("L_frame"),
+    placeholder: document.getElementById("L_placeholder"),
+    notes: document.getElementById("L_notes"),
+    num: document.getElementById("L_num"),
+    stickers: document.getElementById("L_stickers")
+  };
+  const R = {
+    title: document.getElementById("R_title"),
+    meta: document.getElementById("R_meta"),
+    img: document.getElementById("R_img"),
+    frame: document.getElementById("R_frame"),
+    placeholder: document.getElementById("R_placeholder"),
+    notes: document.getElementById("R_notes"),
+    num: document.getElementById("R_num"),
+    stickers: document.getElementById("R_stickers")
+  };
+
+  const statusEl = document.getElementById("status");
+  const pageInfoEl = document.getElementById("pageInfo");
+  const bookEl = document.getElementById("book");
+  const printLayoutEl = document.getElementById("printLayout");
+
+  const addPhotoBtn = document.getElementById("addPhotoBtn");
+  const fileInput = document.getElementById("fileInput");
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  const prevBtnBottom = document.getElementById("prevBtnBottom");
+  const nextBtnBottom = document.getElementById("nextBtnBottom");
+  const printBtn = document.getElementById("printBtn");
+
+  const pageSelect = document.getElementById("pageSelect");
+  const titleInput = document.getElementById("titleInput");
+  const notesInput = document.getElementById("notesInput");
+  const saveTextBtn = document.getElementById("saveTextBtn");
+
+  const brightnessRange = document.getElementById("brightnessRange");
+  const contrastRange = document.getElementById("contrastRange");
+  const zoomRange = document.getElementById("zoomRange");
+  const resetAdjustBtn = document.getElementById("resetAdjustBtn");
+
+  const bgColorInput = document.getElementById("bgColorInput");
+  const applyBgBtn = document.getElementById("applyBgBtn");
+
+  const stickerTargetSel = document.getElementById("stickerTarget");
+  const stickerTabs = document.getElementById("stickerTabs");
+  const stickerPanel = document.getElementById("stickerPanel");
+
+  const downloadBackupBtn = document.getElementById("downloadBackupBtn");
+  const importBackupBtn = document.getElementById("importBackupBtn");
+  const importFileInput = document.getElementById("importFileInput");
+
+  const shareMsgInput = document.getElementById("shareMessage");
+  const shareFacebookBtn = document.getElementById("shareFacebook");
+  const shareInstagramBtn = document.getElementById("shareInstagram");
+  const shareTiktokBtn = document.getElementById("shareTiktok");
+  const shareXBtn = document.getElementById("shareX");
+  const shareEmailBtn = document.getElementById("shareEmail");
+  const shareSMSBtn = document.getElementById("shareSMS");
+
+  const lightboxEl = document.getElementById("lightbox");
+  const lightboxImg = document.getElementById("lightboxImg");
+  const lightboxTitle = document.getElementById("lightboxTitle");
+  const lightboxPage = document.getElementById("lightboxPage");
+  const lightboxNotes = document.getElementById("lightboxNotes");
+  const lightboxPrev = document.getElementById("lightboxPrev");
+  const lightboxNext = document.getElementById("lightboxNext");
+  const lightboxCloseBtn = document.getElementById("lightboxClose");
+
+  function clamp(v,min,max){
+    v = Number(v);
+    if(isNaN(v)) v = min;
+    if(v<min) return min;
+    if(v>max) return max;
+    return v;
+  }
+
+  function createId(prefix){
+    return prefix + "_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2,8);
+  }
+
+  function normalizeSticker(raw){
+    if(!raw || typeof raw !== "object") raw = {};
+    return {
+      id: typeof raw.id === "string" ? raw.id : createId("s"),
+      emoji: typeof raw.emoji === "string" ? raw.emoji : "⭐",
+      x: clamp(typeof raw.x === "number" ? raw.x : 0.5, 0, 1),
+      y: clamp(typeof raw.y === "number" ? raw.y : 0.5, 0, 1),
+      scale: clamp(typeof raw.scale === "number" ? raw.scale : 1, 0.5, 2)
+    };
+  }
+
+  function normalizeAdjust(raw){
+    const a = (raw && raw.adjust) || {};
+    return {
+      brightness: clamp(a.brightness != null ? a.brightness : 1, 0.5, 1.5),
+      contrast: clamp(a.contrast != null ? a.contrast : 1, 0.5, 1.5),
+      zoom: clamp(a.zoom != null ? a.zoom : 1, 0.75, 2)
+    };
+  }
+
+  function normalizeEntry(raw, fallbackDate){
+    raw = raw || {};
+    const created = typeof raw.created === "string" ? raw.created : (fallbackDate || new Date().toISOString());
+    return {
+      id: typeof raw.id === "string" ? raw.id : createId("p"),
+      created,
+      title: typeof raw.title === "string" ? raw.title : "",
+      notes: typeof raw.notes === "string" ? raw.notes : "",
+      dataUrl: typeof raw.dataUrl === "string" ? raw.dataUrl : "",
+      adjust: normalizeAdjust(raw),
+      stickers: Array.isArray(raw.stickers) ? raw.stickers.map(normalizeSticker) : [],
+      includeInPrint: typeof raw.includeInPrint === "boolean" ? raw.includeInPrint : true,
+      bgColor: typeof raw.bgColor === "string" && raw.bgColor ? raw.bgColor : "#f3ebdd"
+    };
+  }
+
+  let entries = [];
+  let leftIndex = 0;
+  let dragState = null;
+  let lightboxIndex = null;
+
+  function loadEntries(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(!raw){
+        entries = [];
+        return;
+      }
+      const parsed = JSON.parse(raw);
+      if(Array.isArray(parsed)){
+        entries = parsed.map(e=>normalizeEntry(e));
+      }else if(parsed && Array.isArray(parsed.entries)){
+        entries = parsed.entries.map(e=>normalizeEntry(e));
+      }else{
+        entries = [];
+      }
+    }catch(e){
+      console.error("Load error",e);
+      entries = [];
+    }
+  }
+
+  function saveEntries(){
+    try{
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
+    }catch(e){
+      console.warn("Save failed",e);
+    }
+  }
+
+  function setStatus(msg,kind){
+    statusEl.textContent = msg;
+    statusEl.className = "status " + (kind==="bad" ? "bad" : "ok");
+  }
+
+  function getEntry(side){
+    if(side==="left"){
+      return entries[leftIndex] || null;
+    }
+    return entries[leftIndex+1] || null;
+  }
+
+  function applyAdjustToSide(side, entry){
+    const sideObj = side==="left" ? L : R;
+    if(!entry || !entry.dataUrl){
+      sideObj.img.style.filter = "";
+      sideObj.img.style.transform = "";
+      return;
+    }
+    const a = entry.adjust || normalizeAdjust({});
+    sideObj.img.style.filter = "brightness(" + a.brightness + ") contrast(" + a.contrast + ")";
+    sideObj.img.style.transform = "scale(" + a.zoom + ")";
+  }
+
+  function applyBackgroundToSide(side, entry){
+    const sideObj = side==="left" ? L : R;
+    const color = entry && entry.bgColor ? entry.bgColor : "#f3ebdd";
+    sideObj.frame.style.background = color;
+  }
+
+  function renderStickersForSide(side, entry){
+    const sideObj = side==="left" ? L : R;
+    const layer = sideObj.stickers;
+    layer.innerHTML = "";
+    if(!entry || !entry.dataUrl || !Array.isArray(entry.stickers) || !entry.stickers.length) return;
+    entry.stickers.forEach(sticker=>{
+      const el = document.createElement("div");
+      el.className = "sticker";
+      el.dataset.entryId = entry.id;
+      el.dataset.stickerId = sticker.id;
+      el.dataset.side = side==="left" ? "L" : "R";
+      el.style.left = (sticker.x*100) + "%";
+      el.style.top = (sticker.y*100) + "%";
+      el.style.transform = "translate(-50%,-50%) scale(" + sticker.scale + ")";
+
+      const span = document.createElement("span");
+      span.className = "sticker-emoji";
+      span.textContent = sticker.emoji;
+      el.appendChild(span);
+
+      const handle = document.createElement("div");
+      handle.className = "sticker-handle";
+      el.appendChild(handle);
+
+      el.addEventListener("pointerdown", e=>{
+        if(e.target===handle) return;
+        beginStickerDrag(e,"move",el);
+      });
+      handle.addEventListener("pointerdown", e=>{
+        e.stopPropagation();
+        beginStickerDrag(e,"resize",el);
+      });
+
+      layer.appendChild(el);
+    });
+  }
+
+  function render(anim){
+    const total = entries.length;
+    if(leftIndex<0) leftIndex=0;
+    if(leftIndex>Math.max(0,total-1)) leftIndex = Math.max(0,total-1);
+    if(leftIndex%2===1) leftIndex-=1;
+
+    const leftEntry = entries[leftIndex] || null;
+    const rightEntry = entries[leftIndex+1] || null;
+
+    if(leftEntry){
+      L.title.textContent = leftEntry.title || "Untitled";
+      L.meta.textContent = new Date(leftEntry.created).toLocaleDateString();
+      L.notes.textContent = leftEntry.notes || "";
+      if(leftEntry.dataUrl){
+        L.img.src = leftEntry.dataUrl;
+        L.img.style.display = "block";
+        L.placeholder.style.display = "flex";
+        L.placeholder.style.opacity = 0;
+        L.placeholder.style.pointerEvents = "none";
+      }else{
+        L.img.src = "";
+        L.img.style.display = "none";
+        L.placeholder.style.display = "flex";
+        L.placeholder.style.opacity = 1;
+        L.placeholder.style.pointerEvents = "auto";
+      }
+      L.num.textContent = "Page " + (leftIndex+1);
+    }else{
+      L.title.textContent = "";
+      L.meta.textContent = "";
+      L.notes.textContent = "";
+      L.img.src = "";
+      L.img.style.display = "none";
+      L.placeholder.style.display = "flex";
+      L.placeholder.style.opacity = 1;
+      L.placeholder.style.pointerEvents = "auto";
+      L.num.textContent = "";
+    }
+
+    if(rightEntry){
+      R.title.textContent = rightEntry.title || "Untitled";
+      R.meta.textContent = new Date(rightEntry.created).toLocaleDateString();
+      R.notes.textContent = rightEntry.notes || "";
+      if(rightEntry.dataUrl){
+        R.img.src = rightEntry.dataUrl;
+        R.img.style.display = "block";
+        R.placeholder.style.display = "flex";
+        R.placeholder.style.opacity = 0;
+        R.placeholder.style.pointerEvents = "none";
+      }else{
+        R.img.src = "";
+        R.img.style.display = "none";
+        R.placeholder.style.display = "flex";
+        R.placeholder.style.opacity = 1;
+        R.placeholder.style.pointerEvents = "auto";
+      }
+      R.num.textContent = "Page " + (leftIndex+2);
+    }else{
+      R.title.textContent = "";
+      R.meta.textContent = "";
+      R.notes.textContent = "";
+      R.img.src = "";
+      R.img.style.display = "none";
+      R.placeholder.style.display = "flex";
+      R.placeholder.style.opacity = 1;
+      R.placeholder.style.pointerEvents = "auto";
+      R.num.textContent = "";
+    }
+
+    applyAdjustToSide("left", leftEntry);
+    applyAdjustToSide("right", rightEntry);
+    applyBackgroundToSide("left", leftEntry);
+    applyBackgroundToSide("right", rightEntry);
+    renderStickersForSide("left", leftEntry);
+    renderStickersForSide("right", rightEntry);
+
+    if(total===0){
+      pageInfoEl.textContent = "No pages yet. Add a photo to begin.";
+    }else{
+      const spreadIdx = Math.floor(leftIndex/2)+1;
+      const spreads = Math.max(1, Math.ceil(total/2));
+      pageInfoEl.textContent = "Spread " + spreadIdx + " of " + spreads + " ("+total+" page"+(total===1?"":"s")+")";
+    }
+
+    const atStart = leftIndex<=0;
+    const atEnd = leftIndex>=Math.max(0,total-2);
+    prevBtn.disabled = atStart;
+    prevBtnBottom.disabled = atStart;
+    nextBtn.disabled = atEnd;
+    nextBtnBottom.disabled = atEnd;
+
+    bookEl.classList.remove("turn-left","turn-right");
+    if(anim==="left") bookEl.classList.add("turn-left");
+    if(anim==="right") bookEl.classList.add("turn-right");
+    setTimeout(()=>bookEl.classList.remove("turn-left","turn-right"),380);
+
+    syncEditorUI();
+  }
+
+  function syncEditorUI(){
+    const side = pageSelect.value || "left";
+    const entry = getEntry(side);
+    if(!entry){
+      titleInput.value = "";
+      notesInput.value = "";
+      brightnessRange.value = 1;
+      contrastRange.value = 1;
+      zoomRange.value = 1;
+      bgColorInput.value = "#f3ebdd";
+      brightnessRange.disabled = true;
+      contrastRange.disabled = true;
+      zoomRange.disabled = true;
+      resetAdjustBtn.disabled = true;
+      applyBgBtn.disabled = true;
+      saveTextBtn.disabled = true;
+      return;
+    }
+    titleInput.value = entry.title || "";
+    notesInput.value = entry.notes || "";
+    const a = entry.adjust || normalizeAdjust({});
+    brightnessRange.value = a.brightness;
+    contrastRange.value = a.contrast;
+    zoomRange.value = a.zoom;
+    bgColorInput.value = entry.bgColor || "#f3ebdd";
+    brightnessRange.disabled = false;
+    contrastRange.disabled = false;
+    zoomRange.disabled = false;
+    resetAdjustBtn.disabled = false;
+    applyBgBtn.disabled = false;
+    saveTextBtn.disabled = false;
+  }
+
+  addPhotoBtn.addEventListener("click",()=>fileInput.click());
+  fileInput.addEventListener("change",e=>{
+    const file = e.target.files && e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = ev=>{
+      const dataUrl = ev.target.result;
+      const entry = normalizeEntry({
+        title: file.name.replace(/\.[a-z0-9]+$/i,""),
+        notes: "",
+        dataUrl,
+        created: new Date().toISOString(),
+        adjust:{brightness:1,contrast:1,zoom:1},
+        stickers:[],
+        includeInPrint:true,
+        bgColor:"#f3ebdd"
+      });
+      entries.push(entry);
+      saveEntries();
+      const lastIdx = entries.length-1;
+      leftIndex = lastIdx%2===0 ? lastIdx : lastIdx-1;
+      render("left");
+      setStatus("Photo added to album.", "ok");
+      fileInput.value = "";
+    };
+    reader.readAsDataURL(file);
+  });
+
+  prevBtn.addEventListener("click",()=>{
+    if(leftIndex<=0) return;
+    leftIndex = Math.max(0,leftIndex-2);
+    render("right");
+  });
+  nextBtn.addEventListener("click",()=>{
+    if(leftIndex>=Math.max(0,entries.length-2)) return;
+    leftIndex = Math.min(entries.length-2,leftIndex+2);
+    render("left");
+  });
+  prevBtnBottom.addEventListener("click",()=>prevBtn.click());
+  nextBtnBottom.addEventListener("click",()=>nextBtn.click());
+
+  pageSelect.addEventListener("change",syncEditorUI);
+
+  saveTextBtn.addEventListener("click",()=>{
+    const side = pageSelect.value || "left";
+    const index = side==="left" ? leftIndex : leftIndex+1;
+    if(index<0 || index>=entries.length) return;
+    entries[index].title = titleInput.value.trim();
+    entries[index].notes = notesInput.value;
+    entries[index].created = entries[index].created || new Date().toISOString();
+    saveEntries();
+    render();
+    setStatus("Page text saved.", "ok");
+  });
+
+  brightnessRange.addEventListener("input",()=>{
+    const side = pageSelect.value || "left";
+    const entry = getEntry(side);
+    if(!entry) return;
+    entry.adjust.brightness = parseFloat(brightnessRange.value);
+    saveEntries();
+    applyAdjustToSide(side,entry);
+  });
+  contrastRange.addEventListener("input",()=>{
+    const side = pageSelect.value || "left";
+    const entry = getEntry(side);
+    if(!entry) return;
+    entry.adjust.contrast = parseFloat(contrastRange.value);
+    saveEntries();
+    applyAdjustToSide(side,entry);
+  });
+  zoomRange.addEventListener("input",()=>{
+    const side = pageSelect.value || "left";
+    const entry = getEntry(side);
+    if(!entry) return;
+    entry.adjust.zoom = parseFloat(zoomRange.value);
+    saveEntries();
+    applyAdjustToSide(side,entry);
+  });
+
+  resetAdjustBtn.addEventListener("click",()=>{
+    const side = pageSelect.value || "left";
+    const entry = getEntry(side);
+    if(!entry) return;
+    entry.adjust = normalizeAdjust({});
+    saveEntries();
+    syncEditorUI();
+    applyAdjustToSide(side,entry);
+    setStatus("Adjustments reset for this page.", "ok");
+  });
+
+  applyBgBtn.addEventListener("click",()=>{
+    const side = pageSelect.value || "left";
+    const index = side==="left" ? leftIndex : leftIndex+1;
+    if(index<0 || index>=entries.length) return;
+    const entry = entries[index];
+    entry.bgColor = bgColorInput.value || "#f3ebdd";
+    saveEntries();
+    render();
+    setStatus("Background color updated for this page.", "ok");
+  });
+
+  const STICKERS = {
+    birthday:["🎂","🎉","🎈","🎁","🥳"],
+    holidays:["🎄","🕯️","✨","🎆","🕊️"],
+    seasonal:["🌸","☀️","🍂","⛄","🌈"]
+  };
+  let currentStickerCat = "birthday";
+
+  function renderStickerPalette(){
+    stickerPanel.innerHTML = "";
+    const list = STICKERS[currentStickerCat] || [];
+    list.forEach(emoji=>{
+      const b = document.createElement("button");
+      b.type="button";
+      b.className="sticker-chip";
+      b.textContent=emoji;
+      b.addEventListener("click",()=>addSticker(emoji));
+      stickerPanel.appendChild(b);
+    });
+  }
+
+  stickerTabs.addEventListener("click",e=>{
+    const btn = e.target.closest(".sticker-tab");
+    if(!btn) return;
+    currentStickerCat = btn.dataset.cat || "birthday";
+    Array.from(stickerTabs.querySelectorAll(".sticker-tab")).forEach(b=>{
+      b.classList.toggle("active",b===btn);
+    });
+    renderStickerPalette();
+  });
+
+  function addSticker(emoji){
+    const sideVal = stickerTargetSel.value || "left";
+    const side = sideVal==="right" ? "right" : "left";
+    const index = side==="left" ? leftIndex : leftIndex+1;
+    if(index<0 || index>=entries.length){
+      setStatus("No page to place a sticker on yet. Add a photo first.", "bad");
+      return;
+    }
+    const entry = entries[index];
+    if(!entry.dataUrl){
+      setStatus("Add a photo to that page before placing stickers.", "bad");
+      return;
+    }
+    if(!Array.isArray(entry.stickers)) entry.stickers=[];
+    const sticker = {
+      id:createId("s"),
+      emoji,
+      x:0.5,
+      y:0.5,
+      scale:1
+    };
+    entry.stickers.push(sticker);
+    saveEntries();
+    render();
+    setStatus("Sticker added. Drag to move, use the corner to resize.", "ok");
+  }
+
+  function beginStickerDrag(e,mode,stickerEl){
+    e.preventDefault();
+    const entryId = stickerEl.dataset.entryId;
+    const stickerId = stickerEl.dataset.stickerId;
+    const sideChar = stickerEl.dataset.side==="R" ? "R" : "L";
+    const index = entries.findIndex(en=>en.id===entryId);
+    if(index===-1) return;
+    const entry = entries[index];
+    const sticker = (entry.stickers||[]).find(s=>s.id===stickerId);
+    if(!sticker) return;
+
+    const frame = sideChar==="R" ? R.img.parentElement : L.img.parentElement;
+    const rect = frame.getBoundingClientRect();
+
+    dragState = {
+      mode,
+      entryIndex:index,
+      stickerId,
+      sideChar,
+      el:stickerEl,
+      rect,
+      startX:e.clientX,
+      startY:e.clientY,
+      startStickerX:sticker.x,
+      startStickerY:sticker.y,
+      startScale:sticker.scale
+    };
+    stickerEl.setPointerCapture(e.pointerId);
+    stickerEl.style.cursor = mode==="move" ? "grabbing" : "nwse-resize";
+
+    window.addEventListener("pointermove",onStickerMove);
+    window.addEventListener("pointerup",onStickerUp);
+  }
+
+  function onStickerMove(e){
+    if(!dragState) return;
+    const st = dragState;
+    const entry = entries[st.entryIndex];
+    if(!entry) return;
+    const sticker = (entry.stickers||[]).find(s=>s.id===st.stickerId);
+    if(!sticker) return;
+
+    if(st.mode==="move"){
+      let px = (e.clientX - st.rect.left) / st.rect.width;
+      let py = (e.clientY - st.rect.top) / st.rect.height;
+      sticker.x = clamp(px,0,1);
+      sticker.y = clamp(py,0,1);
+    }else{
+      const dx = e.clientX - st.startX;
+      const newScale = st.startScale + dx/300;
+      sticker.scale = clamp(newScale,0.5,2);
+    }
+
+    st.el.style.left = (sticker.x*100) + "%";
+    st.el.style.top = (sticker.y*100) + "%";
+    st.el.style.transform = "translate(-50%,-50%) scale(" + sticker.scale + ")";
+  }
+
+  function onStickerUp(e){
+    if(!dragState) return;
+    const st = dragState;
+    try{ st.el.releasePointerCapture(e.pointerId); }catch(_){}
+    st.el.style.cursor = "grab";
+    saveEntries();
+    window.removeEventListener("pointermove",onStickerMove);
+    window.removeEventListener("pointerup",onStickerUp);
+    dragState = null;
+  }
+
+  // Lightbox helpers
+  function isLightboxOpen(){
+    return !lightboxEl.classList.contains("hidden");
+  }
+  function renderLightbox(){
+    if(lightboxIndex==null || lightboxIndex<0 || lightboxIndex>=entries.length){
+      closeLightbox();
+      return;
+    }
+    const entry = entries[lightboxIndex];
+    if(!entry || !entry.dataUrl){
+      closeLightbox();
+      return;
+    }
+    lightboxImg.src = entry.dataUrl;
+    lightboxTitle.textContent = entry.title || "Untitled";
+    lightboxPage.textContent = "Page " + (lightboxIndex+1) + " of " + entries.length;
+    lightboxNotes.textContent = entry.notes || "";
+    lightboxPrev.disabled = (lightboxIndex<=0);
+    lightboxNext.disabled = (lightboxIndex>=entries.length-1);
+  }
+  function openLightbox(index){
+    if(index<0 || index>=entries.length) return;
+    if(!entries[index].dataUrl) return;
+    lightboxIndex = index;
+    document.body.style.overflow="hidden";
+    lightboxEl.classList.remove("hidden");
+    renderLightbox();
+  }
+  function closeLightbox(){
+    lightboxIndex = null;
+    lightboxEl.classList.add("hidden");
+    document.body.style.overflow="";
+  }
+  function lightboxPrevEntry(){
+    if(lightboxIndex==null || lightboxIndex<=0) return;
+    lightboxIndex--;
+    renderLightbox();
+  }
+  function lightboxNextEntry(){
+    if(lightboxIndex==null || lightboxIndex>=entries.length-1) return;
+    lightboxIndex++;
+    renderLightbox();
+  }
+
+  lightboxPrev.addEventListener("click",lightboxPrevEntry);
+  lightboxNext.addEventListener("click",lightboxNextEntry);
+  lightboxCloseBtn.addEventListener("click",closeLightbox);
+  lightboxEl.addEventListener("click",e=>{
+    if(e.target===lightboxEl) closeLightbox();
+  });
+
+  L.frame.addEventListener("click",()=>{
+    const idx = leftIndex;
+    if(entries[idx] && entries[idx].dataUrl){
+      openLightbox(idx);
+    }
+  });
+  R.frame.addEventListener("click",()=>{
+    const idx = leftIndex+1;
+    if(entries[idx] && entries[idx].dataUrl){
+      openLightbox(idx);
+    }
+  });
+
+  document.addEventListener("keydown",e=>{
+    if(isLightboxOpen()){
+      if(e.key==="Escape"){
+        e.preventDefault();
+        closeLightbox();
+      }else if(e.key==="ArrowLeft"){
+        e.preventDefault();
+        lightboxPrevEntry();
+      }else if(e.key==="ArrowRight"){
+        e.preventDefault();
+        lightboxNextEntry();
+      }
+      return;
+    }
+    if(e.key==="ArrowLeft"){
+      prevBtn.click();
+    }else if(e.key==="ArrowRight"){
+      nextBtn.click();
+    }
+  });
+
+  let touchStartX=null;
+  lightboxEl.addEventListener("touchstart",e=>{
+    if(!isLightboxOpen()) return;
+    if(!e.touches[0]) return;
+    touchStartX = e.touches[0].clientX;
+  });
+  lightboxEl.addEventListener("touchend",e=>{
+    if(!isLightboxOpen() || touchStartX==null) return;
+    if(!e.changedTouches[0]) return;
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if(dx>40){
+      lightboxPrevEntry();
+    }else if(dx<-40){
+      lightboxNextEntry();
+    }
+    touchStartX=null;
+  });
+
+  // Share helpers
+  shareMsgInput.value = localStorage.getItem(LS_SHARE_MSG) || "";
+  shareMsgInput.addEventListener("input",()=>{
+    localStorage.setItem(LS_SHARE_MSG, shareMsgInput.value);
+  });
+
+  function getShareMessage(){
+    const msg = (shareMsgInput.value||"").trim();
+    if(msg) return msg;
+    return "I’m building a sovereign family photo album with Verve N Veda & Khaemenes Academy on my own device.";
+  }
+
+  function openTab(url){ window.open(url,"_blank","noopener"); }
+
+  shareFacebookBtn.addEventListener("click",()=>openTab("https://www.facebook.com/"));
+  shareInstagramBtn.addEventListener("click",()=>openTab("https://www.instagram.com/"));
+  shareTiktokBtn.addEventListener("click",()=>openTab("https://www.tiktok.com/"));
+  shareXBtn.addEventListener("click",()=>{
+    const text = encodeURIComponent(getShareMessage());
+    openTab("https://twitter.com/intent/tweet?text="+text);
+  });
+  shareEmailBtn.addEventListener("click",()=>{
+    const text = encodeURIComponent(getShareMessage());
+    const subject = encodeURIComponent("My Sovereign Photo Album");
+    window.location.href = "mailto:?subject="+subject+"&body="+text;
+  });
+  shareSMSBtn.addEventListener("click",()=>{
+    const text = encodeURIComponent(getShareMessage());
+    window.location.href = "sms:?body="+text;
+  });
+
+  // Print layout (base images only, no stickers)
+  function buildPrintLayout(){
+    printLayoutEl.innerHTML = "";
+    if(!entries.length) return;
+    entries.forEach((entry,i)=>{
+      if(!entry || !entry.dataUrl) return;
+      const page = document.createElement("div");
+      page.style.pageBreakInside="avoid";
+      page.style.margin="0 0 10mm";
+      page.style.paddingBottom="5mm";
+      page.style.borderBottom="1px solid #ddd";
+      const title = document.createElement("div");
+      title.style.fontFamily="'Cinzel',serif";
+      title.style.fontSize="14px";
+      title.style.textTransform="uppercase";
+      title.style.letterSpacing=".16em";
+      title.style.marginBottom="2mm";
+      title.textContent = entry.title || "Untitled";
+      const meta = document.createElement("div");
+      meta.style.fontSize="10px";
+      meta.style.textTransform="uppercase";
+      meta.style.letterSpacing=".1em";
+      meta.style.color="#555";
+      meta.style.marginBottom="2mm";
+      meta.textContent = "Page " + (i+1) + " • " + (entry.created ? new Date(entry.created).toLocaleDateString() : "");
+      const imgWrap = document.createElement("div");
+      const img = document.createElement("img");
+      img.src = entry.dataUrl;
+      img.alt = entry.title || ("Photo "+(i+1));
+      img.style.maxWidth="100%";
+      img.style.borderRadius="4px";
+      imgWrap.appendChild(img);
+      const notes = document.createElement("div");
+      notes.style.fontSize="11px";
+      notes.style.color="#444";
+      notes.style.whiteSpace="pre-wrap";
+      notes.style.marginTop="2mm";
+      notes.textContent = entry.notes || "";
+      page.appendChild(title);
+      page.appendChild(meta);
+      page.appendChild(imgWrap);
+      if(entry.notes){
+        page.appendChild(notes);
+      }
+      printLayoutEl.appendChild(page);
+    });
+  }
+
+  printBtn.addEventListener("click",()=>{
+    if(!entries.length){
+      setStatus("Nothing to print yet. Add at least one page.", "bad");
+      return;
+    }
+    buildPrintLayout();
+    setStatus("Preparing album for print…", "ok");
+    setTimeout(()=>window.print(),50);
+  });
+
+  // Simple text-edit modal via prompts
+  document.getElementById("editTextBtn").addEventListener("click",()=>{
+    const side = pageSelect.value || "left";
+    const entry = getEntry(side);
+    if(!entry){
+      setStatus("No page selected to edit yet.", "bad");
+      return;
+    }
+    const newTitle = prompt("Edit title:", entry.title || "");
+    if(newTitle!==null){
+      entry.title = newTitle.trim();
+    }
+    const newNotes = prompt("Edit notes (existing text will be replaced):", entry.notes || "");
+    if(newNotes!==null){
+      entry.notes = newNotes;
+    }
+    entry.created = entry.created || new Date().toISOString();
+    saveEntries();
+    render();
+    setStatus("Page text updated.", "ok");
+  });
+
+  downloadBackupBtn.addEventListener("click",()=>{
+    if(!entries.length){
+      setStatus("Album is empty. Add a page before downloading a backup.", "bad");
+      return;
+    }
+    const payload = {version:3,exportedAt:new Date().toISOString(),entries};
+    const blob = new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    const stamp = new Date().toISOString().slice(0,10);
+    a.href = url;
+    a.download = "album-backup-" + stamp + ".json";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    setStatus("Backup downloaded.", "ok");
+  });
+
+  importBackupBtn.addEventListener("click",()=>importFileInput.click());
+  importFileInput.addEventListener("change",e=>{
+    const file = e.target.files && e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = ev=>{
+      try{
+        const text = ev.target.result;
+        const parsed = JSON.parse(text);
+        let rawEntries;
+        if(Array.isArray(parsed)){
+          rawEntries = parsed;
+        }else if(parsed && Array.isArray(parsed.entries)){
+          rawEntries = parsed.entries;
+        }else{
+          throw new Error("File format not recognized.");
+        }
+        const now = new Date().toISOString();
+        entries = rawEntries.map(ent=>normalizeEntry(ent,now));
+        saveEntries();
+        leftIndex = 0;
+        render();
+        setStatus("Backup imported. Your album has been replaced with the imported one.", "ok");
+      }catch(err){
+        console.error(err);
+        setStatus("Import failed: " + (err && err.message ? err.message : "Unknown error"), "bad");
+      }finally{
+        importFileInput.value = "";
+      }
+    };
+    reader.readAsText(file);
+  });
+
+  function init(){
+    loadEntries();
+    leftIndex = 0;
+    render();
+    renderStickerPalette();
+    setStatus("Ready. All changes are stored locally in this browser.", "ok");
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>
