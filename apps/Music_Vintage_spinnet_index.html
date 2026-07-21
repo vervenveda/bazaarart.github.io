@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Vintage Spinet — Kids Orchestra</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root{
+  --wood-dark:#2a1a10;
+  --wood-mid:#5a3a22;
+  --wood-light:#7a5132;
+  --ivory:#f7f3ea;
+  --ebony:#111;
+  --brass:#c9a24d;
+  --glow:#ffefb0;
+}
+
+/* === IFRAME / WIX SAFE === */
+html,body{
+  margin:0;
+  padding:0;
+  width:100%;
+  height:100%;
+  background:transparent;
+  overflow:hidden;
+  font-family:Georgia, serif;
+}
+
+.wrapper{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  width:100%;
+  height:100%;
+}
+
+.spinet{
+  position:relative;
+  width:100%;
+  max-width:960px;
+  background:linear-gradient(180deg,var(--wood-light),var(--wood-dark));
+  border-radius:24px;
+  padding:20px 20px 28px;
+  box-shadow:inset 0 0 30px rgba(0,0,0,.6),
+             0 20px 60px rgba(0,0,0,.7);
+  transition:background 0.4s ease;
+}
+
+/* === INSTRUMENT MODES (soft wood tints) === */
+.spinet.mode-piano{
+  background:linear-gradient(180deg,#7a5132,#2a1a10);
+}
+.spinet.mode-flute{
+  background:linear-gradient(180deg,#7a5b3a,#3a3f55);
+}
+.spinet.mode-violin{
+  background:linear-gradient(180deg,#8a3e2a,#3b1b14);
+}
+.spinet.mode-guitar{
+  background:linear-gradient(180deg,#8f6631,#3a2614);
+}
+.spinet.mode-clarinet{
+  background:linear-gradient(180deg,#4c3627,#171317);
+}
+.spinet.mode-trumpet{
+  background:linear-gradient(180deg,#b18438,#3f2c18);
+}
+.spinet.mode-bass{
+  background:linear-gradient(180deg,#3a2b24,#0f1018);
+}
+.spinet.mode-marimba{
+  background:linear-gradient(180deg,#9a5a2c,#3a1e12);
+}
+.spinet.mode-musicbox{
+  background:linear-gradient(180deg,#b98f63,#4b3623);
+}
+.spinet.mode-harp{
+  background:linear-gradient(180deg,#d8b38a,#5a3a33);
+}
+.spinet.mode-cello{
+  background:linear-gradient(180deg,#7c2f1e,#2b1410);
+}
+.spinet.mode-oboe{
+  background:linear-gradient(180deg,#5a4a34,#25221b);
+}
+.spinet.mode-horn{
+  background:linear-gradient(180deg,#c9a858,#4a3520);
+}
+.spinet.mode-bells{
+  background:linear-gradient(180deg,#f2d8a6,#6b5231);
+}
+.spinet.mode-altosax{
+  background:linear-gradient(180deg,#f2b679,#3b2630);
+}
+.spinet.mode-tenorsax{
+  background:linear-gradient(180deg,#f2c28a,#3a2e24);
+}
+.spinet.mode-choir{
+  background:linear-gradient(180deg,#e2e8ff,#4b5070);
+}
+.spinet.mode-piccolo{
+  background:linear-gradient(180deg,#dbeff7,#3a4a56);
+}
+.spinet.mode-xylophone{
+  background:linear-gradient(180deg,#f7c08a,#4a2816);
+}
+
+/* Plate colors per instrument */
+.spinet .plate{
+  color:var(--brass);
+  border-color:var(--brass);
+}
+.spinet.mode-flute .plate{
+  color:#f4fbff;
+  border-color:#f4fbff;
+}
+.spinet.mode-violin .plate{
+  color:#ffe6d0;
+  border-color:#ffe6d0;
+}
+.spinet.mode-guitar .plate{
+  color:#fff5c8;
+  border-color:#fff5c8;
+}
+.spinet.mode-clarinet .plate{
+  color:#e8e0ff;
+  border-color:#e8e0ff;
+}
+.spinet.mode-trumpet .plate{
+  color:#ffeaa6;
+  border-color:#ffeaa6;
+}
+.spinet.mode-bass .plate{
+  color:#d3e6ff;
+  border-color:#d3e6ff;
+}
+.spinet.mode-marimba .plate{
+  color:#ffe0b3;
+  border-color:#ffe0b3;
+}
+.spinet.mode-musicbox .plate{
+  color:#fff7e6;
+  border-color:#fff7e6;
+}
+.spinet.mode-harp .plate{
+  color:#fff3fb;
+  border-color:#fff3fb;
+}
+.spinet.mode-cello .plate{
+  color:#ffd6c7;
+  border-color:#ffd6c7;
+}
+.spinet.mode-oboe .plate{
+  color:#e4f7ff;
+  border-color:#e4f7ff;
+}
+.spinet.mode-horn .plate{
+  color:#fff7c3;
+  border-color:#fff7c3;
+}
+.spinet.mode-bells .plate{
+  color:#fffdf0;
+  border-color:#fffdf0;
+}
+.spinet.mode-altosax .plate{
+  color:#fff2dd;
+  border-color:#fff2dd;
+}
+.spinet.mode-tenorsax .plate{
+  color:#fff3e5;
+  border-color:#fff3e5;
+}
+.spinet.mode-choir .plate{
+  color:#f9fbff;
+  border-color:#f9fbff;
+}
+.spinet.mode-piccolo .plate{
+  color:#f4fdff;
+  border-color:#f4fdff;
+}
+.spinet.mode-xylophone .plate{
+  color:#fff6dd;
+  border-color:#fff6dd;
+}
+
+/* === HEADER === */
+.header{
+  text-align:center;
+  margin-bottom:14px;
+}
+
+.header h1{
+  margin:0;
+  font-size:clamp(26px,4vw,42px);
+  letter-spacing:3px;
+  color:var(--brass);
+}
+
+.plate{
+  display:inline-block;
+  margin-top:6px;
+  padding:4px 12px;
+  border:1px solid var(--brass);
+  border-radius:6px;
+  font-size:12px;
+  background:rgba(0,0,0,.25);
+}
+
+/* === CANDLE === */
+.candle{
+  position:absolute;
+  top:-12px;
+  right:24px;
+  width:14px;
+  height:26px;
+  background:#fff2c4;
+  border-radius:4px;
+  box-shadow:0 0 18px 6px rgba(255,200,80,.7);
+  animation:flicker 1.6s infinite alternate;
+}
+
+@keyframes flicker{
+  0%{opacity:.85; box-shadow:0 0 14px 4px rgba(255,200,80,.5);}
+  50%{opacity:1; box-shadow:0 0 22px 7px rgba(255,220,120,.8);}
+  100%{opacity:.9; box-shadow:0 0 16px 5px rgba(255,190,90,.6);}
+}
+
+/* === PIANO === */
+.piano-wrap{
+  background:linear-gradient(180deg,#000,#222);
+  padding:14px;
+  border-radius:16px;
+}
+
+.piano{
+  position:relative;
+  display:flex;
+  height:clamp(160px,30vw,220px);
+}
+
+/* === KEYS === */
+.key.white{
+  flex:1;
+  background:linear-gradient(180deg,var(--ivory),#ddd);
+  border:1px solid #aaa;
+  border-radius:0 0 10px 10px;
+  display:flex;
+  justify-content:center;
+  align-items:flex-end;
+  padding-bottom:10px;
+  font-weight:bold;
+  color:#444;
+  cursor:pointer;
+  position:relative;
+  user-select:none;
+  font-size:11px;
+  transition:background 0.12s;
+}
+
+.key.white.active{
+  background:var(--glow);
+}
+.key.white.sustained{
+  background:#fff4c9;
+}
+
+/* Black key + label */
+.key.black{
+  position:absolute;
+  width:5%;
+  height:65%;
+  background:linear-gradient(180deg,#333,var(--ebony));
+  top:0;
+  z-index:3;
+  border-radius:0 0 6px 6px;
+  cursor:pointer;
+  user-select:none;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  padding-bottom:6px;
+  font-size:11px;
+  color:#f5f5f5;
+  transition:background 0.12s;
+}
+
+.key.black span{
+  pointer-events:none;
+}
+
+.key.black.active{
+  background:#555;
+}
+.key.black.sustained{
+  background:#666;
+}
+
+/* === CONTROLS (buttons + sliders) === */
+.controls{
+  margin-top:18px;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:10px;
+}
+
+/* instrument dropdown styled like a button */
+.instrument-select{
+  padding:10px 18px;
+  font-size:14px;
+  font-weight:bold;
+  border-radius:10px;
+  border:2px solid #333;
+  background:linear-gradient(180deg,#eee,#ccc);
+  cursor:pointer;
+  appearance:none;
+  -webkit-appearance:none;
+  -moz-appearance:none;
+}
+
+.instrument-select:focus{
+  outline:none;
+  box-shadow:0 0 0 2px rgba(255,239,176,.7);
+}
+
+.controls button{
+  padding:10px 18px;
+  font-size:14px;
+  font-weight:bold;
+  border-radius:10px;
+  border:2px solid #333;
+  background:linear-gradient(180deg,#eee,#ccc);
+  cursor:pointer;
+}
+
+.controls button:hover{ background:var(--glow); }
+.controls button:disabled{ opacity:.5; }
+
+/* Slider block */
+.slider-group{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  min-width:230px;
+  padding:4px 8px;
+  border-radius:10px;
+  background:rgba(0,0,0,0.15);
+  border:1px solid rgba(0,0,0,0.35);
+}
+
+.slider-row{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:11px;
+  color:#f5e8cf;
+}
+
+.slider-row label{
+  min-width:86px;
+}
+
+.slider-row input[type="range"]{
+  flex:1;
+}
+
+.slider-row span{
+  min-width:64px;
+  text-align:right;
+}
+
+.footer{
+  text-align:center;
+  margin-top:12px;
+  font-size:12px;
+  color:#e0d6c8;
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+  <div class="spinet">
+    <div class="candle"></div>
+
+    <div class="header">
+      <h1>VINTAGE SPINET</h1>
+      <div class="plate" id="instrumentPlate">Crafted in Memory &amp; Sound</div>
+    </div>
+
+    <div class="piano-wrap">
+      <div class="piano" id="piano"></div>
+    </div>
+
+    <div class="controls">
+      <!-- Instrument dropdown -->
+      <select id="instrumentSelect" class="instrument-select">
+        <option value="piano">Spinet Piano</option>
+        <option value="flute">Silver Flute</option>
+        <option value="violin">String Violin</option>
+        <option value="guitar">Nylon Guitar</option>
+        <option value="clarinet">Forest Clarinet</option>
+        <option value="trumpet">Golden Trumpet</option>
+        <option value="bass">Upright Bass</option>
+        <option value="marimba">Star Marimba</option>
+        <option value="musicbox">Music Box</option>
+
+        <!-- Extra 5 -->
+        <option value="harp">Golden Harp</option>
+        <option value="cello">Cello Strings</option>
+        <option value="oboe">Autumn Oboe</option>
+        <option value="horn">French Horn</option>
+        <option value="bells">Cathedral Bells</option>
+
+        <!-- NEW 5 -->
+        <option value="altosax">Cool Alto Sax</option>
+        <option value="tenorsax">Tenor Sax</option>
+        <option value="choir">Choir Aahs</option>
+        <option value="piccolo">Bright Piccolo</option>
+        <option value="xylophone">Rainbow Xylophone</option>
+      </select>
+
+      <button id="recordBtn">⏺ Record</button>
+      <button id="stopBtn" disabled>⏹ Stop</button>
+      <button id="playBtn" disabled>▶ Play</button>
+      <button id="saveBtn" disabled>📤 Export File</button>
+      <button id="sustainBtn">🎵 Sustain</button>
+      <button id="ambientBtn">🌙 Ambient</button>
+
+      <!-- sound tweaks -->
+      <div class="slider-group">
+        <div class="slider-row">
+          <label for="masterVol">Master Volume</label>
+          <input type="range" id="masterVol" min="0" max="100" value="90">
+          <span id="masterVolLabel">90%</span>
+        </div>
+        <div class="slider-row">
+          <label for="noteLen">Note Length</label>
+          <input type="range" id="noteLen" min="0" max="100" value="50">
+          <span id="noteLenLabel">Medium</span>
+        </div>
+        <div class="slider-row">
+          <label for="sustainTail">Sustain Tail</label>
+          <input type="range" id="sustainTail" min="0" max="100" value="70">
+          <span id="sustainTailLabel">Soft long</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      Mouse or keyboard • Sustain = felt pedal
+    </div>
+  </div>
+</div>
+
+<script>
+// === INSTRUMENT HANDLING ===
+const SF_ROOT = "https://gleitz.github.io/midi-js-soundfonts/FluidR3_GM/";
+
+const INSTRUMENTS = {
+  piano:   { id:"piano",   label:"Spinet Piano",   folder:"acoustic_grand_piano-mp3",  modeClass:"mode-piano",   range:"C3–B5", maxMs:3200, lengthMul:1.0, sustainMul:1.0 },
+  flute:   { id:"flute",   label:"Silver Flute",   folder:"flute-mp3",                 modeClass:"mode-flute",   range:"C3–B5", maxMs:3200, lengthMul:1.1, sustainMul:1.2 },
+  violin:  { id:"violin",  label:"String Violin",  folder:"violin-mp3",                modeClass:"mode-violin",  range:"C3–B5", maxMs:3400, lengthMul:1.1, sustainMul:1.3 },
+  guitar:  { id:"guitar",  label:"Nylon Guitar",   folder:"acoustic_guitar_nylon-mp3", modeClass:"mode-guitar",  range:"C3–B5", maxMs:3200, lengthMul:0.9, sustainMul:1.0 },
+  clarinet:{ id:"clarinet",label:"Forest Clarinet",folder:"clarinet-mp3",              modeClass:"mode-clarinet",range:"C3–B5", maxMs:3400, lengthMul:1.1, sustainMul:1.2 },
+  trumpet: { id:"trumpet", label:"Golden Trumpet", folder:"trumpet-mp3",               modeClass:"mode-trumpet", range:"C3–B5", maxMs:3200, lengthMul:1.0, sustainMul:1.0 },
+  bass:    { id:"bass",    label:"Upright Bass",   folder:"acoustic_bass-mp3",         modeClass:"mode-bass",    range:"C3–B5", maxMs:3600, lengthMul:1.0, sustainMul:1.2 },
+  marimba: { id:"marimba", label:"Star Marimba",   folder:"marimba-mp3",               modeClass:"mode-marimba", range:"C3–B5", maxMs:3000, lengthMul:0.8, sustainMul:0.9 },
+  musicbox:{ id:"musicbox",label:"Music Box",      folder:"music_box-mp3",             modeClass:"mode-musicbox",range:"C3–B5", maxMs:3000, lengthMul:0.8, sustainMul:0.9 },
+
+  harp:    { id:"harp",    label:"Golden Harp",    folder:"orchestral_harp-mp3",       modeClass:"mode-harp",    range:"C3–B5", maxMs:3800, lengthMul:1.1, sustainMul:1.3 },
+  cello:   { id:"cello",   label:"Cello Strings",  folder:"cello-mp3",                 modeClass:"mode-cello",   range:"C3–B5", maxMs:3800, lengthMul:1.1, sustainMul:1.3 },
+  oboe:    { id:"oboe",    label:"Autumn Oboe",    folder:"oboe-mp3",                  modeClass:"mode-oboe",    range:"C3–B5", maxMs:3400, lengthMul:1.0, sustainMul:1.1 },
+  horn:    { id:"horn",    label:"French Horn",    folder:"french_horn-mp3",           modeClass:"mode-horn",    range:"C3–B5", maxMs:3600, lengthMul:1.0, sustainMul:1.2 },
+  bells:   { id:"bells",   label:"Cathedral Bells",folder:"tubular_bells-mp3",         modeClass:"mode-bells",   range:"C3–B5", maxMs:3200, lengthMul:0.7, sustainMul:0.9 },
+
+  altosax: { id:"altosax", label:"Cool Alto Sax",  folder:"alto_sax-mp3",              modeClass:"mode-altosax", range:"C3–B5", maxMs:3400, lengthMul:1.0, sustainMul:1.1 },
+  tenorsax:{ id:"tenorsax",label:"Tenor Sax",      folder:"tenor_sax-mp3",             modeClass:"mode-tenorsax",range:"C3–B5", maxMs:3400, lengthMul:1.0, sustainMul:1.1 },
+
+  // Special three you called out
+  choir:   { id:"choir",   label:"Choir Aahs",     folder:"choir_aahs-mp3",            modeClass:"mode-choir",   range:"C3–B5", maxMs:4800, lengthMul:1.2, sustainMul:1.6 },
+  piccolo: { id:"piccolo", label:"Bright Piccolo", folder:"piccolo-mp3",               modeClass:"mode-piccolo", range:"C3–B5", maxMs:2600, lengthMul:0.8, sustainMul:0.9 },
+  xylophone:{id:"xylophone",label:"Rainbow Xylophone", folder:"xylophone-mp3",         modeClass:"mode-xylophone",range:"C3–B5", maxMs:2600, lengthMul:0.7, sustainMul:0.9 }
+};
+
+let currentInstrument = "piano";
+
+function getBaseFolder(){
+  const inst = INSTRUMENTS[currentInstrument] || INSTRUMENTS.piano;
+  return SF_ROOT + inst.folder + "/";
+}
+
+// Convert note names to FluidR3 filenames: sharps -> flats (Db4, Eb4, etc.)
+function toSampleName(note){
+  const m = note.match(/^([A-G])(#?)(\d)$/);
+  if (!m) return note;
+  let [, letter, sharp, octave] = m;
+  if (!sharp) return letter + octave;
+  const SHARP_TO_FLAT = { C: "Db", D: "Eb", F: "Gb", G: "Ab", A: "Bb" };
+  const flat = SHARP_TO_FLAT[letter] || letter;
+  return flat + octave;
+}
+
+/* === GLOBAL SOUND ADJUSTMENTS (SLIDERS) === */
+let MASTER_VOL      = 0.9;   // 0–1
+let NOTE_SHORT_BASE = 450;   // ms before fade start (base)
+let NOTE_FADE_BASE  = 350;   // fade ms (base)
+let SUSTAIN_TAIL_BASE = 900; // base fade on pedal release
+
+const masterVolInput   = document.getElementById("masterVol");
+const masterVolLabel   = document.getElementById("masterVolLabel");
+const noteLenInput     = document.getElementById("noteLen");
+const noteLenLabel     = document.getElementById("noteLenLabel");
+const sustainTailInput = document.getElementById("sustainTail");
+const sustainTailLabel = document.getElementById("sustainTailLabel");
+
+function updateMasterVol(){
+  const v = parseInt(masterVolInput.value,10) || 0;
+  MASTER_VOL = Math.min(1, Math.max(0, v/100));
+  masterVolLabel.textContent = v + "%";
+}
+
+function updateNoteLength(){
+  const v = parseInt(noteLenInput.value,10) || 0; // 0–100
+  NOTE_SHORT_BASE = 150 + v * 4;   // ~150–550ms
+  NOTE_FADE_BASE  = 200 + v * 3;   // ~200–500ms
+
+  if (v < 20)      noteLenLabel.textContent = "Very short";
+  else if (v < 45) noteLenLabel.textContent = "Short";
+  else if (v < 65) noteLenLabel.textContent = "Medium";
+  else if (v < 85) noteLenLabel.textContent = "Long";
+  else             noteLenLabel.textContent = "Very long";
+}
+
+function updateSustainTail(){
+  const v = parseInt(sustainTailInput.value,10) || 0; // 0–100
+  SUSTAIN_TAIL_BASE = 300 + v*17; // ~300–2000ms
+
+  if (v < 20)      sustainTailLabel.textContent = "Quick";
+  else if (v < 45) sustainTailLabel.textContent = "Gentle";
+  else if (v < 70) sustainTailLabel.textContent = "Soft long";
+  else if (v < 90) sustainTailLabel.textContent = "Very long";
+  else             sustainTailLabel.textContent = "Cloud fade";
+}
+
+masterVolInput.addEventListener("input", updateMasterVol);
+noteLenInput.addEventListener("input", updateNoteLength);
+sustainTailInput.addEventListener("input", updateSustainTail);
+
+updateMasterVol();
+updateNoteLength();
+updateSustainTail();
+
+let sustain = false;
+
+// store entries: {audio, note, tailMs, safeTimer}
+const sustained = new Set();
+
+const piano = document.getElementById("piano");
+
+/* === 3-OCTAVE NOTE RANGE: C3 → B5 === */
+const NOTE_ORDER = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
+
+function noteToIndex(note){
+  const m = note.match(/^([A-G])(#?)(\d)$/);
+  if(!m) return 0;
+  const letter = m[1] + (m[2] || "");
+  const octave = parseInt(m[3],10);
+  const semitone = NOTE_ORDER.indexOf(letter);
+  return octave * 12 + semitone;
+}
+
+function indexToNote(idx){
+  const octave = Math.floor(idx / 12);
+  const i = idx % 12;
+  return NOTE_ORDER[i] + octave;
+}
+
+const LOW_NOTE  = "C3";
+const HIGH_NOTE = "B5";
+const lowIndex  = noteToIndex(LOW_NOTE);
+const highIndex = noteToIndex(HIGH_NOTE);
+
+// Build full semitone list
+const KEY_DATA = [];
+for(let idx = lowIndex; idx <= highIndex; idx++){
+  const name = indexToNote(idx);
+  const isBlack = name.includes("#");
+  KEY_DATA.push({ note:name, isBlack, idx });
+}
+
+const whiteKeys = KEY_DATA.filter(k => !k.isBlack);
+const blackKeys = KEY_DATA.filter(k =>  k.isBlack);
+
+const noteToWhiteEl = {};
+const blackMeta = [];
+
+// white key builder
+whiteKeys.forEach(k => {
+  const el = document.createElement("div");
+  el.className = "key white";
+  el.dataset.note = k.note;
+  el.textContent = k.note;
+  el.onmousedown = () => play(k.note);
+  el.ontouchstart = ev => { ev.preventDefault(); play(k.note); };
+  piano.appendChild(el);
+  noteToWhiteEl[k.note] = el;
+});
+
+// neighbor finder for black keys
+function findNeighborWhites(idx){
+  let prev = null, next = null;
+  for(let j = idx-1; j >= lowIndex; j--){
+    const kd = KEY_DATA[j - lowIndex];
+    if(!kd.isBlack){ prev = kd; break; }
+  }
+  for(let j = idx+1; j <= highIndex; j++){
+    const kd = KEY_DATA[j - lowIndex];
+    if(!kd.isBlack){ next = kd; break; }
+  }
+  return { prev, next };
+}
+
+// pretty label like F♯ etc
+function prettySharpLabel(note){
+  const m = note.match(/^([A-G])#\d$/);
+  if(!m) return note;
+  return m[1] + "♯";
+}
+
+// black key builder
+blackKeys.forEach(k => {
+  const { prev, next } = findNeighborWhites(k.idx);
+  if(!prev || !next) return;
+
+  const el = document.createElement("div");
+  el.className = "key black";
+  el.dataset.note = k.note;
+
+  const span = document.createElement("span");
+  span.textContent = prettySharpLabel(k.note);
+  el.appendChild(span);
+
+  el.onmousedown = () => play(k.note);
+  el.ontouchstart = ev => { ev.preventDefault(); play(k.note); };
+
+  piano.appendChild(el);
+
+  blackMeta.push({
+    note: k.note,
+    el,
+    prevNote: prev.note,
+    nextNote: next.note
+  });
+});
+
+// position black keys between their white neighbors
+function layoutBlackKeys(){
+  const pianoRect = piano.getBoundingClientRect();
+  blackMeta.forEach(meta => {
+    const prevEl = noteToWhiteEl[meta.prevNote];
+    const nextEl = noteToWhiteEl[meta.nextNote];
+    if(!prevEl || !nextEl) return;
+
+    const r1 = prevEl.getBoundingClientRect();
+    const r2 = nextEl.getBoundingClientRect();
+    const center = (r1.right + r2.left) / 2 - pianoRect.left;
+
+    let bw = meta.el.offsetWidth;
+    if(!bw) bw = r1.width * 0.5; // fallback
+
+    meta.el.style.left = (center - bw/2) + "px";
+  });
+}
+
+window.addEventListener("load", layoutBlackKeys);
+window.addEventListener("resize", layoutBlackKeys);
+setTimeout(layoutBlackKeys, 0); // extra safety for iframes
+
+/* === SMOOTH FADE HELPERS === */
+function fadeOut(audio, durationMs=600, stopAtEnd=true){
+  if(!audio) return;
+  const startVol = audio.volume;
+  const startTime = performance.now();
+
+  function step(now){
+    if(audio.paused) return;
+    const elapsed = now - startTime;
+    const t = Math.min(1, elapsed / durationMs);
+    audio.volume = startVol * (1 - t);
+    if(t < 1){
+      requestAnimationFrame(step);
+    } else if(stopAtEnd){
+      audio.pause();
+    }
+  }
+  requestAnimationFrame(step);
+}
+
+/* === PLAY NOTE (per-instrument timings) === */
+function play(note){
+  const inst = INSTRUMENTS[currentInstrument] || INSTRUMENTS.piano;
+  const file = toSampleName(note);
+  const a = new Audio(getBaseFolder() + file + ".mp3");
+  a.volume = MASTER_VOL;
+  a.play();
+
+  const lengthMul  = inst.lengthMul  || 1.0;
+  const sustainMul = inst.sustainMul || 1.0;
+  const maxMs      = inst.maxMs      || 3200;
+
+  // derive per-instrument timings from sliders
+  let shortMs = NOTE_SHORT_BASE * lengthMul;
+  let fadeMs  = NOTE_FADE_BASE  * lengthMul;
+  let tailMs  = SUSTAIN_TAIL_BASE * sustainMul;
+
+  // clamp so we never exceed the instrument's safe window too badly
+  const maxSafe = maxMs - 200;
+  if (shortMs + fadeMs > maxSafe){
+    const scale = maxSafe / (shortMs + fadeMs);
+    shortMs *= scale;
+    fadeMs  *= scale;
+  }
+  if (tailMs > maxMs + 800){
+    tailMs = maxMs + 800;
+  }
+
+  // final emergency cap — uses fade, not click
+  const safeCapMs = maxMs + 800;
+  const hardCapTimer = setTimeout(()=>{
+    if (!a.paused){
+      fadeOut(a, 400, true);
+    }
+  }, safeCapMs);
+
+  const keyEl = document.querySelector('.key[data-note="'+note+'"]');
+
+  if (sustain){
+    // store per-note tail and timer
+    const entry = { audio:a, note, tailMs:tailMs, safeTimer:hardCapTimer };
+    sustained.add(entry);
+
+    if(keyEl){
+      keyEl.classList.add("sustained");
+    }
+
+    a.onended = () => {
+      clearTimeout(hardCapTimer);
+      sustained.delete(entry);
+      if(keyEl){
+        keyEl.classList.remove("sustained");
+      }
+    };
+  } else {
+    // normal (non-sustain) fade path
+    a.onended = () => {
+      clearTimeout(hardCapTimer);
+    };
+
+    setTimeout(()=>{
+      if (sustain || a.paused) return;
+      fadeOut(a, fadeMs, true);
+    }, shortMs);
+  }
+
+  if (recording) {
+    notes.push({ note, time: Date.now() - start });
+  }
+
+  if (keyEl){
+    keyEl.classList.add("active");
+    setTimeout(()=>keyEl.classList.remove("active"),150);
+  }
+}
+
+/* === RECORDING (NOTE DATA) === */
+let recording = false;
+let start = 0;
+let notes = [];
+
+const recordBtn = document.getElementById("recordBtn");
+const stopBtn   = document.getElementById("stopBtn");
+const playBtn   = document.getElementById("playBtn");
+const saveBtn   = document.getElementById("saveBtn");
+
+recordBtn.onclick = () => {
+  notes = [];
+  recording = true;
+  start = Date.now();
+  recordBtn.disabled = true;
+  stopBtn.disabled = false;
+};
+
+stopBtn.onclick = () => {
+  recording = false;
+  recordBtn.disabled = false;
+  stopBtn.disabled = true;
+  const hasNotes = notes.length > 0;
+  playBtn.disabled = !hasNotes;
+  saveBtn.disabled = !hasNotes;
+};
+
+playBtn.onclick = () => {
+  if (!notes.length) return;
+  notes.forEach(n => {
+    setTimeout(()=>play(n.note), n.time);
+  });
+};
+
+/* === EXPORT FILE (JSON) === */
+saveBtn.onclick = () => {
+  if (!notes.length) return;
+
+  const inst = INSTRUMENTS[currentInstrument] || INSTRUMENTS.piano;
+  const payload = {
+    instrumentId: currentInstrument,
+    instrumentName: inst.label,
+    range: inst.range || "C3–B5",
+    recordedAt: new Date().toISOString(),
+    notes
+  };
+
+  const json = JSON.stringify(payload, null, 2);
+  const blob = new Blob([json], { type:"application/json" });
+
+  const a = document.createElement("a");
+  const ts = new Date().toISOString().replace(/[:.]/g,"-");
+  a.href = URL.createObjectURL(blob);
+  a.download = `spinet-recording-${ts}.json`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+};
+
+/* === SUSTAIN FELT PEDAL === */
+const sustainBtn = document.getElementById("sustainBtn");
+
+function releaseSustain(){
+  sustained.forEach(entry => {
+    const { audio, note, tailMs, safeTimer } = entry;
+    clearTimeout(safeTimer);
+    if (!audio.paused){
+      fadeOut(audio, tailMs, true);
+    }
+    const keyEl = document.querySelector('.key[data-note="'+note+'"]');
+    if(keyEl){
+      keyEl.classList.remove("sustained");
+    }
+  });
+  sustained.clear();
+}
+
+sustainBtn.onclick = () => {
+  sustain = !sustain;
+  sustainBtn.style.background = sustain ? "#ffe082" : "";
+  if (!sustain){
+    releaseSustain();
+  }
+};
+
+/* === AMBIENT BACKGROUND MUSIC === */
+const ambientBtn = document.getElementById("ambientBtn");
+let ambient = false;
+let iframe;
+
+ambientBtn.onclick = () => {
+  ambient = !ambient;
+  if (ambient){
+    iframe = document.createElement("iframe");
+    iframe.src = "https://www.youtube.com/embed/5qap5aO4i9A?autoplay=1&loop=1&playlist=5qap5aO4i9A";
+    iframe.style.display = "none";
+    iframe.setAttribute("allow","autoplay");
+    document.body.appendChild(iframe);
+    ambientBtn.style.background = "#ffe082";
+  } else if (iframe){
+    iframe.remove();
+    iframe = null;
+    ambientBtn.style.background = "";
+  }
+};
+
+/* === KEYBOARD SUPPORT (middle octave focus) === */
+const KEYS = {
+  a:"C4",  w:"C#4",
+  s:"D4",  e:"D#4",
+  d:"E4",
+  f:"F4",  t:"F#4",
+  g:"G4",  y:"G#4",
+  h:"A4",  u:"A#4",
+  j:"B4",
+  k:"C5",  o:"C#5",
+  l:"D5",  p:"D#5",
+  ";":"E5"
+};
+
+document.addEventListener("keydown", e => {
+  if (e.repeat) return;
+  const n = KEYS[e.key];
+  if (n) play(n);
+});
+
+/* === INSTRUMENT DROPDOWN + NAMEPLATE + WOOD MODE === */
+const instrumentSelect   = document.getElementById("instrumentSelect");
+const spinetEl           = document.querySelector(".spinet");
+const instrumentPlateEl  = document.getElementById("instrumentPlate");
+
+function updateInstrumentMode(){
+  const val = instrumentSelect.value;
+  currentInstrument = INSTRUMENTS[val] ? val : "piano";
+  const inst = INSTRUMENTS[currentInstrument] || INSTRUMENTS.piano;
+
+  if(instrumentPlateEl){
+    const rangeText = inst.range || "C3–B5";
+    instrumentPlateEl.textContent = inst.label + " • " + rangeText;
+  }
+
+  if(spinetEl){
+    Object.values(INSTRUMENTS).forEach(i=>{
+      if(i.modeClass) spinetEl.classList.remove(i.modeClass);
+    });
+    if(inst.modeClass) spinetEl.classList.add(inst.modeClass);
+  }
+}
+
+instrumentSelect.addEventListener("change", updateInstrumentMode);
+updateInstrumentMode();
+</script>
+
+</body>
+</html>
