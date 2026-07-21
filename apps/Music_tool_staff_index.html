@@ -1,0 +1,1328 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Harmony Haven — Write on the Staff</title>
+<style>
+  :root{
+    --accent:#6f5aa7;
+    --bg-a:#706C6B;
+    --bg-b:#d5e6fa;
+    --text:#32274c;
+    --card:#fffdfc;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;padding:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial;color:var(--text);-webkit-font-smoothing:antialiased}
+  body{display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--bg-a) 40%,var(--bg-b) 100%)}
+  .wrap{width:100%;max-width:860px;margin:32px;padding:26px;border-radius:18px;background:var(--card);box-shadow:0 10px 30px rgba(80,60,110,0.08)}
+  h1{font-size:1.9rem;margin:0 0 8px}
+  p.lead{margin:6px 0 14px;color:rgba(50,39,76,0.8);line-height:1.45}
+  .note{color:rgba(50,39,76,0.78);margin-top:6px;line-height:1.35}
+
+  .top-row{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+  .controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+  .controls label{font-size:.92rem;color:rgba(50,39,76,0.75)}
+  select, button, input[type="range"]{
+    font-size:0.98rem;padding:10px 12px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);background:#fff;cursor:pointer
+  }
+  input[type="range"]{padding:10px 0}
+  .btn-primary{background:var(--accent);color:white;border:none;font-weight:800}
+  .btn-soft{background:#efeaff}
+  .btn-danger{background:#ffe7e7}
+  .pill{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:8px 10px;border-radius:999px;
+    background:rgba(111,90,167,0.08);
+    border:1px solid rgba(111,90,167,0.22);
+    font-weight:700;color:rgba(50,39,76,0.85);font-size:.92rem;
+  }
+
+  .staff-area{margin:18px 0}
+  #staffWrap{
+    position:relative;width:100%;height:340px;background:#fcfbff;border-radius:12px;
+    box-shadow:0 2px 14px rgba(70,60,110,0.06);
+    overflow:hidden;
+    touch-action:none;
+  }
+  svg#staffSVG{display:block;width:100%;height:100%}
+  .hit{cursor:pointer}
+
+  .ink{
+    position: absolute;
+    width: 8px; height:8px; border-radius:50%;
+    background: rgba(80,60,140,0.16);
+    pointer-events:none;
+    transform: translate(-50%,-50%);
+    animation: inkFade 1800ms linear forwards;
+  }
+  @keyframes inkFade {
+    0% {opacity:1; transform: translate(-50%,-50%) scale(1);}
+    100% {opacity:0; transform: translate(-50%,-50%) scale(2.2);}
+  }
+
+  .ripple {
+    position:absolute;width:18px;height:18px;border-radius:50%;
+    background:rgba(162,140,255,0.2);
+    pointer-events:none;transform:translate(-50%,-50%);
+    animation:rippleAnim 650ms ease-out forwards;
+  }
+  @keyframes rippleAnim {
+    from {opacity:0.9; transform:translate(-50%,-50%) scale(0.6)}
+    to {opacity:0; transform:translate(-50%,-50%) scale(3.2)}
+  }
+
+  #lsOut {margin:12px 0;font-size:1.05rem;min-height:24px}
+  .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:6px}
+  .toolbar .small{font-size:.92rem;color:rgba(50,39,76,0.7)}
+  .kpi{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+  .kpi .box{
+    background:#f4efff;border:1px solid rgba(111,90,167,0.18);
+    padding:10px 12px;border-radius:12px;font-weight:700;
+  }
+
+  .module{margin-top:18px}
+  .module h2{margin:0 0 8px}
+  .quiz{margin-top:12px}
+  .quiz-q{font-weight:800;margin:12px 0 8px}
+  .choices button{margin:6px 8px 6px 0;padding:10px 18px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);background:#ece6ff;cursor:pointer}
+  .choices button.correct{background:#b0e7b1;color:#245726}
+  .choices button.incorrect{background:#fa9797;color:#902a2a}
+
+  .footer-row{display:flex;justify-content:space-between;align-items:center;margin-top:18px;color:rgba(50,39,76,0.65);font-size:0.95rem;flex-wrap:wrap;gap:8px}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
+
+  /* SVG clef interaction */
+  .clef-grab { cursor: grab; }
+  .clef-grab:active { cursor: grabbing; }
+
+  @media (max-width:720px){
+    .wrap{padding:18px}
+    #staffWrap{height:320px}
+  }
+</style>
+</head>
+<body>
+  <div class="wrap" role="main" aria-labelledby="title">
+    <div class="top-row">
+      <div style="min-width:260px;flex:1">
+        <h1 id="title">🎼 Harmony Haven — Write on the Staff</h1>
+        <div class="note">Place symbols, drag the clef, resize it, and press Play. Everything stays local.</div>
+      </div>
+
+      <div class="controls">
+        <span class="pill" title="Everything stays local on your device">🔒 Local-only</span>
+
+        <label for="themeSelect">Mood</label>
+        <select id="themeSelect" aria-label="Choose theme">
+          <option value="calm">Calm Ivory</option>
+          <option value="indigo">Deep Indigo</option>
+          <option value="sienna">Warm Sienna</option>
+          <option value="moon">Moonlit Silver</option>
+          <option value="gold">Golden Dawn</option>
+        </select>
+
+        <label for="instrumentSelect">Instrument</label>
+        <select id="instrumentSelect" aria-label="Choose instrument">
+          <option value="piano">Piano</option>
+          <option value="guitar">Guitar</option>
+          <option value="drums">Drums</option>
+        </select>
+
+        <label for="symbolSelect">Symbol</label>
+        <select id="symbolSelect" aria-label="Choose music symbol">
+          <option value="clef_treble">Treble Clef (place)</option>
+          <option value="clef_bass">Bass Clef (place)</option>
+          <option value="note_quarter">Quarter Note</option>
+          <option value="note_half">Half Note</option>
+          <option value="note_whole">Whole Note</option>
+          <option value="note_eighth">Eighth Note</option>
+          <option value="rest_quarter">Quarter Rest</option>
+          <option value="rest_half">Half Rest</option>
+          <option value="mark_sharp">Sharp ♯</option>
+          <option value="mark_flat">Flat ♭</option>
+          <option value="mark_natural">Natural ♮</option>
+          <option value="mark_staccato">Staccato • (toggles nearest note)</option>
+          <option value="barline">Bar Line</option>
+          <option value="eraser">Eraser</option>
+        </select>
+
+        <button id="speakBtn" title="Narration">🔊 Narrate</button>
+      </div>
+    </div>
+
+    <p class="lead">
+      Tap to place symbols. Clefs are true SVG icons (not text), draggable, and resizable. Treble vs Bass also changes pitch mapping.
+      Double-tap / double-click the clef to grow it quickly.
+    </p>
+
+    <div class="staff-area">
+      <div id="staffWrap" aria-label="Interactive musical staff">
+        <svg id="staffSVG" viewBox="0 0 700 340" role="img" aria-labelledby="staffTitle">
+          <title id="staffTitle">Five-line staff with writing layer</title>
+        </svg>
+      </div>
+
+      <div id="lsOut" aria-live="polite"></div>
+
+      <div class="toolbar">
+        <button class="btn-primary" id="beginBtn">Begin Class</button>
+        <button class="btn-soft" id="traceToggle">Tracing: OFF</button>
+        <button class="btn-soft" id="soundBrushToggle">Sound Brush: OFF</button>
+
+        <button class="btn-soft" id="playBtn">▶ Play</button>
+        <button class="btn-soft" id="stopBtn">■ Stop</button>
+        <button class="btn-soft" id="undoBtn">↶ Undo</button>
+        <button class="btn-danger" id="clearBtn">Clear</button>
+
+        <button class="btn-soft" id="clefSmaller" title="Shrink clef">➖ Clef</button>
+        <button class="btn-soft" id="clefBigger" title="Grow clef">➕ Clef</button>
+
+        <span class="small">Tempo</span>
+        <input id="tempo" type="range" min="50" max="160" value="96" />
+        <span class="small mono" id="tempoLabel">96 bpm</span>
+
+        <span class="small">Vol</span>
+        <input id="masterVol" type="range" min="0" max="1" step="0.01" value="0.35" />
+        <span class="small mono" id="volLabel">35%</span>
+      </div>
+
+      <div class="kpi">
+        <div class="box">Placed: <span id="placedCount">0</span></div>
+        <div class="box">Clef: <span id="clefLabel">Treble</span></div>
+        <div class="box">Saved: <span id="saveState">yes</span></div>
+      </div>
+    </div>
+
+    <div class="module" id="module"></div>
+
+    <div class="footer-row">
+      <div>Created for mindful music learning • No external resources</div>
+      <div id="progressText"></div>
+    </div>
+  </div>
+
+<script>
+/* ================== THEME ================== */
+const THEMES = {
+  calm:   { '--bg-a':'#f6eefd', '--bg-b':'#d5e6fa', '--accent':'#6f5aa7' },
+  indigo: { '--bg-a':'#eef2ff', '--bg-b':'#e6eafc', '--accent':'#37328a' },
+  sienna: { '--bg-a':'#fff6f0', '--bg-b':'#fde7d9', '--accent':'#a85b3a' },
+  moon:   { '--bg-a':'#f6f8fb', '--bg-b':'#eef1f6', '--accent':'#6b6f86' },
+  gold:   { '--bg-a':'#fffaf0', '--bg-b':'#fff6e0', '--accent':'#b8892f' }
+};
+const themeSelect = document.getElementById('themeSelect');
+function applyTheme(name){
+  const t = THEMES[name] || THEMES.calm;
+  for(const k in t) document.documentElement.style.setProperty(k, t[k]);
+}
+applyTheme('calm');
+
+/* ================== ELEMENTS ================== */
+const staffSVG = document.getElementById('staffSVG');
+const staffWrap = document.getElementById('staffWrap');
+const lsOut = document.getElementById('lsOut');
+const speakBtn = document.getElementById('speakBtn');
+
+const instrumentSelect = document.getElementById('instrumentSelect');
+const symbolSelect = document.getElementById('symbolSelect');
+
+const beginBtn = document.getElementById('beginBtn');
+const traceToggle = document.getElementById('traceToggle');
+const soundBrushToggle = document.getElementById('soundBrushToggle');
+
+const playBtn = document.getElementById('playBtn');
+const stopBtn = document.getElementById('stopBtn');
+const undoBtn = document.getElementById('undoBtn');
+const clearBtn = document.getElementById('clearBtn');
+
+const clefSmaller = document.getElementById('clefSmaller');
+const clefBigger  = document.getElementById('clefBigger');
+
+const tempo = document.getElementById('tempo');
+const tempoLabel = document.getElementById('tempoLabel');
+const masterVol = document.getElementById('masterVol');
+const volLabel = document.getElementById('volLabel');
+
+const placedCount = document.getElementById('placedCount');
+const progressText = document.getElementById('progressText');
+const saveState = document.getElementById('saveState');
+const clefLabelEl = document.getElementById('clefLabel');
+
+const moduleEl = document.getElementById('module');
+
+/* ================== STATE ================== */
+let tracing = false;
+let soundBrush = false;
+let pointerDown = false;
+let lastBrushAt = 0;
+
+let step = 0;
+let isPlaying = false;
+let playTimerIds = [];
+
+const STORAGE_KEY = "HH_STAFF_WRITER_V2_CLEF_DRAG";
+
+/* Staff geometry */
+const staff = {
+  left: 55,
+  right: 680,
+  topLineY: 102,
+  gap: 26,
+  lineThickness: 3
+};
+
+/* Composition items */
+let composition = []; // {id,type,...}
+let idCounter = 0;
+
+/* Drag state for clef */
+const drag = { active:false, id:null, dx:0, dy:0, pointerId:null };
+
+/* ================== CLEF SYSTEM ================== */
+let currentClef = "treble";
+const CLEF_BASE = {
+  treble: { baseLetterIndex: 2, baseOctave: 4 }, // bottom line E4
+  bass:   { baseLetterIndex: 4, baseOctave: 2 }  // bottom line G2
+};
+
+// Font-free clef icons (simple stylized)
+const CLEF_ICON = {
+  treble: {
+    scaleDefault: 0.92,
+    paths: [
+      { d:"M32 6 C20 6 14 16 18 26 C22 36 40 34 38 22 C36 8 14 10 10 30 C5 56 26 70 36 84 C50 104 44 132 26 134 C14 136 10 126 14 118 C20 108 36 112 30 124 C26 134 10 132 8 120", w:5 },
+      { d:"M30 14 L30 138", w:4 }
+    ]
+  },
+  bass: {
+    scaleDefault: 0.76,
+    paths: [
+      { d:"M20 18 C8 28 10 56 34 60 C58 64 72 44 64 28 C56 12 36 10 28 22 C20 32 26 44 40 44", w:6 }
+    ],
+    dots: [{cx:62, cy:30, r:4.5}, {cx:62, cy:48, r:4.5}]
+  }
+};
+
+function setClef(clef){
+  currentClef = (clef === "bass") ? "bass" : "treble";
+  clefLabelEl.textContent = currentClef === "bass" ? "Bass" : "Treble";
+  recomputeNotesForClef();
+}
+
+function recomputeNotesForClef(){
+  composition.forEach(it=>{
+    if(it.type === "note"){
+      const out = diatonicToMidi(it.stepsUp, it.accidental || 0);
+      it.midi = out.midi;
+      it.name = out.name;
+    }
+  });
+}
+
+function getClefItem(){
+  return composition.find(i => i.type === "clef") || null;
+}
+
+function clamp(v,min,max){ return Math.max(min, Math.min(max, v)); }
+
+/* ================== HELPERS ================== */
+function getAccent(){
+  const a = getComputedStyle(document.documentElement).getPropertyValue("--accent") || "#6f5aa7";
+  return a.trim();
+}
+function svgEl(name){ return document.createElementNS("http://www.w3.org/2000/svg", name); }
+function showOut(txt){ lsOut.textContent = txt; }
+
+function clientToSvg(clientX, clientY){
+  const rect = staffSVG.getBoundingClientRect();
+  const sx = (clientX - rect.left) * (700 / rect.width);
+  const sy = (clientY - rect.top) * (340 / rect.height);
+  return {x:sx, y:sy};
+}
+
+function snapYToStaff(y){
+  const bottomLineY = staff.topLineY + 4*staff.gap;
+  const stepSize = staff.gap / 2;
+  const stepsUp = Math.round((bottomLineY - y) / stepSize);
+  const snappedY = bottomLineY - stepsUp * stepSize;
+  return {snappedY, stepsUp};
+}
+
+/* UPDATED mapping depends on currentClef */
+function diatonicToMidi(stepsUp, accidental=0){
+  const letters = ["C","D","E","F","G","A","B"];
+  const base = CLEF_BASE[currentClef] || CLEF_BASE.treble;
+
+  const idxRaw = base.baseLetterIndex + stepsUp;
+
+  const floorDiv = (n,d)=> Math.floor(n/d);
+  let octShift = floorDiv(idxRaw, 7);
+  let letterIndex = idxRaw - octShift*7;
+  if(letterIndex < 0){ letterIndex += 7; octShift -= 1; }
+
+  const octave = base.baseOctave + octShift;
+  const semis = {C:0,D:2,E:4,F:5,G:7,A:9,B:11}[letters[letterIndex]];
+  const midi = 12*(octave+1) + semis + accidental;
+  const name = letters[letterIndex] + octave;
+  return { midi, name };
+}
+
+function accidentalFromSymbol(sym){
+  if(sym === "mark_sharp") return 1;
+  if(sym === "mark_flat") return -1;
+  return 0;
+}
+function durationFromKind(kind){
+  if(kind === "note_whole") return 4;
+  if(kind === "note_half") return 2;
+  if(kind === "note_eighth") return 0.5;
+  return 1;
+}
+function isNoteKind(kind){ return kind.startsWith("note_"); }
+function isRestKind(kind){ return kind.startsWith("rest_"); }
+
+/* ================== BUILD STAFF ================== */
+let gLines, gSymbols, gOverlay;
+
+function rebuildStaff(){
+  staffSVG.innerHTML = "";
+  gLines = svgEl("g");
+  gSymbols = svgEl("g");
+  gOverlay = svgEl("g");
+  staffSVG.appendChild(gLines);
+  staffSVG.appendChild(gSymbols);
+  staffSVG.appendChild(gOverlay);
+
+  // 5 staff lines
+  for(let i=0;i<5;i++){
+    const y = staff.topLineY + i*staff.gap;
+    const r = svgEl("rect");
+    r.setAttribute("x", staff.left);
+    r.setAttribute("y", y);
+    r.setAttribute("width", staff.right - staff.left);
+    r.setAttribute("height", staff.lineThickness);
+    r.setAttribute("fill", getAccent());
+    r.setAttribute("rx","2");
+    gLines.appendChild(r);
+  }
+
+  // click zone
+  const zone = svgEl("rect");
+  zone.setAttribute("x", staff.left);
+  zone.setAttribute("y", staff.topLineY - staff.gap*2);
+  zone.setAttribute("width", staff.right - staff.left);
+  zone.setAttribute("height", staff.gap*8);
+  zone.setAttribute("fill", "transparent");
+  zone.classList.add("hit");
+  gOverlay.appendChild(zone);
+
+  redrawSymbols();
+}
+rebuildStaff();
+
+themeSelect.addEventListener('change', ()=>{
+  applyTheme(themeSelect.value);
+  rebuildStaff(); // refresh line colors + redraw
+});
+
+/* ================== AUDIO (WebAudio + limiter) ================== */
+let audioCtx=null, masterGainNode=null, limiter=null;
+
+function ensureAudio(){
+  if(!audioCtx){
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if(!Ctx){ alert("Web Audio not supported."); return null; }
+    audioCtx = new Ctx();
+
+    masterGainNode = audioCtx.createGain();
+    masterGainNode.gain.value = Number(masterVol.value || 0.35);
+
+    limiter = audioCtx.createDynamicsCompressor();
+    limiter.threshold.value = -12;
+    limiter.knee.value = 0;
+    limiter.ratio.value = 12;
+    limiter.attack.value = 0.002;
+    limiter.release.value = 0.10;
+
+    masterGainNode.connect(limiter);
+    limiter.connect(audioCtx.destination);
+  }
+  if(audioCtx.state === "suspended"){ audioCtx.resume().catch(()=>{}); }
+  return audioCtx;
+}
+window.addEventListener("pointerdown", ()=>ensureAudio(), {once:true});
+
+function setMasterVol(){
+  const v = Number(masterVol.value || 0.35);
+  volLabel.textContent = Math.round(v*100) + "%";
+  if(masterGainNode && audioCtx){
+    masterGainNode.gain.setValueAtTime(v, audioCtx.currentTime);
+  }
+}
+masterVol.addEventListener("input", setMasterVol);
+setMasterVol();
+
+function noteToFrequency(midi){ return 440 * Math.pow(2, (midi-69)/12); }
+
+function playPiano(midi, when, dur, vel=0.9){
+  const ctx = ensureAudio(); if(!ctx) return;
+  const freq = noteToFrequency(midi);
+
+  const oscA = ctx.createOscillator();
+  const oscB = ctx.createOscillator();
+  oscA.type = "triangle";
+  oscB.type = "sine";
+  oscA.frequency.value = freq;
+  oscB.frequency.value = freq * 2;
+
+  const filter = ctx.createBiquadFilter();
+  filter.type = "lowpass";
+  filter.frequency.value = 5200;
+  filter.Q.value = 0.7;
+
+  const g = ctx.createGain();
+  g.gain.setValueAtTime(0.0001, when);
+
+  const peak = 0.18 * vel;
+  g.gain.exponentialRampToValueAtTime(peak, when + 0.012);
+  g.gain.exponentialRampToValueAtTime(Math.max(0.0001, peak*0.35), when + 0.12);
+  g.gain.exponentialRampToValueAtTime(0.0001, when + dur);
+
+  oscA.connect(filter);
+  oscB.connect(filter);
+  filter.connect(g);
+  g.connect(masterGainNode);
+
+  oscA.start(when); oscB.start(when);
+  oscA.stop(when + dur + 0.05);
+  oscB.stop(when + dur + 0.05);
+}
+
+function playGuitar(midi, when, dur, vel=0.9){
+  const ctx = ensureAudio(); if(!ctx) return;
+  const freq = noteToFrequency(midi);
+
+  const delay = ctx.createDelay();
+  delay.delayTime.value = 1 / Math.max(40, freq);
+
+  const feedback = ctx.createGain();
+  feedback.gain.value = 0.86;
+
+  const tone = ctx.createBiquadFilter();
+  tone.type = "lowpass";
+  tone.frequency.value = 3200;
+  tone.Q.value = 0.6;
+
+  const out = ctx.createGain();
+  out.gain.setValueAtTime(0.0001, when);
+
+  const peak = 0.22 * vel;
+  out.gain.exponentialRampToValueAtTime(peak, when + 0.008);
+  out.gain.exponentialRampToValueAtTime(Math.max(0.0001, peak*0.55), when + 0.08);
+  out.gain.exponentialRampToValueAtTime(0.0001, when + dur);
+
+  const len = Math.floor(ctx.sampleRate * 0.04);
+  const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+  const data = buf.getChannelData(0);
+  for(let i=0;i<len;i++) data[i] = (Math.random()*2-1) * (1 - i/len);
+  const src = ctx.createBufferSource();
+  src.buffer = buf;
+
+  src.connect(delay);
+  delay.connect(tone);
+  tone.connect(out);
+  out.connect(masterGainNode);
+
+  tone.connect(feedback);
+  feedback.connect(delay);
+
+  src.start(when);
+  src.stop(when + 0.05);
+}
+
+function playDrum(kind, when, vel=0.9){
+  const ctx = ensureAudio(); if(!ctx) return;
+
+  if(kind === "kick"){
+    const osc = ctx.createOscillator();
+    const g = ctx.createGain();
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(150, when);
+    osc.frequency.exponentialRampToValueAtTime(50, when + 0.08);
+
+    g.gain.setValueAtTime(0.0001, when);
+    g.gain.exponentialRampToValueAtTime(0.35*vel, when + 0.005);
+    g.gain.exponentialRampToValueAtTime(0.0001, when + 0.18);
+
+    osc.connect(g); g.connect(masterGainNode);
+    osc.start(when); osc.stop(when + 0.2);
+    return;
+  }
+
+  const len = Math.floor(ctx.sampleRate * 0.12);
+  const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+  const data = buf.getChannelData(0);
+  for(let i=0;i<len;i++) data[i] = (Math.random()*2-1);
+
+  const src = ctx.createBufferSource(); src.buffer = buf;
+
+  const filter = ctx.createBiquadFilter();
+  if(kind === "snare"){ filter.type="bandpass"; filter.frequency.value=1800; filter.Q.value=0.7; }
+  else { filter.type="highpass"; filter.frequency.value=5500; filter.Q.value=0.8; }
+
+  const g = ctx.createGain();
+  g.gain.setValueAtTime(0.0001, when);
+  g.gain.exponentialRampToValueAtTime((kind==="snare"?0.22:0.14)*vel, when + 0.004);
+  g.gain.exponentialRampToValueAtTime(0.0001, when + (kind==="snare"?0.12:0.06));
+
+  src.connect(filter); filter.connect(g); g.connect(masterGainNode);
+  src.start(when); src.stop(when + 0.13);
+}
+
+function stepsToDrumKind(stepsUp){
+  if(stepsUp >= 6) return "hat";
+  if(stepsUp >= 2) return "snare";
+  return "kick";
+}
+
+function playInstrument(midi, when, dur, vel=0.9, drumKind="snare"){
+  const inst = instrumentSelect.value;
+  if(inst === "drums") return playDrum(drumKind, when, vel);
+  if(inst === "guitar") return playGuitar(midi, when, dur, vel);
+  return playPiano(midi, when, dur, vel);
+}
+
+/* ================== RENDER SYMBOLS ================== */
+function redrawSymbols(){
+  gSymbols.innerHTML = "";
+
+  composition.forEach(item=>{
+    // --- CLEF (SVG icon), draggable + resizable ---
+    if(item.type === "clef"){
+      const cfg = CLEF_ICON[item.clef] || CLEF_ICON.treble;
+      const g = svgEl("g");
+      g.classList.add("clef-grab");
+      g.dataset.id = String(item.id);
+
+      const scale = (typeof item.scale === "number" ? item.scale : cfg.scaleDefault);
+      g.setAttribute("transform", `translate(${item.x},${item.y}) scale(${scale})`);
+      g.setAttribute("pointer-events", "all");
+
+      cfg.paths.forEach(p=>{
+        const path = svgEl("path");
+        path.setAttribute("d", p.d);
+        path.setAttribute("fill","none");
+        path.setAttribute("stroke","rgba(50,39,76,0.88)");
+        path.setAttribute("stroke-width", String(p.w));
+        path.setAttribute("stroke-linecap","round");
+        path.setAttribute("stroke-linejoin","round");
+        g.appendChild(path);
+      });
+
+      if(cfg.dots){
+        cfg.dots.forEach(d=>{
+          const c = svgEl("circle");
+          c.setAttribute("cx", d.cx);
+          c.setAttribute("cy", d.cy);
+          c.setAttribute("r", d.r);
+          c.setAttribute("fill","rgba(50,39,76,0.88)");
+          g.appendChild(c);
+        });
+      }
+
+      // drag handlers (re-attached on every redraw)
+      g.addEventListener("pointerdown", (e)=>{
+        e.stopPropagation();
+        e.preventDefault();
+        const p = clientToSvg(e.clientX, e.clientY);
+        drag.active = true;
+        drag.id = item.id;
+        drag.dx = p.x - item.x;
+        drag.dy = p.y - item.y;
+        drag.pointerId = e.pointerId;
+        try{ staffSVG.setPointerCapture(e.pointerId); }catch(err){}
+      });
+
+      // double click / double tap to grow
+      g.addEventListener("dblclick", (e)=>{
+        e.stopPropagation();
+        item.scale = clamp((item.scale || cfg.scaleDefault) * 1.18, 0.45, 1.85);
+        redrawSymbols(); saveComposition();
+        showOut("Clef size increased.");
+      });
+
+      gSymbols.appendChild(g);
+      return;
+    }
+
+    // --- BARLINE ---
+    if(item.type === "barline"){
+      const ln = svgEl("rect");
+      ln.setAttribute("x", item.x);
+      ln.setAttribute("y", staff.topLineY - 8);
+      ln.setAttribute("width", 3);
+      ln.setAttribute("height", staff.gap*4 + 16);
+      ln.setAttribute("fill", "rgba(50,39,76,0.55)");
+      gSymbols.appendChild(ln);
+      return;
+    }
+
+    // --- MARKS ---
+    if(item.type === "mark"){
+      const t = svgEl("text");
+      t.setAttribute("x", item.x);
+      t.setAttribute("y", item.y + 5);
+      t.setAttribute("fill", "rgba(50,39,76,0.85)");
+      t.setAttribute("font-size", "22");
+      t.setAttribute("font-weight", "800");
+      t.textContent = item.kind === "sharp" ? "♯" : item.kind === "flat" ? "♭" : "♮";
+      gSymbols.appendChild(t);
+      return;
+    }
+
+    // --- RESTS ---
+    if(item.type === "rest"){
+      if(item.restKind === "half"){
+        const y = staff.topLineY + 2*staff.gap - 3;
+        const r = svgEl("rect");
+        r.setAttribute("x", item.x - 10);
+        r.setAttribute("y", y);
+        r.setAttribute("width", 20);
+        r.setAttribute("height", 10);
+        r.setAttribute("rx", "2");
+        r.setAttribute("fill", "rgba(50,39,76,0.75)");
+        gSymbols.appendChild(r);
+      } else {
+        const p = svgEl("path");
+        const x = item.x, y = staff.topLineY + staff.gap*1.7;
+        p.setAttribute("d", `M ${x} ${y-24} L ${x+8} ${y-10} L ${x-6} ${y} L ${x+6} ${y+12} L ${x-6} ${y+24}`);
+        p.setAttribute("stroke","rgba(50,39,76,0.75)");
+        p.setAttribute("stroke-width","4");
+        p.setAttribute("fill","none");
+        p.setAttribute("stroke-linecap","round");
+        p.setAttribute("stroke-linejoin","round");
+        gSymbols.appendChild(p);
+      }
+      return;
+    }
+
+    // --- NOTES ---
+    if(item.type === "note"){
+      const isDrum = (instrumentSelect.value === "drums");
+      const filled = (item.noteKind === "quarter" || item.noteKind === "eighth");
+      const hasStem = (item.noteKind !== "whole");
+      const hasFlag = (item.noteKind === "eighth");
+
+      // ledger (light)
+      const topY = staff.topLineY;
+      const botY = staff.topLineY + 4*staff.gap;
+      const stepSize = staff.gap/2;
+      if(item.y < topY - stepSize || item.y > botY + stepSize){
+        const lr = svgEl("rect");
+        lr.setAttribute("x", item.x - 18);
+        lr.setAttribute("y", item.y - 1.5);
+        lr.setAttribute("width", 36);
+        lr.setAttribute("height", 3);
+        lr.setAttribute("fill", "rgba(50,39,76,0.35)");
+        gSymbols.appendChild(lr);
+      }
+
+      if(isDrum){
+        const x1 = svgEl("path");
+        const x = item.x, y = item.y;
+        x1.setAttribute("d", `M ${x-7} ${y-6} L ${x+7} ${y+6} M ${x+7} ${y-6} L ${x-7} ${y+6}`);
+        x1.setAttribute("stroke","rgba(50,39,76,0.9)");
+        x1.setAttribute("stroke-width","3");
+        x1.setAttribute("stroke-linecap","round");
+        gSymbols.appendChild(x1);
+      } else {
+        const head = svgEl("ellipse");
+        head.setAttribute("cx", item.x);
+        head.setAttribute("cy", item.y);
+        head.setAttribute("rx", 10);
+        head.setAttribute("ry", 7);
+        head.setAttribute("fill", filled ? "rgba(50,39,76,0.9)" : "rgba(255,255,255,0.0)");
+        head.setAttribute("stroke", "rgba(50,39,76,0.9)");
+        head.setAttribute("stroke-width", "2.2");
+        gSymbols.appendChild(head);
+      }
+
+      if(item.accidental){
+        const t = svgEl("text");
+        t.setAttribute("x", item.x - 22);
+        t.setAttribute("y", item.y + 6);
+        t.setAttribute("fill","rgba(50,39,76,0.9)");
+        t.setAttribute("font-size","20");
+        t.setAttribute("font-weight","900");
+        t.textContent = item.accidental === 1 ? "♯" : "♭";
+        gSymbols.appendChild(t);
+      }
+
+      if(hasStem){
+        const stemH = 46;
+        const stem = svgEl("rect");
+        const xStem = item.x + 8;
+        const yStem = item.y - stemH;
+        stem.setAttribute("x", xStem);
+        stem.setAttribute("y", yStem);
+        stem.setAttribute("width", 3);
+        stem.setAttribute("height", stemH);
+        stem.setAttribute("fill", "rgba(50,39,76,0.9)");
+        gSymbols.appendChild(stem);
+
+        if(hasFlag){
+          const flag = svgEl("path");
+          flag.setAttribute("d", `M ${xStem+3} ${yStem+8} C ${xStem+18} ${yStem+12}, ${xStem+18} ${yStem+30}, ${xStem+2} ${yStem+30}`);
+          flag.setAttribute("stroke","rgba(50,39,76,0.9)");
+          flag.setAttribute("stroke-width","3");
+          flag.setAttribute("fill","none");
+          flag.setAttribute("stroke-linecap","round");
+          gSymbols.appendChild(flag);
+        }
+      }
+
+      if(item.staccato){
+        const dot = svgEl("circle");
+        dot.setAttribute("cx", item.x + 18);
+        dot.setAttribute("cy", item.y - 14);
+        dot.setAttribute("r", 3.5);
+        dot.setAttribute("fill","rgba(50,39,76,0.9)");
+        gSymbols.appendChild(dot);
+      }
+
+      // learning label
+      if(document.getElementById("showLabels")?.checked){
+        const lbl = svgEl("text");
+        lbl.setAttribute("x", item.x - 14);
+        lbl.setAttribute("y", item.y - 14);
+        lbl.setAttribute("fill","rgba(50,39,76,0.6)");
+        lbl.setAttribute("font-size","12");
+        lbl.setAttribute("font-weight","800");
+        lbl.textContent = item.name;
+        gSymbols.appendChild(lbl);
+      }
+      return;
+    }
+  });
+
+  placedCount.textContent = composition.length;
+}
+
+/* ================== PLACE + EDIT ================== */
+function findNearestItem(x, y, radius=18){
+  let best=null, bestD=Infinity;
+  composition.forEach(it=>{
+    if(it.type === "barline"){
+      const d = Math.abs(it.x - x);
+      if(d < bestD && d <= radius){ best=it; bestD=d; }
+      return;
+    }
+    if(it.type === "clef"){
+      const dx = (it.x+25) - x;
+      const dy = (it.y+60) - y;
+      const d = Math.sqrt(dx*dx + dy*dy);
+      if(d < bestD && d <= 45){ best=it; bestD=d; }
+      return;
+    }
+    if(typeof it.x==="number" && typeof it.y==="number"){
+      const dx = it.x - x;
+      const dy = it.y - y;
+      const d = Math.sqrt(dx*dx + dy*dy);
+      if(d < bestD && d <= radius){ best=it; bestD=d; }
+    }
+  });
+  return best;
+}
+
+function placeSymbolAt(svgX, svgY){
+  const kind = symbolSelect.value;
+  const x = clamp(svgX, staff.left + 18, staff.right - 18);
+
+  const snap = snapYToStaff(svgY);
+  const y = snap.snappedY;
+  const stepsUp = snap.stepsUp;
+
+  if(kind === "eraser"){
+    const near = findNearestItem(x, y, 20);
+    if(near){
+      composition = composition.filter(i=>i.id !== near.id);
+      redrawSymbols(); saveComposition();
+      showOut("Erased.");
+    }
+    return;
+  }
+
+  if(kind === "mark_staccato"){
+    const near = findNearestItem(x, y, 26);
+    if(near && near.type === "note"){
+      near.staccato = !near.staccato;
+      redrawSymbols(); saveComposition();
+      previewItem(near);
+      showOut(`Staccato ${near.staccato ? "ON" : "OFF"} for ${near.name}.`);
+    } else {
+      showOut("Tap near a note to toggle staccato.");
+    }
+    return;
+  }
+
+  // Place clef (single on staff)
+  if(kind === "clef_treble" || kind === "clef_bass"){
+    const clef = (kind === "clef_bass") ? "bass" : "treble";
+    const cfg = CLEF_ICON[clef] || CLEF_ICON.treble;
+
+    // remove existing clef
+    composition = composition.filter(i => i.type !== "clef");
+
+    // default position
+    const cx = staff.left + 6;
+    const cy = clef === "bass"
+      ? (staff.topLineY + staff.gap*0.6)
+      : (staff.topLineY - staff.gap*1.35);
+
+    composition.push({
+      id: ++idCounter,
+      type:"clef",
+      clef,
+      x: cx,
+      y: cy,
+      scale: cfg.scaleDefault
+    });
+
+    setClef(clef);
+    redrawSymbols(); saveComposition();
+    showOut(`Placed ${clef === "bass" ? "Bass" : "Treble"} clef. Drag it to reposition.`);
+    return;
+  }
+
+  if(kind === "barline"){
+    composition.push({id:++idCounter, type:"barline", x, y:staff.topLineY});
+    redrawSymbols(); saveComposition();
+    showOut("Bar line placed.");
+    return;
+  }
+
+  if(kind === "mark_sharp" || kind === "mark_flat" || kind === "mark_natural"){
+    const acc = accidentalFromSymbol(kind);
+    const out = diatonicToMidi(stepsUp, acc);
+    composition.push({
+      id:++idCounter, type:"mark", x, y,
+      kind: (kind==="mark_sharp"?"sharp":kind==="mark_flat"?"flat":"natural"),
+      stepsUp
+    });
+    redrawSymbols(); saveComposition();
+    // audio reaction
+    const ctx = ensureAudio(); if(ctx){
+      if(instrumentSelect.value === "drums"){
+        playDrum(stepsToDrumKind(stepsUp), ctx.currentTime, 0.9);
+      } else {
+        playInstrument(out.midi, ctx.currentTime, 0.35, 0.9);
+      }
+    }
+    showOut(`Placed ${kind.replace("mark_","")} at ${out.name}${acc===1?"♯":acc===-1?"♭":""}.`);
+    return;
+  }
+
+  if(isRestKind(kind)){
+    const isHalf = (kind === "rest_half");
+    composition.push({
+      id:++idCounter, type:"rest",
+      x, y,
+      restKind: isHalf ? "half" : "quarter",
+      beats: isHalf ? 2 : 1
+    });
+    redrawSymbols(); saveComposition();
+    showOut(`Placed ${isHalf ? "half" : "quarter"} rest.`);
+    return;
+  }
+
+  if(isNoteKind(kind)){
+    const accidental = 0;
+    const out = diatonicToMidi(stepsUp, accidental);
+    const noteKind = kind.replace("note_","");
+    const beats = durationFromKind(kind);
+
+    const item = {
+      id:++idCounter, type:"note",
+      x, y, stepsUp,
+      midi: out.midi, name: out.name,
+      noteKind, beats,
+      accidental,
+      staccato:false
+    };
+    composition.push(item);
+    redrawSymbols(); saveComposition();
+    previewItem(item);
+    showOut(`Placed ${noteKind} note: ${out.name} (${currentClef}).`);
+    return;
+  }
+}
+
+function previewItem(item){
+  const ctx = ensureAudio(); if(!ctx) return;
+  const bpm = Number(tempo.value || 96);
+  const beatSec = 60 / bpm;
+  let dur = (item.beats || 1) * beatSec * 0.92;
+  if(item.staccato) dur *= 0.35;
+  const drumKind = stepsToDrumKind(item.stepsUp ?? 0);
+  playInstrument(item.midi ?? 60, ctx.currentTime, dur, 0.9, drumKind);
+}
+
+/* ================== DRAG CLEF (tap-and-drag) ================== */
+function onDragMove(clientX, clientY){
+  if(!drag.active) return;
+  const it = composition.find(i => i.id === drag.id && i.type === "clef");
+  if(!it) return;
+
+  const p = clientToSvg(clientX, clientY);
+  let nx = p.x - drag.dx;
+  let ny = p.y - drag.dy;
+
+  // clamp within a reasonable staff region
+  nx = clamp(nx, staff.left - 10, staff.right - 70);
+  ny = clamp(ny, staff.topLineY - staff.gap*3.0, staff.topLineY + staff.gap*4.2);
+
+  it.x = nx;
+  it.y = ny;
+
+  redrawSymbols();
+}
+
+staffSVG.addEventListener("pointermove", (e)=>{
+  if(!drag.active) return;
+  e.preventDefault();
+  onDragMove(e.clientX, e.clientY);
+});
+
+staffSVG.addEventListener("pointerup", (e)=>{
+  if(!drag.active) return;
+  drag.active = false;
+  try{ staffSVG.releasePointerCapture(drag.pointerId); }catch(err){}
+  drag.pointerId = null;
+  saveComposition();
+  showOut("Clef moved.");
+});
+
+staffSVG.addEventListener("pointercancel", ()=>{
+  if(!drag.active) return;
+  drag.active = false;
+  try{ staffSVG.releasePointerCapture(drag.pointerId); }catch(err){}
+  drag.pointerId = null;
+  saveComposition();
+});
+
+/* ================== TRACING + SOUND BRUSH ================== */
+function hexToRgba(hex,alpha){
+  if(!/^#/.test(hex)) return `rgba(80,60,140,${alpha})`;
+  let c = hex.replace('#','');
+  if(c.length===3) c = c.split('').map(ch=>ch+ch).join('');
+  const r = parseInt(c.substr(0,2),16), g = parseInt(c.substr(2,2),16), b = parseInt(c.substr(4,2),16);
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+function createInkAt(clientX, clientY){
+  const rect = staffWrap.getBoundingClientRect();
+  const x = clientX - rect.left;
+  const y = clientY - rect.top;
+  if(x<0||y<0||x>rect.width||y>rect.height) return;
+  const el = document.createElement('div');
+  el.className = 'ink';
+  el.style.left = (rect.left + x) + 'px';
+  el.style.top = (rect.top + y) + 'px';
+  el.style.background = hexToRgba(getAccent(), 0.14);
+  document.body.appendChild(el);
+  setTimeout(()=> el.remove(), 1900);
+}
+function createRippleAt(clientX, clientY){
+  const r = document.createElement('div');
+  r.className='ripple';
+  r.style.left = clientX+'px';
+  r.style.top = clientY+'px';
+  document.body.appendChild(r);
+  setTimeout(()=> r.remove(), 720);
+}
+function brushSoundAt(clientX, clientY){
+  const now = performance.now();
+  if(now - lastBrushAt < 90) return;
+  lastBrushAt = now;
+
+  const p = clientToSvg(clientX, clientY);
+  const snap = snapYToStaff(p.y);
+  const out = diatonicToMidi(snap.stepsUp, 0);
+  const ctx = ensureAudio(); if(!ctx) return;
+
+  playInstrument(out.midi, ctx.currentTime, 0.12, 0.45, stepsToDrumKind(snap.stepsUp));
+}
+
+/* Pointer placing/tracing */
+staffWrap.addEventListener('pointerdown', (e)=>{
+  pointerDown = true;
+  staffWrap.setPointerCapture?.(e.pointerId);
+
+  // if clef drag is active, don't place symbols
+  if(drag.active) return;
+
+  const p = clientToSvg(e.clientX, e.clientY);
+
+  if(tracing){
+    createInkAt(e.clientX, e.clientY);
+    if(soundBrush) brushSoundAt(e.clientX, e.clientY);
+    return;
+  }
+
+  placeSymbolAt(p.x, p.y);
+  createRippleAt(e.clientX, e.clientY);
+});
+staffWrap.addEventListener('pointermove', (e)=>{
+  if(!pointerDown) return;
+  if(drag.active) return;
+  if(!tracing) return;
+  createInkAt(e.clientX, e.clientY);
+  if(soundBrush) brushSoundAt(e.clientX, e.clientY);
+});
+staffWrap.addEventListener('pointerup', (e)=>{
+  pointerDown = false;
+  try{ staffWrap.releasePointerCapture(e.pointerId); }catch(err){}
+});
+staffWrap.addEventListener('pointercancel', ()=> pointerDown=false);
+
+/* Controls */
+traceToggle.addEventListener('click', ()=>{
+  tracing = !tracing;
+  traceToggle.textContent = tracing ? 'Tracing: ON' : 'Tracing: OFF';
+  traceToggle.classList.toggle('btn-primary', tracing);
+  showOut(tracing ? "Tracing enabled. Drag to draw." : "Tracing off. Tap to place symbols.");
+});
+soundBrushToggle.addEventListener('click', ()=>{
+  soundBrush = !soundBrush;
+  soundBrushToggle.textContent = soundBrush ? 'Sound Brush: ON' : 'Sound Brush: OFF';
+  soundBrushToggle.classList.toggle('btn-primary', soundBrush);
+  showOut(soundBrush ? "Sound brush ON (gliss while tracing)." : "Sound brush OFF.");
+});
+tempo.addEventListener('input', ()=> tempoLabel.textContent = `${tempo.value} bpm`);
+tempoLabel.textContent = `${tempo.value} bpm`;
+
+undoBtn.addEventListener('click', ()=>{
+  const last = composition.pop();
+  if(last){
+    redrawSymbols(); saveComposition();
+    showOut("Undo.");
+  }
+});
+clearBtn.addEventListener('click', ()=>{
+  composition = [];
+  redrawSymbols(); saveComposition();
+  showOut("Cleared.");
+});
+
+/* ================== CLEF RESIZE CONTROLS ================== */
+function adjustClefScale(mult){
+  const clef = getClefItem();
+  if(!clef){
+    showOut("Place a clef first (Treble or Bass).");
+    return;
+  }
+  const cfg = CLEF_ICON[clef.clef] || CLEF_ICON.treble;
+  clef.scale = clamp((clef.scale ?? cfg.scaleDefault) * mult, 0.45, 1.85);
+  redrawSymbols(); saveComposition();
+  showOut(`Clef size: ${Math.round(clef.scale*100)}%`);
+}
+clefSmaller.addEventListener("click", ()=>adjustClefScale(0.90));
+clefBigger.addEventListener("click",  ()=>adjustClefScale(1.10));
+
+/* ================== PLAYBACK ================== */
+function stopPlayback(){
+  isPlaying = false;
+  playTimerIds.forEach(id=>clearTimeout(id));
+  playTimerIds = [];
+  showOut("Stopped.");
+}
+stopBtn.addEventListener('click', stopPlayback);
+
+playBtn.addEventListener('click', ()=>{
+  if(isPlaying) return;
+  playComposition();
+});
+
+function playComposition(){
+  const ctx = ensureAudio(); if(!ctx) return;
+  if(!composition.length){
+    showOut("Nothing to play yet — place some notes!");
+    return;
+  }
+  stopPlayback();
+  isPlaying = true;
+
+  const items = composition
+    .filter(i=> i.type==="note" || i.type==="rest")
+    .slice()
+    .sort((a,b)=>a.x - b.x);
+
+  const bpm = Number(tempo.value || 96);
+  const beatSec = 60 / bpm;
+
+  let t = ctx.currentTime + 0.02;
+
+  items.forEach((it)=>{
+    const beats = it.beats || 1;
+    const dur = beats * beatSec;
+
+    if(it.type === "note"){
+      let d = dur * 0.92;
+      if(it.staccato) d *= 0.35;
+      playInstrument(it.midi, t, d, 0.9, stepsToDrumKind(it.stepsUp ?? 0));
+    }
+    t += dur;
+  });
+
+  const totalMs = Math.round((t - ctx.currentTime) * 1000) + 40;
+  playTimerIds.push(setTimeout(()=>{
+    if(isPlaying){
+      isPlaying = false;
+      showOut("Playback finished.");
+    }
+  }, totalMs));
+
+  showOut("Playing…");
+}
+
+/* ================== NARRATION + LESSON FLOW ================== */
+speakBtn.addEventListener('click', ()=>{
+  speakText("Choose a clef, then place notes on lines and spaces. Drag the clef to reposition. Press play to hear your score.");
+});
+function speakText(text){
+  if('speechSynthesis' in window){
+    const u = new SpeechSynthesisUtterance(text);
+    u.rate = 1.02; u.pitch = 1.05;
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(u);
+  }
+}
+
+function setProgress(){
+  const total = 4;
+  progressText.textContent = `Step ${step} of ${total}`;
+}
+setProgress();
+
+function showWelcome(){
+  moduleEl.innerHTML = `
+    <h2>Welcome</h2>
+    <p>Start by placing a <b>Treble</b> clef. Then place 4 quarter notes across the staff and press <b>Play</b>.</p>
+    <p><b>Tip:</b> Double-click / double-tap the clef to grow it quickly.</p>
+  `;
+}
+function showBasics(){
+  moduleEl.innerHTML = `
+    <h2>Staff Basics</h2>
+    <p>Each line/space is the next letter name. Clef changes the pitch mapping (Treble vs Bass).</p>
+    <div class="quiz">
+      <div class="quiz-q">Treble staff spaces spell:</div>
+      <div class="choices">
+        <button onclick="grade(this,false)">EGBDF</button>
+        <button onclick="grade(this,true)">FACE</button>
+        <button onclick="grade(this,false)">ACEG</button>
+      </div>
+      <div id="miniScore" class="mono" style="margin-top:10px;font-weight:900"></div>
+    </div>
+  `;
+  window.__mini = {a:0,s:0};
+  window.grade = function(btn, ok){
+    if(btn.classList.contains("correct")||btn.classList.contains("incorrect")) return;
+    btn.classList.add(ok?"correct":"incorrect");
+    window.__mini.a++;
+    if(ok) window.__mini.s++;
+    document.getElementById("miniScore").textContent = `Score: ${window.__mini.s}/${window.__mini.a}`;
+  };
+}
+function showSymbolsLesson(){
+  moduleEl.innerHTML = `
+    <h2>Symbols</h2>
+    <ul>
+      <li><b>Notes</b> change duration (whole/half/quarter/eighth).</li>
+      <li><b>Rests</b> are timed silence.</li>
+      <li><b>♯/♭</b> shift pitch.</li>
+      <li><b>Staccato</b> makes notes short and detached.</li>
+    </ul>
+  `;
+}
+function showInstrumentLesson(){
+  moduleEl.innerHTML = `
+    <h2>Compare Instruments</h2>
+    <p>Switch the instrument and replay the same notes. Drums map high placement to hat and low placement to kick.</p>
+  `;
+}
+
+function nextStep(){
+  step++;
+  if(step===1){ showWelcome(); beginBtn.textContent="Next"; }
+  else if(step===2){ showBasics(); }
+  else if(step===3){ showSymbolsLesson(); }
+  else if(step===4){ showInstrumentLesson(); beginBtn.textContent="Restart"; }
+  else { step=0; showWelcome(); beginBtn.textContent="Begin Class"; }
+  setProgress();
+}
+beginBtn.addEventListener("click", nextStep);
+showWelcome();
+
+/* ================== LABEL TOGGLE ================== */
+(function injectLabelToggle(){
+  const c = document.querySelector(".controls");
+  const wrap = document.createElement("div");
+  wrap.style.display="inline-flex";
+  wrap.style.alignItems="center";
+  wrap.style.gap="6px";
+  wrap.innerHTML = `
+    <label for="showLabels" style="font-size:.92rem;color:rgba(50,39,76,0.75)">Labels</label>
+    <input id="showLabels" type="checkbox" checked style="width:18px;height:18px;cursor:pointer;accent-color:${getAccent()}">
+  `;
+  c.appendChild(wrap);
+  wrap.querySelector("#showLabels").addEventListener("change", ()=>redrawSymbols());
+})();
+
+/* ================== SAVE / LOAD ================== */
+function saveComposition(){
+  try{
+    const payload = { idCounter, composition, currentClef };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+    saveState.textContent = "yes";
+  }catch(e){
+    saveState.textContent = "no";
+  }
+}
+function loadComposition(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return;
+    const payload = JSON.parse(raw);
+    if(payload && Array.isArray(payload.composition)){
+      composition = payload.composition;
+      idCounter = payload.idCounter || 0;
+      if(payload.currentClef) setClef(payload.currentClef);
+      redrawSymbols();
+      saveState.textContent = "yes";
+    }
+  }catch(e){}
+}
+loadComposition();
+
+/* ================== QUICK SHORTCUTS ================== */
+document.addEventListener("keydown", (e)=>{
+  if(e.key === " "){
+    tracing = !tracing;
+    traceToggle.textContent = tracing ? 'Tracing: ON' : 'Tracing: OFF';
+    traceToggle.classList.toggle('btn-primary', tracing);
+    e.preventDefault();
+  }
+  if(e.key.toLowerCase() === "p") playComposition();
+  if(e.key.toLowerCase() === "s") stopPlayback();
+});
+
+/* Prevent text selection while interacting */
+staffWrap.addEventListener('mousedown', (e)=> e.preventDefault());
+
+/* Final */
+redrawSymbols();
+showOut("Ready. Place a Treble or Bass clef, then start writing notes.");
+</script>
+</body>
+</html>
