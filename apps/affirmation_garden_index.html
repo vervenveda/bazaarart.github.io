@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Affirmation Garden</title>
+
+<style>
+:root{
+  --bg-a:#f9f7f4;
+  --bg-b:#efeae4;
+  --card:#ffffffcc;
+  --ink:#2f2a25;
+  --muted:#7a6f65;
+  --accent:#9b8be5;
+  --accent-soft:#e6e1ff;
+  --radius:22px;
+  --shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,Montserrat,sans-serif;
+  background:linear-gradient(180deg,var(--bg-a),var(--bg-b));
+  color:var(--ink);
+}
+
+.affirmation-wrap{
+  max-width:720px;
+  margin:24px auto;
+  padding:16px;
+}
+
+.affirmation-card{
+  background:var(--card);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:26px 22px 22px;
+  text-align:center;
+}
+
+.affirmation-title{
+  font-size:13px;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:10px;
+}
+
+.affirmation-text{
+  font-size:22px;
+  line-height:1.45;
+  font-weight:500;
+  margin:18px 0 16px;
+}
+
+.affirmation-reflection{
+  font-size:14px;
+  color:var(--muted);
+  margin-top:6px;
+}
+
+.affirmation-actions{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin-top:18px;
+  flex-wrap:wrap;
+}
+
+.affirmation-actions button{
+  background:linear-gradient(120deg,var(--accent),var(--accent-soft));
+  border:none;
+  border-radius:14px;
+  padding:10px 16px;
+  font-size:14px;
+  font-weight:600;
+  color:white;
+  cursor:pointer;
+  transition:transform .15s, box-shadow .15s;
+  box-shadow:0 6px 16px rgba(0,0,0,0.12);
+}
+
+.affirmation-actions button.secondary{
+  background:transparent;
+  color:var(--ink);
+  border:1px solid rgba(0,0,0,0.08);
+  box-shadow:none;
+}
+
+.affirmation-actions button:active{
+  transform:scale(0.96);
+}
+
+.saved-note{
+  margin-top:12px;
+  font-size:13px;
+  color:var(--muted);
+}
+
+@media(max-width:480px){
+  .affirmation-text{font-size:20px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="affirmation-wrap">
+  <div class="affirmation-card">
+    <div class="affirmation-title">Affirmation Garden</div>
+
+    <div id="affirmationText" class="affirmation-text"></div>
+    <div id="affirmationReflection" class="affirmation-reflection"></div>
+
+    <div class="affirmation-actions">
+      <button id="newAffirmation">New Affirmation</button>
+      <button id="saveAffirmation" class="secondary">Save This One</button>
+    </div>
+
+    <div id="savedNote" class="saved-note"></div>
+  </div>
+</div>
+
+<script>
+/* =========================
+   Sovereign Affirmation App
+   Local-storage only
+   ========================= */
+
+const affirmations = [
+  "I am becoming a man I respect.",
+  "I move forward with quiet confidence.",
+  "I trust myself to learn as I go.",
+  "I do not need to rush my becoming.",
+  "I am strong in both mind and body.",
+  "I take responsibility for my choices.",
+  "I am learning discipline and self-control.",
+  "I honor my values even when it is difficult.",
+  "I am capable of standing on my own.",
+  "I am allowed to grow at my own pace.",
+  "I build confidence through consistency.",
+  "I choose integrity over approval.",
+  "I am learning what matters to me.",
+  "I am becoming dependable.",
+  "I respect my time and energy.",
+  "I am learning patience.",
+  "I am capable of leadership.",
+  "I take pride in doing things well.",
+  "I am learning from every experience.",
+  "I respect myself enough to make good choices.",
+  "I am becoming resilient.",
+  "I trust my ability to adapt.",
+  "I am learning how to manage pressure.",
+  "I am building a strong foundation.",
+  "I am steady even when uncertain.",
+  "I value progress over perfection.",
+  "I am learning emotional strength.",
+  "I take ownership of my future.",
+  "I am allowed to ask questions.",
+  "I am learning when to act and when to wait.",
+  "I am capable of discipline.",
+  "I honor my commitments.",
+  "I am growing into responsibility.",
+  "I choose focus over distraction.",
+  "I am becoming grounded.",
+  "I trust the process of growth.",
+  "I am learning self-respect.",
+  "I am capable of providing for myself.",
+  "I am becoming confident through action.",
+  "I do not need to prove myself.",
+  "I respect my body and mind.",
+  "I am learning restraint.",
+  "I move with intention.",
+  "I am becoming strong quietly.",
+  "I trust myself to make wise decisions.",
+  "I am allowed to take my time becoming skilled.",
+  "I am learning clarity.",
+  "I am building inner strength.",
+  "I am becoming the man I am meant to be.",
+	"I am allowed to build a life that fits my values.",
+  "I trust myself to make wise decisions over time.",
+  "My creativity is a form of service.",
+  "I can be both nurturing and ambitious.",
+  "I am learning how to lead with integrity.",
+  "My work has meaning because I bring meaning to it.",
+  "I am capable of providing and protecting.",
+  "I honor my intuition alongside my intellect.",
+  "I am allowed to grow slowly and still succeed.",
+  "I am creating something lasting, not rushed.",
+  "My family is strengthened by my presence.",
+  "I model courage simply by showing up.",
+  "I am becoming a man I respect.",
+  "I am allowed to change my mind as I grow.",
+  "I build with care, not fear.",
+  "My family benefits from my self-trust.",
+  "I am worthy of rest and renewal.",
+  "I can hold responsibility.",
+  "I am learning how to balance love and structure.",
+  "My voice belongs in the world.",
+  "I am capable of sustaining what I create.",
+  "I lead by example, not by force.",
+  "My work does not have to cost me my peace.",
+  "I am allowed to succeed in my own way.",
+  "I trust my timing.",
+  "I am teaching my friends and family resilience by living it.",
+  "I am allowed to receive support.",
+  "My effort matters, even when unseen.",
+  "I am growing into financial wisdom.",
+  "I am building something honest.",
+  "I do not have to prove my worth.",
+  "My home and my work can coexist.",
+  "I choose alignment over pressure.",
+  "I am learning how to steward my energy.",
+  "I am capable of creating stability.",
+  "I honor the seasons of my life.",
+  "I am becoming more confident with practice.",
+  "My manhood informs my leadership.",
+  "I am allowed to be proud of myself.",
+  "I build with patience and foresight.",
+  "I trust the lessons I am learning.",
+  "I am allowed to pause and recalibrate.",
+  "My family witnesses strength in my honesty.",
+  "I am allowed to succeed without burnout.",
+  "I am learning how to receive abundance responsibly.",
+  "I am not behind.",
+  "I am shaping a future with intention.",
+  "I trust myself to adapt.",
+  "I am creating a legacy of integrity.",
+  "I am becoming who I need to be.",
+"You are allowed to move at your own pace.",
+  "You are becoming more yourself every day.",
+  "Nothing about you needs to be fixed.",
+  "You are safe to rest here.",
+  "Your presence is enough.",
+  "You are learning how to trust your own timing.",
+  "You carry more wisdom than you realize.",
+  "You do not need permission to rest.",
+  "You are worthy of love.",
+  "Your voice matters, even when it is quiet.",
+  "You are not behind — you are unfolding.",
+  "It is okay to take up space as you are.",
+  "You are held, even when you feel unsure.",
+  "You are allowed to choose peace.",
+  "Your life does not need to look like anyone else’s."
+];
+
+const reflections = [
+  "You don’t have to have everything figured out.",
+  "This moment is part of your foundation.",
+  "Strength grows through patience.",
+  "You are allowed to take your time.",
+  "Confidence is built, not rushed.",
+  "This is how steadiness forms.",
+  "You are learning through experience.",
+  "There is no need to impress anyone here.",
+  "Growth happens quietly.",
+  "You are becoming capable.",
+  "Let this settle without pressure.",
+  "You are allowed to be thoughtful.",
+  "Discipline becomes freedom.",
+  "You are building something real.",
+  "This is part of your training.",
+  "Trust the long path.",
+  "You are learning discernment.",
+  "Not knowing yet is not failure.",
+  "You are allowed to pause.",
+  "Strength does not need to announce itself.",
+  "You are becoming dependable.",
+  "This moment matters.",
+  "Let consistency do the work.",
+  "You are learning responsibility.",
+  "Your effort counts.",
+  "You are building confidence through repetition.",
+  "This is enough for today.",
+  "You are allowed to grow privately.",
+  "Patience is strength.",
+  "You are learning when to move and when to wait.",
+  "You are becoming grounded.",
+  "There is wisdom in restraint.",
+  "You are developing judgment.",
+  "Trust what you are learning.",
+  "You are allowed to mature naturally.",
+  "This is how character forms.",
+  "You are steady.",
+  "Let this anchor you.",
+  "You are learning focus.",
+  "You are becoming resilient.",
+  "This moment belongs to you.",
+  "You don’t need shortcuts.",
+  "Growth takes time.",
+  "You are allowed to learn slowly.",
+  "This is part of becoming.",
+  "You are building inner strength.",
+  "Stay present.",
+  "You are capable of patience.",
+  "Let this guide you forward.",
+  "You are becoming.",
+  "Let this land softly.",
+  "You don’t need to do anything else right now.",
+  "Take a breath and notice how this feels.",
+  "Carry this with you gently.",
+  "There is no rush.",
+  "Stay here for a moment if you’d like.",
+  "Let this land softly.",
+  "You don’t need to do anything else right now.",
+  "Carry this gently into the day.",
+  "There is no rush to become.",
+  "Breathe and allow this to settle.",
+  "You are allowed to move slowly.",
+  "Trust that this is unfolding.",
+  "Stay here for a moment.",
+  "You are doing enough today.",
+  "Let this be a quiet truth.",
+  "You can return to this whenever you need.",
+  "Nothing else is required right now.",
+  "Feel where this rests in your body.",
+  "You are supported, even when unseen.",
+  "This does not need explanation.",
+  "Hold this gently.",
+  "Allow yourself to receive this.",
+  "You are not late.",
+  "Rest in what is already true.",
+  "This can walk with you today.",
+  "Let this soften your shoulders.",
+  "You can trust this process.",
+  "There is room for you here.",
+  "You don’t need to carry everything at once.",
+  "Take one easy breath.",
+  "This is enough for now.",
+  "Let this guide, not push.",
+  "You are allowed to take breaks.",
+  "Stay present with what is.",
+  "You can come back to this later.",
+  "There is wisdom in your pace.",
+  "Let go of the need to measure.",
+  "This moment is complete.",
+  "Allow this to integrate naturally.",
+  "You are not alone in this.",
+  "This belongs to you.",
+  "Nothing needs fixing.",
+  "Let this be a quiet anchor.",
+  "You are safe to continue slowly.",
+  "Feel the steadiness beneath you.",
+  "Trust yourself to remember this.",
+  "You can rest after this.",
+  "Let this follow you gently.",
+  "You are held by what you love.",
+  "This is part of your becoming.",
+  "Stay open, not strained.",
+  "Let this bring ease.",
+  "You are already enough here.",
+  "Allow gratitude to arise naturally.",
+  "When you’re ready, move forward softly."
+];
+
+const affirmationText = document.getElementById("affirmationText");
+const affirmationReflection = document.getElementById("affirmationReflection");
+const savedNote = document.getElementById("savedNote");
+
+function randomItem(arr){
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function showAffirmation(){
+  affirmationText.textContent = randomItem(affirmations);
+  affirmationReflection.textContent = randomItem(reflections);
+  savedNote.textContent = "";
+}
+
+document.getElementById("newAffirmation").onclick = showAffirmation;
+
+document.getElementById("saveAffirmation").onclick = () => {
+  const saved = JSON.parse(localStorage.getItem("saved_affirmations") || "[]");
+  saved.push({
+    text: affirmationText.textContent,
+    time: new Date().toISOString()
+  });
+  localStorage.setItem("saved_affirmations", JSON.stringify(saved));
+  savedNote.textContent = "Saved locally 🌿";
+};
+
+showAffirmation();
+</script>
+
+</body>
+</html>
