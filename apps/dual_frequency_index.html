@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Dual Frequency Binaural Tuner 🎧</title>
+<style>
+body{
+  font-family:'Poppins',sans-serif;
+  background:linear-gradient(135deg,#f7f7ff,#c4f5d3);
+  color:#333;text-align:center;margin:0;padding:40px;
+}
+.section{
+  background:white;border-radius:20px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.1);
+  display:inline-block;padding:30px;
+}
+button{
+  background:linear-gradient(90deg,#a0f7b5,#92f0ff);
+  border:none;border-radius:10px;padding:10px 20px;
+  margin:5px;font-size:16px;cursor:pointer;
+  transition:transform 0.2s,box-shadow 0.2s;
+}
+button:hover{transform:scale(1.05);box-shadow:0 3px 8px rgba(0,0,0,0.2);}
+label{font-weight:bold;}
+.range-wrap{margin:10px 0;}
+.voice{margin-top:15px;font-style:italic;color:#555;}
+</style>
+</head>
+<body>
+
+<div class="section" id="freq">
+  <h2>🎧 Dual Frequency & Binaural Tuner</h2>
+
+  <div>
+    <button onclick="preset(432,440,'432 Hz Healing Balance')">432 Hz Healing</button>
+    <button onclick="preset(528,536,'528 Hz Love Resonance')">528 Hz Love</button>
+    <button onclick="preset(639,647,'639 Hz Harmony Connection')">639 Hz Harmony</button>
+  </div>
+
+  <h3>Left Channel</h3>
+  <div class="range-wrap">
+    <label>Frequency (Hz): </label>
+    <input type="range" id="leftFreq" min="20" max="1000" value="440" oninput="updateLabel()">
+    <span id="leftVal">440</span>
+  </div>
+
+  <h3>Right Channel</h3>
+  <div class="range-wrap">
+    <label>Frequency (Hz): </label>
+    <input type="range" id="rightFreq" min="20" max="1000" value="444" oninput="updateLabel()">
+    <span id="rightVal">444</span>
+  </div>
+
+  <div style="margin-top:15px;">
+    <button onclick="playDual()">Play Dual</button>
+    <button onclick="stopTone()">Stop</button>
+    <button onclick="startRecording()">🎙️ Record</button>
+    <button onclick="stopRecording()">⏹️ Stop & Download</button>
+  </div>
+
+  <div class="voice" id="voiceLine">Ready to tune your frequency.</div>
+</div>
+
+<script>
+let ctx,oscL,oscR,gainL,gainR,dest,recorder,chunks=[];
+
+function setup(){
+  if(!ctx) ctx=new (window.AudioContext||window.webkitAudioContext)();
+}
+
+function preset(l,r,msg){
+  document.getElementById('leftFreq').value=l;
+  document.getElementById('rightFreq').value=r;
+  updateLabel();
+  playDual();
+  speak(msg);
+}
+
+function updateLabel(){
+  document.getElementById('leftVal').textContent=document.getElementById('leftFreq').value;
+  document.getElementById('rightVal').textContent=document.getElementById('rightFreq').value;
+}
+
+function playDual(){
+  stopTone();
+  setup();
+  oscL=ctx.createOscillator();
+  oscR=ctx.createOscillator();
+  gainL=ctx.createGain();
+  gainR=ctx.createGain();
+
+  oscL.frequency.value=parseFloat(document.getElementById('leftFreq').value);
+  oscR.frequency.value=parseFloat(document.getElementById('rightFreq').value);
+
+  const merger=ctx.createChannelMerger(2);
+  oscL.connect(gainL).connect(merger,0,0);
+  oscR.connect(gainR).connect(merger,0,1);
+  dest=ctx.createMediaStreamDestination();
+  merger.connect(ctx.destination);
+  merger.connect(dest);
+
+  oscL.start();
+  oscR.start();
+
+  recorder=new MediaRecorder(dest.stream);
+  recorder.ondataavailable=e=>chunks.push(e.data);
+  recorder.onstop=saveRecording;
+
+  document.getElementById('voiceLine').textContent=
+    `Playing L:${oscL.frequency.value} Hz | R:${oscR.frequency.value} Hz | Δ=${Math.abs(oscL.frequency.value-oscR.frequency.value).toFixed(2)} Hz`;
+}
+
+function stopTone(){
+  if(oscL){oscL.stop();oscL.disconnect();}
+  if(oscR){oscR.stop();oscR.disconnect();}
+  document.getElementById('voiceLine').textContent="Tone stopped.";
+}
+
+function speak(msg){
+  const line=document.getElementById('voiceLine');
+  line.textContent=msg;
+  const utter=new SpeechSynthesisUtterance(msg);
+  speechSynthesis.speak(utter);
+}
+
+// Recording
+function startRecording(){
+  if(!recorder){alert("Start playback first to record.");return;}
+  chunks=[];
+  recorder.start();
+  document.getElementById('voiceLine').textContent="🎙️ Recording...";
+}
+
+function stopRecording(){
+  if(recorder && recorder.state==="recording"){
+    recorder.stop();
+    document.getElementById('voiceLine').textContent="Recording stopped. Preparing file...";
+  }else{
+    document.getElementById('voiceLine').textContent="No active recording.";
+  }
+}
+
+function saveRecording(){
+  const blob=new Blob(chunks,{type:'audio/wav'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download='binaural_tone.wav';
+  a.click();
+  URL.revokeObjectURL(url);
+  document.getElementById('voiceLine').textContent="🎵 Recording saved to your device.";
+}
+</script>
+</body>
+</html>
