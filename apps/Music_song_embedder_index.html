@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eiren Song Embedder</title>
+
+  <!-- Optional external font (you can remove this line for fully-offline) -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg1: #3542a6;
+      --bg2: #2ec4b6;
+      --glass: rgba(0,0,0,0.36);
+      --glass-soft: rgba(0,0,0,0.18);
+      --accent: #2ec4b6;
+      --accent-dark: #1a9986;
+      --danger: #dc4747;
+      --danger-dark: #ad2222;
+      --text-main: #ffffff;
+      --text-soft: #e0f2ff;
+      --radius-card: 22px;
+      --radius-pill: 999px;
+      --shadow: 0 8px 28px rgba(0,0,0,0.16);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(120deg, var(--bg1) 0%, var(--bg2) 100%);
+      color: var(--text-main);
+      font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0 12px 32px;
+    }
+
+    .container {
+      background: var(--glass);
+      border-radius: var(--radius-card);
+      padding: 24px 26px 22px 26px;
+      margin-top: 44px;
+      box-shadow: var(--shadow);
+      max-width: 480px;
+      width: 100%;
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    h2 {
+      margin: 0 0 8px 0;
+      font-size: 1.8rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-align: center;
+    }
+
+    .subtitle {
+      font-size: 0.96rem;
+      text-align: center;
+      color: var(--text-soft);
+      margin-bottom: 18px;
+    }
+
+    .song-form {
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+      margin-bottom: 18px;
+    }
+
+    label {
+      font-size: 0.92rem;
+      color: var(--text-soft);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    input[type="text"],
+    input[type="url"] {
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      font-size: 0.98rem;
+      font-family: inherit;
+      background: rgba(255,255,255,0.94);
+      color: #1a1a1a;
+    }
+
+    input::placeholder {
+      color: #7a7a7a;
+    }
+
+    .form-buttons {
+      display: flex;
+      gap: 8px;
+      margin-top: 4px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 10px 14px;
+      border: none;
+      border-radius: 8px;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.98rem;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.08s;
+      font-family: inherit;
+      box-shadow: 0 2px 10px var(--glass-soft);
+      flex: 1 1 auto;
+      min-width: 110px;
+    }
+
+    button:hover {
+      background: var(--accent-dark);
+      transform: translateY(-1px);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.12);
+      color: var(--text-main);
+      box-shadow: none;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.22);
+    }
+
+    .btn-danger {
+      background: var(--danger);
+    }
+
+    .btn-danger:hover {
+      background: var(--danger-dark);
+    }
+
+    .top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .count-pill {
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      background: rgba(0,0,0,0.4);
+      font-size: 0.86rem;
+      color: var(--text-soft);
+      white-space: nowrap;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      max-height: 360px;
+      overflow-y: auto;
+      margin-top: 6px;
+    }
+
+    .song-item {
+      margin: 0 0 10px 0;
+      background: rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 9px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .song-item-main {
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 0%;
+      min-width: 0;
+    }
+
+    .song-title {
+      font-size: 0.98rem;
+      color: #f7f7f7;
+      text-align: left;
+      word-break: break-word;
+    }
+
+    .song-url {
+      font-size: 0.78rem;
+      color: var(--text-soft);
+      opacity: 0.9;
+      margin-top: 2px;
+      word-break: break-all;
+      text-decoration: none;
+    }
+
+    .song-url:hover {
+      text-decoration: underline;
+    }
+
+    .song-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: flex-end;
+    }
+
+    .play-btn,
+    .delete-btn {
+      background: #4cb7a7;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 0.86rem;
+      cursor: pointer;
+      transition: background 0.18s;
+      min-width: 72px;
+      text-align: center;
+    }
+
+    .play-btn:hover {
+      background: #3a8e7b;
+    }
+
+    .delete-btn {
+      background: var(--danger);
+    }
+
+    .delete-btn:hover {
+      background: var(--danger-dark);
+    }
+
+    .empty {
+      font-size: 0.94rem;
+      color: var(--text-soft);
+      text-align: center;
+      margin-top: 10px;
+      opacity: 0.9;
+    }
+
+    .hint {
+      font-size: 0.8rem;
+      color: var(--text-soft);
+      margin-top: 4px;
+      text-align: left;
+      opacity: 0.9;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 16px 10px 14px;
+        margin-top: 24px;
+      }
+      h2 {
+        font-size: 1.4rem;
+      }
+      .song-actions {
+        flex-direction: row;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Song Planter</h2>
+    <div class="subtitle">
+      Save your favorite song links in one soft little nest — all local, all yours.
+    </div>
+
+    <div class="top-row">
+      <div class="count-pill" id="songCount">0 songs saved</div>
+      <button type="button" class="btn-secondary btn-danger" id="clearAllBtn" title="Remove all saved songs">Clear All</button>
+    </div>
+
+    <form class="song-form" id="songForm">
+      <div>
+        <label for="songTitle">Song title</label>
+        <input
+          type="text"
+          id="songTitle"
+          placeholder="e.g., River — Leon Bridges"
+          required
+        />
+      </div>
+
+      <div>
+        <label for="songURL">Song URL</label>
+        <input
+          type="url"
+          id="songURL"
+          placeholder="Paste a YouTube, Spotify, or streaming link…"
+          required
+        />
+        <div class="hint">
+          Tip: You can add anything with a sharable URL — playlists, albums, lyric videos, or instrumentals.
+        </div>
+      </div>
+
+      <div class="form-buttons">
+        <button type="submit">Add Song</button>
+        <button type="button" class="btn-secondary" id="testBtn">Test Link</button>
+      </div>
+    </form>
+
+    <ul id="songList"></ul>
+    <div id="emptyState" class="empty" style="display:none;">
+      No songs yet. Add your first song above to start your Eiren playlist.
+    </div>
+  </div>
+
+  <script>
+    const songForm    = document.getElementById('songForm');
+    const songTitle   = document.getElementById('songTitle');
+    const songURL     = document.getElementById('songURL');
+    const songList    = document.getElementById('songList');
+    const songCount   = document.getElementById('songCount');
+    const clearAllBtn = document.getElementById('clearAllBtn');
+    const testBtn     = document.getElementById('testBtn');
+    const emptyState  = document.getElementById('emptyState');
+
+    // Load from localStorage or empty array
+    let songs = [];
+    try {
+      songs = JSON.parse(localStorage.getItem('eirensongs') || '[]');
+      if (!Array.isArray(songs)) songs = [];
+    } catch (e) {
+      songs = [];
+    }
+
+    function updateCount() {
+      const count = songs.length;
+      if (count === 0) {
+        songCount.textContent = '0 songs saved';
+        emptyState.style.display = 'block';
+      } else if (count === 1) {
+        songCount.textContent = '1 song saved';
+        emptyState.style.display = 'none';
+      } else {
+        songCount.textContent = count + ' songs saved';
+        emptyState.style.display = 'none';
+      }
+    }
+
+    // Render all songs
+    function renderSongs() {
+      songList.innerHTML = '';
+      songs.forEach((song, idx) => {
+        const li = document.createElement('li');
+        li.className = 'song-item';
+
+        const main = document.createElement('div');
+        main.className = 'song-item-main';
+
+        const songTitleEl = document.createElement('span');
+        songTitleEl.className = 'song-title';
+        songTitleEl.textContent = song.title || '(Untitled)';
+
+        const songUrlEl = document.createElement('a');
+        songUrlEl.className = 'song-url';
+        songUrlEl.href = song.url || '#';
+        songUrlEl.target = '_blank';
+        songUrlEl.rel = 'noopener';
+        songUrlEl.textContent = song.url || '';
+        if (!song.url) {
+          songUrlEl.style.pointerEvents = 'none';
+          songUrlEl.style.opacity = '0.6';
+        }
+
+        main.appendChild(songTitleEl);
+        main.appendChild(songUrlEl);
+
+        const actions = document.createElement('div');
+        actions.className = 'song-actions';
+
+        const playBtn = document.createElement('button');
+        playBtn.className = 'play-btn';
+        playBtn.textContent = 'Play';
+        playBtn.onclick = () => {
+          if (!song.url) return;
+          window.open(song.url, '_blank', 'noopener');
+        };
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'delete-btn';
+        deleteBtn.textContent = 'Delete';
+        deleteBtn.onclick = () => {
+          if (!confirm('Remove this song from your list?')) return;
+          songs.splice(idx, 1);
+          saveSongs();
+          renderSongs();
+        };
+
+        actions.appendChild(playBtn);
+        actions.appendChild(deleteBtn);
+
+        li.appendChild(main);
+        li.appendChild(actions);
+        songList.appendChild(li);
+      });
+
+      updateCount();
+    }
+
+    function saveSongs() {
+      localStorage.setItem('eirensongs', JSON.stringify(songs));
+    }
+
+    function isLikelyURL(url) {
+      try {
+        const u = new URL(url);
+        return !!u.protocol && !!u.host;
+      } catch {
+        return false;
+      }
+    }
+
+    songForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const title = songTitle.value.trim();
+      const urlRaw = songURL.value.trim();
+
+      if (!title || !urlRaw) return;
+
+      let url = urlRaw;
+      // Add https:// if the user forgot it
+      if (!/^https?:\/\//i.test(url)) {
+        url = 'https://' + url;
+      }
+
+      if (!isLikelyURL(url)) {
+        alert('Please enter a valid URL (including domain).');
+        return;
+      }
+
+      // Duplicate URL guard
+      if (songs.some(s => s.url === url)) {
+        const proceed = confirm('This URL is already in your list. Add it again?');
+        if (!proceed) return;
+      }
+
+      songs.push({ title, url });
+      saveSongs();
+      renderSongs();
+      songTitle.value = '';
+      songURL.value = '';
+      songTitle.focus();
+    });
+
+    // Test link button: open current URL without saving
+    testBtn.addEventListener('click', () => {
+      let url = songURL.value.trim();
+      if (!url) {
+        alert('Add a URL to test first.');
+        return;
+      }
+      if (!/^https?:\/\//i.test(url)) {
+        url = 'https://' + url;
+      }
+      if (!isLikelyURL(url)) {
+        alert('That does not look like a valid URL.');
+        return;
+      }
+      window.open(url, '_blank', 'noopener');
+    });
+
+    // Clear all songs
+    clearAllBtn.addEventListener('click', () => {
+      if (!songs.length) {
+        alert('Your list is already empty.');
+        return;
+      }
+      if (!confirm('Clear all saved songs from this device?')) return;
+      songs = [];
+      saveSongs();
+      renderSongs();
+    });
+
+    // Initial render
+    renderSongs();
+  </script>
+</body>
+</html>
