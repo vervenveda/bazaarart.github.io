@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Pre K Sight Words - Spelling Soup!</title>
+<style>
+:root{
+  --red:#ff3b30; --yellow:#ffd100; --blue:#007aff; --green:#34c759;
+  --white:#ffffff; --bg:#fff7e0;
+}
+html,body{
+  margin:0; height:100%;
+  font-family:"Comic Sans MS","Poppins",sans-serif;
+  background: linear-gradient(180deg,#ffd700 0%,#ffafaf 50%,#63c2ff 100%);
+  display:flex; justify-content:center; align-items:center;
+}
+.app {
+  width:100%; max-width:460px; background:var(--bg); border-radius:20px; padding:15px 12px 25px;
+  box-shadow:0 12px 44px #0002; text-align:center; position:relative;
+}
+h1{margin:4px 0 5px; font-size:2.2rem; color:var(--blue);}
+#subtitle{color:#555;font-size:1rem;margin-bottom:6px;}
+.word-img{font-size:3rem;margin:8px 0 5px;}
+#boppi{
+  font-size:3rem; position:absolute; top:-40px; right:20px;
+  transition: transform 0.3s;
+}
+#score{font-size:1.2rem; margin-bottom:6px; font-weight:bold; color:#444;}
+.progress-bar{height:10px; width:85%; margin:7px auto 9px; background:#ffd10033; border-radius:8px; overflow:hidden;}
+.progress-bar-inner{height:100%; background:#ffd100; border-radius:8px; transition:width .6s;}
+.soup-area{
+  margin:0 auto 12px; width:300px; height:130px; background:#fff3d2;
+  border-radius:35px 35px 120px 120px/35px 35px 90px 90px;
+  border:7px solid #fff; box-shadow:0 5px 16px #ffb86054, 0 1px 0 #fff;
+  display:flex; align-items:center; justify-content:center; position:relative;
+}
+#dropzone{width:90%; min-height:54px; min-width:140px; display:flex; justify-content:center;}
+.drop-tile{
+  display:inline-block; background:#ffe066; color:#333;
+  font-size:2.2rem; font-weight:800; margin:0 4px; padding:8px 0 4px;
+  width:50px; height:50px; border-radius:12px; border:2.5px solid #e6c144;
+  box-shadow:0 3px 8px #ffdb0090; transition: background .2s, border .2s; text-align:center;
+  user-select:none;
+}
+.drop-tile.empty{background:#fff6c1;color:#bbb;border-style:dashed;}
+.drop-tile.wrong{background:#ffd2d2;border-color:#ff7d7d;}
+.drop-tile.right{background:#c1ffda;border-color:#36cc8a;}
+.letters{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:14px 0;}
+.letter-tile{
+  background:linear-gradient(135deg,var(--blue) 50%,var(--yellow) 100%);
+  color:#fff; font-size:2rem; font-weight:700; width:55px; height:55px;
+  border-radius:14px; box-shadow:0 3px 10px #a9dfff64;
+  display:flex; align-items:center; justify-content:center;
+  cursor:grab; user-select:none; border:2.3px solid #b1cdf0;
+  transition:background .14s,box-shadow .13s, transform .2s;
+}
+.letter-tile:active{background:var(--red); transform: scale(1.1);}
+.letter-tile.disabled{opacity:0.5; pointer-events:none;}
+#message{font-size:1.2rem; font-weight:bold; color:#444; margin:7px 0 6px; min-height:30px;}
+.controls{margin-top:8px;}
+.btn{
+  background:var(--blue); color:var(--white); border:none; padding:10px 20px; border-radius:12px;
+  font-size:1.15rem; cursor:pointer; box-shadow:0 5px 10px #a9dfff34; margin:0 5px;
+}
+.btn.secondary{background:var(--yellow); color:#222;}
+.confetti{
+  position:fixed; width:10px; height:10px; border-radius:50%; pointer-events:none; opacity:0.93;
+  animation:confetti-fall 900ms cubic-bezier(.2,.8,.2,1) forwards;
+}
+@keyframes confetti-fall{
+  0%{ transform:translate(-50%,-50%) scale(1); opacity:1;}
+  100%{ transform:translate(-50%,-120%) scale(.6); opacity:0;}
+}
+#quizOverlay{
+  position:fixed; top:0; left:0; width:100%; height:100%; background:#000000aa;
+  display:flex; justify-content:center; align-items:center; visibility:hidden; opacity:0;
+  transition:opacity .3s;
+}
+#quizBox{
+  background:#fff; border-radius:20px; padding:20px 15px; width:90%; max-width:350px; text-align:center;
+  box-shadow:0 8px 20px #0004;
+}
+.quiz-question{font-size:1.2rem; margin-bottom:12px;}
+.quiz-options{display:flex; flex-wrap:wrap; gap:12px; justify-content:center;}
+.quiz-options button{
+  flex:1 1 40%; padding:10px; font-size:1rem; border-radius:12px; border:none; cursor:pointer;
+  background:linear-gradient(135deg,var(--yellow),var(--green)); color:#222; font-weight:bold;
+  transition: transform .15s, background .2s;
+}
+.quiz-options button:hover{transform:scale(1.05); background:linear-gradient(135deg,var(--green),var(--yellow));}
+</style>
+</head>
+<body>
+<div class="app" role="application" aria-label="Spelling Soup kindergarten game">
+  <h1>Pre K Sight Words - Spelling Soup!!</h1>
+  <div id="subtitle">Let’s spell fun words together! 🍲</div>
+  <div id="boppi">🦘</div>
+  <div id="score">Score: 0 ⭐</div>
+  <div class="word-img" id="wordImg"></div>
+  <div class="progress-bar"><div class="progress-bar-inner" id="progress"></div></div>
+  <div class="soup-area">
+    <div id="dropzone"></div>
+  </div>
+  <div class="letters" id="lettersArea"></div>
+  <div id="message">Tap a letter to hear it, or drag it into the soup!</div>
+  <div class="controls">
+    <button id="resetBtn" class="btn secondary">Start Over</button>
+    <button id="volumeBtn" class="btn">🔊</button>
+  </div>
+</div>
+
+<div id="quizOverlay">
+  <div id="quizBox">
+    <div class="quiz-question" id="quizQuestion"></div>
+    <div class="quiz-options" id="quizOptions"></div>
+  </div>
+</div>
+
+<script>
+// ===== Data =====
+const WORDS = [
+  { word:"a", img:"🅰️", prompt:"The first letter, it’s just “a”.", quiz:[
+      {q:"Which letter does this word start with?", options:["A","B","C"], correct:0},
+      {q:"Is the word ‘a’ a single letter word?", options:["Yes","No"], correct:0}
+  ]},
+  { word:"and", img:"➕", prompt:"Means plus or together.", quiz:[
+      {q:"Which word means together?", options:["and","but","so"], correct:0},
+      {q:"Which symbol looks like ‘and’?", options:["➕","➖","✖"], correct:0}
+  ]},
+  { word:"away", img:"🏃‍♀️", prompt:"Go somewhere else, away you go.", quiz:[
+      {q:"Which word means ‘go far’?", options:["away","stay","come"], correct:0},
+      {q:"Which action shows away?", options:["🏃‍♀️","🛑","🚶"], correct:0}
+  ]},
+  { word:"big", img:"🦁", prompt:"Large size, like a big lion.", quiz:[
+      {q:"Which word means large?", options:["big","small","tiny"], correct:0},
+      {q:"Which animal looks big?", options:["🦁","🐭","🐤"], correct:0}
+  ]},
+  { word:"blue", img:"🔵", prompt:"The color of the sky on a clear day.", quiz:[
+      {q:"Which color word is this?", options:["blue","red","yellow"], correct:0},
+      {q:"Which circle is blue?", options:["🔵","🔴","🟡"], correct:0}
+  ]},
+  { word:"can", img:"🥫", prompt:"You can do it! Or a tin can.", quiz:[
+      {q:"Which word helps you do something?", options:["can","will","may"], correct:0},
+      {q:"Which object is a can?", options:["🥫","📦","🍪"], correct:0}
+  ]},
+  { word:"come", img:"🚶", prompt:"Move toward someone – come here.", quiz:[
+      {q:"Which word means ‘move toward’?", options:["come","go","leave"], correct:0},
+      {q:"Which icon means come?", options:["🚶","🚫","🏃"], correct:0}
+  ]},
+  { word:"down", img:"⬇️", prompt:"Go down toward the ground.", quiz:[
+      {q:"Which word means toward the ground?", options:["down","up","side"], correct:0},
+      {q:"Which arrow points down?", options:["⬇️","⬆️","➡️"], correct:0}
+  ]},
+  { word:"find", img:"🔍", prompt:"Look and find what you need.", quiz:[
+      {q:"Which word means search for?", options:["find","lose","throw"], correct:0},
+      {q:"Which icon shows finding?", options:["🔍","💤","🏠"], correct:0}
+  ]},
+  { word:"for", img:"🎁", prompt:"This gift is for you.", quiz:[
+      {q:"Which word means intended for?", options:["for","at","by"], correct:0},
+      {q:"Which object is a gift for you?", options:["🎁","📚","🚗"], correct:0}
+  ]},
+  { word:"funny", img:"😂", prompt:"Something that makes you laugh is funny.", quiz:[
+      {q:"Which word means laugh out loud?", options:["funny","sad","nice"], correct:0},
+      {q:"Which emoji is for funny?", options:["😂","😢","😐"], correct:0}
+  ]},
+  { word:"go", img:"🏁", prompt:"Time to go, let’s move!", quiz:[
+      {q:"Which word means move now?", options:["go","stop","wait"], correct:0},
+      {q:"Which flag means go?", options:["🏁","🚫","🛑"], correct:0}
+  ]},
+  { word:"help", img:"🆘", prompt:"Ask for help when you need it.", quiz:[
+      {q:"Which word means ask for aid?", options:["help","hurt","hard"], correct:0},
+      {q:"Which icon shows help?", options:["🆘","📌","✅"], correct:0}
+  ]},
+  { word:"here", img:"📍", prompt:"You are right here.", quiz:[
+      {q:"Which word means this place?", options:["here","there","away"], correct:0},
+      {q:"Which icon shows your spot?", options:["📍","📦","🔓"], correct:0}
+  ]},
+  { word:"I", img:"👤", prompt:"That’s me. The word I means myself.", quiz:[
+      {q:"Which word means myself?", options:["I","you","we"], correct:0},
+      {q:"Which icon shows me?", options:["👤","👥","👧"], correct:0}
+  ]},
+  { word:"in", img:"📦", prompt:"Put it in the box.", quiz:[
+      {q:"Which word means inside?", options:["in","out","on"], correct:0},
+      {q:"Which object shows something inside?", options:["📦","📂","🗑"], correct:0}
+  ]},
+  { word:"is", img:"✅", prompt:"This word tells you is or isn’t.", quiz:[
+      {q:"Which word links subject and verb?", options:["is","are","was"], correct:0},
+      {q:"Which symbol shows yes/is?", options:["✅","❌","🟧"], correct:0}
+  ]},
+  { word:"it", img:"🐛", prompt:"Look at it, the little bug.", quiz:[
+      {q:"Which word refers to a thing?", options:["it","this","that"], correct:0},
+      {q:"Which insect is ‘it’ in the picture?", options:["🐛","🐞","🐝"], correct:0}
+  ]},
+  { word:"jump", img:"🤸", prompt:"Jump up high in the air!", quiz:[
+      {q:"Which word means leap?", options:["jump","run","sit"], correct:0},
+      {q:"Which emoji shows jumping?", options:["🤸","🚶","🛋"], correct:0}
+  ]},
+  { word:"little", img:"🐇", prompt:"Tiny bunny is little.", quiz:[
+      {q:"Which word means small?", options:["little","big","large"], correct:0},
+      {q:"Which animal is little here?", options:["🐇","🦏","🦒"], correct:0}
+  ]},
+  { word:"look", img:"👀", prompt:"Look with your eyes.", quiz:[
+      {q:"Which word means see?", options:["look","see","watch"], correct:0},
+      {q:"Which emoji means look?", options:["👀","👁‍🗨","🥽"], correct:0}
+  ]},
+  { word:"make", img:"🛠️", prompt:"Make something with tools.", quiz:[
+      {q:"Which word means create?", options:["make","break","take"], correct:0},
+      {q:"Which icon means tools?", options:["🛠️","📋","✂️"], correct:0}
+  ]},
+  { word:"me", img:"🙋", prompt:"That me raising my hand.", quiz:[
+      {q:"Which word means myself?", options:["me","you","them"], correct:0},
+      {q:"Which emoji shows me?", options:["🙋","🙇","🙌"], correct:0}
+  ]},
+  { word:"my", img:"🎒", prompt:"My bag is mine.", quiz:[
+      {q:"Which word shows belonging?", options:["my","your","their"], correct:0},
+      {q:"Which object is mine?", options:["🎒","📦","📌"], correct:0}
+  ]},
+  { word:"not", img:"🚫", prompt:"Not means no or not allowed.", quiz:[
+      {q:"Which word means no?", options:["not","yes","maybe"], correct:0},
+      {q:"Which sign means not allowed?", options:["🚫","✅","➕"], correct:0}
+  ]},
+  { word:"one", img:"1️⃣", prompt:"One means just one item.", quiz:[
+      {q:"Which word means single?", options:["one","two","three"], correct:0},
+      {q:"Which icon shows one?", options:["1️⃣","2️⃣","3️⃣"], correct:0}
+  ]},
+  { word:"play", img:"🎮", prompt:"Time to play games and have fun.", quiz:[
+      {q:"Which word means have fun?", options:["play","work","sleep"], correct:0},
+      {q:"Which icon is for games?", options:["🎮","📚","🛌"], correct:0}
+  ]},
+  { word:"red", img:"🔴", prompt:"The color red like an apple.", quiz:[
+      {q:"Which color is this word?", options:["red","blue","yellow"], correct:0},
+      {q:"Which circle is red?", options:["🔴","🔵","🟡"], correct:0}
+  ]},
+  { word:"run", img:"🏃", prompt:"Run fast like a cheetah.", quiz:[
+      {q:"Which word means move fast?", options:["run","walk","jump"], correct:0},
+      {q:"Which emoji shows running?", options:["🏃","🚶","🥱"], correct:0}
+  ]},
+  { word:"see", img:"👁️", prompt:"See with your eyes.", quiz:[
+      {q:"Which word means view?", options:["see","look","watch"], correct:0},
+      {q:"Which emoji means see?", options:["👁️","👀","🧠"], correct:0}
+  ]},
+  { word:"the", img:"📢", prompt:"The is a common little word.", quiz:[
+      {q:"Which word is very common?", options:["the","and","but"], correct:0},
+      {q:"Which icon means ‘announce’?", options:["📢","🔊","☎️"], correct:0},
+    { word:"a", img:"🅰️", prompt:"The first letter, it’s just “a”.", quiz:[
+      {q:"Which letter does this word start with?", options:["A","B","C"], correct:0},
+      {q:"Is the word ‘a’ a single letter word?", options:["Yes","No"], correct:0}
+  ]},
+  { word:"and", img:"➕", prompt:"Means plus or together.", quiz:[
+      {q:"Which word means together?", options:["and","but","so"], correct:0},
+      {q:"Which symbol looks like ‘and’?", options:["➕","➖","✖"], correct:0}
+  ]},
+  { word:"away", img:"🏃‍♀️", prompt:"Go somewhere else, away you go.", quiz:[
+      {q:"Which word means ‘go far’?", options:["away","stay","come"], correct:0},
+      {q:"Which action shows away?", options:["🏃‍♀️","🛑","🚶"], correct:0}
+  ]},
+  { word:"big", img:"🦁", prompt:"Large size, like a big lion.", quiz:[
+      {q:"Which word means large?", options:["big","small","tiny"], correct:0},
+      {q:"Which animal looks big?", options:["🦁","🐭","🐤"], correct:0}
+  ]},
+  { word:"blue", img:"🔵", prompt:"The color of the sky on a clear day.", quiz:[
+      {q:"Which color word is this?", options:["blue","red","yellow"], correct:0},
+      {q:"Which circle is blue?", options:["🔵","🔴","🟡"], correct:0}
+  ]},
+  { word:"can", img:"🥫", prompt:"You can do it! Or a tin can.", quiz:[
+      {q:"Which word helps you do something?", options:["can","will","may"], correct:0},
+      {q:"Which object is a can?", options:["🥫","📦","🍪"], correct:0}
+  ]},
+  { word:"come", img:"🚶", prompt:"Move toward someone – come here.", quiz:[
+      {q:"Which word means ‘move toward’?", options:["come","go","leave"], correct:0},
+      {q:"Which icon means come?", options:["🚶","🚫","🏃"], correct:0}
+  ]},
+  { word:"down", img:"⬇️", prompt:"Go down toward the ground.", quiz:[
+      {q:"Which word means toward the ground?", options:["down","up","side"], correct:0},
+      {q:"Which arrow points down?", options:["⬇️","⬆️","➡️"], correct:0}
+  ]},
+  { word:"find", img:"🔍", prompt:"Look and find what you need.", quiz:[
+      {q:"Which word means search for?", options:["find","lose","throw"], correct:0},
+      {q:"Which icon shows finding?", options:["🔍","💤","🏠"], correct:0}
+  ]},
+  { word:"for", img:"🎁", prompt:"This gift is for you.", quiz:[
+      {q:"Which word means intended for?", options:["for","at","by"], correct:0},
+      {q:"Which object is a gift for you?", options:["🎁","📚","🚗"], correct:0}
+  ]},
+  { word:"funny", img:"😂", prompt:"Something that makes you laugh is funny.", quiz:[
+      {q:"Which word means laugh out loud?", options:["funny","sad","nice"], correct:0},
+      {q:"Which emoji is for funny?", options:["😂","😢","😐"], correct:0}
+  ]},
+  { word:"go", img:"🏁", prompt:"Time to go, let’s move!", quiz:[
+      {q:"Which word means move now?", options:["go","stop","wait"], correct:0},
+      {q:"Which flag means go?", options:["🏁","🚫","🛑"], correct:0}
+  ]},
+  { word:"help", img:"🆘", prompt:"Ask for help when you need it.", quiz:[
+      {q:"Which word means ask for aid?", options:["help","hurt","hard"], correct:0},
+      {q:"Which icon shows help?", options:["🆘","📌","✅"], correct:0}
+  ]},
+  { word:"here", img:"📍", prompt:"You are right here.", quiz:[
+      {q:"Which word means this place?", options:["here","there","away"], correct:0},
+      {q:"Which icon shows your spot?", options:["📍","📦","🔓"], correct:0}
+  ]},
+  { word:"I", img:"👤", prompt:"That’s me. The word I means myself.", quiz:[
+      {q:"Which word means myself?", options:["I","you","we"], correct:0},
+      {q:"Which icon shows me?", options:["👤","👥","👧"], correct:0}
+  ]},
+  { word:"in", img:"📦", prompt:"Put it in the box.", quiz:[
+      {q:"Which word means inside?", options:["in","out","on"], correct:0},
+      {q:"Which object shows something inside?", options:["📦","📂","🗑"], correct:0}
+  ]},
+  { word:"is", img:"✅", prompt:"This word tells you is or isn’t.", quiz:[
+      {q:"Which word links subject and verb?", options:["is","are","was"], correct:0},
+      {q:"Which symbol shows yes/is?", options:["✅","❌","🟧"], correct:0}
+  ]},
+  { word:"it", img:"🐛", prompt:"Look at it, the little bug.", quiz:[
+      {q:"Which word refers to a thing?", options:["it","this","that"], correct:0},
+      {q:"Which insect is ‘it’ in the picture?", options:["🐛","🐞","🐝"], correct:0}
+  ]},
+  { word:"jump", img:"🤸", prompt:"Jump up high in the air!", quiz:[
+      {q:"Which word means leap?", options:["jump","run","sit"], correct:0},
+      {q:"Which emoji shows jumping?", options:["🤸","🚶","🛋"], correct:0}
+  ]},
+  { word:"little", img:"🐇", prompt:"Tiny bunny is little.", quiz:[
+      {q:"Which word means small?", options:["little","big","large"], correct:0},
+      {q:"Which animal is little here?", options:["🐇","🦏","🦒"], correct:0}
+  ]},
+  { word:"look", img:"👀", prompt:"Look with your eyes.", quiz:[
+      {q:"Which word means see?", options:["look","see","watch"], correct:0},
+      {q:"Which emoji means look?", options:["👀","👁‍🗨","🥽"], correct:0}
+  ]},
+  { word:"make", img:"🛠️", prompt:"Make something with tools.", quiz:[
+      {q:"Which word means create?", options:["make","break","take"], correct:0},
+      {q:"Which icon means tools?", options:["🛠️","📋","✂️"], correct:0}
+  ]},
+  { word:"me", img:"🙋", prompt:"That me raising my hand.", quiz:[
+      {q:"Which word means myself?", options:["me","you","them"], correct:0},
+      {q:"Which emoji shows me?", options:["🙋","🙇","🙌"], correct:0}
+  ]},
+  { word:"my", img:"🎒", prompt:"My bag is mine.", quiz:[
+      {q:"Which word shows belonging?", options:["my","your","their"], correct:0},
+      {q:"Which object is mine?", options:["🎒","📦","📌"], correct:0}
+  ]},
+  { word:"not", img:"🚫", prompt:"Not means no or not allowed.", quiz:[
+      {q:"Which word means no?", options:["not","yes","maybe"], correct:0},
+      {q:"Which sign means not allowed?", options:["🚫","✅","➕"], correct:0}
+  ]},
+  { word:"one", img:"1️⃣", prompt:"One means just one item.", quiz:[
+      {q:"Which word means single?", options:["one","two","three"], correct:0},
+      {q:"Which icon shows one?", options:["1️⃣","2️⃣","3️⃣"], correct:0}
+  ]},
+  { word:"play", img:"🎮", prompt:"Time to play games and have fun.", quiz:[
+      {q:"Which word means have fun?", options:["play","work","sleep"], correct:0},
+      {q:"Which icon is for games?", options:["🎮","📚","🛌"], correct:0}
+  ]},
+  { word:"red", img:"🔴", prompt:"The color red like an apple.", quiz:[
+      {q:"Which color is this word?", options:["red","blue","yellow"], correct:0},
+      {q:"Which circle is red?", options:["🔴","🔵","🟡"], correct:0}
+  ]},
+  { word:"run", img:"🏃", prompt:"Run fast like a cheetah.", quiz:[
+      {q:"Which word means move fast?", options:["run","walk","jump"], correct:0},
+      {q:"Which emoji shows running?", options:["🏃","🚶","🥱"], correct:0}
+  ]},
+  { word:"see", img:"👁️", prompt:"See with your eyes.", quiz:[
+      {q:"Which word means view?", options:["see","look","watch"], correct:0},
+      {q:"Which emoji means see?", options:["👁️","👀","🧠"], correct:0}
+  ]},
+  { word:"the", img:"📢", prompt:"The is a common little word.", quiz:[
+      {q:"Which word is very common?", options:["the","and","but"], correct:0},
+      {q:"Which icon means ‘announce’?", options:["📢","🔊","☎️"], correct:0}
+  ]},
+  { word:"to", img:"➡️", prompt:"Move to there.", quiz:[
+      {q:"Which word shows direction?", options:["to","from","on"], correct:0},
+      {q:"Which arrow shows movement?", options:["➡️","⬅️","↕️"], correct:0}
+  ]},
+  { word:"two", img:"2️⃣", prompt:"Two means a pair.", quiz:[
+      {q:"Which word means pair?", options:["two","one","three"], correct:0},
+      {q:"Which icon shows two?", options:["2️⃣","1️⃣","3️⃣"], correct:0}
+  ]},
+  { word:"up", img:"⬆️", prompt:"Move upward, up you go!", quiz:[
+      {q:"Which word means move high?", options:["up","down","left"], correct:0},
+      {q:"Which arrow shows up?", options:["⬆️","⬇️","⬅️"], correct:0}
+  ]},
+  { word:"we", img:"👩‍👩‍👧‍👦", prompt:"We means all of us together.", quiz:[
+      {q:"Which word means all of us?", options:["we","I","me"], correct:0},
+      {q:"Which icon shows a group?", options:["👩‍👩‍👧‍👦","👤","🙋"], correct:0}
+  ]},
+  { word:"where", img:"❓", prompt:"Where is it? Find the place.", quiz:[
+      {q:"Which word asks location?", options:["where","here","there"], correct:0},
+      {q:"Which symbol asks a question?", options:["❓","❗","✅"], correct:0}
+  ]},
+  { word:"yellow", img:"🟡", prompt:"Yellow like the sun.", quiz:[
+      {q:"Which color is yellow?", options:["yellow","blue","red"], correct:0},
+      {q:"Which circle is yellow?", options:["🟡","🔵","🔴"], correct:0}
+  ]},
+  { word:"you", img:"👧", prompt:"You are special!", quiz:[
+      {q:"Which word means the person you are talking to?", options:["you","me","they"], correct:0},
+      {q:"Which emoji shows a child?", options:["👧","👦","👶"], correct:0}
+  ]}
+  ]},
+  { word:"to", img:"➡️", prompt:"Move to there.", quiz:[
+      {q:"Which word shows direction?", options:["to","from","on"], correct:0},
+      {q:"Which arrow shows movement?", options:["➡️","⬅️","↕️"], correct:0}
+  ]}
+];
+
+let idx = 0, userLetters = [], soundOn = true, score = 0;
+const dropzone = document.getElementById('dropzone');
+const lettersArea = document.getElementById('lettersArea');
+const message = document.getElementById('message');
+const wordImg = document.getElementById('wordImg');
+const progressBar = document.getElementById('progress');
+const boppi = document.getElementById('boppi');
+const scoreDisplay = document.getElementById('score');
+const quizOverlay = document.getElementById('quizOverlay');
+const quizQuestion = document.getElementById('quizQuestion');
+const quizOptions = document.getElementById('quizOptions');
+
+function speak(text){
+  if(!soundOn) return;
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'en-US';
+  u.rate = 0.96; u.pitch = 1.11;
+  const v = speechSynthesis.getVoices().find(v=>v.name.match(/child|female|Samantha|Google US/i))||speechSynthesis.getVoices()[0];
+  if(v) u.voice = v; speechSynthesis.cancel(); speechSynthesis.speak(u);
+}
+
+// Shuffle helper
+function shuffle(arr){let a=arr.slice(); for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a;}
+
+// ===== Render Word =====
+function renderWord(){
+  let {word,img,prompt} = WORDS[idx];
+  userLetters = Array(word.length).fill("");
+  wordImg.innerHTML = img;
+  dropzone.innerHTML='';
+  progressBar.style.width = `${(idx/WORDS.length)*100}%`;
+
+  // Drop tiles
+  for(let i=0;i<word.length;i++){
+    const tile = document.createElement('div');
+    tile.className='drop-tile empty'; tile.dataset.pos=i;
+    tile.setAttribute('aria-label','Blank letter slot');
+    dropzone.appendChild(tile);
+  }
+
+  // Letter tiles
+  const shuffled = shuffle(word.toUpperCase().split(''));
+  lettersArea.innerHTML='';
+  shuffled.forEach((l,n)=>{
+    const tile = document.createElement('div');
+    tile.className='letter-tile'; tile.textContent=l;
+    tile.setAttribute('draggable','true'); tile.setAttribute('aria-label','Letter '+l);
+    tile.addEventListener('dragstart',ev=>{ ev.dataTransfer.setData('text/plain',l+"|"+n); setTimeout(()=>tile.classList.add('disabled'),0); });
+    tile.addEventListener('dragend',()=>tile.classList.remove('disabled'));
+    tile.addEventListener('click',()=>placeLetter(l,n));
+    tile.addEventListener('dblclick',()=>speak(l));
+    lettersArea.appendChild(tile);
+  });
+
+  message.textContent=prompt;
+  speak("Let's spell. "+prompt);
+}
+
+// ===== Place Letter =====
+function placeLetter(ltr,tileIdx){
+  let empty=[...dropzone.children].findIndex(d=>d.classList.contains('empty'));
+  if(empty<0) return;
+  let {word} = WORDS[idx];
+  let correct = ltr.toLowerCase() === word[empty];
+
+  if(correct){
+    dropzone.children[empty].textContent=ltr;
+    dropzone.children[empty].className='drop-tile right';
+    userLetters[empty]=ltr;
+    [...lettersArea.children][tileIdx].classList.add('disabled');
+    spawnBoppi('jump');
+    score += 5;
+    scoreDisplay.textContent="Score: "+score+" ⭐";
+
+    if(userLetters.join('').toLowerCase()===word){
+      message.textContent="Great job! You spelled "+word.toUpperCase()+"!";
+      speak("Great job! You spelled "+word+"!");
+      spawnConfetti();
+      setTimeout(showQuiz,800);
+    }
+  } else {
+    dropzone.children[empty].classList.add('wrong');
+    message.textContent="Try again!";
+    speak("Try again!");
+    spawnBoppi('shake');
+    setTimeout(()=>dropzone.children[empty].classList.remove('wrong'),700);
+  }
+}
+
+// Drag & Drop
+dropzone.addEventListener('dragover',e=>e.preventDefault());
+dropzone.addEventListener('drop',e=>{
+  e.preventDefault();
+  const data = e.dataTransfer.getData('text/plain');
+  if(!data) return;
+  const [ltr,tileIdx]=data.split('|');
+  placeLetter(ltr, Number(tileIdx));
+});
+
+// ===== Reset / Start Over =====
+document.getElementById('resetBtn').onclick = ()=>{
+  idx=0; score=0;
+  scoreDisplay.textContent="Score: 0 ⭐";
+  renderWord();
+  progressBar.style.width="0%";
+  message.textContent="Ready? Let's spell!";
+  speak("Let's play Spelling Soup!");
+};
+document.getElementById('volumeBtn').onclick=()=>{
+  soundOn=!soundOn;
+  document.getElementById('volumeBtn').textContent = soundOn ? "🔊":"🔈";
+};
+
+// ===== Next Word =====
+function nextWord(){
+  idx++;
+  if(idx >= WORDS.length){
+    progressBar.style.width="100%";
+    message.textContent="Yay! You finished all words! 🎉";
+    speak("Yay! You finished all the words!");
+    setTimeout(()=>{ idx=0; renderWord(); message.textContent="Ready for more?"; speak("Let's play again!"); },2500);
+    return;
+  }
+  renderWord();
+}
+
+// ===== Confetti =====
+function spawnConfetti(){
+  const colors=['#ff3b30','#ffd100','#007aff','#34c759','#ff69b4','#ff8c00'];
+  for(let i=0;i<14;i++){
+    const c=document.createElement('div');
+    c.className='confetti';
+    c.style.background=colors[Math.floor(Math.random()*colors.length)];
+    const app=document.querySelector('.app').getBoundingClientRect();
+    const sx=app.left+app.width/2+(Math.random()-0.5)*(app.width*0.7);
+    const sy=app.top+app.height/2+(Math.random()-0.5)*(app.height*0.2);
+    c.style.left=sx+'px'; c.style.top=sy+'px';
+    const s=6+Math.random()*10; c.style.width=s+'px'; c.style.height=s+'px';
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),1000);
+  }
+}
+
+// ===== Boppi Animations =====
+function spawnBoppi(action){
+  if(action==='jump'){
+    boppi.style.transform='translateY(-25px)'; 
+    setTimeout(()=>boppi.style.transform='translateY(0px)',300);
+  } else if(action==='shake'){
+    boppi.style.transform='rotate(-15deg)';
+    setTimeout(()=>boppi.style.transform='rotate(15deg)',100);
+    setTimeout(()=>boppi.style.transform='rotate(0deg)',200);
+  }
+}
+
+// ===== Quiz =====
+function showQuiz(){
+  const qlist=WORDS[idx].quiz;
+  if(!qlist || qlist.length===0){ nextWord(); return; }
+  const q = qlist[0]; // pick first quiz for simplicity
+  quizQuestion.textContent=q.q;
+  quizOptions.innerHTML='';
+  q.options.forEach((opt,i)=>{
+    const btn=document.createElement('button'); btn.textContent=opt;
+    btn.onclick=()=>{
+      if(i===q.correct){ score+=5; spawnBoppi('jump'); speak("Correct!"); message.textContent="Correct! +5 points"; }
+      else { spawnBoppi('shake'); speak("Oops! Try next time."); message.textContent="Oops!"; }
+      scoreDisplay.textContent="Score: "+score+" ⭐";
+      quizOverlay.style.opacity=0; setTimeout(()=>{ quizOverlay.style.visibility='hidden'; nextWord(); },300);
+    };
+    quizOptions.appendChild(btn);
+  });
+  quizOverlay.style.visibility='visible'; quizOverlay.style.opacity=1;
+}
+
+// ===== Start =====
+renderWord();
+</script>
+</body>
+</html>
