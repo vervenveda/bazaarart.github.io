@@ -1,0 +1,1568 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Khaemenes Academy — Reading Music 101 (6-Week Portal)</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg1:#070b16;
+      --bg2:#0a1630;
+      --panel:rgba(255,255,255,.06);
+      --card:rgba(0,0,0,.18);
+      --border:rgba(255,255,255,.12);
+      --ink:#f5f7ff;
+      --muted:rgba(245,247,255,.82);
+      --accent:#6ee7ff;
+      --good:#a7f3d0;
+      --warn:#ffce8a;
+      --danger:#ff8a8a;
+
+      --r11:11px;
+      --r21:21px;
+
+      --minFont:22px; /* your readability rule */
+      --shadow: 0 18px 45px rgba(0,0,0,.26);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      font-size:var(--minFont);
+      line-height:1.35;
+      color:var(--ink);
+      background:
+        radial-gradient(1100px 700px at 12% 0%, rgba(110,231,255,.14), transparent 60%),
+        radial-gradient(1100px 700px at 88% 12%, rgba(167,243,208,.12), transparent 65%),
+        linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 60%, var(--bg1) 100%);
+      padding:14px;
+    }
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    .app{max-width:1180px;margin:0 auto}
+    header{
+      text-align:center;
+      padding:10px 8px 6px;
+    }
+    h1{
+      margin:0 0 8px;
+      font-size:clamp(30px,4vw,48px);
+      font-weight:800;
+      letter-spacing:.2px;
+    }
+    .sub{
+      margin:0 auto;
+      max-width:92ch;
+      color:var(--muted);
+      font-size:clamp(20px,2.2vw,24px);
+    }
+
+    .posture{
+      margin:12px auto 14px;
+      max-width:1050px;
+      background: rgba(110,231,255,.10);
+      border:1px solid rgba(110,231,255,.22);
+      border-radius: var(--r11);
+      padding:12px 14px;
+      box-shadow: var(--shadow);
+      text-align:center;
+    }
+    .posture strong{font-weight:800}
+    .tiny{font-size:18px;color:rgba(245,247,255,.85)}
+
+    .topbar{
+      display:flex;flex-wrap:wrap;gap:10px;
+      justify-content:center;align-items:center;
+      margin:0 auto 14px;
+      max-width:1100px;
+    }
+    .pill{
+      display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius: var(--r21);
+      padding:10px 12px;
+      box-shadow: var(--shadow);
+    }
+    .chip{
+      font-size:18px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: rgba(245,247,255,.92);
+      white-space:nowrap;
+    }
+    .chip.accent{border-color: rgba(110,231,255,.35); background: rgba(110,231,255,.10)}
+    .chip.good{border-color: rgba(167,243,208,.35); background: rgba(167,243,208,.10)}
+    .chip.warn{border-color: rgba(255,206,138,.35); background: rgba(255,206,138,.10)}
+    .chip.danger{border-color: rgba(255,138,138,.35); background: rgba(255,138,138,.10)}
+
+    .btn{
+      appearance:none;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.07);
+      color:var(--ink);
+      border-radius: var(--r21);
+      padding:10px 14px;
+      font-size:20px;
+      cursor:pointer;
+      user-select:none;
+      transition: transform .05s ease, background .15s ease, border-color .15s ease;
+      white-space:nowrap;
+    }
+    .btn:hover{background: rgba(255,255,255,.10)}
+    .btn:active{transform: translateY(1px)}
+    .btn.primary{border-color: rgba(110,231,255,.35); background: rgba(110,231,255,.12)}
+    .btn.good{border-color: rgba(167,243,208,.35); background: rgba(167,243,208,.10)}
+    .btn.warn{border-color: rgba(255,206,138,.35); background: rgba(255,206,138,.10)}
+    .btn.danger{border-color: rgba(255,138,138,.35); background: rgba(255,138,138,.10)}
+
+    .bar{
+      width:min(560px,92vw);
+      height:14px;
+      border-radius:999px;
+      background: rgba(255,255,255,.10);
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.12);
+    }
+    .bar > div{
+      height:100%;
+      width:0%;
+      background: linear-gradient(90deg, rgba(110,231,255,.95), rgba(167,243,208,.95));
+    }
+
+    .layout{
+      display:grid;
+      grid-template-columns: 360px 1fr;
+      gap:14px;
+      align-items:start;
+    }
+    @media (max-width: 980px){
+      .layout{grid-template-columns:1fr}
+    }
+
+    .panel{
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius: var(--r11);
+      padding:14px;
+      box-shadow: var(--shadow);
+    }
+
+    .panel h2{margin:0 0 10px;font-size:28px}
+    .panel h3{margin:14px 0 8px;font-size:26px}
+    .panel h4{margin:12px 0 6px;font-size:22px}
+    .muted{color:var(--muted)}
+
+    .divider{height:1px;background:rgba(255,255,255,.12);margin:14px 0}
+
+    .weekList{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .weekBtn{
+      width:100%;
+      text-align:left;
+      padding:12px 12px;
+      border-radius: var(--r11);
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.14);
+      cursor:pointer;
+      transition: background .15s ease, border-color .15s ease, transform .05s ease;
+    }
+    .weekBtn:hover{background: rgba(255,255,255,.07)}
+    .weekBtn:active{transform: translateY(1px)}
+    .weekTitle{font-weight:800}
+    .weekMeta{font-size:18px;color:rgba(245,247,255,.82);margin-top:6px}
+
+    .weekBtn.locked{
+      opacity:.58;
+      cursor:not-allowed;
+      background: rgba(0,0,0,.10);
+    }
+
+    .card{
+      background: rgba(0,0,0,.14);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius: var(--r11);
+      padding:14px;
+      margin:12px 0;
+    }
+
+    ul{margin:10px 0 0; padding-left:22px}
+    li{margin:6px 0}
+
+    textarea, input[type="number"], input[type="text"], select{
+      width:100%;
+      max-width:100%;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.20);
+      color: var(--ink);
+      font-size:20px;
+      outline:none;
+    }
+    textarea{min-height:130px}
+
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media (max-width: 820px){ .grid2{grid-template-columns:1fr} }
+
+    .labBox{
+      border-radius: 12px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.12);
+      padding: 12px;
+      overflow:auto;
+    }
+    .staffWrap{display:flex;justify-content:center}
+    .noteBtns{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+    .noteBtns button{min-width:58px}
+
+    .qBox{
+      border-radius: var(--r11);
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      padding:12px;
+      margin:10px 0;
+    }
+    .qPrompt{font-weight:800;margin-top:6px}
+    .choices{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+    label.choice{
+      display:flex;gap:10px;align-items:flex-start;
+      padding:10px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.12);
+      cursor:pointer;
+    }
+    label.choice:hover{background: rgba(255,255,255,.07)}
+    input[type="radio"]{transform:scale(1.2);margin-top:3px}
+
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size:18px;padding:2px 8px;border-radius:10px;
+      border:1px solid rgba(255,255,255,.16);background: rgba(0,0,0,.28);
+    }
+  </style>
+</head>
+
+<body>
+<div class="app">
+  <header>
+    <h1>Reading Music 101</h1>
+    <p class="sub">
+      A 6-week self-paced course for adults: learn to read notes + rhythm, understand key signatures,
+      and build real sight-reading habits — with practice labs, homework quizzes, and progress tracking.
+    </p>
+  </header>
+
+  <div class="posture">
+    <div><strong>Course Posture Statement</strong></div>
+    <div class="tiny">
+      We practice with patience and humility. Music is a language — small daily steps matter more than “talent.”
+      Accuracy grows from calm repetition, not rushing.
+    </div>
+  </div>
+
+  <div class="topbar">
+    <div class="pill">
+      <span class="chip accent" id="weekChip">Week: Home</span>
+      <span class="chip" id="completeChip">Completed: 0/6</span>
+      <span class="chip good" id="streakChip">Practice streak: 0 🔥</span>
+    </div>
+    <div class="pill">
+      <div style="min-width:min(560px,92vw)">
+        <div class="tiny"><strong>Course progress</strong> <span class="kbd" id="pctText">0%</span></div>
+        <div class="bar"><div id="barFill"></div></div>
+      </div>
+    </div>
+    <div class="pill">
+      <button class="btn" id="homeBtn">🏁 Home</button>
+      <button class="btn good" id="saveBtn">💾 Save</button>
+      <button class="btn" id="exportBtn">⬇️ Export</button>
+      <button class="btn" id="importBtn">⬆️ Import</button>
+      <button class="btn danger" id="resetBtn">Reset</button>
+    </div>
+  </div>
+
+  <div class="layout">
+    <aside class="panel">
+      <h2>Weeks</h2>
+      <div class="muted" style="font-size:20px">
+        Work in sequence. Each week includes: a 30-minute session plan, lesson notes, a Practice Lab, and a 5-question homework quiz.
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="weekList" id="weekList"></div>
+
+      <div class="divider"></div>
+
+      <div class="card">
+        <h3>Daily Practice Tracker</h3>
+        <div class="muted" style="font-size:20px">Log minutes (any instrument or voice). Stored on this device.</div>
+        <div class="row" style="margin-top:10px">
+          <input type="number" id="minsInput" min="0" max="600" placeholder="Minutes today (e.g., 10)" />
+          <button class="btn good" id="logBtn">✅ Log</button>
+        </div>
+        <div class="row" style="margin-top:10px;justify-content:space-between">
+          <span class="chip" id="todayMinsChip">Today: 0 min</span>
+          <span class="chip" id="weekMinsChip">7 days: 0 min</span>
+        </div>
+        <div class="tiny" style="margin-top:10px;color:rgba(245,247,255,.78)">
+          Tip: “2 minutes, daily” beats “1 hour, once.”
+        </div>
+      </div>
+    </aside>
+
+    <main class="panel" id="main"></main>
+  </div>
+</div>
+
+<script>
+/* ================================
+   KHAEMENES — MUSIC 101 PORTAL v1
+   Standalone, Wix-friendly, localStorage progress
+================================ */
+
+const KEY = "kha_music101_portal_v1";
+
+/* ---------- Helpers ---------- */
+const clamp = (x,a,b)=>Math.max(a,Math.min(b,x));
+const todayYMD = ()=>{
+  const d=new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+};
+function safeParseJSON(s){ try{return JSON.parse(s);}catch(e){return null;} }
+function escapeHtml(str){
+  return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
+}
+
+/* ---------- Course Data (6 weeks) ---------- */
+const COURSE = {
+  title: "Reading Music 101",
+  weeks: [
+    {
+      title: "The Staff, Clefs & Note Names",
+      goal: "Learn how pitch is written: staff lines/spaces, treble & bass clef landmarks, and the musical alphabet.",
+      prayer: "Creator of beauty and order, bless this learning time with patience, clarity, and joy. Help me practice calmly and consistently. Amen.",
+      sessionPlan: [
+        ["Opening Prayer / Intention", "2 min"],
+        ["Warm-up: say the music alphabet A–G twice; clap a steady pulse", "5 min"],
+        ["Lesson: staff, lines/spaces, treble & bass landmarks", "10 min"],
+        ["Practice Lab: Treble note identification (landmarks)", "10 min"],
+        ["Wrap + Homework", "3 min"]
+      ],
+      lesson: {
+        keyIdeas: [
+          "Music uses letter names A–G, repeating over and over.",
+          "A staff has 5 lines and 4 spaces; higher notes are written higher on the staff.",
+          "Clefs tell you which notes the lines/spaces represent.",
+          "Treble clef curls around the G line (2nd line). Bass clef dots surround the F line (4th line).",
+          "Landmarks help: Treble: middle line is B; Bass: middle line is D."
+        ],
+        quickWins: [
+          "Say: “Line, space, line, space…” as you count upward.",
+          "Use 2–3 landmarks (G line treble / F line bass / middle lines) instead of memorizing everything at once."
+        ],
+        cheatSheet: [
+          "Treble (bottom line up): E–G–B–D–F (lines), F–A–C–E (spaces)",
+          "Bass (bottom line up): G–B–D–F–A (lines), A–C–E–G (spaces)"
+        ]
+      },
+      lab: { mode: "notes", clef: "treble" },
+      resources: [
+        {label:"musictheory.net — The Staff, Clefs, Ledger Lines", url:"https://www.musictheory.net/lessons/10"},
+        {label:"musictheory.net — Note Identification (exercise)", url:"https://www.musictheory.net/exercises/note"},
+        {label:"Teoria — Reading Notes (tutorial)", url:"https://www.teoria.com/en/tutorials/reading/12-notes.php"}
+      ],
+      quiz: [
+        {type:"tf", prompt:"Treble clef marks the second line as the note G.", answer:true, explain:"Yes — the treble clef “wraps” around the G line."},
+        {type:"mc", prompt:"After the letter G, the musical alphabet continues with…", options:["H","A","Z","G again"], answerIndex:1, explain:"Music letter names cycle A–G repeatedly."},
+        {type:"mc", prompt:"How many lines are on a standard staff?", options:["4","5","6","8"], answerIndex:1, explain:"A staff has 5 lines."},
+        {type:"tf", prompt:"Bass clef’s two dots surround the line for the note F.", answer:true, explain:"Yes — that line is F."},
+        {type:"essay", prompt:"In your own words: What is a clef, and why do “landmark notes” make reading easier?", rubric:"Mention that clef assigns note names to staff positions; landmarks reduce memorization by anchoring other notes."}
+      ]
+    },
+
+    {
+      title: "Rhythm Basics & Time Signatures",
+      goal: "Learn note/rest values, counting in time, measures, and simple time signatures like 4/4 and 3/4.",
+      prayer: "Giver of rhythm and breath, help me count steadily and practice without frustration. Strengthen my focus and consistency. Amen.",
+      sessionPlan: [
+        ["Opening Prayer / Intention", "2 min"],
+        ["Warm-up: clap 8 steady beats; count out loud 1–2–3–4", "5 min"],
+        ["Lesson: note values, rests, measures, time signatures", "10 min"],
+        ["Practice Lab: rhythm + metronome counting", "10 min"],
+        ["Wrap + Homework", "3 min"]
+      ],
+      lesson: {
+        keyIdeas: [
+          "Rhythm is how long sounds last and where they land in time.",
+          "Common note values: whole, half, quarter, eighth (and their rests).",
+          "Measures (bars) group beats; a time signature tells you beats per measure and which note gets the beat.",
+          "In 4/4: 4 beats per measure; quarter note gets 1 beat.",
+          "Count out loud. Quiet counting often becomes sloppy counting."
+        ],
+        quickWins: [
+          "Tap your foot on the beat; clap the rhythm.",
+          "Count eighth notes as “1 & 2 & 3 & 4 &”."
+        ],
+        cheatSheet: [
+          "Whole note = 4 beats (in 4/4)",
+          "Half note = 2 beats",
+          "Quarter note = 1 beat",
+          "Two eighth notes = 1 beat total",
+          "Tie = adds durations; Dot = adds half of the note’s value"
+        ]
+      },
+      lab: { mode: "rhythm" },
+      resources: [
+        {label:"musictheory.net — Measures & Time Signatures", url:"https://www.musictheory.net/lessons/12"},
+        {label:"Open Music Theory — Simple Meter & Time Signatures", url:"https://viva.pressbooks.pub/openmusictheory/chapter/simple-meter-and-time-signatures/"},
+        {label:"Open Music Theory — Notating Rhythm", url:"https://viva.pressbooks.pub/openmusictheory/chapter/notating-rhythm/"}
+      ],
+      quiz: [
+        {type:"tf", prompt:"In 4/4 time, the top number tells how many beats are in each measure.", answer:true, explain:"Yes — top number = beats per measure (in simple meters)."},
+        {type:"mc", prompt:"In 4/4 time, a half note equals…", options:["1 beat","2 beats","3 beats","4 beats"], answerIndex:1, explain:"Half note = 2 beats in 4/4."},
+        {type:"mc", prompt:"Which counting is correct for eighth notes in 4/4?", options:["1 2 3 4 only","1 & 2 & 3 & 4 &","1 e & a 2 e & a","A B C D"], answerIndex:1, explain:"Eighth notes are commonly counted with “&” between beats."},
+        {type:"tf", prompt:"A tie combines the duration of two notes into one sustained sound.", answer:true, explain:"Yes — you hold through the second note."},
+        {type:"essay", prompt:"Describe how you would practice rhythm for 5 minutes daily. Include counting out loud.", rubric:"Include steady pulse, counting out loud, clapping rhythms, using a metronome, starting slow then increasing speed."}
+      ]
+    },
+
+    {
+      title: "Sharps, Flats, Key Signatures & Major Scales",
+      goal: "Understand accidentals, key signatures, and the major scale pattern; start recognizing common keys.",
+      prayer: "Creator of patterns and harmony, help me see structure clearly and practice faithfully. Let learning be steady and peaceful. Amen.",
+      sessionPlan: [
+        ["Opening Prayer / Intention", "2 min"],
+        ["Warm-up: name the notes on one line of the staff; clap 8 beats", "5 min"],
+        ["Lesson: sharps/flats, key signatures, major scale pattern", "10 min"],
+        ["Practice Lab: key signature identification", "10 min"],
+        ["Wrap + Homework", "3 min"]
+      ],
+      lesson: {
+        keyIdeas: [
+          "A sharp (♯) raises a note; a flat (♭) lowers a note.",
+          "A key signature is a set of sharps or flats at the start of the staff that apply throughout the piece.",
+          "Order of sharps: F C G D A E B. Order of flats: B E A D G C F.",
+          "Major scale pattern (whole/half steps): W W H W W W H.",
+          "Start with easy keys: C (none), G (1♯), F (1♭)."
+        ],
+        quickWins: [
+          "Memorize the order of sharps and flats — it makes key signatures predictable.",
+          "Practice identifying keys by count: 0 sharps = C major, 1 sharp = G major, 1 flat = F major."
+        ],
+        cheatSheet: [
+          "Sharps: F♯ C♯ G♯ D♯ A♯ E♯ B♯",
+          "Flats: B♭ E♭ A♭ D♭ G♭ C♭ F♭",
+          "C major = 0 accidentals"
+        ]
+      },
+      lab: { mode: "keys" },
+      resources: [
+        {label:"musictheory.net — Key Signature Identification (exercise)", url:"https://www.musictheory.net/exercises/keysig"},
+        {label:"musictheory.net — Lessons index (great sequence)", url:"https://www.musictheory.net/lessons"},
+        {label:"Circle of Fifths (reference)", url:"https://en.wikipedia.org/wiki/Circle_of_fifths"}
+      ],
+      quiz: [
+        {type:"tf", prompt:"The order of sharps is F, C, G, D, A, E, B.", answer:true, explain:"Yes — that’s the standard order of sharps."},
+        {type:"mc", prompt:"A key signature with 1 sharp is most commonly…", options:["C major","G major","F major","D major"], answerIndex:1, explain:"1 sharp = G major (or E minor)."},
+        {type:"mc", prompt:"Major scale step pattern is…", options:["W H W H W H W","W W H W W W H","H H W W H W W","W W W H H W H"], answerIndex:1, explain:"Major scale = W W H W W W H."},
+        {type:"tf", prompt:"Accidentals in the key signature apply to every octave of that note name unless canceled.", answer:true, explain:"Yes — key signature applies across octaves."},
+        {type:"essay", prompt:"Explain why the order of sharps/flats makes key signatures easier to memorize.", rubric:"Mention cumulative pattern: each new sharp/flat is added in a fixed order; keys become predictable by count."}
+      ]
+    },
+
+    {
+      title: "Intervals & Reading Two Notes at Once",
+      goal: "Learn intervals (2nds–8ves), how to count lines/spaces, and begin recognizing simple harmony.",
+      prayer: "Source of harmony, help me learn spacing and relationships with clarity. Train my eyes to read calmly and accurately. Amen.",
+      sessionPlan: [
+        ["Opening Prayer / Intention", "2 min"],
+        ["Warm-up: identify 10 notes in the Practice Lab", "5 min"],
+        ["Lesson: intervals, counting lines/spaces, basic harmony", "10 min"],
+        ["Practice Lab: interval identification", "10 min"],
+        ["Wrap + Homework", "3 min"]
+      ],
+      lesson: {
+        keyIdeas: [
+          "An interval is the distance between two notes.",
+          "Count intervals by counting letter names (including both notes): C→E is 3rd (C-D-E).",
+          "Steps (2nd) and skips (3rd) are the building blocks of melody.",
+          "4ths and 5ths are very common; octaves (8ves) repeat the same letter name.",
+          "Reading two notes at once helps with chords and harmony later."
+        ],
+        quickWins: [
+          "Practice interval size first (2nd/3rd/4th/5th), then quality later (major/minor/perfect).",
+          "Use staff geometry: line-to-line or space-to-space = odd-number interval (3rd/5th/7th). Line-to-space = even-number (2nd/4th/6th/8ve)."
+        ],
+        cheatSheet: [
+          "C→D = 2nd, C→E = 3rd, C→F = 4th, C→G = 5th, C→A = 6th, C→B = 7th, C→C = 8ve"
+        ]
+      },
+      lab: { mode: "intervals" },
+      resources: [
+        {label:"musictheory.net — Interval Identification (exercise)", url:"https://www.musictheory.net/exercises/interval"},
+        {label:"Open Music Theory — Clefs & pitch naming", url:"https://viva.pressbooks.pub/openmusictheory/chapter/clefs/"},
+        {label:"Teoria — Clef Reading (exercise)", url:"https://www.teoria.com/en/exercises/clef.php"}
+      ],
+      quiz: [
+        {type:"tf", prompt:"Line-to-line or space-to-space intervals are odd-numbered (3rd/5th/7th).", answer:true, explain:"Yes — geometry helps quickly estimate interval size."},
+        {type:"mc", prompt:"Counting letter names: C to G is a…", options:["3rd","4th","5th","6th"], answerIndex:2, explain:"C-D-E-F-G = 5th."},
+        {type:"mc", prompt:"A step on the staff is usually a…", options:["2nd","3rd","5th","8ve"], answerIndex:0, explain:"Adjacent line/space = 2nd (a step)."},
+        {type:"tf", prompt:"An octave repeats the same letter name (A to A, C to C).", answer:true, explain:"Yes — octave equivalence."},
+        {type:"essay", prompt:"Describe a strategy to identify interval size quickly when sight-reading.", rubric:"Mention geometry + counting letter names; use landmarks; start by estimating then confirm."}
+      ]
+    },
+
+    {
+      title: "Dynamics, Articulation & Roadmap Symbols",
+      goal: "Learn the symbols that tell you how to play: dynamics (p/f), articulation, repeats, ties/slurs, and tempo markings.",
+      prayer: "Giver of expression, teach me to read not only notes but meaning — the shape, feeling, and intent of music. Amen.",
+      sessionPlan: [
+        ["Opening Prayer / Intention", "2 min"],
+        ["Warm-up: clap 4/4 + speak a rhythm; identify 5 notes", "5 min"],
+        ["Lesson: dynamics, articulation, repeats, roadmap", "10 min"],
+        ["Practice Lab: symbol meaning", "10 min"],
+        ["Wrap + Homework", "3 min"]
+      ],
+      lesson: {
+        keyIdeas: [
+          "Dynamics: p (soft), f (loud), mp/mf (medium), cresc. (get louder), dim. (get softer).",
+          "Articulation: staccato (short), legato (smooth), accent (emphasis).",
+          "Slur vs tie: slur connects multiple notes smoothly; tie connects identical pitches to extend duration.",
+          "Roadmap symbols: repeat signs, D.C., D.S., Coda (used often in hymns and songs).",
+          "Tempo markings and metronome numbers guide speed (e.g., ♩=80)."
+        ],
+        quickWins: [
+          "Always scan the first system for dynamics and repeats before playing.",
+          "Mark your roadmap in pencil (or in your mind): ‘start → repeat → D.C. → Coda’."
+        ],
+        cheatSheet: [
+          "p = piano (soft), f = forte (loud)",
+          "crescendo = louder, diminuendo = softer",
+          "staccato = short, accent = emphasize",
+          "tie = same pitch held longer; slur = smooth phrase"
+        ]
+      },
+      lab: { mode: "symbols" },
+      resources: [
+        {label:"musictheory.net — Lessons (roadmap + rhythm + notes)", url:"https://www.musictheory.net/lessons"},
+        {label:"musictheory.net — Exercises index", url:"https://www.musictheory.net/exercises"},
+        {label:"Open Music Theory — Notation reference (browse)", url:"https://viva.pressbooks.pub/openmusictheory/"}
+      ],
+      quiz: [
+        {type:"tf", prompt:"A tie connects two identical pitches to create one longer duration.", answer:true, explain:"Yes — tie extends the same note."},
+        {type:"mc", prompt:"Which marking generally means “get louder”?", options:["dim.","cresc.","pp","rit."], answerIndex:1, explain:"crescendo = increase volume."},
+        {type:"mc", prompt:"Staccato usually means…", options:["play smoothly connected","play short and detached","play very loudly","play slower"], answerIndex:1, explain:"Staccato = short."},
+        {type:"tf", prompt:"A slur and a tie are the same thing.", answer:false, explain:"Different: slur = phrase connection; tie = same pitch duration extension."},
+        {type:"essay", prompt:"Explain how you would ‘scan the roadmap’ of a piece before playing.", rubric:"Mention checking key/time, repeats, D.C./D.S., Coda, dynamics, tempo; plan where you jump."}
+      ]
+    },
+
+    {
+      title: "Sight-Reading Strategy & Weekly Practice Plan",
+      goal: "Combine note reading + rhythm into a real sight-reading routine; learn what to look for first and how to practice efficiently.",
+      prayer: "Guide of learning, help me stay steady under pressure. Let my eyes and hands work together with calm focus. Amen.",
+      sessionPlan: [
+        ["Opening Prayer / Intention", "2 min"],
+        ["Warm-up: metronome pulse + clap a rhythm", "5 min"],
+        ["Lesson: sight-reading order of operations", "10 min"],
+        ["Practice Lab: mixed review (notes/rhythm/keys/intervals)", "10 min"],
+        ["Wrap + Homework + next steps", "3 min"]
+      ],
+      lesson: {
+        keyIdeas: [
+          "Sight-reading order: 1) key signature, 2) time signature, 3) rhythm patterns, 4) pitch landmarks, 5) dynamics/roadmap.",
+          "Go slow enough to stay accurate; speed comes later.",
+          "Practice in tiny chunks: 1–2 measures, repeat, then connect.",
+          "Use a metronome at a comfortable tempo and don’t stop for mistakes — keep the beat.",
+          "Build a weekly plan: 10 minutes/day can change everything."
+        ],
+        quickWins: [
+          "Before playing, silently count 1 full measure to set tempo.",
+          "Circle tricky rhythms or leaps; practice them alone first."
+        ],
+        cheatSheet: [
+          "Sight-read mantra: “Scan → Count → Landmarks → Keep going.”",
+          "Accuracy > speed. Beat continuity is king."
+        ]
+      },
+      lab: { mode: "mixed" },
+      resources: [
+        {label:"musictheory.net — Exercises (choose a drill)", url:"https://www.musictheory.net/exercises"},
+        {label:"Teoria — Clef Reading (drill)", url:"https://www.teoria.com/en/exercises/clef.php"},
+        {label:"Open Music Theory — Notation of notes & clefs", url:"https://viva.pressbooks.pub/openmusictheory/chapter/notation-of-notes-clefs-and-ledger-lines/"}
+      ],
+      quiz: [
+        {type:"tf", prompt:"In sight-reading, it’s usually better to keep the beat than to stop and fix every mistake.", answer:true, explain:"Yes — continuity builds timing and flow."},
+        {type:"mc", prompt:"What should you check FIRST before playing?", options:["Dynamics only","Key & time signatures","How fast it looks","The title"], answerIndex:1, explain:"Key/time determine many choices immediately."},
+        {type:"mc", prompt:"A strong daily plan for beginners is often…", options:["90 minutes once a week","10–15 minutes daily","No counting, just feel","Only fast practice"], answerIndex:1, explain:"Short daily practice beats sporadic marathons."},
+        {type:"tf", prompt:"Speed should be increased only after accuracy and steady counting are consistent.", answer:true, explain:"Yes — stable foundations first."},
+        {type:"essay", prompt:"Write your 7-day practice plan (days + minutes + what you’ll practice).", rubric:"Include daily minutes; rotate notes/rhythm/keys; include metronome work; include review."}
+      ]
+    }
+  ]
+};
+
+/* ---------- State ---------- */
+function defaultState(){
+  return {
+    currentWeek: -1,            // -1 = home
+    completed: {},              // weekIndex => true
+    notes: {},                  // weekIndex => text
+    quiz: {},                   // weekIndex => {answers:{}, score:number, autoTotal:number, submittedAt:string}
+    practice: {},               // YYYY-MM-DD => minutes
+    streak: {count:0, lastDate:""},
+    lab: {mode:"notes", clef:"treble", last: null}
+  };
+}
+function loadState(){
+  const raw = localStorage.getItem(KEY);
+  const obj = raw ? (safeParseJSON(raw) || defaultState()) : defaultState();
+  if(!obj.streak) obj.streak = {count:0,lastDate:""};
+  if(!obj.practice) obj.practice = {};
+  if(!obj.completed) obj.completed = {};
+  if(!obj.notes) obj.notes = {};
+  if(!obj.quiz) obj.quiz = {};
+  if(!obj.lab) obj.lab = {mode:"notes", clef:"treble", last:null};
+  if(typeof obj.currentWeek !== "number") obj.currentWeek = -1;
+  return obj;
+}
+function saveState(){ localStorage.setItem(KEY, JSON.stringify(state)); }
+
+let state = loadState();
+
+/* ---------- Progress / Streak ---------- */
+function countCompleted(){
+  return COURSE.weeks.reduce((acc,_,i)=>acc + (state.completed[i]?1:0), 0);
+}
+function updateStreakForDate(dateStr){
+  const s = state.streak;
+  if(s.lastDate === dateStr) return;
+  const d = new Date(dateStr + "T00:00:00");
+  const y = new Date(d); y.setDate(y.getDate()-1);
+  const ymd = `${y.getFullYear()}-${String(y.getMonth()+1).padStart(2,"0")}-${String(y.getDate()).padStart(2,"0")}`;
+  if(s.lastDate === ymd) s.count = (s.count||0) + 1;
+  else s.count = 1;
+  s.lastDate = dateStr;
+}
+function minutesToday(){
+  const t=todayYMD();
+  return Number(state.practice[t] || 0);
+}
+function minutesLast7(){
+  let total=0;
+  const now=new Date();
+  for(let i=0;i<7;i++){
+    const d=new Date(now); d.setDate(d.getDate()-i);
+    const y=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+    total += Number(state.practice[y] || 0);
+  }
+  return total;
+}
+
+/* ---------- UI Elements ---------- */
+const weekListEl = document.getElementById("weekList");
+const mainEl = document.getElementById("main");
+const weekChip = document.getElementById("weekChip");
+const completeChip = document.getElementById("completeChip");
+const streakChip = document.getElementById("streakChip");
+const barFill = document.getElementById("barFill");
+const pctText = document.getElementById("pctText");
+
+const minsInput = document.getElementById("minsInput");
+const logBtn = document.getElementById("logBtn");
+const todayMinsChip = document.getElementById("todayMinsChip");
+const weekMinsChip = document.getElementById("weekMinsChip");
+
+document.getElementById("homeBtn").onclick = ()=>{ state.currentWeek=-1; saveState(); render(); };
+document.getElementById("saveBtn").onclick = ()=>{ saveState(); alert("Saved."); };
+
+document.getElementById("exportBtn").onclick = ()=>{
+  const payload = { exportedAt: new Date().toISOString(), data: state, course: COURSE.title };
+  const blob = new Blob([JSON.stringify(payload,null,2)], {type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url; a.download="kha_music101_portal_backup.json";
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url), 500);
+};
+
+document.getElementById("importBtn").onclick = ()=>{
+  const input=document.createElement("input");
+  input.type="file"; input.accept="application/json";
+  input.onchange = async ()=>{
+    const file=input.files && input.files[0];
+    if(!file) return;
+    const txt = await file.text();
+    const obj = safeParseJSON(txt);
+    if(!(obj && obj.data)){
+      alert("That file doesn’t look like a valid export.");
+      return;
+    }
+    state = obj.data;
+    saveState();
+    render();
+    alert("Import successful.");
+  };
+  input.click();
+};
+
+document.getElementById("resetBtn").onclick = ()=>{
+  if(!confirm("Reset all Music 101 progress on this device?")) return;
+  localStorage.removeItem(KEY);
+  state = defaultState();
+  saveState();
+  render();
+};
+
+logBtn.onclick = ()=>{
+  const v = Number(minsInput.value || 0);
+  const add = clamp(v, 0, 600);
+  const t=todayYMD();
+  state.practice[t] = Number(state.practice[t] || 0) + add;
+  updateStreakForDate(t);
+  minsInput.value = "";
+  saveState();
+  renderTop();
+  alert("Logged. Great work.");
+};
+
+function renderTop(){
+  const done = countCompleted();
+  const pct = Math.round((done/COURSE.weeks.length)*100);
+  completeChip.textContent = `Completed: ${done}/${COURSE.weeks.length}`;
+  pctText.textContent = `${pct}%`;
+  barFill.style.width = pct + "%";
+
+  streakChip.textContent = `Practice streak: ${state.streak?.count || 0} 🔥`;
+
+  const cw = state.currentWeek;
+  weekChip.textContent = (cw>=0) ? `Week: ${cw+1}` : "Week: Home";
+
+  todayMinsChip.textContent = `Today: ${minutesToday()} min`;
+  weekMinsChip.textContent = `7 days: ${minutesLast7()} min`;
+}
+
+/* ---------- Week locking (sequence) ---------- */
+function unlockedWeek(i){
+  if(i===0) return true;
+  return !!state.completed[i-1];
+}
+
+/* ---------- Render Week List ---------- */
+function renderWeeks(){
+  weekListEl.innerHTML = "";
+  COURSE.weeks.forEach((w,i)=>{
+    const locked = !unlockedWeek(i);
+    const done = !!state.completed[i];
+    const btn = document.createElement("button");
+    btn.className = "weekBtn" + (locked ? " locked" : "");
+    btn.innerHTML = `
+      <div class="weekTitle">Week ${i+1}: ${escapeHtml(w.title)}</div>
+      <div class="weekMeta">
+        ${done ? "✅ Completed" : locked ? "🔒 Complete prior week to unlock" : "▶ Ready"}
+      </div>
+    `;
+    btn.onclick = ()=>{
+      if(locked){
+        alert("This week is locked. Complete the prior week to unlock it.");
+        return;
+      }
+      state.currentWeek = i;
+      saveState();
+      render();
+    };
+    weekListEl.appendChild(btn);
+  });
+}
+
+/* ---------- Practice Lab (interactive) ---------- */
+const NOTE_LETTERS = ["A","B","C","D","E","F","G"];
+
+// Staff note mapping (simple, readable)
+const TREBLE_RANGE = [
+  {label:"E4", letter:"E", step:0},
+  {label:"F4", letter:"F", step:1},
+  {label:"G4", letter:"G", step:2},
+  {label:"A4", letter:"A", step:3},
+  {label:"B4", letter:"B", step:4},
+  {label:"C5", letter:"C", step:5},
+  {label:"D5", letter:"D", step:6},
+  {label:"E5", letter:"E", step:7},
+  {label:"F5", letter:"F", step:8},
+  {label:"G5", letter:"G", step:9},
+  {label:"A5", letter:"A", step:10}
+];
+
+const BASS_RANGE = [
+  {label:"A2", letter:"A", step:0},  // bottom space below bottom line-ish for our mapping baseline
+  {label:"B2", letter:"B", step:1},
+  {label:"C3", letter:"C", step:2},
+  {label:"D3", letter:"D", step:3},
+  {label:"E3", letter:"E", step:4},
+  {label:"F3", letter:"F", step:5},
+  {label:"G3", letter:"G", step:6},
+  {label:"A3", letter:"A", step:7},
+  {label:"B3", letter:"B", step:8},
+  {label:"C4", letter:"C", step:9},
+  {label:"D4", letter:"D", step:10}
+];
+
+// Key signatures (major only, by count)
+const MAJOR_KEYS_SHARPS = ["C","G","D","A","E","B","F#","C#"];
+const MAJOR_KEYS_FLATS  = ["C","F","Bb","Eb","Ab","Db","Gb","Cb"];
+
+// Interval sizes (simple)
+const INTERVALS = [
+  {n:2,name:"2nd"},
+  {n:3,name:"3rd"},
+  {n:4,name:"4th"},
+  {n:5,name:"5th"},
+  {n:6,name:"6th"},
+  {n:7,name:"7th"},
+  {n:8,name:"Octave"}
+];
+
+function randInt(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
+function pick(arr){ return arr[randInt(0,arr.length-1)]; }
+
+function staffSVG(clef, noteStep){
+  // staff geometry
+  const W=260, H=140;
+  const top=35, gap=10;
+  const lines = [0,1,2,3,4].map(i => top + i*gap);
+
+  // baseline: For treble, step 0 at bottom line (E4) which is lines[4]
+  // For bass mapping, we’ll also treat step 0 as bottom line-ish in our simplified range and build upward
+  const bottomLine = lines[4];
+  const y = bottomLine - noteStep*(gap/2);
+
+  // ledger lines: if note is above top line or below bottom line
+  const ledger = [];
+  const topLine = lines[0];
+
+  function addLedger(yPos){
+    ledger.push(`<line x1="94" y1="${yPos}" x2="166" y2="${yPos}" stroke="rgba(245,247,255,.88)" stroke-width="2" />`);
+  }
+
+  // Determine ledger lines needed (every other step beyond staff)
+  // Above staff:
+  for(let yy=topLine-gap; yy>=y; yy-=gap){
+    addLedger(yy);
+  }
+  // Below staff:
+  for(let yy=bottomLine+gap; yy<=y; yy+=gap){
+    addLedger(yy);
+  }
+
+  const clefMark = (clef==="bass")
+    ? `<text x="32" y="78" font-size="56" fill="rgba(245,247,255,.88)">𝄢</text>`
+    : `<text x="28" y="88" font-size="62" fill="rgba(245,247,255,.88)">𝄞</text>`;
+
+  return `
+    <svg width="100%" viewBox="0 0 ${W} ${H}" role="img" aria-label="staff note">
+      <rect x="6" y="10" width="${W-12}" height="${H-20}" rx="14"
+        fill="rgba(255,255,255,.02)" stroke="rgba(255,255,255,.14)" />
+      ${lines.map(yy=>`<line x1="70" y1="${yy}" x2="${W-18}" y2="${yy}" stroke="rgba(245,247,255,.70)" stroke-width="2" />`).join("")}
+      ${clefMark}
+      ${ledger.join("")}
+      <!-- notehead -->
+      <ellipse cx="190" cy="${y}" rx="14" ry="10" fill="rgba(110,231,255,.22)" stroke="rgba(110,231,255,.95)" stroke-width="3"/>
+      <!-- stem (simple) -->
+      <line x1="204" y1="${y}" x2="204" y2="${y-46}" stroke="rgba(110,231,255,.95)" stroke-width="3" />
+    </svg>
+  `;
+}
+
+/* Metronome (WebAudio) */
+let metro = {on:false, bpm:80, t:null, ctx:null};
+function startMetronome(bpm, onTick){
+  stopMetronome();
+  metro.on=true;
+  metro.bpm = bpm;
+  const interval = 60000 / bpm;
+  let next = Date.now();
+  metro.t = setInterval(()=>{
+    const now = Date.now();
+    if(now >= next){
+      next += interval;
+      try{
+        if(!metro.ctx) metro.ctx = new (window.AudioContext||window.webkitAudioContext)();
+        const ctx=metro.ctx;
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.type="square";
+        o.frequency.value=880;
+        g.gain.value=0.05;
+        o.connect(g); g.connect(ctx.destination);
+        o.start();
+        o.stop(ctx.currentTime + 0.035);
+      }catch(e){}
+      onTick && onTick();
+    }
+  }, 10);
+}
+function stopMetronome(){
+  metro.on=false;
+  if(metro.t) clearInterval(metro.t);
+  metro.t=null;
+}
+
+/* ---------- Quiz Rendering ---------- */
+function getQuizState(weekIdx){
+  if(!state.quiz[weekIdx]) state.quiz[weekIdx] = {answers:{}, score:null, autoTotal:0, submittedAt:""};
+  return state.quiz[weekIdx];
+}
+function gradeQuiz(weekIdx){
+  const w = COURSE.weeks[weekIdx];
+  const qs = getQuizState(weekIdx);
+  let correct=0, total=0;
+  w.quiz.forEach((q,qi)=>{
+    if(q.type==="essay") return;
+    total++;
+    const a = qs.answers[qi];
+    if(q.type==="tf"){
+      if(typeof a === "boolean" && a === q.answer) correct++;
+    }else if(q.type==="mc"){
+      if(typeof a === "number" && a === q.answerIndex) correct++;
+    }
+  });
+  qs.score = (total? Math.round((correct/total)*100) : 0);
+  qs.autoTotal = total;
+  qs.submittedAt = new Date().toISOString();
+  saveState();
+  return {correct,total,pct:qs.score};
+}
+
+/* ---------- Render Home ---------- */
+function renderHome(){
+  mainEl.innerHTML = `
+    <h2>Welcome</h2>
+
+    <div class="card">
+      <h3>How to use this portal</h3>
+      <ul class="muted" style="font-size:20px">
+        <li>Start at <strong>Week 1</strong> and move forward in order (weeks unlock sequentially).</li>
+        <li>Use the <strong>Practice Lab</strong> for quick daily drills.</li>
+        <li>Complete the <strong>Homework Quiz</strong> each week (TF + MC auto-scored; essays saved for reflection).</li>
+        <li>Log practice minutes — your <strong>streak</strong> appears at the top.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Practice Lab (Quick Start)</h3>
+      <div class="muted" style="font-size:20px">Pick a drill and begin — no week required.</div>
+      <div class="row" style="margin-top:10px">
+        <button class="btn primary" onclick="launchLab('notes','treble')">🎼 Notes (Treble)</button>
+        <button class="btn primary" onclick="launchLab('notes','bass')">🎼 Notes (Bass)</button>
+        <button class="btn" onclick="launchLab('rhythm')">🥁 Rhythm</button>
+        <button class="btn" onclick="launchLab('keys')">🔑 Keys</button>
+        <button class="btn" onclick="launchLab('intervals')">↔ Intervals</button>
+        <button class="btn" onclick="launchLab('symbols')">✨ Symbols</button>
+        <button class="btn good" onclick="launchLab('mixed')">🎯 Mixed</button>
+      </div>
+      <div id="homeLab" class="labBox" style="margin-top:12px"></div>
+    </div>
+
+    <div class="card">
+      <h3>Free online study resources</h3>
+      <ul class="muted" style="font-size:20px">
+        <li><a target="_blank" rel="noopener" href="https://www.musictheory.net/lessons">musictheory.net — lessons</a></li>
+        <li><a target="_blank" rel="noopener" href="https://www.musictheory.net/exercises">musictheory.net — exercises</a></li>
+        <li><a target="_blank" rel="noopener" href="https://www.teoria.com/en/exercises/clef.php">Teoria — clef reading exercise</a></li>
+        <li><a target="_blank" rel="noopener" href="https://viva.pressbooks.pub/openmusictheory/">Open Music Theory (free text)</a></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Start the course</h3>
+      <div class="row">
+        <button class="btn good" id="goWeek1">▶ Go to Week 1</button>
+      </div>
+    </div>
+  `;
+  document.getElementById("goWeek1").onclick = ()=>{
+    state.currentWeek = 0;
+    saveState();
+    render();
+  };
+  // quick lab default
+  launchLab("notes","treble", "homeLab");
+}
+
+/* ---------- Render Week View ---------- */
+function renderWeek(i){
+  const w = COURSE.weeks[i];
+  const qs = getQuizState(i);
+  const done = !!state.completed[i];
+
+  const sessionRows = w.sessionPlan.map(([a,b])=>`<li><strong>${escapeHtml(a)}</strong> — ${escapeHtml(b)}</li>`).join("");
+
+  const keyIdeas = w.lesson.keyIdeas.map(x=>`<li>${escapeHtml(x)}</li>`).join("");
+  const quickWins = w.lesson.quickWins.map(x=>`<li>${escapeHtml(x)}</li>`).join("");
+  const cheat = w.lesson.cheatSheet.map(x=>`<li><span class="kbd">${escapeHtml(x)}</span></li>`).join("");
+
+  const resLinks = w.resources.map(r=>`<li><a target="_blank" rel="noopener" href="${escapeHtml(r.url)}">${escapeHtml(r.label)}</a></li>`).join("");
+
+  mainEl.innerHTML = `
+    <h2>Week ${i+1}: ${escapeHtml(w.title)}</h2>
+
+    <div class="card">
+      <div class="row" style="justify-content:space-between">
+        <span class="chip accent">Goal</span>
+        <span class="chip ${done?"good":"warn"}">${done ? "✅ Completed" : "In progress"}</span>
+      </div>
+      <div class="muted" style="font-size:20px;margin-top:10px">${escapeHtml(w.goal)}</div>
+    </div>
+
+    <div class="card">
+      <h3>Opening Prayer (optional)</h3>
+      <div class="muted" style="font-size:20px">${escapeHtml(w.prayer)}</div>
+    </div>
+
+    <div class="card">
+      <h3>30-Minute Session Plan</h3>
+      <ul class="muted" style="font-size:20px">${sessionRows}</ul>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h3>Lesson Notes</h3>
+        <h4>Key Ideas</h4>
+        <ul class="muted" style="font-size:20px">${keyIdeas}</ul>
+        <div class="divider"></div>
+        <h4>Quick Wins</h4>
+        <ul class="muted" style="font-size:20px">${quickWins}</ul>
+      </div>
+
+      <div class="card">
+        <h3>Cheat Sheet</h3>
+        <ul class="muted" style="font-size:20px">${cheat}</ul>
+        <div class="divider"></div>
+        <h4>Week Notes</h4>
+        <textarea id="notesBox" placeholder="Write your notes here…">${escapeHtml(state.notes[i] || "")}</textarea>
+        <div class="row" style="margin-top:10px">
+          <button class="btn good" id="saveNotesBtn">Save Notes</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Practice Lab</h3>
+      <div class="muted" style="font-size:20px">
+        Do 3–5 minutes daily. Keep it calm. Accuracy first.
+      </div>
+      <div class="row" style="margin-top:10px">
+        <button class="btn primary" onclick="launchWeekLab(${i})">▶ Start Week Lab</button>
+        <button class="btn" onclick="launchLab('mixed',null,'weekLab')">🎯 Mixed Review</button>
+      </div>
+      <div id="weekLab" class="labBox" style="margin-top:12px"></div>
+    </div>
+
+    <div class="card">
+      <h3>Homework Quiz (5 questions)</h3>
+      <div class="muted" style="font-size:20px">
+        TF + MC auto-score. Essays are saved for reflection.
+        ${qs.score!==null ? `<div class="row" style="margin-top:10px"><span class="chip good">Latest auto-score: ${qs.score}% (${qs.autoTotal} auto-graded)</span></div>` : ""}
+      </div>
+      <div id="quizBox" style="margin-top:12px"></div>
+      <div class="row" style="margin-top:10px">
+        <button class="btn good" id="submitQuizBtn">✅ Submit Quiz</button>
+        <button class="btn" id="saveQuizBtn">💾 Save Quiz</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Study Links</h3>
+      <ul class="muted" style="font-size:20px">${resLinks}</ul>
+    </div>
+
+    <div class="card">
+      <div class="row" style="justify-content:space-between">
+        <button class="btn" id="prevWeekBtn">⬅ Prev</button>
+        <div class="row">
+          <button class="btn ${done?"good":"warn"}" id="toggleCompleteBtn">${done?"✅ Marked Complete":"Mark Week Complete"}</button>
+          <button class="btn primary" id="nextWeekBtn">Next ➡</button>
+        </div>
+      </div>
+      <div class="tiny" style="margin-top:10px;color:rgba(245,247,255,.78)">
+        Note: Weeks unlock sequentially after marking the prior week complete.
+      </div>
+    </div>
+  `;
+
+  // notes save
+  document.getElementById("saveNotesBtn").onclick = ()=>{
+    const v = document.getElementById("notesBox").value || "";
+    state.notes[i] = v;
+    saveState();
+    alert("Notes saved.");
+  };
+
+  // week nav
+  document.getElementById("prevWeekBtn").onclick = ()=>{
+    const ni = i-1;
+    if(ni < 0){ state.currentWeek=-1; saveState(); render(); return; }
+    state.currentWeek = ni; saveState(); render();
+  };
+  document.getElementById("nextWeekBtn").onclick = ()=>{
+    const ni = i+1;
+    if(ni >= COURSE.weeks.length){ alert("You’ve reached the end. Great work."); return; }
+    if(!unlockedWeek(ni)){
+      alert("Next week is locked. Mark this week complete to unlock it.");
+      return;
+    }
+    state.currentWeek = ni; saveState(); render();
+  };
+
+  // completion toggle
+  document.getElementById("toggleCompleteBtn").onclick = ()=>{
+    // gentle prompt: suggest quiz submit
+    const q = getQuizState(i);
+    if(!state.completed[i] && q.score===null){
+      if(!confirm("You haven’t submitted the quiz yet. Mark week complete anyway?")) return;
+    }
+    state.completed[i] = !state.completed[i];
+    saveState();
+    render();
+  };
+
+  // quiz render + handlers
+  renderQuiz(i);
+
+  document.getElementById("saveQuizBtn").onclick = ()=>{
+    saveState();
+    alert("Quiz saved.");
+  };
+  document.getElementById("submitQuizBtn").onclick = ()=>{
+    const res = gradeQuiz(i);
+    alert(`Quiz submitted. Auto-score: ${res.pct}% (${res.correct}/${res.total})`);
+    render();
+  };
+
+  // start lab for this week
+  launchWeekLab(i);
+}
+
+function renderQuiz(weekIdx){
+  const w = COURSE.weeks[weekIdx];
+  const qs = getQuizState(weekIdx);
+
+  const box = document.getElementById("quizBox");
+  box.innerHTML = w.quiz.map((q, qi)=>{
+    const saved = qs.answers[qi];
+
+    if(q.type==="tf"){
+      const val = (typeof saved==="boolean") ? saved : null;
+      return `
+        <div class="qBox">
+          <div class="tiny">${qi+1}. True / False</div>
+          <div class="qPrompt">${escapeHtml(q.prompt)}</div>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="q${qi}" value="true" ${val===true?"checked":""}/> <span>True</span></label>
+            <label class="choice"><input type="radio" name="q${qi}" value="false" ${val===false?"checked":""}/> <span>False</span></label>
+          </div>
+          ${qs.score!==null ? `<div class="tiny muted" style="margin-top:8px">Why: ${escapeHtml(q.explain||"")}</div>` : ``}
+        </div>
+      `;
+    }
+
+    if(q.type==="mc"){
+      const val = (typeof saved==="number") ? saved : null;
+      const opts = q.options.map((opt, oi)=>{
+        return `
+          <label class="choice">
+            <input type="radio" name="q${qi}" value="${oi}" ${val===oi?"checked":""}/>
+            <span>${escapeHtml(opt)}</span>
+          </label>
+        `;
+      }).join("");
+      return `
+        <div class="qBox">
+          <div class="tiny">${qi+1}. Multiple Choice</div>
+          <div class="qPrompt">${escapeHtml(q.prompt)}</div>
+          <div class="choices">${opts}</div>
+          ${qs.score!==null ? `<div class="tiny muted" style="margin-top:8px">Why: ${escapeHtml(q.explain||"")}</div>` : ``}
+        </div>
+      `;
+    }
+
+    // essay
+    const text = (typeof saved==="string") ? saved : "";
+    return `
+      <div class="qBox">
+        <div class="tiny">${qi+1}. Essay (self-reflection)</div>
+        <div class="qPrompt">${escapeHtml(q.prompt)}</div>
+        <textarea data-essay="${qi}" placeholder="Write your answer…">${escapeHtml(text)}</textarea>
+        <div class="tiny muted" style="margin-top:8px"><strong>Rubric:</strong> ${escapeHtml(q.rubric||"")}</div>
+      </div>
+    `;
+  }).join("");
+
+  // wire TF/MC radios
+  w.quiz.forEach((q,qi)=>{
+    if(q.type==="tf" || q.type==="mc"){
+      const radios = box.querySelectorAll(`input[name="q${qi}"]`);
+      radios.forEach(r=>{
+        r.onchange = ()=>{
+          const qs = getQuizState(weekIdx);
+          if(q.type==="tf") qs.answers[qi] = (r.value === "true");
+          else qs.answers[qi] = parseInt(r.value,10);
+          saveState();
+        };
+      });
+    }
+  });
+
+  // wire essays
+  box.querySelectorAll("textarea[data-essay]").forEach(t=>{
+    t.oninput = ()=>{
+      const qi = parseInt(t.getAttribute("data-essay"),10);
+      const qs = getQuizState(weekIdx);
+      qs.answers[qi] = t.value;
+      saveState();
+    };
+  });
+}
+
+/* ---------- Practice Lab Launcher ---------- */
+function launchWeekLab(weekIdx){
+  const w = COURSE.weeks[weekIdx];
+  const mode = w.lab.mode;
+  if(mode==="notes"){
+    launchLab("notes", w.lab.clef || "treble", "weekLab");
+  }else{
+    launchLab(mode, null, "weekLab");
+  }
+}
+window.launchWeekLab = launchWeekLab;
+
+function launchLab(mode, clef=null, targetId="homeLab"){
+  const target = document.getElementById(targetId);
+  if(!target) return;
+
+  if(mode==="notes"){
+    const useClef = clef || "treble";
+    const range = (useClef==="bass") ? BASS_RANGE : TREBLE_RANGE;
+    let current = pick(range);
+    let feedback = "";
+
+    function newNote(){
+      current = pick(range);
+      feedback = "";
+      render();
+    }
+
+    function render(){
+      target.innerHTML = `
+        <div class="row" style="justify-content:space-between">
+          <span class="chip accent">Notes Lab</span>
+          <span class="chip">${useClef==="bass" ? "Bass clef" : "Treble clef"}</span>
+          <button class="btn" id="${targetId}_new">🎲 New</button>
+        </div>
+
+        <div class="staffWrap" style="margin-top:10px">
+          ${staffSVG(useClef, current.step)}
+        </div>
+
+        <div class="muted" style="text-align:center;font-size:20px;margin-top:8px">
+          Identify the note letter (A–G). Don’t rush.
+        </div>
+
+        <div class="noteBtns">
+          ${NOTE_LETTERS.map(L=>`<button class="btn primary" data-note="${L}">${L}</button>`).join("")}
+        </div>
+
+        ${feedback ? `<div class="row" style="justify-content:center;margin-top:10px"><span class="chip ${feedback.ok?'good':'warn'}">${feedback.msg}</span></div>` : ``}
+
+        <div class="tiny" style="margin-top:10px;color:rgba(245,247,255,.78);text-align:center">
+          Tip: Use landmarks (G line treble / F line bass) and count up/down.
+        </div>
+      `;
+
+      document.getElementById(`${targetId}_new`).onclick = newNote;
+
+      target.querySelectorAll("button[data-note]").forEach(b=>{
+        b.onclick = ()=>{
+          const guess = b.getAttribute("data-note");
+          if(guess === current.letter){
+            feedback = {ok:true, msg:`✅ Correct — ${current.label}`};
+          }else{
+            feedback = {ok:false, msg:`Not quite. Correct is ${current.label}. Try counting from a landmark.`};
+          }
+          // log 1 minute of “mental practice” is optional; we won't auto-log
+          render();
+        };
+      });
+    }
+    render();
+    return;
+  }
+
+  if(mode==="rhythm"){
+    let bpm = 80;
+    let tick = 0;
+    let ticking = false;
+
+    function render(){
+      target.innerHTML = `
+        <div class="row" style="justify-content:space-between">
+          <span class="chip accent">Rhythm Lab</span>
+          <span class="chip">Metronome</span>
+        </div>
+
+        <div class="labBox" style="margin-top:10px">
+          <div class="muted" style="font-size:20px">
+            Set a tempo and count out loud: <span class="kbd">1 2 3 4</span> (or <span class="kbd">1 &amp; 2 &amp; 3 &amp; 4 &amp;</span>).
+          </div>
+
+          <div class="row" style="margin-top:10px">
+            <label class="chip">BPM</label>
+            <input type="number" id="${targetId}_bpm" min="40" max="220" value="${bpm}" style="max-width:180px" />
+            <button class="btn good" id="${targetId}_start">${ticking?"⏹ Stop":"▶ Start"}</button>
+            <span class="chip ${tick%2===0?'good':'accent'}" id="${targetId}_pulse">Pulse: ${tick}</span>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="muted" style="font-size:20px">
+            Quick checks:
+            <ul>
+              <li>In 4/4, a <strong>half note</strong> = 2 beats.</li>
+              <li>In 4/4, a <strong>whole note</strong> = 4 beats.</li>
+              <li>Two <strong>eighth notes</strong> = 1 beat total.</li>
+            </ul>
+          </div>
+        </div>
+      `;
+
+      const bpmInput = document.getElementById(`${targetId}_bpm`);
+      bpmInput.oninput = ()=>{ bpm = clamp(Number(bpmInput.value||80), 40, 220); };
+
+      document.getElementById(`${targetId}_start`).onclick = ()=>{
+        bpm = clamp(Number(bpmInput.value||80), 40, 220);
+        if(ticking){
+          ticking=false; stopMetronome(); render(); return;
+        }
+        ticking=true;
+        startMetronome(bpm, ()=>{
+          tick++;
+          const el = document.getElementById(`${targetId}_pulse`);
+          if(el) el.textContent = "Pulse: " + tick;
+        });
+        render();
+      };
+    }
+    render();
+    return;
+  }
+
+  if(mode==="keys"){
+    let kind = Math.random()<0.5 ? "sharps" : "flats";
+    let count = randInt(0,7);
+    if(count===0) kind = "sharps"; // 0 fits either; keep simple
+    const correct = (kind==="sharps") ? MAJOR_KEYS_SHARPS[count] : MAJOR_KEYS_FLATS[count];
+
+    function choices(){
+      const pool = [...new Set([...MAJOR_KEYS_SHARPS, ...MAJOR_KEYS_FLATS])];
+      const opts = [correct];
+      while(opts.length<4){
+        const c = pick(pool);
+        if(!opts.includes(c)) opts.push(c);
+      }
+      // shuffle
+      for(let i=opts.length-1;i>0;i--){
+        const j=Math.floor(Math.random()*(i+1));
+        [opts[i],opts[j]]=[opts[j],opts[i]];
+      }
+      return opts;
+    }
+
+    let opts = choices();
+    let msg = "";
+
+    target.innerHTML = `
+      <div class="row" style="justify-content:space-between">
+        <span class="chip accent">Key Signatures Lab</span>
+        <button class="btn" id="${targetId}_new">🎲 New</button>
+      </div>
+
+      <div class="muted" style="font-size:20px;margin-top:10px">
+        Identify the <strong>major key</strong> for: <span class="kbd">${count} ${kind}</span>.
+      </div>
+
+      <div class="noteBtns" style="margin-top:12px">
+        ${opts.map(o=>`<button class="btn primary" data-k="${escapeHtml(o)}">${escapeHtml(o)}</button>`).join("")}
+      </div>
+
+      ${msg?`<div class="row" style="justify-content:center;margin-top:10px"><span class="chip ${msg.ok?'good':'warn'}">${msg.text}</span></div>`:""}
+
+      <div class="tiny" style="margin-top:10px;color:rgba(245,247,255,.78);text-align:center">
+        Memory anchor: Sharps add clockwise (G, D, A, E...). Flats add counterclockwise (F, Bb, Eb...).
+      </div>
+    `;
+
+    target.querySelectorAll("button[data-k]").forEach(b=>{
+      b.onclick = ()=>{
+        const g = b.getAttribute("data-k");
+        if(g===correct) msg = {ok:true, text:`✅ Correct — ${correct} major`};
+        else msg = {ok:false, text:`Not quite. Correct is ${correct} major.`};
+        launchLab("keys", null, targetId); // refresh with new prompt? Instead rerender with feedback: simplest: just alert
+        alert(msg.text);
+      };
+    });
+
+    document.getElementById(`${targetId}_new`).onclick = ()=>launchLab("keys", null, targetId);
+    return;
+  }
+
+  if(mode==="intervals"){
+    // simple: two letters + interval number; user chooses interval name
+    const L = NOTE_LETTERS;
+    const a = pick(L);
+    let b = pick(L);
+    while(b===a) b = pick(L);
+
+    // compute interval size by counting letter steps cyclically from a to b upward
+    const ia = L.indexOf(a), ib = L.indexOf(b);
+    let steps = (ib - ia);
+    if(steps < 0) steps += 7;
+    const size = steps + 1; // include both notes
+    const correctObj = INTERVALS.find(x=>x.n===size) || {n:size,name:`${size}th`};
+
+    const pool = INTERVALS.map(x=>x.name);
+    const opts = [correctObj.name];
+    while(opts.length<4){
+      const c = pick(pool);
+      if(!opts.includes(c)) opts.push(c);
+    }
+    for(let i=opts.length-1;i>0;i--){
+      const j=Math.floor(Math.random()*(i+1));
+      [opts[i],opts[j]]=[opts[j],opts[i]];
+    }
+
+    target.innerHTML = `
+      <div class="row" style="justify-content:space-between">
+        <span class="chip accent">Intervals Lab</span>
+        <button class="btn" id="${targetId}_new">🎲 New</button>
+      </div>
+
+      <div class="muted" style="font-size:20px;margin-top:10px">
+        Interval from <span class="kbd">${a}</span> up to <span class="kbd">${b}</span> is a…
+      </div>
+
+      <div class="noteBtns" style="margin-top:12px">
+        ${opts.map(o=>`<button class="btn primary" data-i="${escapeHtml(o)}">${escapeHtml(o)}</button>`).join("")}
+      </div>
+
+      <div class="tiny" style="margin-top:10px;color:rgba(245,247,255,.78);text-align:center">
+        Count letter names including both notes (C-D-E = 3rd).
+      </div>
+    `;
+
+    target.querySelectorAll("button[data-i]").forEach(bn=>{
+      bn.onclick = ()=>{
+        const g = bn.getAttribute("data-i");
+        if(g===correctObj.name) alert(`✅ Correct — ${correctObj.name}`);
+        else alert(`Not quite. Correct is ${correctObj.name}.`);
+      };
+    });
+
+    document.getElementById(`${targetId}_new`).onclick = ()=>launchLab("intervals", null, targetId);
+    return;
+  }
+
+  if(mode==="symbols"){
+    const items = [
+      {sym:"p", name:"piano", meaning:"soft/quiet"},
+      {sym:"f", name:"forte", meaning:"loud"},
+      {sym:"mf", name:"mezzo-forte", meaning:"medium loud"},
+      {sym:"mp", name:"mezzo-piano", meaning:"medium soft"},
+      {sym:"crescendo", name:"cresc.", meaning:"gradually louder"},
+      {sym:"diminuendo", name:"dim.", meaning:"gradually softer"},
+      {sym:"• (staccato dot)", name:"staccato", meaning:"short/detached"},
+      {sym:"> (accent)", name:"accent", meaning:"emphasize the note"}
+    ];
+    const it = pick(items);
+    const opts = [it.meaning];
+    const pool = items.map(x=>x.meaning);
+    while(opts.length<4){
+      const c = pick(pool);
+      if(!opts.includes(c)) opts.push(c);
+    }
+    for(let i=opts.length-1;i>0;i--){
+      const j=Math.floor(Math.random()*(i+1));
+      [opts[i],opts[j]]=[opts[j],opts[i]];
+    }
+
+    target.innerHTML = `
+      <div class="row" style="justify-content:space-between">
+        <span class="chip accent">Symbols Lab</span>
+        <button class="btn" id="${targetId}_new">🎲 New</button>
+      </div>
+
+      <div class="muted" style="font-size:20px;margin-top:10px">
+        What does this marking mean?
+      </div>
+      <div class="row" style="justify-content:center;margin-top:10px">
+        <span class="chip good" style="font-size:22px"><strong>${escapeHtml(it.sym)}</strong></span>
+        <span class="chip">${escapeHtml(it.name)}</span>
+      </div>
+
+      <div class="noteBtns" style="margin-top:12px">
+        ${opts.map(o=>`<button class="btn primary" data-s="${escapeHtml(o)}">${escapeHtml(o)}</button>`).join("")}
+      </div>
+    `;
+
+    target.querySelectorAll("button[data-s]").forEach(b=>{
+      b.onclick = ()=>{
+        const g = b.getAttribute("data-s");
+        if(g===it.meaning) alert(`✅ Correct — ${it.meaning}`);
+        else alert(`Not quite. Correct is: ${it.meaning}`);
+      };
+    });
+    document.getElementById(`${targetId}_new`).onclick = ()=>launchLab("symbols", null, targetId);
+    return;
+  }
+
+  // mixed mode
+  if(mode==="mixed"){
+    const modes = ["notes","rhythm","keys","intervals","symbols"];
+    const m = pick(modes);
+    if(m==="notes") launchLab("notes", Math.random()<0.5?"treble":"bass", targetId);
+    else launchLab(m, null, targetId);
+    return;
+  }
+}
+window.launchLab = launchLab;
+
+/* ---------- Render Router ---------- */
+function render(){
+  renderTop();
+  renderWeeks();
+
+  if(state.currentWeek < 0){
+    renderHome();
+  }else{
+    renderWeek(state.currentWeek);
+  }
+}
+
+/* ---------- Init ---------- */
+render();
+</script>
+</body>
+</html>
