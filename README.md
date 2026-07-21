@@ -16,69 +16,40 @@ a world of inspiration, friendship, and belonging.
 Share your work, cheer others on, or just soak in the creative energy.
 It all starts here.
 
-Music Hall Portal for all ages
 
-​
+
+
+Music Hall Portal for all ages
 
 It includes:
 
-​
-
 199 music dossiers
-
 40 course modules
-
 Music literacy: beat, rhythm, notation, clefs, scales, intervals, chords, harmony, form, dynamics, articulation, sight reading, ear training
-
 Instrument pathways: voice, piano, guitar, strings, winds, brass, percussion, world instruments, synth/DAW
-
 Composition: melody writing, songwriting, harmony, counterpoint, arranging, orchestration, film/game scoring
-
 Technology: MIDI, recording, mixing, mastering overview, beatmaking, sampling ethics, notation software
-
 World music traditions: African, Indigenous, jazz, blues, gospel, hip-hop, Indian raga, Arabic maqam, Persian dastgah, Chinese, Japanese, Korean, Caribbean, Latin, Celtic, Nordic, Pacific, and more
-
-All-age pathways: early childhood, elementary, middle school, high school, adult beginner, senior music path
-
+All-age pathways: early childhood, elementary, middle school, high school, adult beginner, senior music pat
 Live search and filter chips
-
 Draggable dossier overlay
-
 Personal notes saved in-browser
-
 Favorites
-
 Progress tracking
-
 Quiz chamber with 80% mastery framing
-
 Printable progress report
-
 Downloadable notes JSON
-
 Practice Studio tools:
-
 Practice Plan Builder
-
 Metronome Hearth
-
 Rhythm Drill Generator
-
 Ear Training Routine
-
 Composition Prompt Forge
-
 Chord Progression Lantern
-
 Instrument Path Finder
-
 Portfolio Evidence Card
 
-​
-
 The source vault is grounded in respected music-education pathways. The National Core Arts Standards and NAfME frame music learning through artistic processes such as Creating, Performing, Responding, and Connecting. Open Music Theory provides a free online music theory text/workbook, while musictheory.net provides free lessons, exercises, ear trainers, and calculators. I also included Library of Congress and Smithsonian pathways for primary sources, music education, and global music learning.
-
-​
 
 I added score/resource cautions around public-domain use because IMSLP notes that public-domain status varies by country, and I included hearing-safety guidance through NIDCD/NIH resources.
 
