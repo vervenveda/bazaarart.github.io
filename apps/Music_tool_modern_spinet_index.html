@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>My Spinet™</title>
+<style>
+  body {
+    font-family: 'Georgia', serif;
+    text-align: center;
+    background: linear-gradient(180deg, #A3BFFF, #8A70FF);
+    padding: 55px;
+  }
+  h1 {
+    font-size: 55px;
+    color: #fff;
+    text-shadow: 2px 2px #333;
+  }
+  .piano {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 30px auto;
+    background: #000;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 6px 6px #fff;
+  }
+  .key {
+    width: 60px;
+    height: 200px;
+    margin: 2px;
+    background: white;
+    border: 2px solid #333;
+    border-radius: 0 0 8px 8px;
+    cursor: pointer;
+    font-size: 22px;
+    font-weight: bold;
+    color: #444;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-bottom: 10px;
+    position: relative;
+    transition: transform 0.1s, background 0.2s;
+  }
+  .key:active {
+    transform: scale(0.97);
+    background: #ffeb3b;
+  }
+  .black {
+    width: 40px;
+    height: 120px;
+    background: black;
+    color: white;
+    position: absolute;
+    top: 0;
+    left: 45px;
+    z-index: 2;
+    border-radius: 0 0 6px 6px;
+    font-size: 22px;
+  }
+  .controls {
+    margin: 20px auto;
+  }
+  .controls button {
+    background: #fff;
+    border: 2px solid #333;
+    border-radius: 8px;
+    padding: 10px 16px;
+    margin: 5px;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .controls button:hover {
+    background: #ffeb3b;
+  }
+</style>
+</head>
+<body>
+<h1>🎶 My Spinet™ 🎶</h1>
+<p>My Art Gallery and Khaemenes Academy present My Spinet™ <br>  A free two octave mini piano with record and save features. <br> Click the keys to play notes (2 Octaves). Use Record to capture your performance!</p>
+
+<div class="piano" id="piano"></div>
+
+<div class="controls">
+  <button id="recordBtn">⏺️ Record</button>
+  <button id="stopBtn" disabled>⏹️ Stop</button>
+  <button id="playBtn" disabled>▶️ Play</button>
+  <button id="saveBtn" disabled>💾 Save</button>
+</div>
+
+<audio id="note-C4" src="https://cdn.jsdelivr.net/gh/gleitz/midi-js-soundfonts@gh-pages/FluidR3_GM/acoustic_grand_piano-mp3/C4.mp3"></audio>
+<audio id="note-D4" src="https://cdn.jsdelivr.net/gh/gleitz/midi-js-soundfonts@gh-pages/FluidR3_GM/acoustic_grand_piano-mp3/D4.mp3"></audio>
+<audio id="note-E4" src="https://cdn.jsdelivr.net/gh/gleitz/midi-js-soundfonts@gh-pages/FluidR3_GM/acoustic_grand_piano-mp3/E4.mp3"></audio>
+<audio id="note-F4" src="https://cdn.jsdelivr.net/gh/gleitz/midi-js-soundfonts@gh-pages/FluidR3_GM/acoustic_grand_piano-mp3/F4.mp3"></audio>
+<audio id="note-G4" src="https://cdn.jsdelivr.net/gh/gleitz/midi-js-soundfonts@gh-pages/FluidR3_GM/acoustic_grand_piano-mp3/G4.mp3"></audio>
+<audio id="note-A4" src="https://cdn.jsdelivr.net/gh/gleitz/midi-js-soundfonts@gh-pages/FluidR3_GM/acoustic_grand_piano-mp3/A4.mp3"></audio>
+<audio id="note-B4" src="https://cdn.jsdelivr.net/gh/gleitz/midi-js-soundfonts@gh-pages/FluidR3_GM/acoustic_grand_piano-mp3/B4.mp3"></audio>
+<audio id="note-C5" src="https://cdn.jsdelivr.net/gh/gleitz/midi-js-soundfonts@gh-pages/FluidR3_GM/acoustic_grand_piano-mp3/C5.mp3"></audio>
+<audio id="note-D5" src="https://cdn.jsdelivr.net/gh/gleitz/midi-js-soundfonts@gh-pages/FluidR3_GM/acoustic_grand_piano-mp3/D5.mp3"></audio>
+<audio id="note-E5" src="https://cdn.jsdelivr.net/gh/gleitz/midi-js-soundfonts@gh-pages/FluidR3_GM/acoustic_grand_piano-mp3/E5.mp3"></audio>
+<audio id="note-F5" src="https://cdn.jsdelivr.net/gh/gleitz/midi-js-soundfonts@gh-pages/FluidR3_GM/acoustic_grand_piano-mp3/F5.mp3"></audio>
+<audio id="note-G5" src="https://cdn.jsdelivr.net/gh/gleitz/midi-js-soundfonts@gh-pages/FluidR3_GM/acoustic_grand_piano-mp3/G5.mp3"></audio>
+<audio id="note-A5" src="https://cdn.jsdelivr.net/gh/gleitz/midi-js-soundfonts@gh-pages/FluidR3_GM/acoustic_grand_piano-mp3/A5.mp3"></audio>
+<audio id="note-B5" src="https://cdn.jsdelivr.net/gh/gleitz/midi-js-soundfonts@gh-pages/FluidR3_GM/acoustic_grand_piano-mp3/B5.mp3"></audio>
+
+<script>
+  const NOTES = ["C4","D4","E4","F4","G4","A4","B4","C5","D5","E5","F5","G5","A5","B5"];
+  const piano = document.getElementById("piano");
+  let isRecording = false;
+  let startTime, recordedNotes = [];
+  const recordBtn = document.getElementById("recordBtn");
+  const stopBtn = document.getElementById("stopBtn");
+  const playBtn = document.getElementById("playBtn");
+  const saveBtn = document.getElementById("saveBtn");
+
+  NOTES.forEach(note => {
+    const key = document.createElement("div");
+    key.className = "key";
+    key.innerText = note.replace(/\d/,'');
+    key.onclick = () => playNote(note);
+    piano.appendChild(key);
+  });
+
+  function playNote(note) {
+    const audio = document.getElementById("note-" + note);
+    if (!audio) return;
+    audio.currentTime = 0;
+    audio.play();
+
+    if (isRecording) {
+      recordedNotes.push({ note, time: Date.now() - startTime });
+    }
+  }
+
+  recordBtn.onclick = () => {
+    isRecording = true;
+    recordedNotes = [];
+    startTime = Date.now();
+    recordBtn.disabled = true;
+    stopBtn.disabled = false;
+    playBtn.disabled = true;
+    saveBtn.disabled = true;
+  };
+
+  stopBtn.onclick = () => {
+    isRecording = false;
+    recordBtn.disabled = false;
+    stopBtn.disabled = true;
+    playBtn.disabled = recordedNotes.length === 0;
+    saveBtn.disabled = recordedNotes.length === 0;
+  };
+
+  playBtn.onclick = () => {
+    if (!recordedNotes.length) return;
+    recordedNotes.forEach(n => {
+      setTimeout(() => playNote(n.note), n.time);
+    });
+  };
+
+  saveBtn.onclick = () => {
+    const blob = new Blob([JSON.stringify(recordedNotes)], {type:"application/json"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "spinet-recording.json";
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+</script>
+</body>
+</html>
