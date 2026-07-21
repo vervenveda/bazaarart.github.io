@@ -1,0 +1,883 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Studio Sketch — Advanced Pad</title>
+<style>
+  :root{
+    --bg:#020617;
+    --card:#0b1220;
+    --muted:#9ca3af;
+    --accent:#38bdf8;
+    --accent2:#a855f7;
+    --text:#e5e7eb;
+  }
+  html,body{
+    margin:0;
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    color:var(--text);
+    background:radial-gradient(circle at top,#0ea5e9,#020617);
+    overflow-x:hidden;
+  }
+  body{
+    display:flex;
+    justify-content:center;
+    padding:16px 0;
+  }
+  .app{
+    width:100%;
+    max-width:777px;
+    padding:0 8px;
+    box-sizing:border-box;
+  }
+
+  header{
+    text-align:center;
+    margin-bottom:8px;
+  }
+  h1{
+    font-size:33px;
+    margin:0;
+    background:linear-gradient(90deg,#ffffff,#a855f7);
+    -webkit-background-clip:text;
+    color:transparent;
+  }
+  .tagline{
+    font-size:24px;
+    color:#ffffff;
+  }
+
+  .card{
+    background:radial-gradient(circle at top,#111827,#020617);
+    border-radius:14px;
+    padding:10px;
+    box-shadow:0 14px 32px rgba(0,0,0,0.65);
+    margin-top:10px;
+  }
+
+  .canvas-wrap{
+    position:relative;
+    width:100%;
+    max-width:555px;
+    margin:8px auto 0;
+    aspect-ratio:1/1;
+  }
+  .canvas-wrap canvas{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    border-radius:14px;
+  }
+  #guideCanvas{
+    background:#020617;
+    border:1px dashed rgba(148,163,184,0.6);
+  }
+  #drawCanvas{
+    background:transparent;
+  }
+
+  .template-buttons{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-top:6px;
+    justify-content:center;
+  }
+  .template-btn{
+    border:0;
+    border-radius:999px;
+    padding:5px 10px;
+    font-size:11px;
+    background:#020617;
+    color:var(--muted);
+    box-shadow:0 1px 4px rgba(15,23,42,0.6);
+    cursor:pointer;
+  }
+  .template-btn.active{
+    background:linear-gradient(90deg,var(--accent),var(--accent2));
+    color:#0b1120;
+  }
+
+  .hint{
+    margin-top:4px;
+    font-size:11px;
+    color:var(--muted);
+    text-align:center;
+  }
+
+  /* Step bar */
+  .steps{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-top:6px;
+    font-size:11px;
+    color:var(--muted);
+  }
+  .step-label{
+    white-space:nowrap;
+    margin-right:4px;
+  }
+  .step-dots{
+    display:flex;
+    gap:4px;
+    align-items:center;
+  }
+  .step-dot{
+    width:20px;
+    height:20px;
+    border-radius:999px;
+    border:1px solid #1f2937;
+    background:#020617;
+    color:#9ca3af;
+    font-size:11px;
+    cursor:pointer;
+    padding:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 1px 3px rgba(15,23,42,0.8);
+  }
+  .step-dot.active{
+    background:linear-gradient(90deg,var(--accent),var(--accent2));
+    color:#020617;
+    border-color:#38bdf8;
+    box-shadow:0 0 0 1px rgba(56,189,248,0.8);
+  }
+  .step-next{
+    border:0;
+    border-radius:999px;
+    padding:5px 9px;
+    font-size:11px;
+    cursor:pointer;
+    background:#020617;
+    color:#9ca3af;
+    box-shadow:0 1px 4px rgba(15,23,42,0.9);
+    white-space:nowrap;
+  }
+
+  .controls{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    align-items:center;
+    margin-top:6px;
+    justify-content:space-between;
+  }
+
+  .colors{
+    display:flex;
+    gap:4px;
+  }
+  .color-dot{
+    width:18px;
+    height:18px;
+    border-radius:999px;
+    border:2px solid #020617;
+    box-shadow:0 0 0 1px rgba(15,23,42,0.8);
+    cursor:pointer;
+  }
+  .color-dot.active{
+    box-shadow:0 0 0 2px var(--accent);
+  }
+
+  .slider-wrap{
+    flex:1;
+    min-width:0;
+    display:flex;
+    align-items:center;
+    gap:4px;
+    font-size:11px;
+    color:var(--muted);
+  }
+  .slider-wrap input[type="range"]{
+    flex:1;
+  }
+
+  .tool-buttons{
+    display:flex;
+    flex-wrap:wrap;
+    gap:4px;
+    margin-top:6px;
+    justify-content:flex-end;
+  }
+  button.tool{
+    border:0;
+    border-radius:999px;
+    padding:5px 10px;
+    font-size:11px;
+    font-weight:600;
+    cursor:pointer;
+    background:linear-gradient(90deg,var(--accent),var(--accent2));
+    color:#020617;
+    box-shadow:0 2px 8px rgba(0,0,0,0.6);
+  }
+  button.tool.secondary{
+    background:#020617;
+    color:#9ca3af;
+    box-shadow:0 1px 4px rgba(15,23,42,0.9);
+  }
+  button.tool.secondary.active{
+    background:#e5e7eb;
+    color:#020617;
+  }
+
+  footer{
+    margin-top:8px;
+    text-align:center;
+    font-size:11px;
+    color:var(--muted);
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <h1>Studio Sketch ✨</h1>
+    <div class="tagline">Advanced guides & mini scenes for growing artists.</div>
+  </header>
+
+  <div class="card">
+    <!-- CANVAS -->
+    <div class="canvas-wrap">
+      <canvas id="guideCanvas" width="280" height="280"></canvas>
+      <canvas id="drawCanvas" width="280" height="280"></canvas>
+    </div>
+
+    <!-- TEMPLATE BUTTONS -->
+    <div class="template-buttons" id="templateButtons"></div>
+    <div class="hint" id="templateHint"></div>
+
+    <!-- STEP BAR -->
+    <div class="steps">
+      <span class="step-label">Step:</span>
+      <div class="step-dots">
+        <button class="step-dot active" data-step="1">1</button>
+        <button class="step-dot" data-step="2">2</button>
+        <button class="step-dot" data-step="3">3</button>
+      </div>
+      <button class="step-next" id="nextStepBtn">Next ▶</button>
+    </div>
+
+    <!-- DRAW CONTROLS -->
+    <div class="controls">
+      <div class="colors" id="colorPalette">
+        <div class="color-dot active" data-color="#e5e7eb" style="background:#e5e7eb;"></div>
+        <div class="color-dot" data-color="#38bdf8" style="background:#38bdf8;"></div>
+        <div class="color-dot" data-color="#a855f7" style="background:#a855f7;"></div>
+        <div class="color-dot" data-color="#f97316" style="background:#f97316;"></div>
+        <div class="color-dot" data-color="#22c55e" style="background:#22c55e;"></div>
+        <div class="color-dot" data-color="#ef4444" style="background:#ef4444;"></div>
+      </div>
+      <div class="slider-wrap">
+        <span>Brush</span>
+        <input type="range" id="brushSize" min="2" max="18" value="4">
+      </div>
+    </div>
+
+    <div class="tool-buttons">
+      <button class="tool secondary" id="toggleGuideBtn">Hide guide</button>
+      <button class="tool secondary" id="eraserBtn">Eraser</button>
+      <button class="tool secondary" id="clearBtn">Clear</button>
+      <button class="tool" id="saveBtn">Save</button>
+    </div>
+  </div>
+
+  <footer>
+    Step 1 = construction lines, Step 2 = cleaner outline, Step 3 = faint guide for nearly freehand practice.
+  </footer>
+</div>
+
+<script>
+  const drawCanvas = document.getElementById('drawCanvas');
+  const drawCtx = drawCanvas.getContext('2d');
+  const guideCanvas = document.getElementById('guideCanvas');
+  const guideCtx = guideCanvas.getContext('2d');
+
+  let drawing = false;
+  let brushColor = '#e5e7eb';
+  let brushSize = 4;
+  let eraserMode = false;
+  let guideVisible = true;
+  let currentStep = 1;
+  let currentTemplate = 'figure';
+
+  /* ---------- User drawing ---------- */
+  function setBrush(){
+    if(eraserMode){
+      drawCtx.globalCompositeOperation = 'destination-out';
+      drawCtx.strokeStyle = 'rgba(0,0,0,1)';
+    }else{
+      drawCtx.globalCompositeOperation = 'source-over';
+      drawCtx.strokeStyle = brushColor;
+    }
+    drawCtx.lineWidth = brushSize;
+    drawCtx.lineCap = 'round';
+    drawCtx.lineJoin = 'round';
+  }
+
+  function getOffset(e){
+    const rect = drawCanvas.getBoundingClientRect();
+    const clientX = e.clientX ?? (e.touches && e.touches[0].clientX);
+    const clientY = e.clientY ?? (e.touches && e.touches[0].clientY);
+    const x = ((clientX - rect.left) / rect.width) * drawCanvas.width;
+    const y = ((clientY - rect.top) / rect.height) * drawCanvas.height;
+    return {x,y};
+  }
+
+  function pointerDown(e){
+    e.preventDefault();
+    drawing = true;
+    setBrush();
+    drawCtx.beginPath();
+    const {x,y} = getOffset(e);
+    drawCtx.moveTo(x,y);
+  }
+  function pointerMove(e){
+    if(!drawing) return;
+    e.preventDefault();
+    const {x,y} = getOffset(e);
+    drawCtx.lineTo(x,y);
+    drawCtx.stroke();
+  }
+  function pointerUp(e){
+    if(!drawing) return;
+    e && e.preventDefault();
+    drawing = false;
+    drawCtx.closePath();
+  }
+
+  drawCanvas.addEventListener('pointerdown', pointerDown);
+  drawCanvas.addEventListener('pointermove', pointerMove);
+  drawCanvas.addEventListener('pointerup', pointerUp);
+  drawCanvas.addEventListener('pointerleave', pointerUp);
+  drawCanvas.addEventListener('pointercancel', pointerUp);
+
+  /* ---------- UI: colors & size ---------- */
+  document.getElementById('brushSize').addEventListener('input', e=>{
+    brushSize = parseInt(e.target.value,10) || 4;
+  });
+
+  document.getElementById('colorPalette').addEventListener('click', e=>{
+    const dot = e.target.closest('.color-dot');
+    if(!dot) return;
+    eraserMode = false;
+    document.getElementById('eraserBtn').classList.remove('active');
+    brushColor = dot.dataset.color;
+    document.querySelectorAll('.color-dot').forEach(d=>d.classList.remove('active'));
+    dot.classList.add('active');
+  });
+
+  /* ---------- Tools ---------- */
+  document.getElementById('eraserBtn').addEventListener('click',()=>{
+    eraserMode = !eraserMode;
+    document.getElementById('eraserBtn').classList.toggle('active',eraserMode);
+  });
+
+  document.getElementById('clearBtn').addEventListener('click',()=>{
+    drawCtx.clearRect(0,0,drawCanvas.width,drawCanvas.height);
+  });
+
+  document.getElementById('saveBtn').addEventListener('click',()=>{
+    const temp = document.createElement('canvas');
+    temp.width = drawCanvas.width;
+    temp.height = drawCanvas.height;
+    const tctx = temp.getContext('2d');
+    tctx.fillStyle = '#020617';
+    tctx.fillRect(0,0,temp.width,temp.height);
+    if(guideVisible) tctx.drawImage(guideCanvas,0,0);
+    tctx.drawImage(drawCanvas,0,0);
+    const link = document.createElement('a');
+    link.href = temp.toDataURL('image/png');
+    link.download = 'studio_sketch.png';
+    link.click();
+  });
+
+  document.getElementById('toggleGuideBtn').addEventListener('click',()=>{
+    guideVisible = !guideVisible;
+    guideCanvas.style.opacity = guideVisible ? '1' : '0';
+    document.getElementById('toggleGuideBtn').textContent =
+      guideVisible ? 'Hide guide' : 'Show guide';
+  });
+
+  /* ---------- Guide helpers ---------- */
+  function clearGuide(){
+    guideCtx.clearRect(0,0,guideCanvas.width,guideCanvas.height);
+  }
+
+  function applyGuideStrokeStyle(){
+    // construction → clean → faint
+    let alpha;
+    if(currentStep === 1) alpha = 0.42;
+    else if(currentStep === 2) alpha = 0.26;
+    else alpha = 0.10;
+    guideCtx.strokeStyle = 'rgba(226,232,240,'+alpha+')';
+    guideCtx.lineWidth = currentStep === 1 ? 2 : 1.6;
+    guideCtx.lineCap = 'round';
+    guideCtx.lineJoin = 'round';
+  }
+
+  /* ---------- Templates (advanced) ---------- */
+  function drawFigure(){
+    clearGuide();
+    guideCtx.save();
+    applyGuideStrokeStyle();
+    guideCtx.translate(0.5,0.5);
+
+    // gesture line
+    guideCtx.setLineDash(currentStep === 1 ? [4,6] : []);
+    guideCtx.beginPath();
+    guideCtx.moveTo(140,40);
+    guideCtx.quadraticCurveTo(120,110,150,200);
+    guideCtx.stroke();
+    guideCtx.setLineDash([]);
+
+    // head
+    guideCtx.beginPath();
+    guideCtx.arc(140,55,18,0,Math.PI*2);
+    guideCtx.stroke();
+    // torso & pelvis ovals
+    guideCtx.beginPath();
+    guideCtx.ellipse(135,105,22,16,Math.PI/20,0,Math.PI*2);
+    guideCtx.stroke();
+    guideCtx.beginPath();
+    guideCtx.ellipse(145,145,24,16,-Math.PI/18,0,Math.PI*2);
+    guideCtx.stroke();
+    // limbs (simple mannequin)
+    // arms
+    guideCtx.beginPath();
+    guideCtx.moveTo(120,95);
+    guideCtx.lineTo(95,130);
+    guideCtx.lineTo(105,165);
+    guideCtx.moveTo(150,95);
+    guideCtx.lineTo(180,125);
+    guideCtx.lineTo(175,160);
+    guideCtx.stroke();
+    // legs
+    guideCtx.beginPath();
+    guideCtx.moveTo(140,160);
+    guideCtx.lineTo(125,210);
+    guideCtx.lineTo(125,240);
+    guideCtx.moveTo(150,160);
+    guideCtx.lineTo(165,210);
+    guideCtx.lineTo(168,242);
+    guideCtx.stroke();
+
+    guideCtx.restore();
+  }
+
+  function drawHand(){
+    clearGuide();
+    guideCtx.save();
+    applyGuideStrokeStyle();
+    guideCtx.translate(0.5,0.5);
+    // palm box
+    guideCtx.beginPath();
+    guideCtx.roundRect(105,135,70,60,10);
+    guideCtx.stroke();
+    // thumb
+    guideCtx.beginPath();
+    guideCtx.moveTo(110,150);
+    guideCtx.quadraticCurveTo(85,140,85,165);
+    guideCtx.quadraticCurveTo(95,180,110,175);
+    guideCtx.stroke();
+    // fingers as cylinders
+    const baseY = 135;
+    const widths = [12,12,12,11];
+    const xs = [115,135,155,175];
+    for(let i=0;i<4;i++){
+      const x = xs[i];
+      const w = widths[i];
+      guideCtx.beginPath();
+      guideCtx.moveTo(x,baseY);
+      guideCtx.lineTo(x,baseY-35-(i===1?4:0));
+      guideCtx.stroke();
+      guideCtx.beginPath();
+      guideCtx.moveTo(x+w,baseY);
+      guideCtx.lineTo(x+w,baseY-35-(i===1?4:0));
+      guideCtx.stroke();
+      guideCtx.beginPath();
+      guideCtx.ellipse(x+w/2,baseY-40-(i===1?4:0),w/2,6,0,0,Math.PI*2);
+      guideCtx.stroke();
+    }
+    guideCtx.restore();
+  }
+
+  function drawSneaker(){
+    clearGuide();
+    guideCtx.save();
+    applyGuideStrokeStyle();
+    guideCtx.translate(0.5,0.5);
+    // sole
+    guideCtx.beginPath();
+    guideCtx.moveTo(60,190);
+    guideCtx.quadraticCurveTo(120,210,220,190);
+    guideCtx.quadraticCurveTo(215,205,60,205);
+    guideCtx.closePath();
+    guideCtx.stroke();
+    // upper
+    guideCtx.beginPath();
+    guideCtx.moveTo(70,190);
+    guideCtx.quadraticCurveTo(80,150,130,150);
+    guideCtx.quadraticCurveTo(180,150,205,175);
+    guideCtx.quadraticCurveTo(190,185,70,190);
+    guideCtx.stroke();
+    // tongue
+    guideCtx.beginPath();
+    guideCtx.moveTo(120,150);
+    guideCtx.lineTo(120,135);
+    guideCtx.quadraticCurveTo(140,130,150,145);
+    guideCtx.lineTo(150,150);
+    guideCtx.stroke();
+    // lace holes
+    for(let i=0;i<4;i++){
+      guideCtx.beginPath();
+      guideCtx.arc(125+18*i,162,3,0,Math.PI*2);
+      guideCtx.stroke();
+    }
+    // stripes
+    guideCtx.beginPath();
+    guideCtx.moveTo(95,190);
+    guideCtx.quadraticCurveTo(120,175,145,172);
+    guideCtx.quadraticCurveTo(170,170,190,178);
+    guideCtx.stroke();
+    guideCtx.restore();
+  }
+
+  function drawCityStreet(){
+    clearGuide();
+    guideCtx.save();
+    applyGuideStrokeStyle();
+    guideCtx.translate(0.5,0.5);
+    // vanishing point
+    const vpX = 140, vpY = 120;
+
+    // road edges
+    guideCtx.beginPath();
+    guideCtx.moveTo(40,260); guideCtx.lineTo(vpX,vpY);
+    guideCtx.lineTo(240,260);
+    guideCtx.stroke();
+
+    // center line segments
+    guideCtx.setLineDash([8,8]);
+    guideCtx.beginPath();
+    guideCtx.moveTo(140,260); guideCtx.lineTo(140,140);
+    guideCtx.stroke();
+    guideCtx.setLineDash([]);
+
+    // left buildings
+    function building(x,topW,height){
+      guideCtx.beginPath();
+      guideCtx.moveTo(x,260);
+      guideCtx.lineTo(x,260-height);
+      guideCtx.lineTo(x+topW,260-height);
+      guideCtx.lineTo(x+topW,260);
+      guideCtx.closePath();
+      guideCtx.stroke();
+      // windows
+      for(let yy=260-height+10; yy<260-10; yy+=14){
+        guideCtx.beginPath();
+        guideCtx.moveTo(x+4,yy);
+        guideCtx.lineTo(x+topW-4,yy);
+        guideCtx.stroke();
+      }
+    }
+    building(25,40,90);
+    building(70,30,70);
+
+    // right buildings
+    building(210-40,40,80);
+    building(240-35,35,60);
+
+    // horizon buildings (simple boxes)
+    guideCtx.beginPath();
+    guideCtx.rect(120,120,40,-25);
+    guideCtx.stroke();
+
+    guideCtx.restore();
+  }
+
+  function drawDragonSide(){
+    clearGuide();
+    guideCtx.save();
+    applyGuideStrokeStyle();
+    guideCtx.translate(0.5,0.5);
+
+    // neck + head silhouette
+    guideCtx.beginPath();
+    guideCtx.moveTo(80,200);
+    guideCtx.quadraticCurveTo(90,150,120,130);
+    guideCtx.quadraticCurveTo(150,110,175,115);
+    guideCtx.quadraticCurveTo(210,120,215,140);
+    guideCtx.quadraticCurveTo(195,145,185,150);
+    guideCtx.quadraticCurveTo(175,165,178,190);
+    guideCtx.quadraticCurveTo(150,200,120,205);
+    guideCtx.quadraticCurveTo(95,210,80,200);
+    guideCtx.stroke();
+
+    // snout
+    guideCtx.beginPath();
+    guideCtx.moveTo(180,130);
+    guideCtx.quadraticCurveTo(205,125,215,140);
+    guideCtx.stroke();
+
+    // eye
+    guideCtx.beginPath();
+    guideCtx.ellipse(155,130,10,6,0,0,Math.PI*2);
+    guideCtx.stroke();
+    guideCtx.beginPath();
+    guideCtx.arc(158,130,3,0,Math.PI*2);
+    guideCtx.stroke();
+
+    // horn
+    guideCtx.beginPath();
+    guideCtx.moveTo(140,115);
+    guideCtx.lineTo(145,90);
+    guideCtx.lineTo(155,115);
+    guideCtx.stroke();
+
+    // spikes on neck
+    guideCtx.beginPath();
+    for(let y=150;y<=195;y+=12){
+      guideCtx.moveTo(110,y);
+      guideCtx.lineTo(95,y-8);
+      guideCtx.lineTo(100,y+4);
+    }
+    guideCtx.stroke();
+
+    guideCtx.restore();
+  }
+
+  function drawBouquet(){
+    clearGuide();
+    guideCtx.save();
+    applyGuideStrokeStyle();
+    guideCtx.translate(0.5,0.5);
+    // stems bunch
+    guideCtx.beginPath();
+    guideCtx.moveTo(130,180);
+    guideCtx.lineTo(115,250);
+    guideCtx.moveTo(140,180);
+    guideCtx.lineTo(140,252);
+    guideCtx.moveTo(150,180);
+    guideCtx.lineTo(165,250);
+    guideCtx.stroke();
+    // wrap
+    guideCtx.beginPath();
+    guideCtx.moveTo(110,220);
+    guideCtx.quadraticCurveTo(140,235,170,220);
+    guideCtx.lineTo(165,245);
+    guideCtx.quadraticCurveTo(140,258,115,245);
+    guideCtx.closePath();
+    guideCtx.stroke();
+
+    // flower heads (5)
+    const centers = [
+      [110,140],[140,130],[170,140],[125,110],[155,110]
+    ];
+    centers.forEach(([cx,cy])=>{
+      guideCtx.beginPath();
+      guideCtx.arc(cx,cy,10,0,Math.PI*2);
+      guideCtx.stroke();
+      for(let a=0;a<Math.PI*2;a+=Math.PI/3){
+        const px = cx + Math.cos(a)*16;
+        const py = cy + Math.sin(a)*16;
+        guideCtx.beginPath();
+        guideCtx.moveTo(cx,cy);
+        guideCtx.quadraticCurveTo(
+          cx+Math.cos(a)*9,
+          cy+Math.sin(a)*9,
+          px,py
+        );
+        guideCtx.stroke();
+      }
+    });
+
+    guideCtx.restore();
+  }
+
+  function drawCatBox(){
+    clearGuide();
+    guideCtx.save();
+    applyGuideStrokeStyle();
+    guideCtx.translate(0.5,0.5);
+    // box
+    guideCtx.beginPath();
+    guideCtx.rect(80,160,120,70);
+    guideCtx.stroke();
+    // flaps
+    guideCtx.beginPath();
+    guideCtx.moveTo(80,160);
+    guideCtx.lineTo(55,135);
+    guideCtx.lineTo(120,140);
+    guideCtx.lineTo(80,160);
+    guideCtx.moveTo(200,160);
+    guideCtx.lineTo(230,135);
+    guideCtx.lineTo(160,140);
+    guideCtx.lineTo(200,160);
+    guideCtx.stroke();
+
+    // cat head
+    guideCtx.beginPath();
+    guideCtx.arc(140,135,28,0,Math.PI*2);
+    guideCtx.stroke();
+    // ears
+    guideCtx.beginPath();
+    guideCtx.moveTo(120,115); guideCtx.lineTo(110,95); guideCtx.lineTo(130,110);
+    guideCtx.moveTo(160,115); guideCtx.lineTo(170,95); guideCtx.lineTo(150,110);
+    guideCtx.stroke();
+    // face
+    guideCtx.beginPath();
+    guideCtx.arc(130,135,5,0,Math.PI*2);
+    guideCtx.arc(150,135,5,0,Math.PI*2);
+    guideCtx.stroke();
+    guideCtx.beginPath();
+    guideCtx.moveTo(140,140); guideCtx.lineTo(140,147);
+    guideCtx.moveTo(135,148); guideCtx.quadraticCurveTo(140,152,145,148);
+    guideCtx.stroke();
+    // whiskers
+    guideCtx.beginPath();
+    guideCtx.moveTo(120,140); guideCtx.lineTo(100,138);
+    guideCtx.moveTo(120,146); guideCtx.lineTo(100,148);
+    guideCtx.moveTo(160,140); guideCtx.lineTo(180,138);
+    guideCtx.moveTo(160,146); guideCtx.lineTo(180,148);
+    guideCtx.stroke();
+
+    guideCtx.restore();
+  }
+
+  function drawRoom(){
+    clearGuide();
+    guideCtx.save();
+    applyGuideStrokeStyle();
+    guideCtx.translate(0.5,0.5);
+
+    // back wall rectangle
+    guideCtx.beginPath();
+    guideCtx.rect(70,70,140,120);
+    guideCtx.stroke();
+
+    // floor lines (2-point-ish)
+    guideCtx.beginPath();
+    guideCtx.moveTo(70,190); guideCtx.lineTo(40,260);
+    guideCtx.moveTo(210,190); guideCtx.lineTo(240,260);
+    guideCtx.moveTo(70,190); guideCtx.lineTo(210,190);
+    guideCtx.stroke();
+
+    // ceiling hints
+    guideCtx.beginPath();
+    guideCtx.moveTo(70,70); guideCtx.lineTo(40,40);
+    guideCtx.moveTo(210,70); guideCtx.lineTo(240,40);
+    guideCtx.moveTo(40,40); guideCtx.lineTo(240,40);
+    guideCtx.stroke();
+
+    // window
+    guideCtx.beginPath();
+    guideCtx.rect(90,85,50,50);
+    guideCtx.stroke();
+    guideCtx.beginPath();
+    guideCtx.moveTo(115,85); guideCtx.lineTo(115,135);
+    guideCtx.moveTo(90,110); guideCtx.lineTo(140,110);
+    guideCtx.stroke();
+
+    // couch
+    guideCtx.beginPath();
+    guideCtx.roundRect(125,155,70,40,8);
+    guideCtx.stroke();
+    guideCtx.beginPath();
+    guideCtx.moveTo(130,155); guideCtx.lineTo(130,185);
+    guideCtx.moveTo(165,155); guideCtx.lineTo(165,185);
+    guideCtx.stroke();
+
+    guideCtx.restore();
+  }
+
+  const TEMPLATE_DEFS = [
+    {id:'figure', label:'🧍 Figure', hint:'Use the mannequin lines to place head, torso, and limbs before adding clothing.'},
+    {id:'hand',   label:'✋ Hand',   hint:'Block the palm as a box, then wrap cylinders for each finger.'},
+    {id:'sneaker',label:'👟 Sneaker',hint:'Follow the sole curve first, then build the upper, tongue, and laces.'},
+    {id:'street', label:'🏙️ Street',hint:'All road edges aim toward a vanishing point in the distance.'},
+    {id:'dragon', label:'🐉 Dragon', hint:'Trace big shapes (head and neck) before details like horns and scales.'},
+    {id:'bouquet',label:'🌹 Bouquet',hint:'Each flower is a circle with petals fanning out from the center.'},
+    {id:'catbox', label:'📦 Cat Box',hint:'Start with the box, then add the cat popping out of the top.'},
+    {id:'room',   label:'🛋️ Room',  hint:'Use the box for the back wall; furniture sits inside that perspective.'}
+  ];
+
+  const TEMPLATE_DRAW_MAP = {
+    figure: drawFigure,
+    hand:   drawHand,
+    sneaker:drawSneaker,
+    street: drawCityStreet,
+    dragon: drawDragonSide,
+    bouquet:drawBouquet,
+    catbox: drawCatBox,
+    room:   drawRoom
+  };
+
+  function drawCurrentTemplate(){
+    const fn = TEMPLATE_DRAW_MAP[currentTemplate];
+    if(!fn) return;
+    fn();
+  }
+
+  /* ---------- Template UI ---------- */
+  function renderTemplateButtons(){
+    const wrap = document.getElementById('templateButtons');
+    wrap.innerHTML = '';
+    TEMPLATE_DEFS.forEach(t=>{
+      const btn = document.createElement('button');
+      btn.className = 'template-btn' + (t.id===currentTemplate ? ' active':'');
+      btn.textContent = t.label;
+      btn.dataset.id = t.id;
+      wrap.appendChild(btn);
+    });
+    const currentDef = TEMPLATE_DEFS.find(t=>t.id===currentTemplate);
+    document.getElementById('templateHint').textContent = currentDef ? currentDef.hint : '';
+  }
+
+  document.getElementById('templateButtons').addEventListener('click', e=>{
+    const btn = e.target.closest('.template-btn');
+    if(!btn) return;
+    currentTemplate = btn.dataset.id;
+    renderTemplateButtons();
+    drawCurrentTemplate();
+  });
+
+  /* ---------- Step bar ---------- */
+  function updateStepUI(){
+    document.querySelectorAll('.step-dot').forEach(dot=>{
+      dot.classList.toggle('active', parseInt(dot.dataset.step,10) === currentStep);
+    });
+  }
+
+  function setStep(step){
+    currentStep = step;
+    if(currentStep < 1) currentStep = 1;
+    if(currentStep > 3) currentStep = 3;
+    updateStepUI();
+    drawCurrentTemplate();
+  }
+
+  document.getElementById('nextStepBtn').addEventListener('click', ()=>{
+    let next = currentStep + 1;
+    if(next > 3) next = 1;
+    setStep(next);
+  });
+
+  document.querySelectorAll('.step-dot').forEach(dot=>{
+    dot.addEventListener('click', ()=>{
+      const step = parseInt(dot.dataset.step,10);
+      setStep(step);
+    });
+  });
+
+  /* ---------- Init ---------- */
+  setBrush();
+  renderTemplateButtons();
+  drawCurrentTemplate();
+  setStep(1);
+</script>
+</body>
+</html>
