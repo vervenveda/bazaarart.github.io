@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Color Studio</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Comic Sans MS, sans-serif;
+      background: #fafafa;
+      text-align: center;
+    }
+    h1 {
+      margin: 20px;
+      font-size: 96px; /* Big title */
+      color: #ff4081;
+      text-shadow: 2px 2px #333;
+    }
+    #toolbar {
+      margin: 15px;
+    }
+    button {
+      font-size: 18px;
+      padding: 10px 14px;
+      margin: 5px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #eee;
+    }
+    button:hover { background: #ddd; }
+    .color-btn {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      border: 2px solid #333;
+      margin: 3px;
+      cursor: pointer;
+      display: inline-block;
+    }
+    #canvas {
+      border: 4px solid #333;
+      border-radius: 12px;
+      margin-top: 10px;
+      background: white;
+      touch-action: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎨 Color Studio</h1>
+  <div id="toolbar">
+    <button onclick="setTool('brush')">🖌 Brush</button>
+    <button onclick="setTool('marker')">🖍 Marker</button>
+    <button onclick="setTool('pencil')">✏ Pencil</button>
+    <button onclick="setTool('eraser')">🩹 Eraser</button>
+    <button onclick="clearCanvas()">🧹 Clear</button>
+    <button onclick="downloadCanvas()">💾 Download</button>
+  </div>
+  
+  <div id="colors">
+    <!-- Expanded color palette -->
+    <div class="color-btn" style="background:red" onclick="setColor('red')"></div>
+    <div class="color-btn" style="background:orange" onclick="setColor('orange')"></div>
+    <div class="color-btn" style="background:yellow" onclick="setColor('yellow')"></div>
+    <div class="color-btn" style="background:green" onclick="setColor('green')"></div>
+    <div class="color-btn" style="background:blue" onclick="setColor('blue')"></div>
+    <div class="color-btn" style="background:purple" onclick="setColor('purple')"></div>
+    <div class="color-btn" style="background:pink" onclick="setColor('pink')"></div>
+    <div class="color-btn" style="background:brown" onclick="setColor('brown')"></div>
+    <div class="color-btn" style="background:gray" onclick="setColor('gray')"></div>
+    <div class="color-btn" style="background:cyan" onclick="setColor('cyan')"></div>
+    <div class="color-btn" style="background:lime" onclick="setColor('lime')"></div>
+    <div class="color-btn" style="background:gold" onclick="setColor('gold')"></div>
+    <div class="color-btn" style="background:silver" onclick="setColor('silver')"></div>
+    <div class="color-btn" style="background:black" onclick="setColor('black')"></div>
+    <div class="color-btn" style="background:white" onclick="setColor('white')"></div>
+  </div>
+  
+  <canvas id="canvas" width="1100" height="650"></canvas>
+
+  <script>
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    let painting = false;
+    let currentColor = "black";
+    let tool = "brush";
+
+    function setTool(t) { tool = t; }
+    function setColor(c) { currentColor = c; }
+
+    function startPosition(e) {
+      painting = true;
+      draw(e);
+    }
+    function endPosition() {
+      painting = false;
+      ctx.beginPath();
+    }
+    function draw(e) {
+      if (!painting) return;
+      ctx.lineCap = "round";
+
+      switch (tool) {
+        case "brush":
+          ctx.lineWidth = 10; ctx.globalAlpha = 1.0; break;
+        case "marker":
+          ctx.lineWidth = 16; ctx.globalAlpha = 0.7; break; /* doubled */
+        case "pencil":
+          ctx.lineWidth = 2; ctx.globalAlpha = 1.0; break;
+        case "eraser":
+          ctx.strokeStyle = "white"; ctx.lineWidth = 20; ctx.globalAlpha = 1.0; break;
+      }
+
+      if (tool !== "eraser") ctx.strokeStyle = currentColor;
+
+      const rect = canvas.getBoundingClientRect();
+      ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+    }
+
+    function clearCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function downloadCanvas() {
+      const link = document.createElement('a');
+      link.download = 'MyColorStudioArt.png';
+      link.href = canvas.toDataURL();
+      link.click();
+    }
+
+    // Mouse events
+    canvas.addEventListener("mousedown", startPosition);
+    canvas.addEventListener("mouseup", endPosition);
+    canvas.addEventListener("mousemove", draw);
+
+    // Touch events
+    canvas.addEventListener("touchstart", (e) => startPosition(e.touches[0]));
+    canvas.addEventListener("touchend", endPosition);
+    canvas.addEventListener("touchmove", (e) => {
+      e.preventDefault();
+      draw(e.touches[0]);
+    });
+  </script>
+</body>
+</html>
