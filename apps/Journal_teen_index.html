@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Daily Journal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(120deg, #3542a6 0%, #2ec4b6 100%);
+      font-family: 'Montserrat', Arial, sans-serif;
+      color: #263040;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+   header {
+  width: 100%;
+  text-align: center;
+  padding: 30px 0 16px 0; /* a bit more bottom padding */
+  color: #fff;
+  font-size: 2.3rem;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 24px #0004;
+  position: relative;
+}
+
+/* Pulsating sphere behind header text */
+header::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 125%;                   /* push orb further below title */
+  transform: translateX(-50%); /* no vertical shift, only center horizontally */
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 20%, #e6fffb 0%, #2ec4b6 45%, #0b5b4e 80%);
+  box-shadow:
+    0 0 0 10px rgba(46,196,182,0.25),
+    0 0 40px rgba(0,0,0,0.35);
+  opacity: 0.9;
+  animation: pulse-orb 3.4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes pulse-orb {
+  0% {
+    transform: translateX(-50%) scale(0.95);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translateX(-50%) scale(1.06);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50%) scale(0.95);
+    opacity: 0.9;
+  }
+}
+
+/* Give the card a little extra space from the orb */
+.journal-box {
+  margin: 70px auto 38px auto; /* was 55px */
+}
+
+    }
+
+    .journal-box {
+      background: rgba(255,255,255,0.87);
+      border-radius: 22px;
+      box-shadow: 0 6px 32px #24385a22;
+      max-width: 800px;
+      width: 98vw;
+      margin: 55px auto 38px auto; /* moved down to make room for orb */
+      padding: 26px 26px 22px 26px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+    .date-mood-row {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    select {
+      font-size: 1rem;
+      padding: 7px 12px;
+      border-radius: 8px;
+      border: 1px solid #b2c6d6;
+    }
+    .affirm-card {
+      background: linear-gradient(100deg, #2ec4b6 0%, #fffaf3 100%);
+      color: #263040;
+      border-radius: 17px;
+      box-shadow: 0 2px 16px #2ec4b650;
+      padding: 18px 14px;
+      margin-bottom: 22px;
+      font-size: 1.11rem;
+      min-height: 40px;
+      text-align: center;
+      font-weight: 500;
+      letter-spacing: 0.8px;
+      transition: background 0.22s, color 0.15s;
+      user-select: none;
+    }
+    .card-stack {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .journal-card {
+      background: rgba(235,245,251,0.88);
+      border-radius: 14px;
+      box-shadow: 0 1.5px 8px #2ec4b620;
+      padding: 14px 13px 9px 13px;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 0.13s;
+    }
+    .journal-card label {
+      font-size: 1.01rem;
+      font-weight: 700;
+      margin-bottom: 7px;
+      color: #3542a6;
+    }
+    .journal-card textarea {
+      width: 100%;
+      border: none;
+      border-radius: 8px;
+      min-height: 44px;
+      font-size: 1em;
+      font-family: inherit;
+      background: #f7fafd;
+      color: #2b3242;
+      padding: 10px 7px;
+      margin-bottom: 4px;
+      resize: vertical;
+      outline: none;
+      box-shadow: 0 0.5px 2px #2ec4b608;
+      transition: background 0.15s;
+    }
+    .journal-card textarea:focus { background: #fff8f0; }
+    .save-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 8px;
+      width: 100%;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .save-btn, .export-btn {
+      background: #2ec4b6;
+      color: #fff;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 10px 18px;
+      border-radius: 9px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 1.5px 6px #3542a633;
+      transition: background 0.14s;
+    }
+    .save-btn:hover { background: #3542a6; }
+    .export-btn { background: #baa05a; }
+    .export-btn:hover { background: #b78103; }
+    .diary-section {
+      margin-top: 16px;
+      padding-top: 10px;
+      border-top: 1.5px solid #b1bace44;
+      width: 100%;
+    }
+    .diary-section label {
+      font-size: 1.13rem;
+      color: #2ec4b6;
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+    .diary-section textarea {
+      width: 100%;
+      min-height: 90px;
+      font-size: 1.05em;
+      background: #fffbe5;
+      color: #222;
+      border-radius: 10px;
+      border: none;
+      padding: 13px;
+      margin-bottom: 6px;
+    }
+    .footer-note {
+      margin-top: 12px;
+      color: #5d7796;
+      font-size: 0.98em;
+      text-align: center;
+    }
+
+    @media (max-width: 540px) {
+      .journal-box { padding: 7vw 3vw; margin-top: 50px; }
+      header { font-size: 1.18rem; padding: 17px 0 7px 0; }
+      header::before {
+        width: 90px;
+        height: 90px;
+      }
+      .date-mood-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>Daily Journal</header>
+
+  <div class="journal-box">
+    <div class="date-mood-row">
+      <select id="entryDate" aria-label="Select journal date"></select>
+
+      <!-- Mood select (wired correctly in JS below) -->
+      <select id="moodPicker" aria-label="Pick your mood for today">
+        <option value="">🌤️ How do you feel today?</option>
+
+        <!-- 😊 Positive & Joyful -->
+        <option>😃 Happy</option>
+        <option>😁 Excited</option>
+        <option>🤩 Inspired</option>
+        <option>😊 Content</option>
+        <option>🥰 Loved</option>
+        <option>😇 Grateful</option>
+
+        <!-- 🌿 Calm & Peaceful -->
+        <option>😌 Relaxed</option>
+        <option>🌸 Peaceful</option>
+        <option>😴 Sleepy</option>
+        <option>🧘 Calm</option>
+        <option>🌙 Dreamy</option>
+
+        <!-- 💭 Thoughtful & Reflective -->
+        <option>🤔 Thoughtful</option>
+        <option>📖 Curious</option>
+        <option>🪞 Reflective</option>
+        <option>🌧️ Quiet</option>
+        <option>😐 Meh</option>
+
+        <!-- ⚡ Challenging Emotions -->
+        <option>😕 Stressed</option>
+        <option>😟 Worried</option>
+        <option>😞 Disappointed</option>
+        <option>😡 Upset</option>
+        <option>😭 Sad</option>
+
+        <!-- 💪 Resilient & Motivated -->
+        <option>💪 Determined</option>
+        <option>🔥 Motivated</option>
+        <option>🦋 Hopeful</option>
+        <option>🌈 Brave</option>
+        <option>✨ Proud</option>
+
+        <!-- 🎨 Creative & Playful -->
+        <option>🎨 Creative</option>
+        <option>🎵 Musical</option>
+        <option>🌻 Playful</option>
+        <option>🍀 Silly</option>
+        <option>🦄 Imaginative</option>
+      </select>
+    </div>
+
+    <div class="affirm-card" id="affirmation"></div>
+
+    <div class="card-stack">
+      <div class="journal-card">
+        <label for="vision">Vision</label>
+        <textarea id="vision" placeholder="What's something you want to make happen?"></textarea>
+      </div>
+      <div class="journal-card">
+        <label for="feelings">Energy Check</label>
+        <textarea id="feelings" placeholder="How are you feeling right now?"></textarea>
+      </div>
+      <div class="journal-card">
+        <label for="visuals">Today's Snapshot</label>
+        <textarea id="visuals" placeholder="Describe a moment, scene, or goal for today."></textarea>
+      </div>
+      <div class="journal-card">
+        <label for="actions">Action Step</label>
+        <textarea id="actions" placeholder="What's one thing you’ll do today?"></textarea>
+      </div>
+      <div class="journal-card">
+        <label for="gratitude">Gratitude</label>
+        <textarea id="gratitude" placeholder="List something you’re grateful for."></textarea>
+      </div>
+    </div>
+
+    <div class="diary-section">
+      <label for="diary">Daily Diary</label>
+      <textarea id="diary" placeholder="Write your story, thoughts, or anything important about today..."></textarea>
+      <div style="font-size:.92em;color:#baa05a;margin-top:4px;">
+        “Today is a blank page. Write something worth remembering.”
+      </div>
+    </div>
+
+    <div class="save-row">
+      <button class="save-btn" id="saveBtn">💾 Save</button>
+      <button class="export-btn" id="exportBtn" title="Download all entries as JSON">⬇️ Export</button>
+    </div>
+    <div class="footer-note">Entries are saved privately in your browser. Only you can see them.</div>
+  </div>
+
+  <script>
+  (function(){
+    const hasLS = (()=>{ 
+      try{
+        const k='__ls_test';
+        localStorage.setItem(k,'1');
+        localStorage.removeItem(k);
+        return true;
+      }catch(e){ 
+        return false; 
+      } 
+    })();
+
+    const qs = sel => document.querySelector(sel);
+    function pad2(n){ return String(n).padStart(2,'0'); }
+    function localISO(d){ return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`; }
+    function prettyDate(d){ return d.toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric"}); }
+
+    const affirmations = [
+      "Every day is a new story. Make this one count.",
+      "You are not your mood, but you can shape your day.",
+      "Focus on what matters, let the rest float by.",
+      "Progress, not perfection.",
+      "You get to choose your next step.",
+      "No feeling is final.",
+      "Kindness to yourself is fuel for growth.",
+      "Write your own plot twist today.",
+      "Your best effort is enough.",
+      "You’re stronger than you think.",
+      "You don’t need to do it all at once.",
+      "Mistakes mean you’re learning.",
+      "Today, find one thing to enjoy.",
+      "You are allowed to take up space.",
+      "Small steps count, too.",
+      "Notice the good—it's there, even in hard days.",
+      "You get to decide who you want to be."
+    ];
+
+    const fields = ["vision","feelings","visuals","actions","gratitude","diary","mood"];
+
+    const dateSelect = qs("#entryDate");
+    const moodSelect = qs("#moodPicker");
+
+    function fillDates(){
+      dateSelect.innerHTML = "";
+      const now = new Date();
+      for(let i=-3;i<=3;i++){
+        const d = new Date(now);
+        d.setDate(now.getDate()+i);
+        const opt = document.createElement("option");
+        opt.value = localISO(d);
+        opt.textContent = prettyDate(d);
+        if(i===0) opt.selected = true;
+        dateSelect.appendChild(opt);
+      }
+    }
+
+    function setAffirmation(dateStr){
+      const idx = Math.floor(new Date(dateStr+"T00:00").getDate() % affirmations.length);
+      qs("#affirmation").textContent = affirmations[idx];
+    }
+
+    function selectMood(mood){
+      if(!moodSelect) return;
+      moodSelect.value = mood || "";
+    }
+
+    function getMood(){
+      return moodSelect ? (moodSelect.value || "") : "";
+    }
+
+    function loadEntry(dateStr){
+      setAffirmation(dateStr);
+      fields.forEach(f=>{
+        const key = "adolj_"+dateStr+"_"+f;
+        const stored = hasLS ? (localStorage.getItem(key) || "") : "";
+        if(f === "mood"){
+          if(stored) selectMood(stored);
+          else selectMood("");
+        }else{
+          const el = qs("#"+f);
+          if(el) el.value = stored;
+        }
+      });
+    }
+
+    function saveEntry(dateStr){
+      if(!hasLS){
+        alert("Saving isn't available in this browser.");
+        return;
+      }
+      fields.forEach(f=>{
+        const key = "adolj_"+dateStr+"_"+f;
+        if(f === "mood"){
+          localStorage.setItem(key, getMood());
+        }else{
+          const el = qs("#"+f);
+          if(el) localStorage.setItem(key, el.value);
+        }
+      });
+      showSaved();
+    }
+
+    function exportAll(){
+      if(!hasLS){
+        alert("Export requires localStorage support.");
+        return;
+      }
+      const dump = {};
+      for(let i=0;i<localStorage.length;i++){
+        const key = localStorage.key(i);
+        if(!key || !key.startsWith("adolj_")) continue;
+        const rest = key.slice("adolj_".length);
+        const parts = rest.split("_");
+        const date = parts[0];
+        const field = parts.slice(1).join("_");
+        dump[date] = dump[date] || {};
+        dump[date][field] = localStorage.getItem(key);
+      }
+      const blob = new Blob([JSON.stringify(dump,null,2)], {type:"application/json"});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "adolescent_journal_export.json";
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); }, 0);
+    }
+
+    // Save-on-change for text fields
+    fields.filter(f=>f!=="mood").forEach(f=>{
+      const el = qs("#"+f);
+      if(!el) return;
+      el.addEventListener("input", ()=>{
+        if(!hasLS) return;
+        const key = "adolj_"+dateSelect.value+"_"+f;
+        localStorage.setItem(key, el.value);
+      });
+    });
+
+    // Mood select: save on change
+    if(moodSelect){
+      moodSelect.addEventListener("change", ()=>{
+        if(!hasLS) return;
+        const key = "adolj_"+dateSelect.value+"_mood";
+        localStorage.setItem(key, getMood());
+      });
+    }
+
+    dateSelect.addEventListener("change", ()=> loadEntry(dateSelect.value));
+    qs("#saveBtn").addEventListener("click", ()=> saveEntry(dateSelect.value));
+    qs("#exportBtn").addEventListener("click", exportAll);
+
+    function showSaved(){
+      const btn = qs("#saveBtn");
+      btn.textContent = "✔️ Saved!";
+      setTimeout(()=>{btn.textContent = "💾 Save";},900);
+    }
+
+    // Boot
+    fillDates();
+    loadEntry(dateSelect.value);
+  })();
+  </script>
+</body>
+</html>
