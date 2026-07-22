@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Khaemenes Academy | Elementary Art Portal</title>
+
+<style>
+/* =========================
+   KHAEMENES ACADEMY THEME
+========================= */
+:root {
+  --ka-navy:#0a1f44;
+  --ka-gold:#d4af37;
+  --ka-light:#f4f6fb;
+  --ka-card:#ffffff;
+}
+
+body {
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:var(--ka-light);
+  scroll-behavior:smooth;
+}
+
+/* Header */
+header {
+  background:var(--ka-navy);
+  color:white;
+  padding:20px;
+  text-align:center;
+  border-bottom:5px solid var(--ka-gold);
+}
+
+header h1 {
+  margin:0;
+  letter-spacing:1px;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  background:white;
+  padding:10px 20px;
+  font-size:14px;
+  box-shadow:0 2px 4px rgba(0,0,0,0.05);
+}
+
+.breadcrumb a {
+  text-decoration:none;
+  color:var(--ka-navy);
+  font-weight:bold;
+}
+
+/* Toolbar */
+.toolbar {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:10px;
+  padding:15px;
+  background:white;
+}
+
+button {
+  padding:8px 14px;
+  border-radius:6px;
+  border:none;
+  cursor:pointer;
+  background:var(--ka-navy);
+  color:white;
+}
+
+button:hover {
+  opacity:0.85;
+}
+
+/* Tabs */
+.tabs {
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin:20px 0;
+  flex-wrap:wrap;
+}
+
+.tab {
+  padding:8px 14px;
+  background:white;
+  border:2px solid var(--ka-navy);
+  border-radius:6px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.tab.active {
+  background:var(--ka-gold);
+  border-color:var(--ka-gold);
+  color:black;
+}
+
+/* Cards */
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:20px;
+  padding:20px;
+  max-width:1200px;
+  margin:auto;
+}
+
+.card {
+  background:var(--ka-card);
+  border-radius:10px;
+  padding:15px;
+  box-shadow:0 3px 8px rgba(0,0,0,0.1);
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+
+.card h3 { margin-top:0; }
+
+.card small { color:#666; }
+
+.card a {
+  margin-top:10px;
+  text-decoration:none;
+  background:var(--ka-gold);
+  color:black;
+  padding:6px;
+  text-align:center;
+  border-radius:6px;
+  font-weight:bold;
+}
+
+.teacher-only {
+  display:none;
+  background:#fff8e1;
+  padding:8px;
+  border-radius:6px;
+  margin-top:10px;
+  font-size:13px;
+}
+
+/* Prompt */
+#promptBox {
+  text-align:center;
+  margin:15px;
+  font-size:18px;
+  font-weight:bold;
+  color:var(--ka-navy);
+}
+
+/* Back To Top */
+#backToTop {
+  position:fixed;
+  bottom:25px;
+  right:25px;
+  display:none;
+  padding:10px 14px;
+  border-radius:50%;
+  font-size:18px;
+  background:var(--ka-gold);
+  color:black;
+  border:none;
+  cursor:pointer;
+  box-shadow:0 4px 8px rgba(0,0,0,0.2);
+}
+
+footer {
+  text-align:center;
+  padding:20px;
+  background:var(--ka-navy);
+  color:white;
+  margin-top:40px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🎨 Khaemenes Academy</h1>
+  <p>Elementary Art & Creative Resources Portal</p>
+</header>
+
+<nav class="breadcrumb">
+  <a href="https://www.KhaemenesAcademy.org/elementaryart"
+     target="_blank"
+     rel="noopener noreferrer">
+     KhaemenesAcademy.org
+  </a>
+  / Elementary Art
+</nav>
+
+<div class="toolbar">
+  <button onclick="generatePrompt()">🎲 Art Prompt</button>
+  <button onclick="toggleTeacher()">👩‍🏫 Teacher Mode</button>
+</div>
+
+<div id="promptBox"></div>
+
+<div class="tabs">
+  <div class="tab active" onclick="setGrade('All', this)">All</div>
+  <div class="tab" onclick="setGrade('K-1', this)">K–1</div>
+  <div class="tab" onclick="setGrade('2-3', this)">2–3</div>
+  <div class="tab" onclick="setGrade('4-5', this)">4–5</div>
+</div>
+
+<div class="grid" id="resourceGrid"></div>
+
+<button id="backToTop" onclick="scrollToTop()">↑</button>
+
+<footer>
+  © 2026 Khaemenes Academy • Free Educational Art Resources
+</footer>
+
+<script>
+const resources = [
+  {
+    title:"Deep Space Sparkle",
+    category:"Lessons",
+    grade:"K-5",
+    description:"Structured elementary art lesson plans.",
+    url:"https://www.deepspacesparkle.com",
+    teacher:"Curriculum-aligned, strong classroom pacing."
+  },
+  {
+    title:"Art for Kids Hub",
+    category:"Lessons",
+    grade:"K-5",
+    description:"Step-by-step drawing videos.",
+    url:"https://www.artforkidshub.com",
+    teacher:"Great for guided classroom drawing."
+  },
+  {
+    title:"National Gallery of Art – Kids",
+    category:"Museums",
+    grade:"K-5",
+    description:"Interactive art tools and printable activities.",
+    url:"https://www.nga.gov/education/kids.html",
+    teacher:"Excellent for art history exploration."
+  },
+  {
+    title:"Smithsonian Learning Lab",
+    category:"Lessons",
+    grade:"3-5",
+    description:"Curated digital collections and classroom resources.",
+    url:"https://learninglab.si.edu",
+    teacher:"Strong cross-curricular connections."
+  },
+  {
+    title:"Tate Kids",
+    category:"Artists",
+    grade:"2-5",
+    description:"Kid-friendly artist bios and creative games.",
+    url:"https://www.tate.org.uk/kids",
+    teacher:"Excellent art history tie-ins."
+  },
+  {
+    title:"Super Coloring",
+    category:"Printables",
+    grade:"K-3",
+    description:"Free printable coloring sheets.",
+    url:"https://www.supercoloring.com",
+    teacher:"Good early-finisher option."
+  },
+  {
+    title:"AutoDraw",
+    category:"Digital",
+    grade:"2-5",
+    description:"AI-assisted drawing tool.",
+    url:"https://www.autodraw.com",
+    teacher:"Excellent for reluctant artists."
+  },
+  {
+    title:"Kleki Paint",
+    category:"Digital",
+    grade:"2-5",
+    description:"Simple browser-based painting tool.",
+    url:"https://kleki.com",
+    teacher:"No login required."
+  },
+ 
+  {
+    title:"Metropolitan Museum of Art",
+    category:"Museums",
+    grade:"3-5",
+    description:"High-resolution artwork exploration.",
+    url:"https://www.metmuseum.org",
+    teacher:"Use for visual analysis lessons."
+  }
+  
+  
+];
+
+const prompts = [
+  "Design a golden crown for an imaginary kingdom.",
+  "Create a sculpture using only recycled materials.",
+  "Draw a museum that floats in the sky.",
+  "Illustrate a new art superhero.",
+  "Invent a magical paintbrush."
+];
+
+let teacherMode=false;
+let currentGrade="All";
+
+function renderResources() {
+  const grid=document.getElementById("resourceGrid");
+  grid.innerHTML="";
+  resources.forEach(r=>{
+    if(currentGrade==="All" ||
+       r.grade.includes(currentGrade.split("-")[0])) {
+
+      const card=document.createElement("div");
+      card.className="card";
+      card.innerHTML=`
+        <div>
+          <h3>${r.title}</h3>
+          <small>${r.category} • Grades ${r.grade}</small>
+          <p>${r.description}</p>
+          <div class="teacher-only">${r.teacher}</div>
+        </div>
+        <a href="${r.url}" target="_blank" rel="noopener noreferrer">Visit Resource</a>
+      `;
+      if(teacherMode){
+        card.querySelector(".teacher-only").style.display="block";
+      }
+      grid.appendChild(card);
+    }
+  });
+}
+
+function setGrade(grade, element){
+  currentGrade=grade;
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  element.classList.add("active");
+  renderResources();
+}
+
+function toggleTeacher(){
+  teacherMode=!teacherMode;
+  renderResources();
+}
+
+function generatePrompt(){
+  const random=prompts[Math.floor(Math.random()*prompts.length)];
+  document.getElementById("promptBox").textContent="🎨 Prompt: "+random;
+}
+
+window.onscroll=function(){
+  const btn=document.getElementById("backToTop");
+  if(document.documentElement.scrollTop>200){
+    btn.style.display="block";
+  } else {
+    btn.style.display="none";
+  }
+};
+
+function scrollToTop(){
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+renderResources();
+</script>
+
+</body>
+</html>
