@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Khaemenes Academy - Elementary Art Portal</title>
+<style>
+  /* --- Global Styles --- */
+  body {
+    margin: 0;
+    font-family: "Comic Sans MS", sans-serif;
+    background: #f0f8ff;
+    color: #333;
+  }
+  a { text-decoration: none; color: inherit; }
+
+  header {
+    background: #0b3d91;
+    color: #fff;
+    padding: 15px 20px;
+    text-align: center;
+    position: relative;
+  }
+  header h1 {
+    margin: 0;
+    font-size: 2rem;
+  }
+  header .breadcrumb {
+    font-size: 0.9rem;
+    margin-top: 5px;
+  }
+  header .breadcrumb a { color: #ffdd00; }
+
+  /* --- Tabs --- */
+  .tabs {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 15px 0;
+    gap: 10px;
+  }
+  .tab {
+    padding: 10px 20px;
+    border-radius: 8px;
+    background: #0b3d91;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  .tab.active { background: #ffdd00; color: #0b3d91; }
+
+  /* --- Resource Cards --- */
+  .cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+    gap: 15px;
+    padding: 0 20px 50px;
+  }
+  .card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s;
+  }
+  .card:hover { transform: scale(1.05); }
+  .card h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.2rem;
+    color: #0b3d91;
+  }
+  .card p { font-size: 0.95rem; margin: 0 0 10px; }
+  .card button {
+    background: #ffdd00;
+    border: none;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #0b3d91;
+    transition: 0.3s;
+  }
+  .card button:hover { background: #ffc107; }
+
+  /* --- Back to Top Button --- */
+  #backToTop {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background: #ffdd00;
+    color: #0b3d91;
+    border: none;
+    padding: 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    display: none;
+    z-index: 1000;
+  }
+
+  /* --- Footer --- */
+  footer {
+    background: #0b3d91;
+    color: #fff;
+    text-align: center;
+    padding: 12px 0;
+    margin-top: 20px;
+  }
+
+  /* --- Prompt Section --- */
+  #prompt {
+    text-align: center;
+    font-size: 1.2rem;
+    padding: 10px;
+    color: #0b3d91;
+    font-weight: bold;
+  }
+
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🎨 Khaemenes Academy</h1>
+  <div>Elementary Art & Creative Resources Portal</div>
+  <div class="breadcrumb">
+    <a href="https://www.KhaemenesAcademy.org/elementaryart">Home</a> / Elementary Art
+  </div>
+</header>
+
+<div id="prompt">🌟 Welcome! Select a grade to explore art resources.</div>
+
+<div class="tabs">
+  <div class="tab active" data-grade="all">All Grades</div>
+  <div class="tab" data-grade="k1">K–1</div>
+  <div class="tab" data-grade="2-3">2–3</div>
+  <div class="tab" data-grade="4-5">4–5</div>
+</div>
+
+<div class="cards-container" id="cardsContainer">
+  <!-- Resource cards will be injected here -->
+</div>
+
+<button id="backToTop" onclick="scrollToTop()">⬆️</button>
+
+<footer>
+  © 2026 Khaemenes Academy • Free Educational Art Resources
+</footer>
+
+<script>
+const resources = [
+  { name: "Artsology", grades: "all", desc: "Fun art games and puzzles for kids.", url: "https://www.artsology.com/" },
+  { name: "KinderArt", grades: "all", desc: "Creative projects sorted by grade level.", url: "https://kinderart.com/" },
+  { name: "K12 IRC", grades: "all", desc: "Comprehensive free resources for K-12 art lessons.", url: "https://k12.artsedsearch.org/" },
+  { name: "Art Projects for Kids", grades: "all", desc: "Step-by-step easy art ideas.", url: "https://artprojectsforkids.org/" },
+  { name: "Golden Road Arts", grades: "all", desc: "Free art lessons and videos.", url: "https://www.goldenroadarts.com/" },
+  { name: "National Gallery of Art – Kids", grades: "all", desc: "Interactive art tools and printable activities.", url: "https://www.nga.gov/education/kids.html" },
+  { name: "Smithsonian Learning Lab", grades: "2-5", desc: "Curated digital collections and classroom resources.", url: "https://learninglab.si.edu/" },
+  { name: "Art History Kids", grades: "all", desc: "Printable art history activities.", url: "https://arthistorykids.com/" }
+];
+
+// --- Generate Resource Cards ---
+function renderCards(grade = "all") {
+  const container = document.getElementById("cardsContainer");
+  container.innerHTML = "";
+  const filtered = resources.filter(r => grade === "all" || r.grades === grade || grade === "k1" && r.grades === "all");
+  filtered.forEach(r => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `<h3>${r.name}</h3><p>${r.desc}</p>
+                      <button onclick="window.open('${r.url}','_blank')">Visit Resource</button>`;
+    container.appendChild(card);
+  });
+}
+
+// --- Tabs Functionality ---
+const tabs = document.querySelectorAll(".tab");
+tabs.forEach(tab => {
+  tab.addEventListener("click", () => {
+    tabs.forEach(t => t.classList.remove("active"));
+    tab.classList.add("active");
+    const grade = tab.dataset.grade;
+    renderCards(grade);
+  });
+});
+
+// --- Back to Top Button ---
+const backBtn = document.getElementById("backToTop");
+window.onscroll = () => {
+  backBtn.style.display = document.documentElement.scrollTop > 200 ? "block" : "none";
+};
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// --- Initialize ---
+renderCards();
+
+</script>
+</body>
+</html>
