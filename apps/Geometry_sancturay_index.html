@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>PLERA Sacred Geometry Sanctuary — Kids Guide</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --midnight:#0f0f1f;
+      --parchment:#f7f3ea;
+      --parchment-soft:#f0e9dc;
+      --gold:#d9b878;
+      --gold-soft:#e8d5a4;
+      --accent:#4f74c8;
+      --accent-soft:#d3e0ff;
+
+      --radius-sm:9px;
+      --radius-md:11px;
+      --radius-lg:21px;
+
+      --shadow:0 9px 27px rgba(0,0,0,.18);
+      --ink:#1f1c18;
+
+      --h1:30px;
+      --h2:24px;
+      --h3:19px;
+      --base:17px;
+      --small:14px;
+      --tiny:12px;
+      --lh:1.44;
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0; padding:0}
+    body{
+      min-height:100vh;
+      font-family:"Cormorant Garamond", serif;
+      font-size:var(--base);
+      line-height:var(--lh);
+      color:var(--ink);
+      background:
+        radial-gradient(1200px 600px at 60% -10%, #1a2346 0%, var(--midnight) 60%, #000 100%),
+        var(--midnight);
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+    }
+
+    .wrap{
+      width:100%;
+      max-width:720px;
+      background:var(--parchment);
+      border:1px solid rgba(0,0,0,.06);
+      border-radius:var(--radius-lg);
+      box-shadow:var(--shadow);
+      margin:21px;
+      overflow:hidden;
+    }
+
+    header{
+      background:linear-gradient(135deg, var(--parchment), var(--parchment-soft));
+      border-bottom:1px solid rgba(0,0,0,.08);
+      padding:18px 21px;
+      text-align:center;
+    }
+    .title{
+      font-family:"Cinzel", serif;
+      font-size:var(--h1);
+      letter-spacing:.06em;
+      margin:0 0 6px 0;
+      color:#2a261f;
+    }
+    .subtitle{
+      margin:0;
+      color:#5b5245;
+      font-size:var(--small);
+    }
+
+    .content{ padding:18px 18px 21px 18px; }
+
+    /* Step cards */
+    .steps{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:14px;
+      margin:18px 0 10px 0;
+    }
+    .step{
+      background:#fff;
+      border-radius:var(--radius-md);
+      border:1px solid rgba(0,0,0,.07);
+      box-shadow:0 7px 21px rgba(0,0,0,.06);
+      padding:14px 16px;
+      display:grid;
+      grid-template-columns:auto 1fr;
+      gap:10px;
+      align-items:center;
+    }
+    .step-icon{
+      width:44px;
+      height:44px;
+      border-radius:50%;
+      background:var(--accent-soft);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:22px;
+    }
+    .step-text h2{
+      font-family:"Cinzel",serif;
+      font-size:var(--h3);
+      margin:0 0 4px 0;
+      color:#2a261f;
+    }
+    .step-text p{
+      margin:0;
+      font-size:var(--small);
+      color:#3b3328;
+    }
+
+    /* Mini sections */
+    .section{
+      border-top:1px solid rgba(0,0,0,.06);
+      padding-top:16px;
+      margin-top:16px;
+    }
+    .section h2{
+      font-family:"Cinzel",serif;
+      font-size:var(--h2);
+      margin:0 0 7px 0;
+      color:#25221d;
+      text-align:left;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:12px;
+    }
+
+    /* Button list */
+    .button-list{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:7px;
+      margin-top:4px;
+      font-size:var(--small);
+    }
+    .button-item{
+      background:#fff;
+      border-radius:var(--radius-md);
+      border:1px solid rgba(0,0,0,.06);
+      padding:8px 11px;
+      display:flex;
+      align-items:center;
+      gap:9px;
+    }
+    .button-label{
+      font-family:"Cinzel",serif;
+      font-size:var(--small);
+      color:#2a261f;
+      white-space:nowrap;
+    }
+    .button-desc{
+      color:#3b3328;
+    }
+
+    .tag{
+      display:inline-block;
+      padding:3px 7px;
+      border-radius:999px;
+      background:var(--parchment-soft);
+      font-size:var(--tiny);
+      color:#5b5245;
+      margin-right:4px;
+    }
+
+    /* Notes */
+    .notes{
+      background:#fff;
+      border-radius:var(--radius-md);
+      border:1px solid rgba(0,0,0,.06);
+      padding:11px 13px;
+      font-size:var(--small);
+      color:#5b5245;
+      margin-top:4px;
+    }
+    .notes ul{
+      margin:6px 0 0 0;
+      padding-left:20px;
+    }
+
+    /* Big button */
+    .btn-row{
+      display:flex;
+      justify-content:center;
+      margin:10px 0 0 0;
+    }
+    .btn{
+      appearance:none; border:none; cursor:pointer;
+      padding:11px 21px;
+      border-radius:var(--radius-md);
+      font-family:"Cinzel",serif;
+      font-size:var(--small);
+      letter-spacing:.02em;
+      background:var(--accent);
+      color:#fdfdfd;
+      border:1px solid #324d94;
+      box-shadow:0 3px 7px rgba(0,0,0,.14);
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+    }
+
+    .small-text{
+      font-size:var(--tiny);
+      color:#7a7060;
+      text-align:center;
+      margin-top:7px;
+    }
+
+    footer{
+      padding:14px;
+      background:var(--parchment-soft);
+      border-top:1px solid rgba(0,0,0,.06);
+      color:#5b5245;
+      font-size:var(--tiny);
+      text-align:center;
+    }
+
+    @media (max-width:480px){
+      .step{
+        grid-template-columns:1fr;
+      }
+      .step-icon{
+        margin:0 auto;
+      }
+      .title{
+        font-size:26px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap" role="main" aria-label="Kids guide for PLERA Sacred Geometry Sanctuary">
+    <header>
+      <h1 class="title">Sacred Geometry Sanctuary</h1>
+      <p class="subtitle">Kids Quick Guide · Make your own glowing mandala</p>
+
+      <!-- Optional: remove if guide sits directly above the game on the same page -->
+      <div class="btn-row">
+        <a class="btn" href="YOUR_GAME_URL_HERE" target="_blank" rel="noopener">
+          🎮 Open the Game
+        </a>
+      </div>
+    </header>
+
+    <div class="content">
+      <!-- Steps -->
+      <section aria-label="Three simple steps" class="section" style="border-top:none; margin-top:0; padding-top:0;">
+        <div class="steps">
+          <article class="step">
+            <div class="step-icon">💭</div>
+            <div class="step-text">
+              <h2>Step 1 · Choose a Feeling</h2>
+              <p>In the box at the top, type a feeling or wish like <strong>“Brave”</strong>, <strong>“Calm”</strong>, or <strong>“Loved”</strong>.  
+                 Then click <strong>Manifest</strong>. A soft glowing color appears in the middle.</p>
+            </div>
+          </article>
+
+          <article class="step">
+            <div class="step-icon">✨</div>
+            <div class="step-text">
+              <h2>Step 2 · Add Shapes & Colors</h2>
+              <p>Pick a <strong>Theme</strong>, a <strong>Shape</strong> (circle, star, lotus, spiral…), and a <strong>Color</strong>.  
+                 Click <strong>Add Layer</strong> to add a new ring to your mandala.</p>
+            </div>
+          </article>
+
+          <article class="step">
+            <div class="step-icon">⚔️</div>
+            <div class="step-text">
+              <h2>Step 3 · Watch & Battle</h2>
+              <p>Watch your mandala gently move.  
+                 If you’d like, choose a battle shape and press <strong>Start Battle</strong> to see your mandala give you little power boosts.</p>
+            </div>
+          </article>
+        </div>
+        <p class="small-text">You can play gently and just make art, or you can play the battle for fun. Both are okay.</p>
+      </section>
+
+      <!-- Buttons / Controls -->
+      <section class="section" aria-label="Buttons in the game">
+        <h2>Buttons in the Game</h2>
+        <div class="row">
+          <div class="button-list">
+            <div class="button-item">
+              <span class="button-label">Manifest 💡</span>
+              <span class="button-desc">Uses your words to make a special glow color in the center.</span>
+            </div>
+            <div class="button-item">
+              <span class="button-label">Add Layer ➕</span>
+              <span class="button-desc">Adds a new ring with the shape and color you picked.</span>
+            </div>
+            <div class="button-item">
+              <span class="button-label">Export Geometry ⬇️</span>
+              <span class="button-desc">Saves your mandala as a picture file (SVG) on your device.</span>
+            </div>
+            <div class="button-item">
+              <span class="button-label">Clear Mandala 🧽</span>
+              <span class="button-desc">Erases all rings so you can start fresh.</span>
+            </div>
+            <div class="button-item">
+              <span class="button-label">Start Battle ⚔️</span>
+              <span class="button-desc">Lets your shape “fight” the computer’s shape. The log shows what happened.</span>
+            </div>
+          </div>
+        </div>
+
+        <p style="margin-top:10px; font-size:var(--small); color:#5b5245;">
+          <span class="tag">Circle</span> strong at protecting ·
+          <span class="tag">Triangle</span> strong at attacking ·
+          <span class="tag">Spiral</span> helps you heal ·
+          <span class="tag">Lotus</span> & <span class="tag">Star</span> mix bonuses
+        </p>
+      </section>
+
+      <!-- Notes for kids & parents -->
+      <section class="section" aria-label="Safety and kindness notes">
+        <h2>Notes for Kids & Grown-Ups</h2>
+        <div class="notes">
+          <ul>
+            <li><strong>No log-in needed:</strong> the game runs in your browser. It doesn’t make an account.</li>
+            <li><strong>Art is yours:</strong> only you choose if you want to save your mandala picture.</li>
+            <li><strong>Feelings are welcome:</strong> you can type any kind feeling or hope. If a feeling is heavy, talk with a trusted grown-up too.</li>
+            <li><strong>Take breaks:</strong> if your eyes feel tired, pause, look away for a bit, and stretch.</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+
+    <footer>
+      Khaemenes Academy · PLERA Sacred Geometry Sanctuary — Kids Guide
+    </footer>
+  </main>
+</body>
+</html>
