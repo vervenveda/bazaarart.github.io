@@ -1,0 +1,1008 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bazaar Art Zone | Bazaar Art LLC</title>
+<meta name="description" content="Bazaar Art Zone — a living creative community for artists, poets, musicians, patrons, workshops, events, galleries, and cultural connection.">
+<meta name="theme-color" content="#fff8ef">
+<style>
+  :root{
+    --cream:#fff8ef;
+    --paper:#fffdf8;
+    --peach:#ffd8be;
+    --coral:#d86d5c;
+    --rose:#a84d61;
+    --plum:#40243c;
+    --ink:#211b20;
+    --muted:#6d5b63;
+    --gold:#c49a4a;
+    --sage:#758c73;
+    --teal:#2c6f6d;
+    --line:rgba(64,36,60,.14);
+    --shadow:0 24px 70px rgba(64,36,60,.13);
+    --soft-shadow:0 12px 34px rgba(64,36,60,.09);
+    --radius:28px;
+    --max:1180px;
+    --serif:Georgia,"Times New Roman",serif;
+    --sans:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    min-height:100svh;
+    color:var(--ink);
+    font-family:var(--sans);
+    line-height:1.6;
+    background:
+      radial-gradient(circle at 8% 2%,rgba(216,109,92,.18),transparent 22rem),
+      radial-gradient(circle at 92% 8%,rgba(44,111,109,.14),transparent 26rem),
+      radial-gradient(circle at 50% 96%,rgba(196,154,74,.16),transparent 24rem),
+      linear-gradient(180deg,#fffdf9 0%,var(--cream) 54%,#f7eadb 100%);
+    overflow-x:hidden;
+  }
+  body.menu-open{overflow:hidden}
+  a{color:inherit}
+  button,input{font:inherit}
+  button{color:inherit}
+  :focus-visible{outline:3px solid rgba(196,154,74,.65);outline-offset:3px}
+  ::selection{background:rgba(216,109,92,.22)}
+
+  .skip-link{
+    position:fixed;top:12px;left:12px;z-index:9999;
+    background:var(--plum);color:white;padding:10px 14px;border-radius:999px;
+    transform:translateY(-150%);transition:transform .18s ease;text-decoration:none;
+  }
+  .skip-link:focus{transform:translateY(0)}
+
+  .ambient{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+  .ambient::before,.ambient::after{
+    content:"";position:absolute;width:34rem;height:34rem;border-radius:50%;opacity:.18;filter:blur(2px)
+  }
+  .ambient::before{left:-18rem;top:18rem;background:var(--coral)}
+  .ambient::after{right:-18rem;bottom:4rem;background:var(--teal)}
+
+  .site-header{
+    position:sticky;top:0;z-index:1000;
+    padding:12px clamp(14px,3vw,46px);
+    background:rgba(255,253,248,.82);
+    backdrop-filter:blur(16px);
+    border-bottom:1px solid rgba(64,36,60,.08);
+  }
+  .header-inner{
+    max-width:var(--max);margin:0 auto;
+    display:flex;align-items:center;justify-content:space-between;gap:14px;
+  }
+  .brand-link{text-decoration:none;min-width:0}
+  .brand-name{
+    display:block;
+    font-family:var(--serif);
+    font-size:clamp(1.25rem,2vw,1.7rem);
+    line-height:1;
+    letter-spacing:-.025em;
+  }
+  .brand-sub{
+    display:block;
+    margin-top:2px;
+    color:var(--muted);
+    font-size:.76rem;
+    letter-spacing:.11em;
+    text-transform:uppercase;
+    white-space:nowrap;
+  }
+  .header-actions{display:flex;align-items:center;gap:9px}
+  .quiet-link{
+    display:none;
+    text-decoration:none;
+    color:var(--muted);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:9px 13px;
+    background:rgba(255,255,255,.58);
+    font-weight:800;
+    font-size:.86rem;
+  }
+  .quiet-link:hover{background:white;border-color:rgba(196,154,74,.45)}
+
+  .menu-button{
+    width:48px;height:48px;border:0;border-radius:50%;
+    display:grid;place-items:center;cursor:pointer;
+    color:white;background:linear-gradient(135deg,var(--plum),var(--rose));
+    box-shadow:0 12px 28px rgba(64,36,60,.22);
+  }
+  .menu-lines,.menu-lines::before,.menu-lines::after{
+    width:21px;height:2px;border-radius:999px;background:currentColor;display:block;transition:.2s ease;
+  }
+  .menu-lines{position:relative}
+  .menu-lines::before,.menu-lines::after{content:"";position:absolute;left:0}
+  .menu-lines::before{top:-7px}.menu-lines::after{top:7px}
+  .menu-button[aria-expanded="true"] .menu-lines{background:transparent}
+  .menu-button[aria-expanded="true"] .menu-lines::before{transform:translateY(7px) rotate(45deg)}
+  .menu-button[aria-expanded="true"] .menu-lines::after{transform:translateY(-7px) rotate(-45deg)}
+
+  .breadcrumbs{
+    max-width:var(--max);
+    margin:0 auto;
+    padding:14px clamp(14px,3vw,46px) 0;
+    font-size:.8rem;
+    color:var(--muted);
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+    align-items:center;
+  }
+  .breadcrumbs a{text-decoration:none;color:var(--plum);font-weight:800}
+  .breadcrumbs span[aria-hidden="true"]{color:var(--gold)}
+
+  main{min-height:70vh}
+
+  .hero{
+    min-height:calc(100svh - 80px);
+    display:grid;
+    align-items:center;
+    padding:clamp(48px,8vw,108px) clamp(14px,3vw,46px) 52px;
+    position:relative;
+  }
+  .hero::before{
+    content:"";
+    position:absolute;
+    inset:22px clamp(10px,2vw,34px);
+    border:1px solid rgba(196,154,74,.22);
+    border-radius:42px;
+    pointer-events:none;
+  }
+  .hero-inner{
+    width:min(100%,980px);
+    margin:0 auto;
+    text-align:center;
+    position:relative;
+    z-index:1;
+  }
+  .ornament{
+    margin:0 auto 22px;
+    width:min(300px,72vw);
+    height:54px;
+    color:var(--gold);
+    opacity:.95;
+  }
+  .eyebrow{
+    margin:0 0 16px;
+    color:var(--rose);
+    font-size:.78rem;
+    letter-spacing:.20em;
+    text-transform:uppercase;
+    font-weight:900;
+  }
+  h1{
+    margin:0;
+    font-family:var(--serif);
+    font-weight:400;
+    line-height:.94;
+    font-size:clamp(3.6rem,11vw,9rem);
+    letter-spacing:-.06em;
+    color:var(--plum);
+  }
+  h1 .zone{
+    display:block;
+    color:var(--coral);
+    font-style:italic;
+    font-size:.55em;
+    letter-spacing:-.035em;
+    margin-top:.07em;
+  }
+  .hero-copy{
+    max-width:760px;
+    margin:28px auto 0;
+    font-family:var(--serif);
+    color:var(--muted);
+    font-size:clamp(1.12rem,2.1vw,1.55rem);
+    line-height:1.55;
+  }
+  .hero-actions{
+    display:flex;flex-wrap:wrap;justify-content:center;gap:12px;
+    margin-top:34px;
+  }
+  .button{
+    min-height:52px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:9px;
+    padding:13px 19px;
+    border-radius:999px;
+    border:1px solid transparent;
+    text-decoration:none;
+    font-weight:900;
+    transition:transform .18s ease,background .18s ease,border-color .18s ease,box-shadow .18s ease;
+  }
+  .button:hover{transform:translateY(-2px)}
+  .button-primary{
+    background:linear-gradient(135deg,var(--plum),var(--rose));
+    color:white;
+    box-shadow:0 16px 36px rgba(64,36,60,.18);
+  }
+  .button-secondary{
+    background:rgba(255,255,255,.78);
+    color:var(--plum);
+    border-color:rgba(64,36,60,.16);
+  }
+  .button-secondary:hover{background:white;border-color:rgba(196,154,74,.55);box-shadow:var(--soft-shadow)}
+
+  .section{padding:clamp(64px,8vw,110px) clamp(14px,3vw,46px)}
+  .section-inner{max-width:var(--max);margin:0 auto}
+  .section-heading{
+    display:grid;
+    grid-template-columns:minmax(0,.9fr) minmax(280px,1.1fr);
+    gap:28px;
+    align-items:end;
+    margin-bottom:30px;
+  }
+  .kicker{
+    margin:0 0 8px;
+    color:var(--gold);
+    font-size:.76rem;
+    font-weight:950;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+  }
+  h2{
+    margin:0;
+    font-family:var(--serif);
+    font-weight:400;
+    line-height:1;
+    letter-spacing:-.045em;
+    font-size:clamp(2.6rem,6vw,5.4rem);
+    color:var(--plum);
+  }
+  .section-intro{
+    margin:0;
+    color:var(--muted);
+    max-width:700px;
+    font-size:clamp(1rem,1.6vw,1.14rem);
+  }
+
+  .story-panel{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(260px,360px);
+    gap:18px;
+    padding:clamp(24px,4vw,40px);
+    border:1px solid rgba(64,36,60,.12);
+    border-radius:34px;
+    background:rgba(255,253,248,.74);
+    box-shadow:var(--shadow);
+    overflow:hidden;
+    position:relative;
+  }
+  .story-panel::before{
+    content:"";
+    position:absolute;
+    right:-120px;
+    top:-120px;
+    width:300px;
+    height:300px;
+    border-radius:50%;
+    background:rgba(216,109,92,.10);
+  }
+  .story-panel p{position:relative;margin:0 0 18px;color:var(--muted)}
+  .stat-grid{
+    position:relative;
+    display:grid;
+    gap:10px;
+    align-content:start;
+  }
+  .stat{
+    border:1px solid var(--line);
+    border-radius:22px;
+    padding:18px;
+    background:rgba(255,255,255,.72);
+  }
+  .stat strong{
+    display:block;
+    color:var(--rose);
+    font-family:var(--serif);
+    font-size:2rem;
+    line-height:1;
+    font-weight:400;
+  }
+  .stat span{display:block;margin-top:4px;color:var(--muted);font-size:.86rem;font-weight:800}
+
+  .category-tabs{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-bottom:20px;
+  }
+  .tab-button{
+    border:1px solid rgba(64,36,60,.13);
+    background:rgba(255,255,255,.68);
+    color:var(--muted);
+    border-radius:999px;
+    padding:9px 13px;
+    cursor:pointer;
+    font-weight:900;
+    font-size:.86rem;
+  }
+  .tab-button.active{
+    background:linear-gradient(135deg,var(--plum),var(--rose));
+    color:white;
+    border-color:transparent;
+  }
+
+  .tools{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    margin-bottom:18px;
+  }
+  .search{
+    flex:1 1 300px;
+    max-width:640px;
+    position:relative;
+  }
+  .search input{
+    width:100%;
+    min-height:54px;
+    border:1px solid rgba(64,36,60,.14);
+    border-radius:999px;
+    padding:13px 18px;
+    background:rgba(255,255,255,.82);
+    color:var(--ink);
+    box-shadow:0 9px 22px rgba(64,36,60,.05);
+  }
+  .result-count{margin:0;color:var(--muted);font-size:.9rem}
+
+  .card-grid{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:14px;
+  }
+  .link-card{
+    min-height:178px;
+    padding:20px;
+    border:1px solid rgba(64,36,60,.12);
+    border-radius:26px;
+    background:rgba(255,255,255,.72);
+    text-decoration:none;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    gap:22px;
+    box-shadow:0 10px 28px rgba(64,36,60,.055);
+    transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,background .18s ease;
+  }
+  .link-card:hover,.link-card:focus-visible{
+    transform:translateY(-4px);
+    background:white;
+    border-color:rgba(196,154,74,.52);
+    box-shadow:var(--soft-shadow);
+  }
+  .link-card small{
+    color:var(--gold);
+    text-transform:uppercase;
+    letter-spacing:.14em;
+    font-weight:950;
+    font-size:.68rem;
+  }
+  .link-card strong{
+    display:block;
+    margin-top:22px;
+    font-family:var(--serif);
+    color:var(--plum);
+    font-size:clamp(1.55rem,2.8vw,2.2rem);
+    line-height:1;
+    font-weight:400;
+    letter-spacing:-.035em;
+  }
+  .link-card span{
+    display:block;
+    color:var(--muted);
+    font-size:.86rem;
+  }
+  .arrow{
+    align-self:flex-end;
+    width:38px;height:38px;border-radius:50%;
+    display:grid;place-items:center;
+    background:rgba(196,154,74,.14);
+    color:var(--plum);
+  }
+
+  .empty-state{
+    display:none;
+    margin-top:14px;
+    padding:28px;
+    border:1px dashed rgba(64,36,60,.25);
+    border-radius:24px;
+    text-align:center;
+    color:var(--muted);
+    background:rgba(255,255,255,.55);
+  }
+
+  .ecosystem{background:rgba(255,253,248,.48);border-block:1px solid rgba(64,36,60,.08)}
+  .footer{
+    padding:44px clamp(14px,3vw,46px) 32px;
+  }
+  .footer-inner{
+    max-width:var(--max);margin:0 auto;
+    display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;
+    border-top:1px solid var(--line);
+    padding-top:28px;
+    color:var(--muted);
+  }
+  .footer-brand{
+    margin:0;
+    font-family:var(--serif);
+    font-size:clamp(2rem,4vw,3.8rem);
+    color:var(--plum);
+    line-height:1;
+    letter-spacing:-.045em;
+  }
+  .footer-note{margin:8px 0 0}
+
+  .drawer-overlay{
+    position:fixed;inset:0;z-index:2000;
+    background:rgba(24,18,23,.42);
+    backdrop-filter:blur(6px);
+    opacity:0;visibility:hidden;
+    transition:opacity .22s ease,visibility .22s ease;
+  }
+  .drawer-overlay.open{opacity:1;visibility:visible}
+  .drawer{
+    position:absolute;top:0;right:0;
+    width:min(100%,470px);
+    height:100%;
+    background:#fffdf8;
+    box-shadow:-24px 0 70px rgba(24,18,23,.25);
+    transform:translateX(104%);
+    transition:transform .26s cubic-bezier(.2,.75,.2,1);
+    display:flex;
+    flex-direction:column;
+    padding:22px;
+  }
+  .drawer-overlay.open .drawer{transform:translateX(0)}
+  .drawer-header{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding-bottom:16px;
+    border-bottom:1px solid var(--line);
+  }
+  .drawer-title{
+    margin:0;
+    font-family:var(--serif);
+    font-size:2rem;
+    color:var(--plum);
+    font-weight:400;
+  }
+  .close-button{
+    width:44px;height:44px;border-radius:50%;border:1px solid var(--line);
+    background:white;cursor:pointer;display:grid;place-items:center;
+  }
+  .drawer-search{margin:16px 0 10px;flex:0 0 auto}
+  .drawer-groups{
+    display:flex;
+    gap:7px;
+    overflow-x:auto;
+    padding:2px 0 12px;
+    scrollbar-width:thin;
+  }
+  .drawer-group-button{
+    flex:0 0 auto;
+    border:1px solid var(--line);
+    background:white;
+    color:var(--muted);
+    border-radius:999px;
+    padding:7px 10px;
+    font-size:.78rem;
+    cursor:pointer;
+    font-weight:900;
+  }
+  .drawer-group-button.active{
+    background:var(--plum);
+    color:white;
+    border-color:var(--plum);
+  }
+  .drawer-nav{
+    overflow-y:auto;
+    padding-right:3px;
+    overscroll-behavior:contain;
+  }
+  .drawer-nav a{
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:10px;
+    align-items:center;
+    padding:13px 6px;
+    border-bottom:1px solid rgba(64,36,60,.08);
+    text-decoration:none;
+  }
+  .drawer-nav strong{
+    font-family:var(--serif);
+    color:var(--plum);
+    font-size:1.18rem;
+    font-weight:400;
+  }
+  .drawer-nav small{
+    color:var(--muted);
+    text-transform:uppercase;
+    letter-spacing:.1em;
+    font-weight:900;
+    font-size:.68rem;
+  }
+  .drawer-footer{
+    margin-top:auto;
+    padding-top:14px;
+    border-top:1px solid var(--line);
+    color:var(--muted);
+    font-size:.82rem;
+  }
+
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity .62s ease,transform .62s ease}
+  .reveal.visible{opacity:1;transform:none}
+
+  @media (min-width:780px){.quiet-link{display:inline-flex}}
+  @media (max-width:980px){
+    .hero{min-height:auto;padding-top:60px}
+    .section-heading,.story-panel{grid-template-columns:1fr}
+    .card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  }
+  @media (max-width:640px){
+    .brand-sub{white-space:normal}
+    .hero::before{inset:10px 8px;border-radius:28px}
+    .hero-actions .button{width:100%}
+    .card-grid{grid-template-columns:1fr}
+    .link-card{min-height:142px}
+    .site-header{padding-inline:12px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
+    .reveal{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<div class="ambient" aria-hidden="true"></div>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand-link" href="https://vervenveda.github.io/bazaarart.github.io/" aria-label="Bazaar Art Zone home">
+      <span class="brand-name">Bazaar Art Zone</span>
+      <span class="brand-sub">Bazaar Art LLC · Creative community</span>
+    </a>
+    <div class="header-actions">
+      <a class="quiet-link" href="#bazaar-apps">Art spaces</a>
+      <a class="quiet-link" href="#ecosystem">Verve N Veda</a>
+      <button class="menu-button" id="menuButton" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="menuDrawer">
+        <span class="menu-lines" aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <a href="https://vervenveda.github.io/">Verve N Veda</a>
+  <span aria-hidden="true">›</span>
+  <span>Bazaar Art Zone</span>
+</nav>
+
+<main id="main">
+  <section class="hero" aria-labelledby="heroTitle">
+    <div class="hero-inner">
+      <svg class="ornament" viewBox="0 0 420 74" fill="none" aria-hidden="true">
+        <path d="M210 8C199 27 188 40 166 47C190 54 202 57 210 68C218 57 230 54 254 47C232 40 221 27 210 8Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+        <path d="M166 47C138 39 111 40 82 54M254 47C282 39 309 40 338 54" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+        <path d="M134 38C122 24 116 15 107 10C108 24 114 33 134 38ZM286 38C298 24 304 15 313 10C312 24 306 33 286 38Z" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/>
+        <path d="M96 50C83 42 72 39 57 38C64 49 76 53 96 50ZM324 50C337 42 348 39 363 38C356 49 344 53 324 50Z" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>
+      </svg>
+
+      <p class="eyebrow">Creative community · Events · Artful belonging</p>
+      <h1 id="heroTitle">Bazaar Art <span class="zone">Zone</span></h1>
+      <p class="hero-copy">
+        A living, breathing creative gathering space for artists, poets, musicians, patrons, and curious observers — a place to share work, cheer each other on, and celebrate the energy of community art.
+      </p>
+      <div class="hero-actions">
+        <a class="button button-primary" href="#bazaar-apps">Enter the art spaces <span aria-hidden="true">↘</span></a>
+        <a class="button button-secondary" href="#story">Our community story</a>
+        <a class="button button-secondary" href="https://myartgallery.online" target="_blank" rel="noopener noreferrer">My Art Gallery <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="story" aria-labelledby="storyTitle">
+    <div class="section-inner">
+      <div class="story-panel reveal">
+        <div>
+          <p class="kicker">Founded February 2017</p>
+          <h2 id="storyTitle">Art as a gathering place.</h2>
+          <p>
+            Bazaar Art LLC has grown into a lively center for creativity and community involvement. Across years of community work, Bazaar Art has supported immersive art exhibitions, artist showcases, collaborative workshops, and interactive gatherings designed to celebrate local talent and create meaningful connection between artists and audiences.
+          </p>
+          <p>
+            The Bazaar Art Zone carries that spirit forward online: more than a gallery, it is a community doorway for sharing work, discovering inspiration, and finding friendship through creative expression.
+          </p>
+          <div class="hero-actions" style="justify-content:flex-start;margin-top:22px">
+            <a class="button button-primary" href="#bazaar-apps">Explore Bazaar apps</a>
+            <a class="button button-secondary" href="https://vervenveda.github.io/" target="_blank" rel="noopener noreferrer">Verve N Veda home</a>
+          </div>
+        </div>
+        <div class="stat-grid" aria-label="Bazaar Art highlights">
+          <div class="stat"><strong>2017</strong><span>Founded in Florida</span></div>
+          <div class="stat"><strong>100s</strong><span>Community events and creative gatherings</span></div>
+          <div class="stat"><strong>Open</strong><span>Artists, poets, musicians, patrons, and observers welcome</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="bazaar-apps" aria-labelledby="appsTitle">
+    <div class="section-inner">
+      <div class="section-heading reveal">
+        <div>
+          <p class="kicker">Bazaar Art apps</p>
+          <h2 id="appsTitle">Creative spaces</h2>
+        </div>
+        <p class="section-intro">
+          Art pages, galleries, community rooms, workshops, tools, and creative portals can live here. Add or edit items once in the registry at the bottom of this file.
+        </p>
+      </div>
+
+      <div class="tools reveal">
+        <label class="search" for="appSearch">
+          <input id="appSearch" type="search" placeholder="Search art spaces, workshops, tools, and galleries…" autocomplete="off">
+        </label>
+        <p class="result-count" id="appCount" aria-live="polite"></p>
+      </div>
+      <div class="category-tabs" id="appTabs" aria-label="Filter Bazaar Art spaces"></div>
+      <div class="card-grid" id="appGrid"></div>
+      <div class="empty-state" id="appEmpty">No Bazaar Art spaces match that search yet.</div>
+    </div>
+  </section>
+
+  <section class="section ecosystem" id="ecosystem" aria-labelledby="ecosystemTitle">
+    <div class="section-inner">
+      <div class="section-heading reveal">
+        <div>
+          <p class="kicker">Connected Verve N Veda repositories</p>
+          <h2 id="ecosystemTitle">The wider network</h2>
+        </div>
+        <p class="section-intro">
+          These buttons connect Bazaar Art Zone back to the other repositories and public portals in the Verve N Veda ecosystem.
+        </p>
+      </div>
+
+      <div class="tools reveal">
+        <label class="search" for="repoSearch">
+          <input id="repoSearch" type="search" placeholder="Search repositories and public portals…" autocomplete="off">
+        </label>
+        <p class="result-count" id="repoCount" aria-live="polite"></p>
+      </div>
+      <div class="category-tabs" id="repoTabs" aria-label="Filter Verve N Veda links"></div>
+      <div class="card-grid" id="repoGrid"></div>
+      <div class="empty-state" id="repoEmpty">No network links match that search yet.</div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <p class="footer-brand">Bazaar Art Zone</p>
+      <p class="footer-note">Share your work. Cheer others on. Soak in the creative energy.</p>
+    </div>
+    <div>
+      <div>© <span id="year"></span> Bazaar Art LLC</div>
+      <div>No ads · No trackers · Creative community</div>
+    </div>
+  </div>
+</footer>
+
+<div class="drawer-overlay" id="menuDrawer" role="dialog" aria-modal="true" aria-label="Navigation menu" aria-hidden="true">
+  <aside class="drawer">
+    <div class="drawer-header">
+      <h2 class="drawer-title">Explore</h2>
+      <button class="close-button" id="closeMenu" type="button" aria-label="Close navigation menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <path d="M6 6l12 12M18 6 6 18"></path>
+        </svg>
+      </button>
+    </div>
+
+    <label class="search drawer-search" for="menuSearch">
+      <input id="menuSearch" type="search" placeholder="Search Bazaar and Verve links…" autocomplete="off">
+    </label>
+    <div class="drawer-groups" id="drawerGroups" aria-label="Menu category filters"></div>
+    <nav class="drawer-nav" id="drawerNav" aria-label="Bazaar Art and Verve N Veda navigation"></nav>
+    <div class="drawer-footer">
+      Bazaar Art Zone · A creative community space by Bazaar Art LLC.
+    </div>
+  </aside>
+</div>
+
+<script>
+"use strict";
+
+const SITE_ROOT = "https://vervenveda.github.io/";
+
+const bazaarApps = [
+  {
+    title:"Bazaar Art Zone",
+    category:"Community",
+    path:"https://vervenveda.github.io/bazaarart.github.io/",
+    description:"The main creative community landing page for Bazaar Art LLC."
+  },
+  {
+    title:"My Art Gallery",
+    category:"Gallery",
+    path:"https://vervenveda.github.io/myartgallery.github.io/",
+    description:"A public gallery pathway for portfolios, artist showcases, and creative presentation."
+  },
+  {
+    title:"My Art Gallery Online",
+    category:"Gallery",
+    path:"https://myartgallery.online",
+    description:"External art gallery domain for public-facing artwork and creative presence."
+  },
+  {
+    title:"Artist Showcase",
+    category:"Events",
+    path:"#",
+    description:"Placeholder for artist features, exhibition pages, and event highlights."
+  },
+  {
+    title:"Workshop Studio",
+    category:"Workshops",
+    path:"#",
+    description:"Placeholder for collaborative workshops, class pages, prompts, and learning events."
+  },
+  {
+    title:"Community Chatroom",
+    category:"Community",
+    path:"#",
+    description:"Placeholder for creative sharing, encouragement, community circles, and art conversation."
+  },
+  {
+    title:"Calls for Art",
+    category:"Opportunities",
+    path:"#",
+    description:"Placeholder for calls, open submissions, community projects, and artist opportunities."
+  },
+  {
+    title:"Creative Tools",
+    category:"Tools",
+    path:"#",
+    description:"Placeholder for art widgets, portfolio helpers, planning tools, and studio resources."
+  }
+];
+
+const repositories = [
+  {title:"Verve N Veda", category:"Welcome", path:"https://vervenveda.github.io/", description:"The public front door to the Verve N Veda ecosystem."},
+  {title:"Bazaar Art", category:"Art & Community", path:"https://vervenveda.github.io/bazaarart.github.io/", description:"Creative community, artist showcases, events, galleries, and workshops."},
+  {title:"Creche Preschool", category:"Early Learning", path:"https://vervenveda.github.io/creche_preschool.github.io/", description:"Gentle early learning, preschool games, stories, and foundational portals."},
+  {title:"KinderGarden", category:"Early Learning", path:"https://vervenveda.github.io/KinderGarden.github.io/", description:"Kindergarten learning spaces, early literacy, math, art, and exploration."},
+  {title:"Khaemenes Elementary", category:"Academy", path:"https://vervenveda.github.io/Khaemenes-elementary.github.io/", description:"Elementary student portals and learning pathways."},
+  {title:"Khaemenes Jr High", category:"Academy", path:"https://vervenveda.github.io/Khaemenes-jrhigh.github.io/", description:"Junior high learning spaces and student resources."},
+  {title:"Khaemenes High", category:"Academy", path:"https://vervenveda.github.io/Khaemenes-High_github.io/", description:"High school portals, curriculum, resources, and student tools."},
+  {title:"Khaemenes University", category:"Academy", path:"https://vervenveda.github.io/Khaemenes-university.github.io/", description:"University-style learning halls, adult study, research, and advanced courses."},
+  {title:"Khaemenes Academy", category:"Academy", path:"https://vervenveda.github.io/khaemenesacademy.github.io/", description:"Sovereign learning environment and academy landing repository."},
+  {title:"KhaemenesAcademy.org", category:"Academy", path:"https://www.khaemenesacademy.org", description:"Main academy domain."},
+  {title:"ARSHIF Archives", category:"Research", path:"https://vervenveda.github.io/Arshif.github.io/", description:"Research archives, deep study, evidence preservation, and collections."},
+  {title:"The Verifier", category:"News & Verification", path:"https://vervenveda.github.io/theverifier.github.io/", description:"News discovery, verification, source comparison, and information literacy."},
+  {title:"PLERA Search", category:"Search", path:"https://vervenveda.github.io/PLERASearch.github.io/", description:"Search and discovery gateway for public resources and learning paths."},
+  {title:"Arcade", category:"Play", path:"https://vervenveda.github.io/arcade.github.io/", description:"Games, puzzles, trivia, strategy, and creative play."},
+  {title:"Aurora", category:"Creative", path:"https://vervenveda.github.io/aurora.github.io/", description:"Creative light, media, and visual exploration repository."},
+  {title:"Linguistics", category:"Learning", path:"https://vervenveda.github.io/linguistics.github.io/", description:"Language, vocabulary, literacy, and linguistics learning resources."},
+  {title:"Solanar", category:"Earth & Sky", path:"https://vervenveda.github.io/solanar.github.io/", description:"Weather, lunar, environmental, and sky observation portals."},
+  {title:"River to Road", category:"Environment", path:"https://vervenveda.github.io/river_to_road.github.io/", description:"Community cleanup, environmental stewardship, and local action."},
+  {title:"Firmament Law", category:"Law & Resources", path:"https://vervenveda.github.io/firmament.github.io/", description:"Legal-information tools, resource libraries, and civic reference."},
+  {title:"Professional Resource Hub", category:"Professional Tools", path:"https://vervenveda.github.io/proresource_hub.github.io/", description:"Professional development, practical planning, and work resources."},
+  {title:"Administration", category:"Administration", path:"https://vervenveda.github.io/admin.github.io/", description:"Administrative portals, planning, records, and organization tools."},
+  {title:"One Nation for All", category:"Civic Life", path:"https://vervenveda.github.io/onenationforall.github.io/", description:"Civic engagement, unity, accountability, and community-centered ideas."},
+  {title:"My Art Gallery", category:"Art & Community", path:"https://vervenveda.github.io/myartgallery.github.io/", description:"Portfolio, gallery, artist showcase, and creative presentation repository."},
+  {title:"VerveNVeda.com", category:"Public Website", path:"https://www.vervenveda.com", description:"Main public Verve N Veda domain."},
+  {title:"Jennifer Pearl 2028", category:"Civic Life", path:"https://www.jenniferpearl2028.com", description:"Campaign and civic leadership portal."},
+  {title:"MyArtGallery.online", category:"Art & Community", path:"https://myartgallery.online", description:"Public art gallery domain."}
+];
+
+const appGrid = document.getElementById("appGrid");
+const repoGrid = document.getElementById("repoGrid");
+const appTabs = document.getElementById("appTabs");
+const repoTabs = document.getElementById("repoTabs");
+const appSearch = document.getElementById("appSearch");
+const repoSearch = document.getElementById("repoSearch");
+const appCount = document.getElementById("appCount");
+const repoCount = document.getElementById("repoCount");
+const appEmpty = document.getElementById("appEmpty");
+const repoEmpty = document.getElementById("repoEmpty");
+const menuDrawer = document.getElementById("menuDrawer");
+const menuButton = document.getElementById("menuButton");
+const closeMenu = document.getElementById("closeMenu");
+const menuSearch = document.getElementById("menuSearch");
+const drawerNav = document.getElementById("drawerNav");
+const drawerGroups = document.getElementById("drawerGroups");
+let activeAppCategory = "All";
+let activeRepoCategory = "All";
+let activeDrawerCategory = "All";
+let lastFocusedElement = null;
+
+function escapeHtml(value){
+  return String(value).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
+}
+
+function matchesQuery(item, query){
+  const q = query.trim().toLowerCase();
+  if(!q) return true;
+  return [item.title,item.category,item.description,item.path].join(" ").toLowerCase().includes(q);
+}
+
+function categoriesFor(items){
+  return ["All", ...Array.from(new Set(items.map(item => item.category))).sort()];
+}
+
+function renderTabs(container, items, active, callback){
+  container.innerHTML = categoriesFor(items).map(cat => `
+    <button class="tab-button ${cat === active ? "active" : ""}" type="button" data-cat="${escapeHtml(cat)}">${escapeHtml(cat)}</button>
+  `).join("");
+  container.querySelectorAll("button").forEach(btn => {
+    btn.addEventListener("click", () => callback(btn.dataset.cat));
+  });
+}
+
+function cardTemplate(item){
+  const url = item.path || "#";
+  const disabled = url === "#";
+  return `
+    <a class="link-card reveal" href="${escapeHtml(url)}" ${disabled ? 'aria-disabled="true"' : 'target="_blank" rel="noopener noreferrer"'}>
+      <div>
+        <small>${escapeHtml(item.category)}</small>
+        <strong>${escapeHtml(item.title)}</strong>
+      </div>
+      <div>
+        <span>${escapeHtml(item.description)}</span>
+        <span class="arrow" aria-hidden="true">${disabled ? "·" : "↗"}</span>
+      </div>
+    </a>
+  `;
+}
+
+function renderCollection({items, grid, searchInput, countEl, emptyEl, activeCategory}){
+  const filtered = items.filter(item => {
+    const categoryOk = activeCategory === "All" || item.category === activeCategory;
+    return categoryOk && matchesQuery(item, searchInput.value || "");
+  });
+  grid.innerHTML = filtered.map(cardTemplate).join("");
+  countEl.textContent = `${filtered.length} ${filtered.length === 1 ? "space" : "spaces"}`;
+  emptyEl.style.display = filtered.length ? "none" : "block";
+  observeReveals();
+}
+
+function renderApps(){
+  renderTabs(appTabs, bazaarApps, activeAppCategory, cat => {
+    activeAppCategory = cat;
+    renderApps();
+  });
+  renderCollection({items:bazaarApps, grid:appGrid, searchInput:appSearch, countEl:appCount, emptyEl:appEmpty, activeCategory:activeAppCategory});
+}
+
+function renderRepos(){
+  renderTabs(repoTabs, repositories, activeRepoCategory, cat => {
+    activeRepoCategory = cat;
+    renderRepos();
+  });
+  renderCollection({items:repositories, grid:repoGrid, searchInput:repoSearch, countEl:repoCount, emptyEl:repoEmpty, activeCategory:activeRepoCategory});
+}
+
+function allMenuItems(){
+  return [
+    ...bazaarApps.map(item => ({...item, menuGroup:"Bazaar Art"})),
+    ...repositories.map(item => ({...item, menuGroup:item.category}))
+  ];
+}
+
+function renderDrawerGroups(){
+  const items = allMenuItems();
+  const cats = ["All", ...Array.from(new Set(items.map(i => i.menuGroup))).sort()];
+  drawerGroups.innerHTML = cats.map(cat => `
+    <button class="drawer-group-button ${cat === activeDrawerCategory ? "active" : ""}" type="button" data-cat="${escapeHtml(cat)}">${escapeHtml(cat)}</button>
+  `).join("");
+  drawerGroups.querySelectorAll("button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      activeDrawerCategory = btn.dataset.cat;
+      renderDrawer();
+    });
+  });
+}
+
+function renderDrawer(){
+  const q = menuSearch.value || "";
+  const items = allMenuItems().filter(item => {
+    const catOk = activeDrawerCategory === "All" || item.menuGroup === activeDrawerCategory;
+    return catOk && matchesQuery(item, q);
+  });
+  drawerNav.innerHTML = items.map(item => `
+    <a href="${escapeHtml(item.path || "#")}" ${item.path === "#" ? "" : 'target="_blank" rel="noopener noreferrer"'}>
+      <span><strong>${escapeHtml(item.title)}</strong><br><small>${escapeHtml(item.menuGroup)}</small></span>
+      <span aria-hidden="true">${item.path === "#" ? "·" : "↗"}</span>
+    </a>
+  `).join("");
+  renderDrawerGroups();
+}
+
+function openMenu(){
+  lastFocusedElement = document.activeElement;
+  menuDrawer.classList.add("open");
+  menuDrawer.setAttribute("aria-hidden","false");
+  menuButton.setAttribute("aria-expanded","true");
+  menuButton.setAttribute("aria-label","Close navigation menu");
+  document.body.classList.add("menu-open");
+  setTimeout(() => menuSearch.focus(), 80);
+}
+
+function closeDrawer(){
+  menuDrawer.classList.remove("open");
+  menuDrawer.setAttribute("aria-hidden","true");
+  menuButton.setAttribute("aria-expanded","false");
+  menuButton.setAttribute("aria-label","Open navigation menu");
+  document.body.classList.remove("menu-open");
+  menuSearch.value = "";
+  activeDrawerCategory = "All";
+  renderDrawer();
+  if(lastFocusedElement && typeof lastFocusedElement.focus === "function") lastFocusedElement.focus();
+}
+
+function trapFocus(event){
+  if(event.key !== "Tab" || !menuDrawer.classList.contains("open")) return;
+  const focusable = [...menuDrawer.querySelectorAll('a[href],button:not([disabled]),input:not([disabled]),[tabindex]:not([tabindex="-1"])')].filter(el => el.offsetParent !== null);
+  if(!focusable.length) return;
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+  if(event.shiftKey && document.activeElement === first){
+    event.preventDefault();
+    last.focus();
+  }else if(!event.shiftKey && document.activeElement === last){
+    event.preventDefault();
+    first.focus();
+  }
+}
+
+let revealObserver;
+function observeReveals(){
+  const nodes = document.querySelectorAll(".reveal:not(.visible)");
+  if(!("IntersectionObserver" in window)){
+    nodes.forEach(n => n.classList.add("visible"));
+    return;
+  }
+  if(!revealObserver){
+    revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {threshold:.12});
+  }
+  nodes.forEach(n => revealObserver.observe(n));
+}
+
+appSearch.addEventListener("input", renderApps);
+repoSearch.addEventListener("input", renderRepos);
+menuSearch.addEventListener("input", renderDrawer);
+menuButton.addEventListener("click", () => menuDrawer.classList.contains("open") ? closeDrawer() : openMenu());
+closeMenu.addEventListener("click", closeDrawer);
+menuDrawer.addEventListener("click", event => { if(event.target === menuDrawer) closeDrawer(); });
+drawerNav.addEventListener("click", event => { if(event.target.closest("a")) closeDrawer(); });
+document.addEventListener("keydown", event => {
+  if(event.key === "Escape" && menuDrawer.classList.contains("open")) closeDrawer();
+  trapFocus(event);
+});
+
+document.getElementById("year").textContent = new Date().getFullYear();
+renderApps();
+renderRepos();
+renderDrawer();
+observeReveals();
+</script>
+</body>
+</html>
