@@ -1,6 +1,4 @@
-from pathlib import Path
-
-readme = """# Bazaar Art Zone
+# Bazaar Art Zone
 
 **Bazaar Art Zone** is the public GitHub Pages home for **Bazaar Art LLC**, a creative community and event organization established in February 2017.
 
