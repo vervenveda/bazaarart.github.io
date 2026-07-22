@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SpinSpire™ – Spin for your daily art prompt!</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    html, body {
+      height: 100%; margin: 0; padding: 0;
+      background: radial-gradient(ellipse at 60% 38%, #28263e 80%, #10111a 100%);
+      font-family: 'Brandon Grotesque', Arial, sans-serif;
+      color: #f9e7bb;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    .centerbox {
+      max-width: 700px;
+      margin: 38px auto;
+      text-align: center;
+      background: rgba(22,19,34,0.87);
+      border-radius: 32px;
+      padding: 48px 24px 44px 24px;
+      box-shadow: 0 18px 60px #0008;
+      position: relative;
+    }
+    .game-title {
+      font-family: 'CITZEN', 'Playfair Display', serif;
+      letter-spacing: 0.07em;
+      font-size: 2.35em;
+      font-weight: 900;
+      color: #fff4c0;
+      margin-bottom: 7px;
+      text-shadow: 0 3px 15px #fae49c77;
+    }
+    .tagline {
+      font-family: 'Brandon Grotesque', Arial, sans-serif;
+      font-size: 1.32em;
+      color: #ffe799;
+      margin-bottom: 33px;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      text-shadow: 0 1px 12px #76510025;
+    }
+    .spinner-wrap {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      margin-bottom: 25px;
+      position: relative;
+      min-height: 375px;
+    }
+    .pointer {
+      position: absolute;
+      left: 50%; top: -48px;
+      transform: translateX(-50%);
+      width: 0; height: 0;
+      border-left: 22px solid transparent;
+      border-right: 22px solid transparent;
+      border-bottom: 42px solid #ffed9b;
+      filter: drop-shadow(0 7px 7px #0006);
+      z-index: 10;
+    }
+    .spinner-star {
+      width: 330px; height: 330px;
+      user-select: none;
+      cursor: pointer;
+      transition: filter 0.23s;
+      filter: drop-shadow(0 10px 35px #7efcdb88) brightness(1.08);
+      outline: none;
+    }
+    .spinner-star:hover { filter: drop-shadow(0 20px 65px #fa7) brightness(1.18);}
+    .spin-btn, .mashup-btn {
+      font-family: 'Brandon Grotesque', Arial, sans-serif;
+      font-size: 1.32em;
+      background: linear-gradient(90deg,#e7d43d 5%, #fa7c49 90%);
+      color: #231f0f;
+      border: none;
+      border-radius: 19px;
+      padding: 18px 48px;
+      margin: 24px 14px 16px 14px;
+      cursor: pointer;
+      font-weight: 700;
+      box-shadow: 0 7px 23px #f7cb3b22;
+      letter-spacing: 0.05em;
+      transition: background 0.18s, color 0.18s;
+    }
+    .spin-btn:active, .mashup-btn:active {
+      background: linear-gradient(90deg,#ffd800 15%, #ff9249 85%);
+      color: #321e05;
+    }
+    .result-area {
+      margin: 38px 0 8px 0;
+      font-size: 1.63em;
+      color: #fff7e6;
+      background: rgba(49,39,22,0.26);
+      border-radius: 19px;
+      padding: 32px 10px 26px 10px;
+      box-shadow: 0 1px 12px #ffed9b18;
+      min-height: 68px;
+      font-family: 'Brandon Grotesque', Arial, sans-serif;
+      font-weight: 600;
+      line-height: 1.24em;
+      letter-spacing: 0.01em;
+    }
+    .share-row { display:flex; gap:18px; justify-content:center; margin:14px 0 0 0;}
+    .share-btn {
+      font-family: 'Brandon Grotesque', Arial, sans-serif;
+      border:none; border-radius:14px;
+      padding:13px 29px;
+      font-size:1.02em;
+      font-weight:600;
+      cursor:pointer;
+      margin:0 1px;
+      outline:none;
+      background: #7ee2ff;
+      color: #18444c;
+      box-shadow: 0 2px 10px #7ee2ff44;
+      transition: background 0.14s, color 0.14s;
+    }
+    .share-btn:hover { background:#f8ed84; color: #7e5e11; }
+
+    /* Quantum Log */
+    .quantum-log {
+      margin-top: 22px;
+      padding: 14px 16px 12px 16px;
+      border-radius: 18px;
+      background: rgba(7,6,11,0.8);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+      text-align: left;
+      font-size: 0.9em;
+    }
+    .quantum-log-title {
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.8em;
+      color: #ffe799;
+      margin-bottom: 6px;
+    }
+    .quantum-log-line {
+      margin-bottom: 4px;
+    }
+    .quantum-favs {
+      margin: 4px 0 6px 0;
+      padding-left: 18px;
+      max-height: 120px;
+      overflow-y: auto;
+    }
+    .quantum-favs li {
+      margin-bottom: 2px;
+    }
+    .quantum-fav-empty {
+      opacity: 0.7;
+      list-style: none;
+      padding-left: 0;
+    }
+    .quantum-log-actions {
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:4px;
+    }
+    .share-btn.small {
+      padding:7px 16px;
+      font-size:0.8em;
+    }
+
+    @media (max-width:600px){
+      .spinner-star { width: 90vw; height: 90vw; max-width:330px; max-height:330px;}
+      .pointer{ border-left:12px solid transparent; border-right:12px solid transparent; border-bottom:24px solid #ffed9b; top:-24px;}
+      .result-area{font-size:1.07em;}
+      .centerbox{padding:12vw 2vw;}
+    }
+  </style>
+</head>
+<body>
+<div class="centerbox">
+  <div class="game-title">SpinSpire™</div>
+  <div class="tagline">Spin for your daily art prompt!</div>
+
+  <div class="spinner-wrap">
+    <div class="pointer"></div>
+    <!-- SVG Spinner Star -->
+    <svg
+      id="spinnerStar"
+      class="spinner-star"
+      viewBox="0 0 340 340"
+      role="button"
+      tabindex="0"
+      aria-label="Spin for a new art prompt"
+    >
+      <g id="starGroup">
+        <!-- Star segments generated by JS -->
+      </g>
+      <circle cx="170" cy="170" r="34" fill="#fff9d1" stroke="#dbb85a" stroke-width="7"/>
+      <text x="170" y="182" text-anchor="middle" font-size="35" font-family="Brandon Grotesque, Arial" font-weight="bold" fill="#ea8d4c" style="pointer-events:none;">🎨</text>
+    </svg>
+  </div>
+
+  <button class="spin-btn" id="spinBtn">Spin!</button>
+  <button class="mashup-btn" id="mashupBtn">Mashup!</button>
+
+  <div class="result-area" id="promptArea">Click “Spin!” to get your prompt.</div>
+
+  <div class="share-row">
+    <button class="share-btn" id="copyBtn">Copy</button>
+    <button class="share-btn" id="fbBtn">Facebook</button>
+  </div>
+
+  <div class="quantum-log">
+    <div class="quantum-log-title">Quantum Log</div>
+    <div class="quantum-log-line">
+      Spins today: <span id="spinsToday">0</span>
+    </div>
+    <div class="quantum-log-line">
+      Favorites:
+    </div>
+    <ul id="favoritesList" class="quantum-favs">
+      <li class="quantum-fav-empty">No favorites yet.</li>
+    </ul>
+    <div class="quantum-log-actions">
+      <button type="button" class="share-btn small" id="favBtn">❤ Favorite this prompt</button>
+      <button type="button" class="share-btn small" id="clearLogBtn">Clear today’s log</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ------- Config -------
+const SEGMENTS = 12;
+// Colors for each segment, in a radiant jewel/aurora style
+const COLORS = [
+  "#f95757", "#fae83c", "#7efcdb", "#49c6fa",
+  "#7c4fff", "#ff5ef1", "#fc8c49", "#8dff4c",
+  "#db4cbb", "#ffcc7e", "#4cb3ff", "#fcb47e"
+];
+
+const creativePrompts = [
+  "Draw your favorite sound", "Paint the shape of silence", "Sketch the way laughter feels",
+  "Draw a memory made of light",
+  "Illustrate a song you’ve never heard",
+  "Design the feeling of courage",
+  "Paint the sound of laughter in the rain",
+  "Sketch the moment before a dream begins",
+  "Imagine the shape of hope at sunrise",
+  "Create a portrait of silence",
+  "Design a bridge between two hearts",
+  "Illustrate the scent of nostalgia",
+  "Draw what freedom looks like underwater",
+  "Capture the rhythm of kindness",
+  "Design a window that opens to possibility",
+  "Illustrate the heartbeat of the earth",
+  "Paint the taste of tomorrow",
+  "Sketch your future self meeting your past self",
+  "Draw what it feels like to belong",
+  "Illustrate the secret language of trees",
+  "Design a home for your imagination",
+  "Create an emblem for inner peace",
+  "Draw the light that lives inside your shadow",
+  "Illustrate the courage to begin again",
+  "Paint the whisper of an untold story",
+  "Design a garden that grows dreams",
+  "Draw the edge between fear and wonder",
+  "Illustrate the moment you found your voice",
+  "Paint the color of resilience",
+  "Sketch a map to your happiest memory",
+  "Design the texture of time",
+  "Illustrate the way gratitude feels",
+  "Draw what love would look like as architecture",
+  "Create a symbol for transformation",
+  "Paint the echo of a kind word",
+  "Sketch the shape of your favorite emotion",
+  "Illustrate a constellation of your memories",
+  "Design a door that leads to your best self",
+  "Draw a sound that doesn't exist yet",
+  "Illustrate a dream that teaches you something",
+  "Paint the warmth of being understood",
+  "Design a pattern inspired by forgiveness",
+  "Draw the feeling of standing in awe",
+  "Illustrate the harmony between chaos and calm",
+  "Paint the way inspiration moves through you",
+  "Sketch the balance between stillness and motion",
+  "Draw the horizon of your imagination",
+  "Illustrate the moment your heart forgave itself",
+  "Draw the shape of healing in motion",
+  "Design a light that only appears in darkness",
+  "Paint the strength found in gentleness",
+  "Sketch the feeling of finally letting go",
+  "Illustrate a seed becoming who it was meant to be",
+  "Draw your soul learning to breathe again",
+  "Design a symbol for quiet courage",
+  "Paint the color of self-acceptance",
+  "Sketch the path between pain and peace",
+  "Illustrate your reflection learning to smile",
+  "Draw the heartbeat of renewal",
+  "Design a sanctuary within your mind",
+  "Paint a horizon made of second chances",
+  "Illustrate the sound of trust returning",
+  "Draw the invisible wings of perseverance",
+  "Design a tapestry woven from lessons learned",
+  "Paint the warmth of inner sunlight",
+  "Illustrate how growth feels beneath the surface",
+  "Draw the dance between surrender and strength",
+  "Create a symbol for rebirth through art",
+  "Illustrate the rhythm of your healing journey",
+  "Paint the silence that follows understanding",
+  "Draw the river of your resilience",
+  "Design a light that guides you home to yourself",
+  "Illustrate your fear transforming into wisdom",
+  "Draw a garden that grows from old tears",
+  "Paint the sound of peace settling in",
+  "Sketch a conversation between your heart and mind",
+  "Design a crown made of self-worth",
+  "Illustrate the bridge between who you were and who you are becoming",
+  "Draw the first spark of self-belief",
+  "Paint the beauty of imperfection",
+  "Design a mirror that reflects only your growth",
+  "Illustrate what it feels like to be free within",
+  "Draw the courage it takes to rest",
+  "Paint a sunrise made of forgiveness",
+  "Sketch your spirit after it learns to trust again",
+  "Design the shape of transformation",
+  "Illustrate the quiet triumph of healing unseen wounds",
+  "Draw a cocoon turning into light",
+  "Paint your soul’s favorite lesson",
+  "Illustrate the stillness that gives birth to creativity",
+  "Draw the color of emotional balance",
+  "Design a flame that never burns out",
+  "Illustrate the spark that starts creation",
+  "Draw the moment inspiration takes a breath",
+  "Design the pulse of pure imagination",
+  "Paint the fire that fuels your art",
+  "Sketch the rhythm of creative freedom",
+  "Illustrate the heartbeat of a new idea",
+  "Draw the melody that moves your hands",
+  "Design a storm made of passion and purpose",
+  "Paint the moment when color finds its courage",
+  "Illustrate how energy becomes art",
+  "Draw the dance between chaos and creation",
+  "Design the echo of your muse’s voice",
+  "Paint the electricity of an inspired mind",
+  "Sketch the space between impulse and masterpiece",
+  "Illustrate the symphony of your creativity",
+  "Draw what it feels like to lose yourself in the work",
+  "Paint a blaze of unstoppable focus",
+  "Design a shape made of rhythm and risk",
+  "Illustrate the touch of artistic obsession",
+  "Draw a flame that paints instead of burns",
+  "Paint the feeling of being completely alive",
+  "Design the movement of joy through color",
+  "Illustrate a dream catching fire",
+  "Draw the heartbeat behind every brushstroke",
+  "Paint the heat of imagination in bloom",
+  "Design a portal to your most vivid idea",
+  "Illustrate the rush of creative surrender",
+  "Draw your inspiration mid-flight",
+  "Paint the electricity that lives in curiosity",
+  "Design a current that carries creativity forward",
+  "Illustrate passion as a living creature",
+  "Draw the color of unstoppable expression",
+  "Paint your muse whispering in light",
+  "Design the moment art begins to breathe",
+  "Illustrate creativity as a wildfire of beauty",
+  "Draw what artistic freedom tastes like",
+  "Paint the instant before genius arrives",
+  "Design the rhythm that moves through your veins",
+  "Illustrate passion as gravity pulling you forward",
+  "Draw your energy turning into form",
+  "Paint the fusion of focus and flow",
+  "Design the architecture of inspiration",
+  "Illustrate art being born from motion",
+  "Draw the space where ideas collide and ignite",
+  "Paint the thrill of fearless expression",
+  "Design your creativity as a constellation",
+  "Illustrate a spark transforming into symphony",
+  "Draw the heartbeat of artistic devotion",
+  "Paint the warmth of doing what you love",
+  "Design a river made entirely of creative flow",
+
+  "Paint the whisper of inner wisdom",
+  "Sketch the cycle of breaking and blooming",
+  "Illustrate the moment you said yes to growth",
+  "Draw the feeling of being whole again",
+  "Paint the invisible roots of your resilience",
+
+  "Illustrate the voice of intuition",
+  "Create a monument to creativity",
+  "Design a landscape made entirely of emotion",
+  "Draw the glow of genuine connection",
+  "Illustrate how joy travels through space",
+  "Paint the invisible thread that connects us all",
+  "Draw the horizon of your dreams", "Depict the scent of rain", "Draw a map of your imagination",
+  "Sketch the sound of wind in a forest", "Draw what kindness looks like", "Create a portrait of time"
+  // ...add more if you like!
+];
+
+// ------- SVG Star Generation -------
+function generateStar() {
+  const centerX = 170, centerY = 170;
+  const innerRadius = 54, outerRadius = 158;
+  const group = document.getElementById('starGroup');
+  group.innerHTML = '';
+
+  for (let s = 0; s < SEGMENTS; s++) {
+    const a1 = (Math.PI * 2 / SEGMENTS) * s - Math.PI/2;
+    const a2 = (Math.PI * 2 / SEGMENTS) * (s + 1) - Math.PI/2;
+    const p1 = [
+      centerX + outerRadius * Math.cos(a1),
+      centerY + outerRadius * Math.sin(a1)
+    ];
+    const p2 = [
+      centerX + innerRadius * Math.cos(a1 + (a2-a1)/2),
+      centerY + innerRadius * Math.sin(a1 + (a2-a1)/2)
+    ];
+    const p3 = [
+      centerX + outerRadius * Math.cos(a2),
+      centerY + outerRadius * Math.sin(a2)
+    ];
+    const d = `M${centerX},${centerY}
+      L${p1[0]},${p1[1]}
+      L${p2[0]},${p2[1]}
+      L${p3[0]},${p3[1]}
+      Z`;
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute("d", d);
+    path.setAttribute("fill", COLORS[s % COLORS.length]);
+    path.setAttribute("stroke", "#fff");
+    path.setAttribute("stroke-width", "2");
+    path.setAttribute("style", "cursor:pointer;");
+    group.appendChild(path);
+  }
+}
+generateStar();
+
+// ------- LocalStorage & State -------
+const LS_KEY = 'spinspire_state_v1';
+
+function getTodayDate() {
+  const d = new Date();
+  return d.toISOString().slice(0,10); // YYYY-MM-DD
+}
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(LS_KEY);
+    if (!raw) return null;
+    return JSON.parse(raw);
+  } catch(e) {
+    console.warn('Could not load SpinSpire state', e);
+    return null;
+  }
+}
+
+function saveState() {
+  try {
+    localStorage.setItem(LS_KEY, JSON.stringify(appState));
+  } catch(e) {
+    console.warn('Could not save SpinSpire state', e);
+  }
+}
+
+let appState = (function initState(){
+  const today = getTodayDate();
+  const saved = loadState();
+  if (saved && saved.date === today) {
+    return saved;
+  }
+  return {
+    date: today,
+    spinsToday: 0,
+    favorites: [],
+    lastPrompt: null  // { mode, primaryIndex, secondaryIndex, text }
+  };
+})();
+
+// ------- DOM Refs -------
+const promptArea = document.getElementById('promptArea');
+const spinsTodayEl = document.getElementById('spinsToday');
+const favoritesListEl = document.getElementById('favoritesList');
+
+// ------- Quantum Log UI -------
+function renderQuantumLog() {
+  spinsTodayEl.textContent = appState.spinsToday || 0;
+
+  favoritesListEl.innerHTML = '';
+  if (!appState.favorites || appState.favorites.length === 0) {
+    const li = document.createElement('li');
+    li.className = 'quantum-fav-empty';
+    li.textContent = 'No favorites yet.';
+    favoritesListEl.appendChild(li);
+    return;
+  }
+  appState.favorites.forEach(text => {
+    const li = document.createElement('li');
+    li.textContent = text;
+    favoritesListEl.appendChild(li);
+  });
+}
+
+function restorePromptFromState() {
+  const lp = appState.lastPrompt;
+  if (lp && typeof lp.text === 'string') {
+    if (lp.mode === 'mashup' &&
+        typeof lp.primaryIndex === 'number' &&
+        typeof lp.secondaryIndex === 'number' &&
+        creativePrompts[lp.primaryIndex] &&
+        creativePrompts[lp.secondaryIndex]) {
+      promptArea.innerHTML = `<b>${creativePrompts[lp.primaryIndex]}</b> <br>and<br><b>${creativePrompts[lp.secondaryIndex]}</b>`;
+    } else {
+      promptArea.textContent = lp.text;
+    }
+  }
+  renderQuantumLog();
+}
+
+// ------- Segment → Prompt mapping -------
+function promptIndexForSegment(segIndex) {
+  const total = creativePrompts.length;
+  if (!total) return 0;
+  const bucketSize = Math.ceil(total / SEGMENTS);
+  const start = segIndex * bucketSize;
+  const end = Math.min(start + bucketSize, total);
+  if (end <= start) {
+    return Math.floor(Math.random() * total);
+  }
+  return start + Math.floor(Math.random() * (end - start));
+}
+
+// ------- Spinner Logic -------
+let spinning = false;
+let lastSegmentIndex = -1;
+
+function spinWheel(mashup = false) {
+  if (spinning) return;
+  spinning = true;
+  promptArea.textContent = "Spinning...";
+
+  const spinCount = Math.floor(3 + Math.random() * 2);
+  const seg = SEGMENTS;
+  let target = Math.floor(Math.random() * seg);
+  if (target === lastSegmentIndex) target = (target + 1) % seg;
+  lastSegmentIndex = target;
+
+  const angle = 360 * spinCount + 360/seg * (seg - target) - (360/seg)/2;
+  const star = document.getElementById("spinnerStar");
+  star.style.transition = "transform 2.1s cubic-bezier(.15,.85,.19,1)";
+  star.style.transform = `rotate(${angle}deg)`;
+
+  const promptIndex = promptIndexForSegment(target);
+
+  setTimeout(() => {
+    showPrompt(promptIndex, mashup);
+    spinning = false;
+    star.style.transition = "";
+  }, 2100);
+}
+
+function showPrompt(index, mashup = false) {
+  if (!creativePrompts.length) {
+    promptArea.textContent = "No prompts available.";
+    return;
+  }
+
+  let mode = mashup ? 'mashup' : 'single';
+  let primaryIndex = index;
+  let secondaryIndex = null;
+  let text;
+
+  if (mashup) {
+    let i2 = primaryIndex;
+    while (i2 === primaryIndex && creativePrompts.length > 1) {
+      i2 = Math.floor(Math.random() * creativePrompts.length);
+    }
+    secondaryIndex = i2;
+    const p1 = creativePrompts[primaryIndex] || '';
+    const p2 = creativePrompts[secondaryIndex] || '';
+    text = `${p1}\n\nand\n\n${p2}`;
+    promptArea.innerHTML = `<b>${p1}</b> <br>and<br><b>${p2}</b>`;
+  } else {
+    const p = creativePrompts[primaryIndex] || creativePrompts[0];
+    text = p;
+    promptArea.textContent = p;
+  }
+
+  appState.spinsToday = (appState.spinsToday || 0) + 1;
+  appState.lastPrompt = { mode, primaryIndex, secondaryIndex, text };
+  saveState();
+  renderQuantumLog();
+}
+
+// ------- Sharing -------
+function copyPrompt() {
+  const text = promptArea.innerText.trim();
+  if (!text || text === "Spinning..." || text === "Click “Spin!” to get your prompt.") return;
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text)
+      .then(() => {
+        alert("Prompt copied! Paste and share anywhere.");
+      })
+      .catch(() => {
+        alert("Copy failed in this browser. You can select and copy manually.");
+      });
+  } else {
+    alert("Copy isn’t available here. Please select and copy the prompt manually.");
+  }
+}
+
+function fbShare() {
+  const text = promptArea.innerText.trim();
+  if (!text || text === "Spinning..." || text === "Click “Spin!” to get your prompt.") return;
+  const shareText = encodeURIComponent("My SpinSpire™ prompt: " + text + " #SpinSpire #ArtPrompt");
+  window.open("https://www.facebook.com/sharer/sharer.php?u=https://myartgallery.online&quote=" + shareText, "_blank");
+}
+
+// ------- Favorites / Quantum Log actions -------
+function addFavorite() {
+  const lp = appState.lastPrompt;
+  if (!lp || !lp.text) {
+    alert("Spin first, then you can favorite a prompt.");
+    return;
+  }
+  const text = lp.text;
+  if (!appState.favorites) appState.favorites = [];
+  if (appState.favorites.includes(text)) {
+    alert("This prompt is already in today’s favorites.");
+    return;
+  }
+  appState.favorites.push(text);
+  if (appState.favorites.length > 10) {
+    appState.favorites = appState.favorites.slice(-10);
+  }
+  saveState();
+  renderQuantumLog();
+}
+
+function clearLog() {
+  if (!confirm("Clear today’s spin log? This will reset the spin count and favorites for today.")) return;
+  appState.spinsToday = 0;
+  appState.favorites = [];
+  saveState();
+  renderQuantumLog();
+}
+
+// ------- Event Handlers -------
+const spinBtn = document.getElementById('spinBtn');
+const mashupBtn = document.getElementById('mashupBtn');
+const star = document.getElementById('spinnerStar');
+const copyBtn = document.getElementById('copyBtn');
+const fbBtn = document.getElementById('fbBtn');
+const favBtn = document.getElementById('favBtn');
+const clearLogBtn = document.getElementById('clearLogBtn');
+
+spinBtn.addEventListener('click', () => spinWheel(false));
+mashupBtn.addEventListener('click', () => spinWheel(true));
+
+star.addEventListener('click', () => spinWheel(false));
+star.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault();
+    spinWheel(false);
+  }
+});
+
+copyBtn.addEventListener('click', copyPrompt);
+fbBtn.addEventListener('click', fbShare);
+favBtn.addEventListener('click', addFavorite);
+clearLogBtn.addEventListener('click', clearLog);
+
+// ------- Initial Render from LocalStorage -------
+restorePromptFromState();
+</script>
+</body>
+</html>
