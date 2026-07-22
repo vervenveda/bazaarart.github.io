@@ -1,0 +1,615 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Art 201 — Growing Your Voice</title>
+<style>
+  :root{
+    --bg:#050816;
+    --card:#090b1a;
+    --card-soft:#0f1224;
+    --ink:#e5e7eb;
+    --muted:#9ca3af;
+    --accent:#a855f7;
+    --accent2:#22c55e;
+    --accent3:#38bdf8;
+    --danger:#ef4444;
+    --radius:18px;
+  }
+  *{box-sizing:border-box;}
+
+  html,body{
+    margin:0;
+    padding:0;
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    background:radial-gradient(circle at top,#312e81,#020617);
+    color:#fffff0;
+  }
+  body{
+    display:flex;
+    justify-content:center;
+    padding:14px 0;
+  }
+  .app{
+    width:100%;
+    max-width:666px;
+    padding:0 10px;
+  }
+
+  header{
+    text-align:center;
+    margin-bottom:11px;
+  }
+  h1{
+    font-size:33px;
+    margin:7px;
+    background:linear-gradient(90deg,#FAF8F2,var(--accent2),var(--accent3));
+    -webkit-background-clip:text;
+    color:transparent;
+    letter-spacing:.03em;
+  }
+  .tagline{
+    font-size:12px;
+    color:#FAF8F2;
+    margin-top:3px;
+  }
+
+  .card{
+    background:var(--card);
+    border-radius:var(--radius);
+    padding:10px;
+    box-shadow:0 16px 40px rgba(0,0,0,.65);
+  }
+
+  /* Progress */
+  .progress-card{
+    margin-top:8px;
+  }
+  .progress-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    font-size:12px;
+    color:#FAF8F2;
+    margin-bottom:6px;
+  }
+  .pill{
+    padding:2px 8px;
+    border-radius:999px;
+    background:rgba(148,163,184,0.1);
+    font-size:11px;
+  }
+  .progress-bar{
+    width:100%;
+    height:7px;
+    border-radius:999px;
+    background:#020617;
+    overflow:hidden;
+    box-shadow:0 0 0 1px rgba(15,23,42,.9);
+  }
+  .progress-inner{
+    height:100%;
+    width:0%;
+    border-radius:999px;
+    background:linear-gradient(90deg,#FAF8F2,var(--accent2),var(--accent3));
+    transition:width .35s ease-out;
+  }
+
+  /* Week list */
+  .week-list{
+    margin-top:8px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .week-card{
+    background:var(--card);
+    border-radius:var(--radius);
+    padding:8px 9px;
+    border:1px solid rgba(148,163,184,0.18);
+    box-shadow:0 10px 28px rgba(0,0,0,.65);
+  }
+  .week-card.locked{
+    opacity:.55;
+  }
+  .week-card.complete{
+    border-color:rgba(34,197,94,0.75);
+    box-shadow:0 0 0 1px rgba(34,197,94,0.4), 0 12px 32px rgba(22,163,74,.65);
+  }
+
+  .week-header{
+    display:flex;
+    align-items:flex-start;
+    gap:6px;
+  }
+  .week-num{
+    width:24px;
+    height:24px;
+    border-radius:999px;
+    background:radial-gradient(circle at 30% 0%,#f9a8d4,#a855f7);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:12px;
+    font-weight:700;
+    color:#FAF8F2;
+    box-shadow:0 0 0 2px #020617;
+    flex-shrink:0;
+  }
+  .week-card.complete .week-num{
+    background:radial-gradient(circle at 30% 0%,#bbf7d0,#22c55e);
+  }
+  .week-main{
+    flex:1;
+    min-width:0;
+  }
+  .week-title{
+    font-size:13px;
+    font-weight:600;
+    margin:0;
+  }
+  .week-theme{
+    font-size:11px;
+    color:#FAF8F2;
+    margin-top:2px;
+  }
+  .week-meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:4px;
+    margin-top:4px;
+  }
+  .chip{
+    font-size:10px;
+    padding:1px 6px;
+    border-radius:999px;
+    background:rgba(15,23,42,0.9);
+    color:#FAF8F2;
+    border:1px solid rgba(148,163,184,0.25);
+  }
+  .status-pill{
+    font-size:10px;
+    padding:1px 6px;
+    border-radius:999px;
+    background:rgba(15,23,42,0.9);
+    border:1px solid rgba(148,163,184,0.3);
+    color:#FAF8F2;
+    white-space:nowrap;
+  }
+  .week-card.complete .status-pill{
+    background:rgba(22,163,74,0.18);
+    border-color:rgba(34,197,94,0.8);
+    color:#FAF8F2;
+  }
+  .week-card.locked .status-pill{
+    background:rgba(15,23,42,0.85);
+    border-color:rgba(71,85,105,0.7);
+    color:#64748b;
+  }
+
+  .toggle-btn{
+    border:0;
+    border-radius:999px;
+    padding:3px 8px;
+    font-size:11px;
+    cursor:pointer;
+    background:#020617;
+    color:#e5e7eb;
+    box-shadow:0 1px 4px rgba(15,23,42,0.95);
+    display:flex;
+    align-items:center;
+    gap:3px;
+    white-space:nowrap;
+  }
+
+  .week-body{
+    margin-top:6px;
+    padding-top:6px;
+    border-top:1px dashed rgba(51,65,85,0.9);
+    font-size:11px;
+    color:var(--muted);
+    display:none;
+  }
+  .week-card.open .week-body{
+    display:block;
+  }
+
+  .week-body p{
+    margin:0 0 4px 0;
+  }
+  .task-list{
+    list-style:none;
+    padding:0;
+    margin:4px 0 4px 0;
+  }
+  .task-list li{
+    display:flex;
+    align-items:flex-start;
+    gap:4px;
+    margin-bottom:3px;
+  }
+  .task-list input[type="checkbox"]{
+    margin-top:2px;
+    accent-color:var(--accent2);
+  }
+  .task-label{
+    flex:1;
+  }
+
+  .lock-note{
+    font-size:11px;
+    color:#fbbf24;
+    margin-top:4px;
+  }
+
+  .footer-note{
+    margin-top:8px;
+    font-size:11px;
+    color:var(--muted);
+    text-align:center;
+  }
+
+  .admin-row{
+    margin-top:6px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:4px;
+    font-size:10px;
+    color:var(--muted);
+  }
+  .admin-row button{
+    border:0;
+    border-radius:999px;
+    padding:3px 7px;
+    font-size:10px;
+    cursor:pointer;
+    background:#020617;
+    color:#e5e7eb;
+    box-shadow:0 1px 4px rgba(15,23,42,0.95);
+    white-space:nowrap;
+  }
+  .admin-row button.danger{
+    color:#fecaca;
+    border:1px solid rgba(248,113,113,0.7);
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <h1>Art 201 Portal</h1>
+    <div class="tagline">6 weeks of deeper study in composition, color, and storytelling.</div>
+  </header>
+
+  <!-- Progress -->
+  <section class="card progress-card">
+    <div class="progress-row">
+      <span id="progressText">0 of 6 weeks completed</span>
+      <span class="pill">🎨 Intermediate · All ages</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-inner" id="progressInner"></div>
+    </div>
+    <div class="admin-row">
+      <span>Complete a week to unlock the next.</span>
+      <div style="display:flex;gap:4px;">
+        <button id="unlockAllBtn">Unlock all</button>
+        <button id="resetBtn" class="danger">Reset</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Weeks -->
+  <section class="week-list" id="weekList"></section>
+
+  <div class="footer-note">
+    Designed to pair with Art 101. All progress is stored locally on this device only.
+  </div>
+</div>
+
+<script>
+(function(){
+  const STORAGE_KEY = 'art201_portal_v1';
+
+  const WEEKS = [
+    {
+      id: 1,
+      title: 'Week 1 — Composition & Thumbnails',
+      theme: 'Where you place things on the page changes the story.',
+      focus: 'Composition · Thumbnails · Focal point',
+      ages: '🌿 · 🌳 (🌱 with help)',
+      blurb: 'Experiment with different ways to arrange the same subject. Learn to think in tiny, quick sketches before committing to a full piece.',
+      tasks: [
+        { id:'warmup', label:'Warm-up: 6–9 tiny “thumbnail” boxes (2–3 cm wide) filled with quick layout ideas.' },
+        { id:'project', label:'Main project: choose a subject (still life, character, or scene) and draw 3 different compositions for it.' },
+        { id:'reflect', label:'Reflection: Which composition feels strongest and why? Where does your eye go first?' }
+      ]
+    },
+    {
+      id: 2,
+      title: 'Week 2 — Edges & Texture',
+      theme: 'Not all lines are equal: some whisper, some shout.',
+      focus: 'Edges · Texture · Mark-making',
+      ages: '🌿 · 🌳',
+      blurb: 'Use different types of marks (soft, scratchy, broken, blended) to show texture and focus in your drawings.',
+      tasks: [
+        { id:'warmup', label:'Warm-up: a “texture grid” — fill small boxes with different marks (fur, stone, wood, fabric, hair, clouds).' },
+        { id:'project', label:'Main project: draw a simple object or character using at least 3 different textures and edge types.' },
+        { id:'reflect', label:'Reflection: Which part of your drawing feels most “touchable” because of the texture?' }
+      ]
+    },
+    {
+      id: 3,
+      title: 'Week 3 — Color Harmony & Palettes',
+      theme: 'Choosing colors on purpose instead of guessing.',
+      focus: 'Color schemes · Limited palettes',
+      ages: '🌿 · 🌳',
+      blurb: 'Explore different color schemes (complementary, analogous, monochrome) and build small palette cards you can reuse.',
+      tasks: [
+        { id:'warmup', label:'Warm-up: create 3 swatch strips — one complementary pair, one analogous set, and one monochrome palette.' },
+        { id:'project', label:'Main project: paint or color a small scene or character using only one chosen palette (e.g., blue/orange, pink/yellow, etc.).' },
+        { id:'reflect', label:'Reflection: How did limiting your colors change the mood or clarity of the piece?' }
+      ]
+    },
+    {
+      id: 4,
+      title: 'Week 4 — Environments & 2-Point Perspective',
+      theme: 'Building believable places for your characters to live in.',
+      focus: '2-point perspective · Environment design',
+      ages: '🌿 · 🌳',
+      blurb: 'Use two vanishing points to build simple buildings, streets, and rooms with more depth and structure.',
+      tasks: [
+        { id:'warmup', label:'Warm-up: practice 4–6 simple boxes in 2-point perspective at different heights and angles.' },
+        { id:'project', label:'Main project: design a street, corner, or interior space using 2-point perspective (can be realistic or fantasy).' },
+        { id:'reflect', label:'Reflection: What details made your space feel more “alive” (signs, plants, windows, clutter, etc.)?' }
+      ]
+    },
+    {
+      id: 5,
+      title: 'Week 5 — Expressive Figures & Portraits',
+      theme: 'Faces and bodies that feel like real people, not mannequins.',
+      focus: 'Gesture · Simplified anatomy · Expression',
+      ages: '🌿 · 🌳',
+      blurb: 'Combine gesture, simple structure, and facial expression to make characters that feel like they have inner lives.',
+      tasks: [
+        { id:'warmup', label:'Warm-up: 8–10 quick gesture drawings (30–60 seconds each) from imagination or simple references.' },
+        { id:'project', label:'Main project: create a character sheet with 1 full-body pose and 3 headshots showing different expressions.' },
+        { id:'reflect', label:'Reflection: Which pose or expression feels most like a real person you could talk to? Why?' }
+      ]
+    },
+    {
+      id: 6,
+      title: 'Week 6 — Personal Mini-Series',
+      theme: 'Take ownership of your art: a tiny series in your own voice.',
+      focus: 'Series · Cohesion · Personal meaning',
+      ages: '🌿 · 🌳',
+      blurb: 'Create a small series (2–4 pieces) that belong together through subject, color, or theme.',
+      tasks: [
+        { id:'warmup', label:'Warm-up: write down 3 themes you care about (hope, memory, nature, dreams, etc.) and sketch tiny thumbnails for each.' },
+        { id:'project', label:'Main project: choose one theme and create 2–4 related drawings or paintings that feel like they are part of a set.' },
+        { id:'reflect', label:'Reflection: What did you discover about your tastes or voice while making this series?' }
+      ]
+    }
+  ];
+
+  function loadState(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(!raw) return {};
+      return JSON.parse(raw);
+    }catch(e){
+      return {};
+    }
+  }
+
+  function saveState(state){
+    try{
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }catch(e){}
+  }
+
+  function ensureState(state){
+    if(!state || typeof state !== 'object') state = {};
+    if(!state.weeks || typeof state.weeks !== 'object') state.weeks = {};
+    WEEKS.forEach((w, idx)=>{
+      if(!state.weeks[w.id]){
+        state.weeks[w.id] = {
+          tasks:{},
+          unlocked: idx === 0, // only week 1 unlocked by default
+        };
+      }
+    });
+    return state;
+  }
+
+  function isWeekComplete(weekId, state){
+    const def = WEEKS.find(w=>w.id === weekId);
+    const ws = state.weeks[weekId] || {};
+    if(!def || !def.tasks || !def.tasks.length) return false;
+    return def.tasks.every(t => !!(ws.tasks && ws.tasks[t.id]));
+  }
+
+  function recomputeUnlocks(state){
+    for(let i=1;i<WEEKS.length;i++){
+      const prevId = WEEKS[i-1].id;
+      const curId = WEEKS[i].id;
+      const prevComplete = isWeekComplete(prevId,state);
+      if(prevComplete){
+        state.weeks[curId].unlocked = true;
+      }
+    }
+  }
+
+  function render(){
+    let state = ensureState(loadState());
+    recomputeUnlocks(state);
+    saveState(state);
+
+    const wrap = document.getElementById('weekList');
+    wrap.innerHTML = '';
+
+    let completedCount = 0;
+
+    WEEKS.forEach(w=>{
+      const ws = state.weeks[w.id];
+      const complete = isWeekComplete(w.id,state);
+      if(complete) completedCount++;
+
+      const card = document.createElement('article');
+      card.className = 'week-card';
+      if(ws.unlocked !== true) card.classList.add('locked');
+      if(complete) card.classList.add('complete');
+
+      const header = document.createElement('div');
+      header.className = 'week-header';
+
+      const num = document.createElement('div');
+      num.className = 'week-num';
+      num.textContent = w.id;
+
+      const main = document.createElement('div');
+      main.className = 'week-main';
+
+      const title = document.createElement('p');
+      title.className = 'week-title';
+      title.textContent = w.title;
+
+      const theme = document.createElement('div');
+      theme.className = 'week-theme';
+      theme.textContent = w.theme;
+
+      const metaRow = document.createElement('div');
+      metaRow.className = 'week-meta';
+
+      const focusChip = document.createElement('span');
+      focusChip.className = 'chip';
+      focusChip.textContent = w.focus;
+
+      const agesChip = document.createElement('span');
+      agesChip.className = 'chip';
+      agesChip.textContent = w.ages;
+
+      const status = document.createElement('span');
+      status.className = 'status-pill';
+      if(ws.unlocked !== true){
+        status.textContent = 'Locked – finish previous week';
+      }else if(complete){
+        status.textContent = '✓ Completed';
+      }else{
+        status.textContent = 'In progress';
+      }
+
+      metaRow.appendChild(focusChip);
+      metaRow.appendChild(agesChip);
+      metaRow.appendChild(status);
+
+      main.appendChild(title);
+      main.appendChild(theme);
+      main.appendChild(metaRow);
+
+      const toggleBtn = document.createElement('button');
+      toggleBtn.className = 'toggle-btn';
+      toggleBtn.type = 'button';
+      toggleBtn.innerHTML = '<span>Details</span><span aria-hidden="true">▼</span>';
+
+      header.appendChild(num);
+      header.appendChild(main);
+      header.appendChild(toggleBtn);
+      card.appendChild(header);
+
+      // body
+      const body = document.createElement('div');
+      body.className = 'week-body';
+
+      const blurb = document.createElement('p');
+      blurb.textContent = w.blurb;
+      body.appendChild(blurb);
+
+      const ul = document.createElement('ul');
+      ul.className = 'task-list';
+
+      w.tasks.forEach(task=>{
+        const li = document.createElement('li');
+        const cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.checked = !!(ws.tasks && ws.tasks[task.id]);
+        if(ws.unlocked !== true){
+          cb.disabled = true;
+        }
+        const label = document.createElement('div');
+        label.className = 'task-label';
+        label.textContent = task.label;
+
+        cb.addEventListener('change', ()=>{
+          let st = ensureState(loadState());
+          if(!st.weeks[w.id].tasks) st.weeks[w.id].tasks = {};
+          st.weeks[w.id].tasks[task.id] = cb.checked;
+          recomputeUnlocks(st);
+          saveState(st);
+          render();
+        });
+
+        li.appendChild(cb);
+        li.appendChild(label);
+        ul.appendChild(li);
+      });
+
+      body.appendChild(ul);
+
+      if(ws.unlocked !== true){
+        const lockNote = document.createElement('div');
+        lockNote.className = 'lock-note';
+        lockNote.textContent = 'This week will unlock automatically when you complete the week before it.';
+        body.appendChild(lockNote);
+      }else{
+        const reflectHint = document.createElement('div');
+        reflectHint.style.marginTop = '4px';
+        reflectHint.style.fontSize = '10px';
+        reflectHint.style.color = '#e5e7eb';
+        reflectHint.textContent = 'You can keep notes about your style, palettes, and ideas in a separate journal or sketchbook.';
+        body.appendChild(reflectHint);
+      }
+
+      card.appendChild(body);
+
+      toggleBtn.addEventListener('click', ()=>{
+        const isOpen = card.classList.contains('open');
+        document.querySelectorAll('.week-card.open').forEach(c=>c.classList.remove('open'));
+        if(!isOpen) card.classList.add('open');
+      });
+
+      wrap.appendChild(card);
+    });
+
+    const progressText = document.getElementById('progressText');
+    const inner = document.getElementById('progressInner');
+    progressText.textContent = `${completedCount} of ${WEEKS.length} weeks completed`;
+    const pct = (completedCount / WEEKS.length) * 100;
+    inner.style.width = pct + '%';
+  }
+
+  document.getElementById('unlockAllBtn').addEventListener('click', ()=>{
+    let state = ensureState(loadState());
+    WEEKS.forEach(w=>{
+      if(!state.weeks[w.id]) state.weeks[w.id] = {tasks:{}};
+      state.weeks[w.id].unlocked = true;
+    });
+    saveState(state);
+    render();
+  });
+
+  document.getElementById('resetBtn').addEventListener('click', ()=>{
+    if(!confirm('Reset all Art 201 progress on this device?')){
+      return;
+    }
+    localStorage.removeItem(STORAGE_KEY);
+    render();
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
