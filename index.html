@@ -1,1008 +1,4224 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bazaar Art Zone | Bazaar Art LLC</title>
-<meta name="description" content="Bazaar Art Zone — a living creative community for artists, poets, musicians, patrons, workshops, events, galleries, and cultural connection.">
-<meta name="theme-color" content="#fff8ef">
-<style>
-  :root{
-    --cream:#fff8ef;
-    --paper:#fffdf8;
-    --peach:#ffd8be;
-    --coral:#d86d5c;
-    --rose:#a84d61;
-    --plum:#40243c;
-    --ink:#211b20;
-    --muted:#6d5b63;
-    --gold:#c49a4a;
-    --sage:#758c73;
-    --teal:#2c6f6d;
-    --line:rgba(64,36,60,.14);
-    --shadow:0 24px 70px rgba(64,36,60,.13);
-    --soft-shadow:0 12px 34px rgba(64,36,60,.09);
-    --radius:28px;
-    --max:1180px;
-    --serif:Georgia,"Times New Roman",serif;
-    --sans:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-  }
+  <meta charset="UTF-8">
 
-  *{box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{
-    margin:0;
-    min-height:100svh;
-    color:var(--ink);
-    font-family:var(--sans);
-    line-height:1.6;
-    background:
-      radial-gradient(circle at 8% 2%,rgba(216,109,92,.18),transparent 22rem),
-      radial-gradient(circle at 92% 8%,rgba(44,111,109,.14),transparent 26rem),
-      radial-gradient(circle at 50% 96%,rgba(196,154,74,.16),transparent 24rem),
-      linear-gradient(180deg,#fffdf9 0%,var(--cream) 54%,#f7eadb 100%);
-    overflow-x:hidden;
-  }
-  body.menu-open{overflow:hidden}
-  a{color:inherit}
-  button,input{font:inherit}
-  button{color:inherit}
-  :focus-visible{outline:3px solid rgba(196,154,74,.65);outline-offset:3px}
-  ::selection{background:rgba(216,109,92,.22)}
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-  .skip-link{
-    position:fixed;top:12px;left:12px;z-index:9999;
-    background:var(--plum);color:white;padding:10px 14px;border-radius:999px;
-    transform:translateY(-150%);transition:transform .18s ease;text-decoration:none;
-  }
-  .skip-link:focus{transform:translateY(0)}
+  <meta
+    name="description"
+    content="Bazaar Art — a sovereign, sandboxed art hub for artists, galleries, art education, opportunities, museums, tools, and creative discovery."
+  >
 
-  .ambient{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
-  .ambient::before,.ambient::after{
-    content:"";position:absolute;width:34rem;height:34rem;border-radius:50%;opacity:.18;filter:blur(2px)
-  }
-  .ambient::before{left:-18rem;top:18rem;background:var(--coral)}
-  .ambient::after{right:-18rem;bottom:4rem;background:var(--teal)}
+  <meta name="theme-color" content="#fff8eb">
 
-  .site-header{
-    position:sticky;top:0;z-index:1000;
-    padding:12px clamp(14px,3vw,46px);
-    background:rgba(255,253,248,.82);
-    backdrop-filter:blur(16px);
-    border-bottom:1px solid rgba(64,36,60,.08);
-  }
-  .header-inner{
-    max-width:var(--max);margin:0 auto;
-    display:flex;align-items:center;justify-content:space-between;gap:14px;
-  }
-  .brand-link{text-decoration:none;min-width:0}
-  .brand-name{
-    display:block;
-    font-family:var(--serif);
-    font-size:clamp(1.25rem,2vw,1.7rem);
-    line-height:1;
-    letter-spacing:-.025em;
-  }
-  .brand-sub{
-    display:block;
-    margin-top:2px;
-    color:var(--muted);
-    font-size:.76rem;
-    letter-spacing:.11em;
-    text-transform:uppercase;
-    white-space:nowrap;
-  }
-  .header-actions{display:flex;align-items:center;gap:9px}
-  .quiet-link{
-    display:none;
-    text-decoration:none;
-    color:var(--muted);
-    border:1px solid var(--line);
-    border-radius:999px;
-    padding:9px 13px;
-    background:rgba(255,255,255,.58);
-    font-weight:800;
-    font-size:.86rem;
-  }
-  .quiet-link:hover{background:white;border-color:rgba(196,154,74,.45)}
+  <title>Bazaar Art | Sovereign Art Hub</title>
 
-  .menu-button{
-    width:48px;height:48px;border:0;border-radius:50%;
-    display:grid;place-items:center;cursor:pointer;
-    color:white;background:linear-gradient(135deg,var(--plum),var(--rose));
-    box-shadow:0 12px 28px rgba(64,36,60,.22);
-  }
-  .menu-lines,.menu-lines::before,.menu-lines::after{
-    width:21px;height:2px;border-radius:999px;background:currentColor;display:block;transition:.2s ease;
-  }
-  .menu-lines{position:relative}
-  .menu-lines::before,.menu-lines::after{content:"";position:absolute;left:0}
-  .menu-lines::before{top:-7px}.menu-lines::after{top:7px}
-  .menu-button[aria-expanded="true"] .menu-lines{background:transparent}
-  .menu-button[aria-expanded="true"] .menu-lines::before{transform:translateY(7px) rotate(45deg)}
-  .menu-button[aria-expanded="true"] .menu-lines::after{transform:translateY(-7px) rotate(-45deg)}
+  <style>
+    :root {
+      --paper: #fffaf0;
+      --paper-soft: #f8edd8;
+      --paper-deep: #efe0c5;
 
-  .breadcrumbs{
-    max-width:var(--max);
-    margin:0 auto;
-    padding:14px clamp(14px,3vw,46px) 0;
-    font-size:.8rem;
-    color:var(--muted);
-    display:flex;
-    flex-wrap:wrap;
-    gap:7px;
-    align-items:center;
-  }
-  .breadcrumbs a{text-decoration:none;color:var(--plum);font-weight:800}
-  .breadcrumbs span[aria-hidden="true"]{color:var(--gold)}
+      --ink: #18232b;
+      --ink-soft: #36434b;
+      --muted: #66625d;
 
-  main{min-height:70vh}
+      --orange: #ed7d31;
+      --gold: #f3b632;
+      --coral: #ef6b55;
+      --teal: #2b8e91;
+      --blue: #2f68a8;
+      --green: #6da65d;
+      --plum: #5a345f;
 
-  .hero{
-    min-height:calc(100svh - 80px);
-    display:grid;
-    align-items:center;
-    padding:clamp(48px,8vw,108px) clamp(14px,3vw,46px) 52px;
-    position:relative;
-  }
-  .hero::before{
-    content:"";
-    position:absolute;
-    inset:22px clamp(10px,2vw,34px);
-    border:1px solid rgba(196,154,74,.22);
-    border-radius:42px;
-    pointer-events:none;
-  }
-  .hero-inner{
-    width:min(100%,980px);
-    margin:0 auto;
-    text-align:center;
-    position:relative;
-    z-index:1;
-  }
-  .ornament{
-    margin:0 auto 22px;
-    width:min(300px,72vw);
-    height:54px;
-    color:var(--gold);
-    opacity:.95;
-  }
-  .eyebrow{
-    margin:0 0 16px;
-    color:var(--rose);
-    font-size:.78rem;
-    letter-spacing:.20em;
-    text-transform:uppercase;
-    font-weight:900;
-  }
-  h1{
-    margin:0;
-    font-family:var(--serif);
-    font-weight:400;
-    line-height:.94;
-    font-size:clamp(3.6rem,11vw,9rem);
-    letter-spacing:-.06em;
-    color:var(--plum);
-  }
-  h1 .zone{
-    display:block;
-    color:var(--coral);
-    font-style:italic;
-    font-size:.55em;
-    letter-spacing:-.035em;
-    margin-top:.07em;
-  }
-  .hero-copy{
-    max-width:760px;
-    margin:28px auto 0;
-    font-family:var(--serif);
-    color:var(--muted);
-    font-size:clamp(1.12rem,2.1vw,1.55rem);
-    line-height:1.55;
-  }
-  .hero-actions{
-    display:flex;flex-wrap:wrap;justify-content:center;gap:12px;
-    margin-top:34px;
-  }
-  .button{
-    min-height:52px;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    gap:9px;
-    padding:13px 19px;
-    border-radius:999px;
-    border:1px solid transparent;
-    text-decoration:none;
-    font-weight:900;
-    transition:transform .18s ease,background .18s ease,border-color .18s ease,box-shadow .18s ease;
-  }
-  .button:hover{transform:translateY(-2px)}
-  .button-primary{
-    background:linear-gradient(135deg,var(--plum),var(--rose));
-    color:white;
-    box-shadow:0 16px 36px rgba(64,36,60,.18);
-  }
-  .button-secondary{
-    background:rgba(255,255,255,.78);
-    color:var(--plum);
-    border-color:rgba(64,36,60,.16);
-  }
-  .button-secondary:hover{background:white;border-color:rgba(196,154,74,.55);box-shadow:var(--soft-shadow)}
+      --line: rgba(34, 45, 53, 0.16);
+      --line-strong: rgba(34, 45, 53, 0.28);
 
-  .section{padding:clamp(64px,8vw,110px) clamp(14px,3vw,46px)}
-  .section-inner{max-width:var(--max);margin:0 auto}
-  .section-heading{
-    display:grid;
-    grid-template-columns:minmax(0,.9fr) minmax(280px,1.1fr);
-    gap:28px;
-    align-items:end;
-    margin-bottom:30px;
-  }
-  .kicker{
-    margin:0 0 8px;
-    color:var(--gold);
-    font-size:.76rem;
-    font-weight:950;
-    letter-spacing:.18em;
-    text-transform:uppercase;
-  }
-  h2{
-    margin:0;
-    font-family:var(--serif);
-    font-weight:400;
-    line-height:1;
-    letter-spacing:-.045em;
-    font-size:clamp(2.6rem,6vw,5.4rem);
-    color:var(--plum);
-  }
-  .section-intro{
-    margin:0;
-    color:var(--muted);
-    max-width:700px;
-    font-size:clamp(1rem,1.6vw,1.14rem);
-  }
+      --glass: rgba(255, 252, 244, 0.84);
+      --glass-strong: rgba(255, 252, 244, 0.94);
 
-  .story-panel{
-    display:grid;
-    grid-template-columns:minmax(0,1fr) minmax(260px,360px);
-    gap:18px;
-    padding:clamp(24px,4vw,40px);
-    border:1px solid rgba(64,36,60,.12);
-    border-radius:34px;
-    background:rgba(255,253,248,.74);
-    box-shadow:var(--shadow);
-    overflow:hidden;
-    position:relative;
-  }
-  .story-panel::before{
-    content:"";
-    position:absolute;
-    right:-120px;
-    top:-120px;
-    width:300px;
-    height:300px;
-    border-radius:50%;
-    background:rgba(216,109,92,.10);
-  }
-  .story-panel p{position:relative;margin:0 0 18px;color:var(--muted)}
-  .stat-grid{
-    position:relative;
-    display:grid;
-    gap:10px;
-    align-content:start;
-  }
-  .stat{
-    border:1px solid var(--line);
-    border-radius:22px;
-    padding:18px;
-    background:rgba(255,255,255,.72);
-  }
-  .stat strong{
-    display:block;
-    color:var(--rose);
-    font-family:var(--serif);
-    font-size:2rem;
-    line-height:1;
-    font-weight:400;
-  }
-  .stat span{display:block;margin-top:4px;color:var(--muted);font-size:.86rem;font-weight:800}
+      --shadow:
+        0 22px 70px rgba(61, 48, 29, 0.14);
 
-  .category-tabs{
-    display:flex;
-    flex-wrap:wrap;
-    gap:8px;
-    margin-bottom:20px;
-  }
-  .tab-button{
-    border:1px solid rgba(64,36,60,.13);
-    background:rgba(255,255,255,.68);
-    color:var(--muted);
-    border-radius:999px;
-    padding:9px 13px;
-    cursor:pointer;
-    font-weight:900;
-    font-size:.86rem;
-  }
-  .tab-button.active{
-    background:linear-gradient(135deg,var(--plum),var(--rose));
-    color:white;
-    border-color:transparent;
-  }
+      --shadow-soft:
+        0 10px 28px rgba(61, 48, 29, 0.10);
 
-  .tools{
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:space-between;
-    align-items:center;
-    gap:12px;
-    margin-bottom:18px;
-  }
-  .search{
-    flex:1 1 300px;
-    max-width:640px;
-    position:relative;
-  }
-  .search input{
-    width:100%;
-    min-height:54px;
-    border:1px solid rgba(64,36,60,.14);
-    border-radius:999px;
-    padding:13px 18px;
-    background:rgba(255,255,255,.82);
-    color:var(--ink);
-    box-shadow:0 9px 22px rgba(64,36,60,.05);
-  }
-  .result-count{margin:0;color:var(--muted);font-size:.9rem}
+      --radius-large: 34px;
+      --radius-medium: 24px;
+      --radius-small: 16px;
 
-  .card-grid{
-    display:grid;
-    grid-template-columns:repeat(3,minmax(0,1fr));
-    gap:14px;
-  }
-  .link-card{
-    min-height:178px;
-    padding:20px;
-    border:1px solid rgba(64,36,60,.12);
-    border-radius:26px;
-    background:rgba(255,255,255,.72);
-    text-decoration:none;
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
-    gap:22px;
-    box-shadow:0 10px 28px rgba(64,36,60,.055);
-    transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,background .18s ease;
-  }
-  .link-card:hover,.link-card:focus-visible{
-    transform:translateY(-4px);
-    background:white;
-    border-color:rgba(196,154,74,.52);
-    box-shadow:var(--soft-shadow);
-  }
-  .link-card small{
-    color:var(--gold);
-    text-transform:uppercase;
-    letter-spacing:.14em;
-    font-weight:950;
-    font-size:.68rem;
-  }
-  .link-card strong{
-    display:block;
-    margin-top:22px;
-    font-family:var(--serif);
-    color:var(--plum);
-    font-size:clamp(1.55rem,2.8vw,2.2rem);
-    line-height:1;
-    font-weight:400;
-    letter-spacing:-.035em;
-  }
-  .link-card span{
-    display:block;
-    color:var(--muted);
-    font-size:.86rem;
-  }
-  .arrow{
-    align-self:flex-end;
-    width:38px;height:38px;border-radius:50%;
-    display:grid;place-items:center;
-    background:rgba(196,154,74,.14);
-    color:var(--plum);
-  }
+      --max-width: 1240px;
 
-  .empty-state{
-    display:none;
-    margin-top:14px;
-    padding:28px;
-    border:1px dashed rgba(64,36,60,.25);
-    border-radius:24px;
-    text-align:center;
-    color:var(--muted);
-    background:rgba(255,255,255,.55);
-  }
+      --serif:
+        Georgia,
+        "Times New Roman",
+        serif;
 
-  .ecosystem{background:rgba(255,253,248,.48);border-block:1px solid rgba(64,36,60,.08)}
-  .footer{
-    padding:44px clamp(14px,3vw,46px) 32px;
-  }
-  .footer-inner{
-    max-width:var(--max);margin:0 auto;
-    display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;
-    border-top:1px solid var(--line);
-    padding-top:28px;
-    color:var(--muted);
-  }
-  .footer-brand{
-    margin:0;
-    font-family:var(--serif);
-    font-size:clamp(2rem,4vw,3.8rem);
-    color:var(--plum);
-    line-height:1;
-    letter-spacing:-.045em;
-  }
-  .footer-note{margin:8px 0 0}
+      --sans:
+        ui-sans-serif,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+    }
 
-  .drawer-overlay{
-    position:fixed;inset:0;z-index:2000;
-    background:rgba(24,18,23,.42);
-    backdrop-filter:blur(6px);
-    opacity:0;visibility:hidden;
-    transition:opacity .22s ease,visibility .22s ease;
-  }
-  .drawer-overlay.open{opacity:1;visibility:visible}
-  .drawer{
-    position:absolute;top:0;right:0;
-    width:min(100%,470px);
-    height:100%;
-    background:#fffdf8;
-    box-shadow:-24px 0 70px rgba(24,18,23,.25);
-    transform:translateX(104%);
-    transition:transform .26s cubic-bezier(.2,.75,.2,1);
-    display:flex;
-    flex-direction:column;
-    padding:22px;
-  }
-  .drawer-overlay.open .drawer{transform:translateX(0)}
-  .drawer-header{
-    display:flex;align-items:center;justify-content:space-between;gap:12px;
-    padding-bottom:16px;
-    border-bottom:1px solid var(--line);
-  }
-  .drawer-title{
-    margin:0;
-    font-family:var(--serif);
-    font-size:2rem;
-    color:var(--plum);
-    font-weight:400;
-  }
-  .close-button{
-    width:44px;height:44px;border-radius:50%;border:1px solid var(--line);
-    background:white;cursor:pointer;display:grid;place-items:center;
-  }
-  .drawer-search{margin:16px 0 10px;flex:0 0 auto}
-  .drawer-groups{
-    display:flex;
-    gap:7px;
-    overflow-x:auto;
-    padding:2px 0 12px;
-    scrollbar-width:thin;
-  }
-  .drawer-group-button{
-    flex:0 0 auto;
-    border:1px solid var(--line);
-    background:white;
-    color:var(--muted);
-    border-radius:999px;
-    padding:7px 10px;
-    font-size:.78rem;
-    cursor:pointer;
-    font-weight:900;
-  }
-  .drawer-group-button.active{
-    background:var(--plum);
-    color:white;
-    border-color:var(--plum);
-  }
-  .drawer-nav{
-    overflow-y:auto;
-    padding-right:3px;
-    overscroll-behavior:contain;
-  }
-  .drawer-nav a{
-    display:grid;
-    grid-template-columns:1fr auto;
-    gap:10px;
-    align-items:center;
-    padding:13px 6px;
-    border-bottom:1px solid rgba(64,36,60,.08);
-    text-decoration:none;
-  }
-  .drawer-nav strong{
-    font-family:var(--serif);
-    color:var(--plum);
-    font-size:1.18rem;
-    font-weight:400;
-  }
-  .drawer-nav small{
-    color:var(--muted);
-    text-transform:uppercase;
-    letter-spacing:.1em;
-    font-weight:900;
-    font-size:.68rem;
-  }
-  .drawer-footer{
-    margin-top:auto;
-    padding-top:14px;
-    border-top:1px solid var(--line);
-    color:var(--muted);
-    font-size:.82rem;
-  }
+    * {
+      box-sizing: border-box;
+    }
 
-  .reveal{opacity:0;transform:translateY(20px);transition:opacity .62s ease,transform .62s ease}
-  .reveal.visible{opacity:1;transform:none}
+    html {
+      scroll-behavior: smooth;
+    }
 
-  @media (min-width:780px){.quiet-link{display:inline-flex}}
-  @media (max-width:980px){
-    .hero{min-height:auto;padding-top:60px}
-    .section-heading,.story-panel{grid-template-columns:1fr}
-    .card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-  }
-  @media (max-width:640px){
-    .brand-sub{white-space:normal}
-    .hero::before{inset:10px 8px;border-radius:28px}
-    .hero-actions .button{width:100%}
-    .card-grid{grid-template-columns:1fr}
-    .link-card{min-height:142px}
-    .site-header{padding-inline:12px}
-  }
-  @media (prefers-reduced-motion:reduce){
-    *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
-    .reveal{opacity:1;transform:none}
-  }
-</style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+
+      color: var(--ink);
+      font-family: var(--sans);
+      line-height: 1.55;
+
+      background:
+        radial-gradient(
+          circle at 8% 8%,
+          rgba(237, 125, 49, 0.18),
+          transparent 25rem
+        ),
+        radial-gradient(
+          circle at 88% 4%,
+          rgba(43, 142, 145, 0.18),
+          transparent 28rem
+        ),
+        radial-gradient(
+          circle at 55% 95%,
+          rgba(243, 182, 50, 0.19),
+          transparent 28rem
+        ),
+        linear-gradient(
+          180deg,
+          #fffdf8,
+          var(--paper) 48%,
+          var(--paper-soft)
+        );
+    }
+
+    body.drawer-open,
+    body.modal-open {
+      overflow: hidden;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      color: inherit;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    :focus-visible {
+      outline: 3px solid rgba(47, 104, 168, 0.55);
+      outline-offset: 3px;
+    }
+
+    ::selection {
+      background: rgba(243, 182, 50, 0.35);
+    }
+
+    .skip-link {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 9999;
+
+      padding: 10px 14px;
+      border-radius: 999px;
+
+      color: white;
+      background: var(--ink);
+      text-decoration: none;
+
+      transform: translateY(-150%);
+      transition: transform 0.2s ease;
+    }
+
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+
+    .watercolor-clouds {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .watercolor-blob {
+      position: absolute;
+
+      border-radius: 45% 55% 60% 40%;
+      filter: blur(18px);
+      opacity: 0.13;
+      mix-blend-mode: multiply;
+    }
+
+    .watercolor-blob.one {
+      width: 34rem;
+      height: 25rem;
+
+      left: -15rem;
+      top: 9rem;
+
+      background: var(--orange);
+      transform: rotate(18deg);
+    }
+
+    .watercolor-blob.two {
+      width: 31rem;
+      height: 27rem;
+
+      right: -14rem;
+      top: 5rem;
+
+      background: var(--teal);
+      transform: rotate(-12deg);
+    }
+
+    .watercolor-blob.three {
+      width: 38rem;
+      height: 21rem;
+
+      left: 28%;
+      bottom: -12rem;
+
+      background: var(--gold);
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+
+      border-bottom: 1px solid var(--line);
+
+      background: rgba(255, 250, 240, 0.84);
+      backdrop-filter: blur(18px);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      width: min(100%, var(--max-width));
+      margin: 0 auto;
+      padding: 11px clamp(14px, 3vw, 34px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+
+      min-width: 0;
+
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      width: 44px;
+      height: 44px;
+
+      flex: 0 0 auto;
+
+      border-radius: 50%;
+
+      background:
+        conic-gradient(
+          from 50deg,
+          var(--orange),
+          var(--gold),
+          var(--green),
+          var(--teal),
+          var(--blue),
+          var(--plum),
+          var(--coral),
+          var(--orange)
+        );
+
+      box-shadow:
+        inset 0 0 0 8px rgba(255, 255, 255, 0.75),
+        var(--shadow-soft);
+    }
+
+    .brand-text {
+      min-width: 0;
+    }
+
+    .brand-text strong {
+      display: block;
+
+      font-family: var(--serif);
+      font-size: 1.28rem;
+      line-height: 1;
+    }
+
+    .brand-text span {
+      display: block;
+
+      margin-top: 3px;
+
+      color: var(--muted);
+      font-size: 0.72rem;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .icon-button,
+    .header-pill {
+      min-height: 44px;
+
+      border: 1px solid var(--line);
+      border-radius: 999px;
+
+      background: rgba(255, 255, 255, 0.72);
+
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .icon-button {
+      display: grid;
+      place-items: center;
+
+      width: 46px;
+      padding: 0;
+    }
+
+    .header-pill {
+      padding: 9px 14px;
+
+      text-decoration: none;
+    }
+
+    .icon-button:hover,
+    .header-pill:hover {
+      background: white;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .desktop-link {
+      display: none;
+    }
+
+    .hero {
+      padding:
+        clamp(26px, 5vw, 58px)
+        clamp(14px, 3vw, 34px)
+        62px;
+    }
+
+    .hero-shell {
+      position: relative;
+
+      display: grid;
+      place-items: center;
+
+      width: min(100%, var(--max-width));
+      min-height: min(78vh, 790px);
+
+      margin: 0 auto;
+      overflow: hidden;
+
+      border: 1px solid rgba(34, 45, 53, 0.18);
+      border-radius: 42px;
+
+      background: var(--paper-deep);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-shell::after {
+      content: "";
+
+      position: absolute;
+      inset: 0;
+
+      pointer-events: none;
+
+      background:
+        linear-gradient(
+          90deg,
+          rgba(255, 252, 244, 0.04),
+          transparent 50%,
+          rgba(255, 252, 244, 0.08)
+        );
+    }
+
+    .hero-art {
+      position: absolute;
+      inset: 0;
+
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+    }
+
+    .hero-overlay {
+      position: relative;
+      z-index: 2;
+
+      width: min(880px, 92%);
+
+      padding: clamp(24px, 5vw, 52px);
+
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      border-radius: 34px;
+
+      background: rgba(255, 250, 240, 0.80);
+      backdrop-filter: blur(8px);
+
+      text-align: center;
+
+      box-shadow:
+        0 18px 50px rgba(35, 31, 23, 0.20);
+    }
+
+    .eyebrow {
+      margin: 0 0 12px;
+
+      color: var(--plum);
+      font-size: 0.76rem;
+      font-weight: 950;
+      letter-spacing: 0.20em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: var(--serif);
+      font-weight: 400;
+    }
+
+    h1 {
+      margin: 0;
+
+      color: #17232b;
+
+      font-size: clamp(3.4rem, 10vw, 8.5rem);
+      line-height: 0.86;
+      letter-spacing: -0.06em;
+    }
+
+    h1 span {
+      display: block;
+
+      margin-top: 0.26em;
+
+      color: var(--plum);
+
+      font-size: 0.46em;
+      font-style: italic;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-copy {
+      max-width: 690px;
+
+      margin: 22px auto 0;
+
+      color: #3f4445;
+      font-family: var(--serif);
+      font-size: clamp(1rem, 2vw, 1.35rem);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+
+      margin-top: 26px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+
+      min-height: 50px;
+      padding: 12px 17px;
+
+      border: 1px solid transparent;
+      border-radius: 999px;
+
+      font-weight: 950;
+      text-decoration: none;
+      cursor: pointer;
+
+      transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        background 0.18s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+    }
+
+    .button-primary {
+      color: white;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--ink),
+          var(--plum)
+        );
+
+      box-shadow: var(--shadow-soft);
+    }
+
+    .button-secondary {
+      border-color: var(--line);
+
+      background: rgba(255, 255, 255, 0.84);
+    }
+
+    .button-paint {
+      color: #20170b;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--orange),
+          var(--gold)
+        );
+    }
+
+    .section {
+      padding:
+        clamp(62px, 8vw, 105px)
+        clamp(14px, 3vw, 34px);
+    }
+
+    .section.alt {
+      border-top: 1px solid rgba(34, 45, 53, 0.08);
+      border-bottom: 1px solid rgba(34, 45, 53, 0.08);
+
+      background: rgba(255, 255, 255, 0.35);
+    }
+
+    .inner {
+      width: min(100%, var(--max-width));
+      margin: 0 auto;
+    }
+
+    .section-heading {
+      display: grid;
+      grid-template-columns:
+        minmax(0, 0.85fr)
+        minmax(300px, 1.15fr);
+      align-items: end;
+      gap: 28px;
+
+      margin-bottom: 28px;
+    }
+
+    .kicker {
+      margin: 0 0 7px;
+
+      color: var(--orange);
+      font-size: 0.73rem;
+      font-weight: 950;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 0;
+
+      color: var(--ink);
+
+      font-size: clamp(2.5rem, 6vw, 5.2rem);
+      line-height: 0.95;
+      letter-spacing: -0.045em;
+    }
+
+    .section-intro {
+      margin: 0;
+
+      color: var(--muted);
+      font-size: 1.04rem;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 13px;
+    }
+
+    .feature-card {
+      padding: 20px;
+
+      border: 1px solid var(--line);
+      border-radius: 26px;
+
+      background: var(--glass);
+
+      box-shadow: var(--shadow-soft);
+    }
+
+    .feature-icon {
+      font-size: 1.8rem;
+    }
+
+    .feature-card h3 {
+      margin: 14px 0 7px;
+
+      color: var(--plum);
+      font-size: 1.55rem;
+    }
+
+    .feature-card p {
+      margin: 0;
+
+      color: var(--muted);
+      font-size: 0.90rem;
+    }
+
+    .compass {
+      display: grid;
+      grid-template-columns:
+        minmax(0, 1fr)
+        minmax(300px, 0.72fr);
+      align-items: stretch;
+      gap: 18px;
+    }
+
+    .compass-panel {
+      padding: clamp(24px, 4vw, 42px);
+
+      border: 1px solid var(--line);
+      border-radius: 34px;
+
+      background: var(--glass);
+
+      box-shadow: var(--shadow);
+    }
+
+    .compass-panel h2 {
+      font-size: clamp(2.7rem, 6vw, 5.6rem);
+    }
+
+    .compass-controls {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+
+      margin: 22px 0;
+    }
+
+    .compass-controls label {
+      color: var(--muted);
+      font-size: 0.77rem;
+      font-weight: 900;
+    }
+
+    .field {
+      width: 100%;
+
+      padding: 13px 15px;
+
+      border: 1px solid var(--line);
+      border-radius: 16px;
+
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.88);
+    }
+
+    .compass-controls .field {
+      margin-top: 5px;
+    }
+
+    .compass-spin {
+      width: 100%;
+
+      padding: 15px;
+
+      border: 0;
+      border-radius: 20px;
+
+      color: #15171a;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--orange),
+          var(--gold),
+          var(--teal)
+        );
+
+      font-size: 1rem;
+      font-weight: 1000;
+      cursor: pointer;
+
+      box-shadow: var(--shadow-soft);
+    }
+
+    .compass-result {
+      position: relative;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .compass-result::before {
+      content: "";
+
+      position: absolute;
+      inset: -30%;
+
+      background:
+        conic-gradient(
+          from 90deg,
+          rgba(237, 125, 49, 0.12),
+          rgba(43, 142, 145, 0.12),
+          rgba(243, 182, 50, 0.12),
+          rgba(237, 125, 49, 0.12)
+        );
+
+      animation: drift 18s linear infinite;
+    }
+
+    @keyframes drift {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .result-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .result-icon {
+      font-size: 3.6rem;
+    }
+
+    .compass-result h3 {
+      margin: 10px 0 8px;
+
+      font-size: 2.2rem;
+    }
+
+    .compass-result p {
+      margin: 0;
+
+      color: var(--muted);
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      margin-bottom: 16px;
+    }
+
+    .search-box {
+      flex: 1 1 300px;
+
+      max-width: 650px;
+    }
+
+    .resource-count {
+      margin: 0;
+
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .resource-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+
+      margin-bottom: 18px;
+    }
+
+    .resource-tab {
+      padding: 8px 12px;
+
+      border: 1px solid var(--line);
+      border-radius: 999px;
+
+      background: rgba(255, 255, 255, 0.65);
+
+      font-size: 0.82rem;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .resource-tab.active {
+      color: white;
+      border-color: var(--ink);
+      background: var(--ink);
+    }
+
+    .resource-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .resource-card {
+      position: relative;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+
+      min-height: 208px;
+      padding: 20px;
+      overflow: hidden;
+
+      border: 1px solid var(--line);
+      border-radius: 26px;
+
+      background: rgba(255, 255, 255, 0.76);
+
+      box-shadow:
+        0 9px 24px rgba(61, 48, 29, 0.065);
+
+      transition:
+        transform 0.18s ease,
+        background 0.18s ease,
+        box-shadow 0.18s ease;
+    }
+
+    .resource-card::before {
+      content: "";
+
+      position: absolute;
+      right: -30px;
+      bottom: -55px;
+
+      width: 140px;
+      height: 140px;
+
+      border-radius: 50%;
+
+      background:
+        var(
+          --card-wash,
+          rgba(237, 125, 49, 0.13)
+        );
+    }
+
+    .resource-card:hover {
+      transform: translateY(-4px);
+
+      background: white;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .card-top,
+    .card-bottom {
+      position: relative;
+      z-index: 1;
+    }
+
+    .resource-tag {
+      color: var(--orange);
+
+      font-size: 0.67rem;
+      font-weight: 950;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    .resource-card h3 {
+      margin: 17px 0 0;
+
+      color: var(--ink);
+
+      font-size: clamp(1.45rem, 2.4vw, 2rem);
+      line-height: 1;
+    }
+
+    .resource-card p {
+      margin: 0 0 14px;
+
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .card-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .open-link,
+    .mini-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      min-height: 38px;
+      padding: 8px 12px;
+
+      border: 1px solid var(--line);
+      border-radius: 999px;
+
+      background: white;
+
+      font-size: 0.78rem;
+      font-weight: 900;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .open-link {
+      color: white;
+      border-color: var(--ink);
+      background: var(--ink);
+    }
+
+    .mini-button.favorite.active {
+      color: #251b08;
+      background: var(--gold);
+    }
+
+    .empty-state {
+      display: none;
+
+      padding: 26px;
+
+      border: 1px dashed var(--line);
+      border-radius: 24px;
+
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .hub-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .hub-card {
+      padding: 22px;
+
+      border: 1px solid var(--line);
+      border-radius: 28px;
+
+      background: rgba(255, 255, 255, 0.75);
+    }
+
+    .hub-card h3 {
+      margin: 8px 0;
+
+      color: var(--plum);
+      font-size: 1.7rem;
+    }
+
+    .hub-card ul {
+      padding-left: 20px;
+
+      color: var(--muted);
+      font-size: 0.90rem;
+    }
+
+    .art-form-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .art-form-card {
+      position: relative;
+
+      min-height: 220px;
+      padding: 20px;
+      overflow: hidden;
+
+      border: 1px solid var(--line);
+      border-radius: 24px;
+
+      background:
+        linear-gradient(
+          150deg,
+          rgba(255, 255, 255, 0.88),
+          rgba(255, 248, 232, 0.72)
+        );
+
+      box-shadow: var(--shadow-soft);
+    }
+
+    .art-form-card::after {
+      content: "";
+
+      position: absolute;
+      right: -40px;
+      bottom: -50px;
+
+      width: 150px;
+      height: 150px;
+
+      border-radius: 48% 52% 58% 42%;
+
+      background:
+        var(
+          --art-color,
+          rgba(43, 142, 145, 0.15)
+        );
+
+      filter: blur(3px);
+    }
+
+    .art-form-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .art-form-icon {
+      font-size: 2rem;
+    }
+
+    .art-form-card h3 {
+      margin: 12px 0 8px;
+
+      color: var(--plum);
+      font-size: 1.55rem;
+    }
+
+    .art-form-card p {
+      margin: 0;
+
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .local-gallery-tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+
+      margin-top: 18px;
+    }
+
+    .notice {
+      padding: 13px 15px;
+
+      border: 1px solid rgba(109, 166, 93, 0.28);
+      border-radius: 18px;
+
+      color: #3c5b34;
+      background: rgba(109, 166, 93, 0.13);
+
+      font-size: 0.87rem;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+
+      margin-top: 20px;
+    }
+
+    .art-tile {
+      position: relative;
+
+      aspect-ratio: 4 / 5;
+      overflow: hidden;
+
+      border: 1px solid var(--line);
+      border-radius: 22px;
+
+      background: #ead9b9;
+    }
+
+    .art-tile img {
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+    }
+
+    .art-caption {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+
+      padding: 28px 12px 12px;
+
+      color: white;
+
+      background:
+        linear-gradient(
+          transparent,
+          rgba(15, 18, 20, 0.82)
+        );
+
+      font-size: 0.82rem;
+    }
+
+    .art-caption-actions {
+      display: flex;
+      justify-content: flex-end;
+
+      margin-top: 8px;
+    }
+
+    .remove-art {
+      padding: 5px 8px;
+
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 999px;
+
+      color: white;
+      background: rgba(0, 0, 0, 0.35);
+
+      font-size: 0.70rem;
+      cursor: pointer;
+    }
+
+    footer {
+      padding:
+        42px
+        clamp(14px, 3vw, 34px);
+    }
+
+    .footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 18px;
+
+      width: min(100%, var(--max-width));
+
+      margin: 0 auto;
+      padding-top: 25px;
+
+      border-top: 1px solid var(--line);
+
+      color: var(--muted);
+    }
+
+    .footer-title {
+      color: var(--ink);
+
+      font-family: var(--serif);
+      font-size: 2.7rem;
+      line-height: 1;
+    }
+
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+
+      visibility: hidden;
+      opacity: 0;
+
+      background: rgba(19, 23, 25, 0.44);
+      backdrop-filter: blur(7px);
+
+      transition:
+        opacity 0.2s ease,
+        visibility 0.2s ease;
+    }
+
+    .drawer-overlay.open {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .drawer {
+      position: absolute;
+      top: 0;
+      right: 0;
+
+      display: flex;
+      flex-direction: column;
+
+      width: min(100%, 500px);
+      height: 100%;
+      padding: 22px;
+
+      background: var(--paper);
+
+      box-shadow:
+        -20px 0 70px rgba(0, 0, 0, 0.25);
+
+      transform: translateX(104%);
+      transition: transform 0.25s ease;
+    }
+
+    .drawer-overlay.open .drawer {
+      transform: translateX(0);
+    }
+
+    .drawer-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding-bottom: 12px;
+
+      border-bottom: 1px solid var(--line);
+    }
+
+    .drawer-head h2 {
+      font-size: 2.2rem;
+    }
+
+    .drawer-nav {
+      margin-top: 14px;
+      overflow: auto;
+    }
+
+    .drawer-nav a,
+    .drawer-nav button {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      width: 100%;
+      padding: 13px 6px;
+
+      border: 0;
+      border-bottom: 1px solid var(--line);
+
+      background: transparent;
+
+      text-align: left;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 2500;
+
+      display: none;
+      place-items: center;
+
+      padding: 18px;
+
+      background: rgba(17, 22, 25, 0.56);
+      backdrop-filter: blur(8px);
+    }
+
+    .modal.open {
+      display: grid;
+    }
+
+    .modal-card {
+      width: min(100%, 760px);
+      max-height: 90vh;
+      overflow: auto;
+
+      padding: 24px;
+
+      border: 1px solid var(--line);
+      border-radius: 30px;
+
+      background: var(--paper);
+
+      box-shadow: var(--shadow);
+    }
+
+    .modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .modal-head h2 {
+      font-size: 2.1rem;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .form-wide {
+      grid-column: 1 / -1;
+    }
+
+    .form-label {
+      color: var(--muted);
+
+      font-size: 0.78rem;
+      font-weight: 900;
+    }
+
+    .form-label .field {
+      margin-top: 5px;
+    }
+
+    textarea.field {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .admin-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+
+      margin-top: 14px;
+    }
+
+    .admin-list {
+      display: grid;
+      gap: 8px;
+
+      margin-top: 18px;
+    }
+
+    .admin-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+
+      padding: 12px;
+
+      border: 1px solid var(--line);
+      border-radius: 17px;
+    }
+
+    .admin-item strong,
+    .admin-item small {
+      display: block;
+    }
+
+    .admin-item small {
+      color: var(--muted);
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      z-index: 4000;
+
+      padding: 11px 15px;
+
+      border-radius: 999px;
+
+      color: white;
+      background: var(--ink);
+
+      box-shadow: var(--shadow-soft);
+
+      transform: translate(-50%, 130px);
+      transition: transform 0.25s ease;
+    }
+
+    .toast.show {
+      transform: translate(-50%, 0);
+    }
+
+    @media (min-width: 790px) {
+      .desktop-link {
+        display: inline-flex;
+      }
+    }
+
+    @media (max-width: 1000px) {
+      .section-heading,
+      .compass {
+        grid-template-columns: 1fr;
+      }
+
+      .feature-grid {
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
+      }
+
+      .resource-grid,
+      .hub-grid {
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
+      }
+
+      .art-form-grid,
+      .gallery-grid {
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 650px) {
+      .brand-text span {
+        display: none;
+      }
+
+      .hero-shell {
+        min-height: 680px;
+        border-radius: 28px;
+      }
+
+      .hero-overlay {
+        width: 92%;
+        padding: 25px 18px;
+      }
+
+      .actions .button {
+        width: 100%;
+      }
+
+      .feature-grid,
+      .resource-grid,
+      .hub-grid,
+      .art-form-grid,
+      .gallery-grid,
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .compass-controls {
+        grid-template-columns: 1fr;
+      }
+
+      .section-heading {
+        display: block;
+      }
+
+      .section-intro {
+        margin-top: 14px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
 </head>
+
 <body>
-<a class="skip-link" href="#main">Skip to main content</a>
-<div class="ambient" aria-hidden="true"></div>
+  <a class="skip-link" href="#main">
+    Skip to main content
+  </a>
 
-<header class="site-header">
-  <div class="header-inner">
-    <a class="brand-link" href="https://vervenveda.github.io/bazaarart.github.io/" aria-label="Bazaar Art Zone home">
-      <span class="brand-name">Bazaar Art Zone</span>
-      <span class="brand-sub">Bazaar Art LLC · Creative community</span>
-    </a>
-    <div class="header-actions">
-      <a class="quiet-link" href="#bazaar-apps">Art spaces</a>
-      <a class="quiet-link" href="#ecosystem">Verve N Veda</a>
-      <button class="menu-button" id="menuButton" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="menuDrawer">
-        <span class="menu-lines" aria-hidden="true"></span>
-      </button>
-    </div>
+  <div
+    class="watercolor-clouds"
+    aria-hidden="true"
+  >
+    <span class="watercolor-blob one"></span>
+    <span class="watercolor-blob two"></span>
+    <span class="watercolor-blob three"></span>
   </div>
-</header>
 
-<nav class="breadcrumbs" aria-label="Breadcrumb">
-  <a href="https://vervenveda.github.io/">Verve N Veda</a>
-  <span aria-hidden="true">›</span>
-  <span>Bazaar Art Zone</span>
-</nav>
+  <header>
+    <div class="header-inner">
+      <a
+        class="brand"
+        href="#top"
+        aria-label="Bazaar Art home"
+      >
+        <span
+          class="brand-mark"
+          aria-hidden="true"
+        ></span>
 
-<main id="main">
-  <section class="hero" aria-labelledby="heroTitle">
-    <div class="hero-inner">
-      <svg class="ornament" viewBox="0 0 420 74" fill="none" aria-hidden="true">
-        <path d="M210 8C199 27 188 40 166 47C190 54 202 57 210 68C218 57 230 54 254 47C232 40 221 27 210 8Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
-        <path d="M166 47C138 39 111 40 82 54M254 47C282 39 309 40 338 54" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-        <path d="M134 38C122 24 116 15 107 10C108 24 114 33 134 38ZM286 38C298 24 304 15 313 10C312 24 306 33 286 38Z" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/>
-        <path d="M96 50C83 42 72 39 57 38C64 49 76 53 96 50ZM324 50C337 42 348 39 363 38C356 49 344 53 324 50Z" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>
-      </svg>
+        <span class="brand-text">
+          <strong>Bazaar Art</strong>
+          <span>Sovereign creative commons</span>
+        </span>
+      </a>
 
-      <p class="eyebrow">Creative community · Events · Artful belonging</p>
-      <h1 id="heroTitle">Bazaar Art <span class="zone">Zone</span></h1>
-      <p class="hero-copy">
-        A living, breathing creative gathering space for artists, poets, musicians, patrons, and curious observers — a place to share work, cheer each other on, and celebrate the energy of community art.
-      </p>
-      <div class="hero-actions">
-        <a class="button button-primary" href="#bazaar-apps">Enter the art spaces <span aria-hidden="true">↘</span></a>
-        <a class="button button-secondary" href="#story">Our community story</a>
-        <a class="button button-secondary" href="https://myartgallery.online" target="_blank" rel="noopener noreferrer">My Art Gallery <span aria-hidden="true">↗</span></a>
+      <div class="header-actions">
+        <a
+          class="header-pill desktop-link"
+          href="#resources"
+        >
+          Art Sources
+        </a>
+
+        <a
+          class="header-pill desktop-link"
+          href="https://myartgallery.online"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          My Art Gallery ↗
+        </a>
+
+        <button
+          class="icon-button"
+          id="adminButton"
+          type="button"
+          aria-label="Open local admin tools"
+          title="Local admin tools"
+        >
+          ⚙
+        </button>
+
+        <button
+          class="icon-button"
+          id="menuButton"
+          type="button"
+          aria-label="Open menu"
+          aria-expanded="false"
+        >
+          ☰
+        </button>
       </div>
     </div>
-  </section>
+  </header>
 
-  <section class="section" id="story" aria-labelledby="storyTitle">
-    <div class="section-inner">
-      <div class="story-panel reveal">
-        <div>
-          <p class="kicker">Founded February 2017</p>
-          <h2 id="storyTitle">Art as a gathering place.</h2>
-          <p>
-            Bazaar Art LLC has grown into a lively center for creativity and community involvement. Across years of community work, Bazaar Art has supported immersive art exhibitions, artist showcases, collaborative workshops, and interactive gatherings designed to celebrate local talent and create meaningful connection between artists and audiences.
+  <main id="main">
+    <section
+      class="hero"
+      id="top"
+    >
+      <div class="hero-shell">
+        <img
+          class="hero-art"
+          src="bazaar-art-watercolor.webp"
+          alt="Watercolor artwork reading Bazaar Art over orange, yellow, blue, teal, green, and coral washes."
+        >
+
+        <div class="hero-overlay">
+          <p class="eyebrow">
+            Gallery · Academy · Marketplace · Artist resources
           </p>
-          <p>
-            The Bazaar Art Zone carries that spirit forward online: more than a gallery, it is a community doorway for sharing work, discovering inspiration, and finding friendship through creative expression.
+
+          <h1>
+            Bazaar Art
+            <span>The sovereign art hub</span>
+          </h1>
+
+          <p class="hero-copy">
+            A watercolor doorway into galleries, artists,
+            classes, museums, opportunities, tools, and
+            unexpected creative discovery—without ads,
+            trackers, or software lock-in.
           </p>
-          <div class="hero-actions" style="justify-content:flex-start;margin-top:22px">
-            <a class="button button-primary" href="#bazaar-apps">Explore Bazaar apps</a>
-            <a class="button button-secondary" href="https://vervenveda.github.io/" target="_blank" rel="noopener noreferrer">Verve N Veda home</a>
+
+          <div class="actions">
+            <a
+              class="button button-primary"
+              href="#resources"
+            >
+              Explore the art world
+            </a>
+
+            <button
+              class="button button-paint"
+              id="heroCompassButton"
+              type="button"
+            >
+              Surprise me ✦
+            </button>
+
+            <a
+              class="button button-secondary"
+              href="https://myartgallery.online"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Visit My Art Gallery ↗
+            </a>
           </div>
         </div>
-        <div class="stat-grid" aria-label="Bazaar Art highlights">
-          <div class="stat"><strong>2017</strong><span>Founded in Florida</span></div>
-          <div class="stat"><strong>100s</strong><span>Community events and creative gatherings</span></div>
-          <div class="stat"><strong>Open</strong><span>Artists, poets, musicians, patrons, and observers welcome</span></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="inner">
+        <div class="section-heading">
+          <div>
+            <p class="kicker">
+              One creative ecosystem
+            </p>
+
+            <h2>
+              Make, learn, exhibit, and grow.
+            </h2>
+          </div>
+
+          <p class="section-intro">
+            Bazaar Art is designed as an independent front
+            door for professional artists, young creators,
+            teachers, collectors, patrons, museums, and
+            curious people who simply want to encounter
+            something beautiful.
+          </p>
+        </div>
+
+        <div class="feature-grid">
+          <article class="feature-card">
+            <div class="feature-icon">🎨</div>
+
+            <h3>Create</h3>
+
+            <p>
+              Studio prompts, medium explorers, portfolio
+              tools, workshops, and a private local
+              sketchbook.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">🖼️</div>
+
+            <h3>Exhibit</h3>
+
+            <p>
+              Artist directories, virtual galleries,
+              juried shows, student showcases, and
+              portfolio pathways.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">📚</div>
+
+            <h3>Learn</h3>
+
+            <p>
+              Art history, technique, museum education,
+              business training, and K–12 creative
+              learning.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">🧭</div>
+
+            <h3>Discover</h3>
+
+            <p>
+              A Monte Carlo inspiration engine that
+              reveals a medium, artist, challenge,
+              museum, or opportunity.
+            </p>
+          </article>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section" id="bazaar-apps" aria-labelledby="appsTitle">
-    <div class="section-inner">
-      <div class="section-heading reveal">
+    <section
+      class="section alt"
+      id="artist-compass"
+    >
+      <div class="inner compass">
+        <div class="compass-panel">
+          <p class="kicker">
+            Signature experience
+          </p>
+
+          <h2>
+            The Artist’s Compass
+          </h2>
+
+          <p class="section-intro">
+            Choose a direction—or leave everything open—and
+            let the platform assemble an unexpected
+            creative path.
+          </p>
+
+          <div class="compass-controls">
+            <label>
+              Mood
+
+              <select
+                class="field"
+                id="compassMood"
+              >
+                <option>Surprise me</option>
+                <option>Calm</option>
+                <option>Bold</option>
+                <option>Curious</option>
+                <option>Reflective</option>
+                <option>Playful</option>
+              </select>
+            </label>
+
+            <label>
+              Time available
+
+              <select
+                class="field"
+                id="compassTime"
+              >
+                <option>Any</option>
+                <option>5 minutes</option>
+                <option>20 minutes</option>
+                <option>1 hour</option>
+                <option>Deep session</option>
+              </select>
+            </label>
+
+            <label>
+              Medium
+
+              <select
+                class="field"
+                id="compassMedium"
+              >
+                <option>Any medium</option>
+                <option>Drawing</option>
+                <option>Painting</option>
+                <option>Digital</option>
+                <option>Sculpture</option>
+                <option>Photography</option>
+                <option>Fiber</option>
+                <option>Printmaking</option>
+              </select>
+            </label>
+
+            <label>
+              Goal
+
+              <select
+                class="field"
+                id="compassGoal"
+              >
+                <option>Anything</option>
+                <option>Learn</option>
+                <option>Create</option>
+                <option>Explore art history</option>
+                <option>Build my career</option>
+                <option>Visit a collection</option>
+              </select>
+            </label>
+          </div>
+
+          <button
+            class="compass-spin"
+            id="compassSpinButton"
+            type="button"
+          >
+            Spin the Artist’s Compass
+          </button>
+        </div>
+
+        <div
+          class="compass-panel compass-result"
+          aria-live="polite"
+        >
+          <div
+            class="result-content"
+            id="compassResult"
+          >
+            <div class="result-icon">✦</div>
+
+            <h3>
+              Your next doorway awaits.
+            </h3>
+
+            <p>
+              Press the compass and let a creative path
+              find you.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="section"
+      id="resources"
+    >
+      <div class="inner">
+        <div class="section-heading">
+          <div>
+            <p class="kicker">
+              Curated resource registry
+            </p>
+
+            <h2>
+              Art sources and spaces
+            </h2>
+          </div>
+
+          <p class="section-intro">
+            Search Bazaar Art, My Art Gallery, art education,
+            professional tools, opportunities, museums,
+            public collections, galleries, and art forms.
+            Add your own links locally through the Admin
+            button.
+          </p>
+        </div>
+
+        <div class="toolbar">
+          <label class="search-box">
+            <span hidden>
+              Search resources
+            </span>
+
+            <input
+              class="field"
+              id="resourceSearch"
+              type="search"
+              placeholder="Search galleries, museums, classes, grants, tools, and art forms…"
+              autocomplete="off"
+            >
+          </label>
+
+          <p
+            class="resource-count"
+            id="resourceCount"
+            aria-live="polite"
+          ></p>
+        </div>
+
+        <div
+          class="resource-tabs"
+          id="resourceTabs"
+          aria-label="Resource filters"
+        ></div>
+
+        <div
+          class="resource-grid"
+          id="resourceGrid"
+        ></div>
+
+        <div
+          class="empty-state"
+          id="resourceEmpty"
+        >
+          No resources match this search yet.
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="section alt"
+      id="ultimate-hub"
+    >
+      <div class="inner">
+        <div class="section-heading">
+          <div>
+            <p class="kicker">
+              Ultimate art hub roadmap
+            </p>
+
+            <h2>
+              Everything an artist needs.
+            </h2>
+          </div>
+
+          <p class="section-intro">
+            These chambers are designed as the next
+            connected pages in the Bazaar Art constellation.
+            The current page provides pathways, local tools,
+            discovery, and a resource registry.
+          </p>
+        </div>
+
+        <div class="hub-grid">
+          <article class="hub-card">
+            <div>🧑‍🎨</div>
+
+            <h3>Artist Profiles</h3>
+
+            <ul>
+              <li>Biography and artist statement</li>
+              <li>Portfolio and exhibitions</li>
+              <li>Resume, awards, and commissions</li>
+              <li>Shop and workshop calendar</li>
+            </ul>
+          </article>
+
+          <article class="hub-card">
+            <div>🛠️</div>
+
+            <h3>Artist Business Studio</h3>
+
+            <ul>
+              <li>Pricing and invoice generators</li>
+              <li>Contracts and licensing guides</li>
+              <li>Inventory and shipping planners</li>
+              <li>Grant and call tracking</li>
+            </ul>
+          </article>
+
+          <article class="hub-card">
+            <div>📓</div>
+
+            <h3>Living Sketchbook</h3>
+
+            <ul>
+              <li>Private local-first journal</li>
+              <li>Daily prompts and studies</li>
+              <li>Timeline and portfolio export</li>
+              <li>No account required</li>
+            </ul>
+          </article>
+
+          <article class="hub-card">
+            <div>🏛️</div>
+
+            <h3>Virtual Galleries</h3>
+
+            <ul>
+              <li>Professional and student halls</li>
+              <li>Photography and sculpture rooms</li>
+              <li>Seasonal and international shows</li>
+              <li>Accessible exhibition labels</li>
+            </ul>
+          </article>
+
+          <article class="hub-card">
+            <div>🎓</div>
+
+            <h3>Art Academy</h3>
+
+            <ul>
+              <li>50+ mediums and techniques</li>
+              <li>Six-week guided courses</li>
+              <li>Portfolio and career pathways</li>
+              <li>Certificates and progress records</li>
+            </ul>
+          </article>
+
+          <article class="hub-card">
+            <div>🌍</div>
+
+            <h3>Global Museum Explorer</h3>
+
+            <ul>
+              <li>Open-access collections</li>
+              <li>Virtual tours and education</li>
+              <li>Search by country and period</li>
+              <li>Public-domain art discovery</li>
+            </ul>
+          </article>
+
+          <article class="hub-card">
+            <div>📣</div>
+
+            <h3>Calls for Art</h3>
+
+            <ul>
+              <li>Open calls and juried shows</li>
+              <li>Residencies and fellowships</li>
+              <li>Grant deadlines</li>
+              <li>Personal application tracker</li>
+            </ul>
+          </article>
+
+          <article class="hub-card">
+            <div>🛍️</div>
+
+            <h3>Sovereign Marketplace</h3>
+
+            <ul>
+              <li>Original artwork</li>
+              <li>Prints and digital downloads</li>
+              <li>Classes and workshops</li>
+              <li>Commissions and subscriptions</li>
+            </ul>
+          </article>
+
+          <article class="hub-card">
+            <div>🤝</div>
+
+            <h3>Creative Community</h3>
+
+            <ul>
+              <li>Artist circles</li>
+              <li>Collaborative projects</li>
+              <li>Critique rooms</li>
+              <li>Mentoring and peer support</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="section"
+      id="art-forms"
+    >
+      <div class="inner">
+        <div class="section-heading">
+          <div>
+            <p class="kicker">
+              Medium explorer
+            </p>
+
+            <h2>
+              Follow the material.
+            </h2>
+          </div>
+
+          <p class="section-intro">
+            Each art form can grow into its own learning,
+            artist, history, gallery, and resource portal.
+          </p>
+        </div>
+
+        <div class="art-form-grid">
+          <article
+            class="art-form-card"
+            style="--art-color: rgba(43,142,145,.18)"
+          >
+            <div class="art-form-content">
+              <div class="art-form-icon">💧</div>
+
+              <h3>Watercolor</h3>
+
+              <p>
+                Pigments, paper, brushes, washes, layering,
+                botanical studies, landscapes, portraits,
+                and professional techniques.
+              </p>
+            </div>
+          </article>
+
+          <article
+            class="art-form-card"
+            style="--art-color: rgba(237,125,49,.18)"
+          >
+            <div class="art-form-content">
+              <div class="art-form-icon">🖌️</div>
+
+              <h3>Oil Painting</h3>
+
+              <p>
+                Materials, safety, glazing, alla prima,
+                color mixing, portraiture, still life,
+                landscape, and art history.
+              </p>
+            </div>
+          </article>
+
+          <article
+            class="art-form-card"
+            style="--art-color: rgba(90,52,95,.17)"
+          >
+            <div class="art-form-content">
+              <div class="art-form-icon">✏️</div>
+
+              <h3>Drawing</h3>
+
+              <p>
+                Graphite, charcoal, ink, anatomy,
+                perspective, observation, illustration,
+                mark-making, and visual journaling.
+              </p>
+            </div>
+          </article>
+
+          <article
+            class="art-form-card"
+            style="--art-color: rgba(47,104,168,.16)"
+          >
+            <div class="art-form-content">
+              <div class="art-form-icon">🖥️</div>
+
+              <h3>Digital Art</h3>
+
+              <p>
+                Illustration, painting, animation, 3D,
+                graphics, photography editing, and ethical
+                AI-assisted creative practice.
+              </p>
+            </div>
+          </article>
+
+          <article
+            class="art-form-card"
+            style="--art-color: rgba(109,166,93,.18)"
+          >
+            <div class="art-form-content">
+              <div class="art-form-icon">🗿</div>
+
+              <h3>Sculpture</h3>
+
+              <p>
+                Clay, plaster, stone, wood, metal, paper,
+                installation, assemblage, public art, and
+                three-dimensional design.
+              </p>
+            </div>
+          </article>
+
+          <article
+            class="art-form-card"
+            style="--art-color: rgba(239,107,85,.18)"
+          >
+            <div class="art-form-content">
+              <div class="art-form-icon">🧵</div>
+
+              <h3>Fiber Arts</h3>
+
+              <p>
+                Weaving, embroidery, quilting, crochet,
+                knitting, needle felting, dye, textile
+                traditions, and wearable art.
+              </p>
+            </div>
+          </article>
+
+          <article
+            class="art-form-card"
+            style="--art-color: rgba(243,182,50,.20)"
+          >
+            <div class="art-form-content">
+              <div class="art-form-icon">🏺</div>
+
+              <h3>Ceramics</h3>
+
+              <p>
+                Hand-building, wheel throwing, glazing,
+                firing, porcelain, raku, sculptural clay,
+                and functional pottery.
+              </p>
+            </div>
+          </article>
+
+          <article
+            class="art-form-card"
+            style="--art-color: rgba(47,104,168,.16)"
+          >
+            <div class="art-form-content">
+              <div class="art-form-icon">📷</div>
+
+              <h3>Photography</h3>
+
+              <p>
+                Portrait, landscape, documentary, macro,
+                wildlife, studio lighting, editing,
+                visual storytelling, and exhibitions.
+              </p>
+            </div>
+          </article>
+
+          <article
+            class="art-form-card"
+            style="--art-color: rgba(90,52,95,.16)"
+          >
+            <div class="art-form-content">
+              <div class="art-form-icon">🧿</div>
+
+              <h3>Jewelry</h3>
+
+              <p>
+                Metalwork, wire, beading, glass, resin,
+                wearable sculpture, design, pricing,
+                display, and craft-market preparation.
+              </p>
+            </div>
+          </article>
+
+          <article
+            class="art-form-card"
+            style="--art-color: rgba(237,125,49,.17)"
+          >
+            <div class="art-form-content">
+              <div class="art-form-icon">🖨️</div>
+
+              <h3>Printmaking</h3>
+
+              <p>
+                Linocut, woodcut, etching, monotype,
+                screen printing, relief processes,
+                registration, and editioning.
+              </p>
+            </div>
+          </article>
+
+          <article
+            class="art-form-card"
+            style="--art-color: rgba(43,142,145,.18)"
+          >
+            <div class="art-form-content">
+              <div class="art-form-icon">✒️</div>
+
+              <h3>Calligraphy</h3>
+
+              <p>
+                Letterforms, brush lettering, pointed pen,
+                illuminated manuscripts, typography,
+                layout, and historical scripts.
+              </p>
+            </div>
+          </article>
+
+          <article
+            class="art-form-card"
+            style="--art-color: rgba(109,166,93,.17)"
+          >
+            <div class="art-form-content">
+              <div class="art-form-icon">🎭</div>
+
+              <h3>Mixed Media</h3>
+
+              <p>
+                Collage, found objects, paint, paper,
+                photography, fabric, text, assemblage,
+                experimentation, and personal symbolism.
+              </p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="section alt"
+      id="local-gallery"
+    >
+      <div class="inner">
+        <div class="section-heading">
+          <div>
+            <p class="kicker">
+              Private local gallery
+            </p>
+
+            <h2>
+              Your art stays with you.
+            </h2>
+          </div>
+
+          <p class="section-intro">
+            Add images from your device to a browser-only
+            gallery. The images remain stored in this
+            browser using IndexedDB and are not uploaded
+            by this page.
+          </p>
+        </div>
+
+        <div class="notice">
+          Local browser storage is specific to this device
+          and browser. Keep your original artwork files in
+          a separate secure location.
+        </div>
+
+        <div class="local-gallery-tools">
+          <label
+            class="button button-primary"
+            for="artUpload"
+          >
+            Add artwork from device
+          </label>
+
+          <input
+            id="artUpload"
+            type="file"
+            accept="image/*"
+            multiple
+            hidden
+          >
+
+          <button
+            class="button button-secondary"
+            id="clearGalleryButton"
+            type="button"
+          >
+            Clear local gallery
+          </button>
+        </div>
+
+        <div
+          class="gallery-grid"
+          id="localGalleryGrid"
+        ></div>
+
+        <div
+          class="empty-state"
+          id="galleryEmpty"
+          style="display: block"
+        >
+          Your private local gallery is empty.
+          Add an image to begin.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="footer-title">
+          Bazaar Art
+        </div>
+
         <div>
-          <p class="kicker">Bazaar Art apps</p>
-          <h2 id="appsTitle">Creative spaces</h2>
+          Created for artists, families, teachers,
+          patrons, and creative communities.
         </div>
-        <p class="section-intro">
-          Art pages, galleries, community rooms, workshops, tools, and creative portals can live here. Add or edit items once in the registry at the bottom of this file.
-        </p>
       </div>
 
-      <div class="tools reveal">
-        <label class="search" for="appSearch">
-          <input id="appSearch" type="search" placeholder="Search art spaces, workshops, tools, and galleries…" autocomplete="off">
-        </label>
-        <p class="result-count" id="appCount" aria-live="polite"></p>
+      <div>
+        © <span id="year"></span> Bazaar Art LLC
+        <br>
+        No ads · No trackers · Local-first tools
       </div>
-      <div class="category-tabs" id="appTabs" aria-label="Filter Bazaar Art spaces"></div>
-      <div class="card-grid" id="appGrid"></div>
-      <div class="empty-state" id="appEmpty">No Bazaar Art spaces match that search yet.</div>
     </div>
-  </section>
+  </footer>
 
-  <section class="section ecosystem" id="ecosystem" aria-labelledby="ecosystemTitle">
-    <div class="section-inner">
-      <div class="section-heading reveal">
-        <div>
-          <p class="kicker">Connected Verve N Veda repositories</p>
-          <h2 id="ecosystemTitle">The wider network</h2>
-        </div>
-        <p class="section-intro">
-          These buttons connect Bazaar Art Zone back to the other repositories and public portals in the Verve N Veda ecosystem.
-        </p>
+  <div
+    class="drawer-overlay"
+    id="drawerOverlay"
+    aria-hidden="true"
+  >
+    <aside
+      class="drawer"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Main navigation"
+    >
+      <div class="drawer-head">
+        <h2>Explore</h2>
+
+        <button
+          class="icon-button"
+          id="closeDrawerButton"
+          type="button"
+          aria-label="Close menu"
+        >
+          ✕
+        </button>
       </div>
 
-      <div class="tools reveal">
-        <label class="search" for="repoSearch">
-          <input id="repoSearch" type="search" placeholder="Search repositories and public portals…" autocomplete="off">
-        </label>
-        <p class="result-count" id="repoCount" aria-live="polite"></p>
-      </div>
-      <div class="category-tabs" id="repoTabs" aria-label="Filter Verve N Veda links"></div>
-      <div class="card-grid" id="repoGrid"></div>
-      <div class="empty-state" id="repoEmpty">No network links match that search yet.</div>
-    </div>
-  </section>
-</main>
+      <nav class="drawer-nav">
+        <a href="#top">
+          <span>Home</span>
+          <span>⌂</span>
+        </a>
 
-<footer class="footer">
-  <div class="footer-inner">
-    <div>
-      <p class="footer-brand">Bazaar Art Zone</p>
-      <p class="footer-note">Share your work. Cheer others on. Soak in the creative energy.</p>
-    </div>
-    <div>
-      <div>© <span id="year"></span> Bazaar Art LLC</div>
-      <div>No ads · No trackers · Creative community</div>
-    </div>
+        <a href="#artist-compass">
+          <span>Artist’s Compass</span>
+          <span>✦</span>
+        </a>
+
+        <a href="#resources">
+          <span>Art Sources</span>
+          <span>↘</span>
+        </a>
+
+        <a href="#ultimate-hub">
+          <span>Ultimate Art Hub</span>
+          <span>↘</span>
+        </a>
+
+        <a href="#art-forms">
+          <span>Explore Art Forms</span>
+          <span>↘</span>
+        </a>
+
+        <a href="#local-gallery">
+          <span>Private Local Gallery</span>
+          <span>↘</span>
+        </a>
+
+        <a
+          href="https://myartgallery.online"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span>My Art Gallery</span>
+          <span>↗</span>
+        </a>
+
+        <a
+          href="https://vervenveda.github.io/bazaarart.github.io/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span>Bazaar Art Zone</span>
+          <span>↗</span>
+        </a>
+
+        <a
+          href="https://vervenveda.github.io/khaemenesacademy.github.io/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span>Khaemenes Academy</span>
+          <span>↗</span>
+        </a>
+
+        <button
+          id="drawerAdminButton"
+          type="button"
+        >
+          <span>Local Admin and Backup</span>
+          <span>⚙</span>
+        </button>
+      </nav>
+    </aside>
   </div>
-</footer>
 
-<div class="drawer-overlay" id="menuDrawer" role="dialog" aria-modal="true" aria-label="Navigation menu" aria-hidden="true">
-  <aside class="drawer">
-    <div class="drawer-header">
-      <h2 class="drawer-title">Explore</h2>
-      <button class="close-button" id="closeMenu" type="button" aria-label="Close navigation menu">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-          <path d="M6 6l12 12M18 6 6 18"></path>
-        </svg>
-      </button>
-    </div>
+  <div
+    class="modal"
+    id="adminModal"
+    aria-hidden="true"
+  >
+    <section
+      class="modal-card"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="adminTitle"
+    >
+      <div class="modal-head">
+        <h2 id="adminTitle">
+          Local Admin
+        </h2>
 
-    <label class="search drawer-search" for="menuSearch">
-      <input id="menuSearch" type="search" placeholder="Search Bazaar and Verve links…" autocomplete="off">
-    </label>
-    <div class="drawer-groups" id="drawerGroups" aria-label="Menu category filters"></div>
-    <nav class="drawer-nav" id="drawerNav" aria-label="Bazaar Art and Verve N Veda navigation"></nav>
-    <div class="drawer-footer">
-      Bazaar Art Zone · A creative community space by Bazaar Art LLC.
-    </div>
-  </aside>
-</div>
-
-<script>
-"use strict";
-
-const SITE_ROOT = "https://vervenveda.github.io/";
-
-const bazaarApps = [
-  {
-    title:"Bazaar Art Zone",
-    category:"Community",
-    path:"https://vervenveda.github.io/bazaarart.github.io/",
-    description:"The main creative community landing page for Bazaar Art LLC."
-  },
-  {
-    title:"My Art Gallery",
-    category:"Gallery",
-    path:"https://vervenveda.github.io/myartgallery.github.io/",
-    description:"A public gallery pathway for portfolios, artist showcases, and creative presentation."
-  },
-  {
-    title:"My Art Gallery Online",
-    category:"Gallery",
-    path:"https://myartgallery.online",
-    description:"External art gallery domain for public-facing artwork and creative presence."
-  },
-  {
-    title:"Artist Showcase",
-    category:"Events",
-    path:"#",
-    description:"Placeholder for artist features, exhibition pages, and event highlights."
-  },
-  {
-    title:"Workshop Studio",
-    category:"Workshops",
-    path:"#",
-    description:"Placeholder for collaborative workshops, class pages, prompts, and learning events."
-  },
-  {
-    title:"Community Chatroom",
-    category:"Community",
-    path:"#",
-    description:"Placeholder for creative sharing, encouragement, community circles, and art conversation."
-  },
-  {
-    title:"Calls for Art",
-    category:"Opportunities",
-    path:"#",
-    description:"Placeholder for calls, open submissions, community projects, and artist opportunities."
-  },
-  {
-    title:"Creative Tools",
-    category:"Tools",
-    path:"#",
-    description:"Placeholder for art widgets, portfolio helpers, planning tools, and studio resources."
-  }
-];
-
-const repositories = [
-  {title:"Verve N Veda", category:"Welcome", path:"https://vervenveda.github.io/", description:"The public front door to the Verve N Veda ecosystem."},
-  {title:"Bazaar Art", category:"Art & Community", path:"https://vervenveda.github.io/bazaarart.github.io/", description:"Creative community, artist showcases, events, galleries, and workshops."},
-  {title:"Creche Preschool", category:"Early Learning", path:"https://vervenveda.github.io/creche_preschool.github.io/", description:"Gentle early learning, preschool games, stories, and foundational portals."},
-  {title:"KinderGarden", category:"Early Learning", path:"https://vervenveda.github.io/KinderGarden.github.io/", description:"Kindergarten learning spaces, early literacy, math, art, and exploration."},
-  {title:"Khaemenes Elementary", category:"Academy", path:"https://vervenveda.github.io/Khaemenes-elementary.github.io/", description:"Elementary student portals and learning pathways."},
-  {title:"Khaemenes Jr High", category:"Academy", path:"https://vervenveda.github.io/Khaemenes-jrhigh.github.io/", description:"Junior high learning spaces and student resources."},
-  {title:"Khaemenes High", category:"Academy", path:"https://vervenveda.github.io/Khaemenes-High_github.io/", description:"High school portals, curriculum, resources, and student tools."},
-  {title:"Khaemenes University", category:"Academy", path:"https://vervenveda.github.io/Khaemenes-university.github.io/", description:"University-style learning halls, adult study, research, and advanced courses."},
-  {title:"Khaemenes Academy", category:"Academy", path:"https://vervenveda.github.io/khaemenesacademy.github.io/", description:"Sovereign learning environment and academy landing repository."},
-  {title:"KhaemenesAcademy.org", category:"Academy", path:"https://www.khaemenesacademy.org", description:"Main academy domain."},
-  {title:"ARSHIF Archives", category:"Research", path:"https://vervenveda.github.io/Arshif.github.io/", description:"Research archives, deep study, evidence preservation, and collections."},
-  {title:"The Verifier", category:"News & Verification", path:"https://vervenveda.github.io/theverifier.github.io/", description:"News discovery, verification, source comparison, and information literacy."},
-  {title:"PLERA Search", category:"Search", path:"https://vervenveda.github.io/PLERASearch.github.io/", description:"Search and discovery gateway for public resources and learning paths."},
-  {title:"Arcade", category:"Play", path:"https://vervenveda.github.io/arcade.github.io/", description:"Games, puzzles, trivia, strategy, and creative play."},
-  {title:"Aurora", category:"Creative", path:"https://vervenveda.github.io/aurora.github.io/", description:"Creative light, media, and visual exploration repository."},
-  {title:"Linguistics", category:"Learning", path:"https://vervenveda.github.io/linguistics.github.io/", description:"Language, vocabulary, literacy, and linguistics learning resources."},
-  {title:"Solanar", category:"Earth & Sky", path:"https://vervenveda.github.io/solanar.github.io/", description:"Weather, lunar, environmental, and sky observation portals."},
-  {title:"River to Road", category:"Environment", path:"https://vervenveda.github.io/river_to_road.github.io/", description:"Community cleanup, environmental stewardship, and local action."},
-  {title:"Firmament Law", category:"Law & Resources", path:"https://vervenveda.github.io/firmament.github.io/", description:"Legal-information tools, resource libraries, and civic reference."},
-  {title:"Professional Resource Hub", category:"Professional Tools", path:"https://vervenveda.github.io/proresource_hub.github.io/", description:"Professional development, practical planning, and work resources."},
-  {title:"Administration", category:"Administration", path:"https://vervenveda.github.io/admin.github.io/", description:"Administrative portals, planning, records, and organization tools."},
-  {title:"One Nation for All", category:"Civic Life", path:"https://vervenveda.github.io/onenationforall.github.io/", description:"Civic engagement, unity, accountability, and community-centered ideas."},
-  {title:"My Art Gallery", category:"Art & Community", path:"https://vervenveda.github.io/myartgallery.github.io/", description:"Portfolio, gallery, artist showcase, and creative presentation repository."},
-  {title:"VerveNVeda.com", category:"Public Website", path:"https://www.vervenveda.com", description:"Main public Verve N Veda domain."},
-  {title:"Jennifer Pearl 2028", category:"Civic Life", path:"https://www.jenniferpearl2028.com", description:"Campaign and civic leadership portal."},
-  {title:"MyArtGallery.online", category:"Art & Community", path:"https://myartgallery.online", description:"Public art gallery domain."}
-];
-
-const appGrid = document.getElementById("appGrid");
-const repoGrid = document.getElementById("repoGrid");
-const appTabs = document.getElementById("appTabs");
-const repoTabs = document.getElementById("repoTabs");
-const appSearch = document.getElementById("appSearch");
-const repoSearch = document.getElementById("repoSearch");
-const appCount = document.getElementById("appCount");
-const repoCount = document.getElementById("repoCount");
-const appEmpty = document.getElementById("appEmpty");
-const repoEmpty = document.getElementById("repoEmpty");
-const menuDrawer = document.getElementById("menuDrawer");
-const menuButton = document.getElementById("menuButton");
-const closeMenu = document.getElementById("closeMenu");
-const menuSearch = document.getElementById("menuSearch");
-const drawerNav = document.getElementById("drawerNav");
-const drawerGroups = document.getElementById("drawerGroups");
-let activeAppCategory = "All";
-let activeRepoCategory = "All";
-let activeDrawerCategory = "All";
-let lastFocusedElement = null;
-
-function escapeHtml(value){
-  return String(value).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
-}
-
-function matchesQuery(item, query){
-  const q = query.trim().toLowerCase();
-  if(!q) return true;
-  return [item.title,item.category,item.description,item.path].join(" ").toLowerCase().includes(q);
-}
-
-function categoriesFor(items){
-  return ["All", ...Array.from(new Set(items.map(item => item.category))).sort()];
-}
-
-function renderTabs(container, items, active, callback){
-  container.innerHTML = categoriesFor(items).map(cat => `
-    <button class="tab-button ${cat === active ? "active" : ""}" type="button" data-cat="${escapeHtml(cat)}">${escapeHtml(cat)}</button>
-  `).join("");
-  container.querySelectorAll("button").forEach(btn => {
-    btn.addEventListener("click", () => callback(btn.dataset.cat));
-  });
-}
-
-function cardTemplate(item){
-  const url = item.path || "#";
-  const disabled = url === "#";
-  return `
-    <a class="link-card reveal" href="${escapeHtml(url)}" ${disabled ? 'aria-disabled="true"' : 'target="_blank" rel="noopener noreferrer"'}>
-      <div>
-        <small>${escapeHtml(item.category)}</small>
-        <strong>${escapeHtml(item.title)}</strong>
+        <button
+          class="icon-button"
+          id="closeAdminButton"
+          type="button"
+          aria-label="Close admin"
+        >
+          ✕
+        </button>
       </div>
-      <div>
-        <span>${escapeHtml(item.description)}</span>
-        <span class="arrow" aria-hidden="true">${disabled ? "·" : "↗"}</span>
+
+      <p class="section-intro">
+        Add custom art links to this browser, export your
+        registry, or restore it later. This page does not
+        transmit the information.
+      </p>
+
+      <form
+        id="resourceForm"
+        class="form-grid"
+        style="margin-top: 18px"
+      >
+        <label class="form-label">
+          Title
+
+          <input
+            class="field"
+            id="customTitle"
+            required
+          >
+        </label>
+
+        <label class="form-label">
+          Category
+
+          <select
+            class="field"
+            id="customCategory"
+          >
+            <option>My Links</option>
+            <option>Gallery</option>
+            <option>Education</option>
+            <option>Artist Tools</option>
+            <option>Opportunities</option>
+            <option>Museums</option>
+            <option>Marketplace</option>
+            <option>Art Forms</option>
+          </select>
+        </label>
+
+        <label class="form-label form-wide">
+          URL
+
+          <input
+            class="field"
+            id="customUrl"
+            type="url"
+            required
+            placeholder="https://"
+          >
+        </label>
+
+        <label class="form-label form-wide">
+          Description
+
+          <textarea
+            class="field"
+            id="customDescription"
+            required
+          ></textarea>
+        </label>
+
+        <button
+          class="button button-primary form-wide"
+          type="submit"
+        >
+          Add local resource
+        </button>
+      </form>
+
+      <div class="admin-actions">
+        <button
+          class="button button-secondary"
+          id="exportRegistryButton"
+          type="button"
+        >
+          Export registry JSON
+        </button>
+
+        <label
+          class="button button-secondary"
+          for="importRegistryInput"
+        >
+          Import registry JSON
+        </label>
+
+        <input
+          id="importRegistryInput"
+          type="file"
+          accept="application/json"
+          hidden
+        >
+
+        <button
+          class="button button-secondary"
+          id="resetCustomButton"
+          type="button"
+        >
+          Clear custom links
+        </button>
       </div>
-    </a>
-  `;
-}
 
-function renderCollection({items, grid, searchInput, countEl, emptyEl, activeCategory}){
-  const filtered = items.filter(item => {
-    const categoryOk = activeCategory === "All" || item.category === activeCategory;
-    return categoryOk && matchesQuery(item, searchInput.value || "");
-  });
-  grid.innerHTML = filtered.map(cardTemplate).join("");
-  countEl.textContent = `${filtered.length} ${filtered.length === 1 ? "space" : "spaces"}`;
-  emptyEl.style.display = filtered.length ? "none" : "block";
-  observeReveals();
-}
+      <div
+        class="admin-list"
+        id="adminList"
+      ></div>
+    </section>
+  </div>
 
-function renderApps(){
-  renderTabs(appTabs, bazaarApps, activeAppCategory, cat => {
-    activeAppCategory = cat;
-    renderApps();
-  });
-  renderCollection({items:bazaarApps, grid:appGrid, searchInput:appSearch, countEl:appCount, emptyEl:appEmpty, activeCategory:activeAppCategory});
-}
+  <div
+    class="toast"
+    id="toast"
+    role="status"
+    aria-live="polite"
+  ></div>
 
-function renderRepos(){
-  renderTabs(repoTabs, repositories, activeRepoCategory, cat => {
-    activeRepoCategory = cat;
-    renderRepos();
-  });
-  renderCollection({items:repositories, grid:repoGrid, searchInput:repoSearch, countEl:repoCount, emptyEl:repoEmpty, activeCategory:activeRepoCategory});
-}
+  <script>
+    "use strict";
 
-function allMenuItems(){
-  return [
-    ...bazaarApps.map(item => ({...item, menuGroup:"Bazaar Art"})),
-    ...repositories.map(item => ({...item, menuGroup:item.category}))
-  ];
-}
+    const builtInResources = [
+      {
+        title: "Bazaar Art Zone",
+        category: "Bazaar Network",
+        url: "https://vervenveda.github.io/bazaarart.github.io/",
+        description:
+          "The creative community landing page for Bazaar Art LLC.",
+        color: "rgba(237,125,49,.16)"
+      },
+      {
+        title: "My Art Gallery Online",
+        category: "Bazaar Network",
+        url: "https://myartgallery.online",
+        description:
+          "Public-facing portfolio, artist community, classes, and gallery domain.",
+        color: "rgba(43,142,145,.16)"
+      },
+      {
+        title: "My Art Gallery Repository",
+        category: "Bazaar Network",
+        url: "https://vervenveda.github.io/myartgallery.github.io/",
+        description:
+          "GitHub Pages pathway for portfolio and gallery development.",
+        color: "rgba(47,104,168,.15)"
+      },
+      {
+        title: "Pearls’ Palette",
+        category: "Youth Art",
+        url: "https://myartgallery.online",
+        description:
+          "Member-restricted youth art sanctuary and Academy art pathway.",
+        color: "rgba(239,107,85,.15)"
+      },
+      {
+        title: "Khaemenes Academy",
+        category: "Youth Art",
+        url: "https://vervenveda.github.io/khaemenesacademy.github.io/",
+        description:
+          "Academy gateway for art curriculum and student creative programs.",
+        color: "rgba(109,166,93,.15)"
+      },
+      {
+        title: "Art Education Portal",
+        category: "Education",
+        url: "https://vervenveda.github.io/khaemenesacademy.github.io/",
+        description:
+          "Future home for multi-medium courses, professional artist training, and certificates.",
+        color: "rgba(243,182,50,.18)"
+      },
+      {
+        title: "The Metropolitan Museum of Art — Open Access",
+        category: "Open Access Museums",
+        url: "https://www.metmuseum.org/hubs/open-access",
+        description:
+          "Open-access collection images and data from The Met.",
+        color: "rgba(90,52,95,.14)"
+      },
+      {
+        title: "Smithsonian Open Access",
+        category: "Open Access Museums",
+        url: "https://www.si.edu/openaccess",
+        description:
+          "Reusable images and cultural collection records from the Smithsonian.",
+        color: "rgba(47,104,168,.14)"
+      },
+      {
+        title: "National Gallery of Art — Open Access",
+        category: "Open Access Museums",
+        url: "https://www.nga.gov/artworks/free-images-and-open-access",
+        description:
+          "Free downloadable images and open-access collection resources.",
+        color: "rgba(243,182,50,.18)"
+      },
+      {
+        title: "Art Institute of Chicago — Open Access",
+        category: "Open Access Museums",
+        url: "https://www.artic.edu/open-access/open-access-images",
+        description:
+          "Open-access images from the Art Institute of Chicago collection.",
+        color: "rgba(237,125,49,.15)"
+      },
+      {
+        title: "Rijksmuseum Collection",
+        category: "Open Access Museums",
+        url: "https://www.rijksmuseum.nl/en/collection",
+        description:
+          "Explore artworks and collection records from the Rijksmuseum.",
+        color: "rgba(43,142,145,.16)"
+      },
+      {
+        title: "Cleveland Museum of Art — Open Access",
+        category: "Open Access Museums",
+        url: "https://www.clevelandart.org/open-access",
+        description:
+          "Download, share, remix, and reuse open-access collection images.",
+        color: "rgba(109,166,93,.15)"
+      },
+      {
+        title: "National Gallery of Art Learning Resources",
+        category: "Education",
+        url: "https://www.nga.gov/stories/articles/free-online-art-learning-resources-students-and-teachers",
+        description:
+          "Free art learning materials for students and teachers.",
+        color: "rgba(243,182,50,.18)"
+      },
+      {
+        title: "MoMA Teacher Professional Development",
+        category: "Education",
+        url: "https://www.moma.org/teaching/professional-development",
+        description:
+          "Modern and contemporary art learning for educators.",
+        color: "rgba(90,52,95,.14)"
+      },
+      {
+        title: "KinderArt",
+        category: "Education",
+        url: "https://kinderart.com/",
+        description:
+          "Art lessons and project ideas from preschool through high school.",
+        color: "rgba(239,107,85,.15)"
+      },
+      {
+        title: "National Endowment for the Arts — Grants",
+        category: "Opportunities",
+        url: "https://www.arts.gov/grants",
+        description:
+          "Official U.S. federal arts grant information.",
+        color: "rgba(47,104,168,.14)"
+      },
+      {
+        title: "Andy Warhol Foundation — Grants",
+        category: "Opportunities",
+        url: "https://warholfoundation.org/grants/",
+        description:
+          "Grant programs supporting visual arts organizations and curators.",
+        color: "rgba(237,125,49,.15)"
+      },
+      {
+        title: "Calls for Art",
+        category: "Opportunities",
+        url: "#calls-for-art",
+        description:
+          "Reserved for Bazaar Art calls, residencies, exhibitions, and submissions.",
+        color: "rgba(243,182,50,.18)",
+        internal: true
+      },
+      {
+        title: "Artist Resume Builder",
+        category: "Artist Tools",
+        url: "#artist-resume",
+        description:
+          "Reserved for a sovereign resume and curriculum vitae generator.",
+        color: "rgba(43,142,145,.15)",
+        internal: true
+      },
+      {
+        title: "Portfolio Builder",
+        category: "Artist Tools",
+        url: "#portfolio-builder",
+        description:
+          "Reserved for a local-first portfolio builder and export tool.",
+        color: "rgba(90,52,95,.14)",
+        internal: true
+      },
+      {
+        title: "Pricing Calculator",
+        category: "Artist Tools",
+        url: "#pricing-calculator",
+        description:
+          "Reserved for materials, labor, overhead, commission, and profit calculations.",
+        color: "rgba(109,166,93,.15)",
+        internal: true
+      },
+      {
+        title: "Commission Contract Studio",
+        category: "Artist Tools",
+        url: "https://vervenveda.github.io/firmament.github.io/",
+        description:
+          "Legal-information pathway for commissions, licensing, and artist agreements.",
+        color: "rgba(47,104,168,.14)"
+      },
+      {
+        title: "Professional Resource Hub",
+        category: "Artist Tools",
+        url: "https://vervenveda.github.io/proresource_hub.github.io/",
+        description:
+          "Professional planning, career, and practical resource tools.",
+        color: "rgba(237,125,49,.15)"
+      },
+      {
+        title: "Virtual Gallery Hall",
+        category: "Virtual Galleries",
+        url: "#virtual-gallery",
+        description:
+          "Reserved for immersive exhibitions and curated online rooms.",
+        color: "rgba(43,142,145,.15)",
+        internal: true
+      },
+      {
+        title: "Student Gallery",
+        category: "Virtual Galleries",
+        url: "#student-gallery",
+        description:
+          "Reserved for age-tiered Academy exhibitions and guardian-approved showcases.",
+        color: "rgba(239,107,85,.15)",
+        internal: true
+      },
+      {
+        title: "Photography Hall",
+        category: "Virtual Galleries",
+        url: "#photography-hall",
+        description:
+          "Reserved for photography exhibitions, portfolios, and visual storytelling.",
+        color: "rgba(47,104,168,.14)",
+        internal: true
+      },
+      {
+        title: "Sculpture Hall",
+        category: "Virtual Galleries",
+        url: "#sculpture-hall",
+        description:
+          "Reserved for sculpture, ceramics, installation, and three-dimensional work.",
+        color: "rgba(243,182,50,.18)",
+        internal: true
+      },
+      {
+        title: "Watercolor",
+        category: "Art Forms",
+        url: "#watercolor",
+        description:
+          "Techniques, pigments, paper, brushes, lessons, and artist showcases.",
+        color: "rgba(43,142,145,.16)",
+        internal: true
+      },
+      {
+        title: "Oil Painting",
+        category: "Art Forms",
+        url: "#oil-painting",
+        description:
+          "Materials, glazing, alla prima, color mixing, safety, and history.",
+        color: "rgba(237,125,49,.15)",
+        internal: true
+      },
+      {
+        title: "Digital Art",
+        category: "Art Forms",
+        url: "#digital-art",
+        description:
+          "Illustration, animation, 3D, graphics, and ethical AI-assisted art.",
+        color: "rgba(47,104,168,.14)",
+        internal: true
+      },
+      {
+        title: "Fiber Arts",
+        category: "Art Forms",
+        url: "#fiber-arts",
+        description:
+          "Weaving, embroidery, quilting, crochet, knitting, and textile traditions.",
+        color: "rgba(239,107,85,.15)",
+        internal: true
+      },
+      {
+        title: "Printmaking",
+        category: "Art Forms",
+        url: "#printmaking",
+        description:
+          "Linocut, woodcut, etching, monotype, and screen printing.",
+        color: "rgba(90,52,95,.14)",
+        internal: true
+      },
+      {
+        title: "Ceramics",
+        category: "Art Forms",
+        url: "#ceramics",
+        description:
+          "Hand-building, wheel throwing, glazing, firing, porcelain, and raku.",
+        color: "rgba(243,182,50,.18)",
+        internal: true
+      },
+      {
+        title: "Photography",
+        category: "Art Forms",
+        url: "#photography",
+        description:
+          "Portrait, landscape, documentary, macro, wildlife, studio, and fine-art photography.",
+        color: "rgba(47,104,168,.14)",
+        internal: true
+      },
+      {
+        title: "Jewelry and Metalwork",
+        category: "Art Forms",
+        url: "#jewelry",
+        description:
+          "Metal, wire, beads, glass, resin, wearable sculpture, and craft-market preparation.",
+        color: "rgba(237,125,49,.15)",
+        internal: true
+      },
+      {
+        title: "Calligraphy",
+        category: "Art Forms",
+        url: "#calligraphy",
+        description:
+          "Brush lettering, pointed pen, illuminated manuscripts, typography, and historical scripts.",
+        color: "rgba(43,142,145,.15)",
+        internal: true
+      }
+    ];
 
-function renderDrawerGroups(){
-  const items = allMenuItems();
-  const cats = ["All", ...Array.from(new Set(items.map(i => i.menuGroup))).sort()];
-  drawerGroups.innerHTML = cats.map(cat => `
-    <button class="drawer-group-button ${cat === activeDrawerCategory ? "active" : ""}" type="button" data-cat="${escapeHtml(cat)}">${escapeHtml(cat)}</button>
-  `).join("");
-  drawerGroups.querySelectorAll("button").forEach(btn => {
-    btn.addEventListener("click", () => {
-      activeDrawerCategory = btn.dataset.cat;
-      renderDrawer();
-    });
-  });
-}
+    const compassPrompts = [
+      {
+        icon: "🎨",
+        title: "Paint with a limited palette",
+        text:
+          "Choose one warm color, one cool color, white, and a dark neutral. Create a small study using only those colors."
+      },
+      {
+        icon: "✏️",
+        title: "Draw the negative space",
+        text:
+          "Choose an ordinary object and draw only the shapes around it. Let the object appear without outlining it."
+      },
+      {
+        icon: "🏛️",
+        title: "Visit an open collection",
+        text:
+          "Open a museum collection and choose one unfamiliar work. Spend five minutes noticing before reading the label."
+      },
+      {
+        icon: "📷",
+        title: "Create a color walk",
+        text:
+          "Photograph five unexpected examples of the same color in your surroundings, then arrange them as a visual sequence."
+      },
+      {
+        icon: "🧵",
+        title: "Translate texture",
+        text:
+          "Find three textures around you and reinterpret them through marks, stitches, collage, or digital brushes."
+      },
+      {
+        icon: "🖼️",
+        title: "Curate a tiny exhibition",
+        text:
+          "Choose three works—your own or public-domain art—and write a title and one-sentence curatorial statement."
+      },
+      {
+        icon: "🌿",
+        title: "Make a nature study",
+        text:
+          "Observe one leaf, stone, shell, cloud, or branch. Record shape, value, pattern, and one emotional response."
+      },
+      {
+        icon: "💼",
+        title: "Strengthen your art practice",
+        text:
+          "Choose one artwork and calculate materials, time, overhead, and a sustainable price. Write down what you learned."
+      },
+      {
+        icon: "📓",
+        title: "Begin a living sketchbook page",
+        text:
+          "Divide a page into four spaces: observation, memory, experiment, and question. Fill each without judging the result."
+      },
+      {
+        icon: "🎭",
+        title: "Create from another viewpoint",
+        text:
+          "Reimagine a familiar scene from the perspective of a child, bird, river, building, or future historian."
+      }
+    ];
 
-function renderDrawer(){
-  const q = menuSearch.value || "";
-  const items = allMenuItems().filter(item => {
-    const catOk = activeDrawerCategory === "All" || item.menuGroup === activeDrawerCategory;
-    return catOk && matchesQuery(item, q);
-  });
-  drawerNav.innerHTML = items.map(item => `
-    <a href="${escapeHtml(item.path || "#")}" ${item.path === "#" ? "" : 'target="_blank" rel="noopener noreferrer"'}>
-      <span><strong>${escapeHtml(item.title)}</strong><br><small>${escapeHtml(item.menuGroup)}</small></span>
-      <span aria-hidden="true">${item.path === "#" ? "·" : "↗"}</span>
-    </a>
-  `).join("");
-  renderDrawerGroups();
-}
+    const storageKeys = {
+      customResources: "bazaar-art-custom-resources",
+      favorites: "bazaar-art-favorites"
+    };
 
-function openMenu(){
-  lastFocusedElement = document.activeElement;
-  menuDrawer.classList.add("open");
-  menuDrawer.setAttribute("aria-hidden","false");
-  menuButton.setAttribute("aria-expanded","true");
-  menuButton.setAttribute("aria-label","Close navigation menu");
-  document.body.classList.add("menu-open");
-  setTimeout(() => menuSearch.focus(), 80);
-}
+    let customResources =
+      loadJSON(storageKeys.customResources, []);
 
-function closeDrawer(){
-  menuDrawer.classList.remove("open");
-  menuDrawer.setAttribute("aria-hidden","true");
-  menuButton.setAttribute("aria-expanded","false");
-  menuButton.setAttribute("aria-label","Open navigation menu");
-  document.body.classList.remove("menu-open");
-  menuSearch.value = "";
-  activeDrawerCategory = "All";
-  renderDrawer();
-  if(lastFocusedElement && typeof lastFocusedElement.focus === "function") lastFocusedElement.focus();
-}
+    let favorites =
+      new Set(
+        loadJSON(storageKeys.favorites, [])
+      );
 
-function trapFocus(event){
-  if(event.key !== "Tab" || !menuDrawer.classList.contains("open")) return;
-  const focusable = [...menuDrawer.querySelectorAll('a[href],button:not([disabled]),input:not([disabled]),[tabindex]:not([tabindex="-1"])')].filter(el => el.offsetParent !== null);
-  if(!focusable.length) return;
-  const first = focusable[0];
-  const last = focusable[focusable.length - 1];
-  if(event.shiftKey && document.activeElement === first){
-    event.preventDefault();
-    last.focus();
-  }else if(!event.shiftKey && document.activeElement === last){
-    event.preventDefault();
-    first.focus();
-  }
-}
+    let activeCategory = "All";
 
-let revealObserver;
-function observeReveals(){
-  const nodes = document.querySelectorAll(".reveal:not(.visible)");
-  if(!("IntersectionObserver" in window)){
-    nodes.forEach(n => n.classList.add("visible"));
-    return;
-  }
-  if(!revealObserver){
-    revealObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if(entry.isIntersecting){
-          entry.target.classList.add("visible");
-          observer.unobserve(entry.target);
+    const resourceGrid =
+      document.getElementById("resourceGrid");
+
+    const resourceTabs =
+      document.getElementById("resourceTabs");
+
+    const resourceSearch =
+      document.getElementById("resourceSearch");
+
+    const resourceCount =
+      document.getElementById("resourceCount");
+
+    const resourceEmpty =
+      document.getElementById("resourceEmpty");
+
+    const drawerOverlay =
+      document.getElementById("drawerOverlay");
+
+    const adminModal =
+      document.getElementById("adminModal");
+
+    const toast =
+      document.getElementById("toast");
+
+    function loadJSON(key, fallback) {
+      try {
+        const raw = localStorage.getItem(key);
+
+        if (!raw) {
+          return fallback;
         }
+
+        const parsed = JSON.parse(raw);
+
+        return parsed ?? fallback;
+      } catch (error) {
+        console.warn(
+          "Unable to read local data:",
+          error
+        );
+
+        return fallback;
+      }
+    }
+
+    function saveJSON(key, value) {
+      localStorage.setItem(
+        key,
+        JSON.stringify(value)
+      );
+    }
+
+    function escapeHTML(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+
+      window.clearTimeout(showToast.timer);
+
+      showToast.timer =
+        window.setTimeout(
+          function () {
+            toast.classList.remove("show");
+          },
+          2200
+        );
+    }
+
+    function getAllResources() {
+      return [
+        ...builtInResources,
+        ...customResources
+      ];
+    }
+
+    function getCategories() {
+      const values =
+        getAllResources()
+          .map(function (resource) {
+            return resource.category;
+          });
+
+      return [
+        "All",
+        "Favorites",
+        ...Array.from(new Set(values)).sort()
+      ];
+    }
+
+    function getResourceID(resource, index) {
+      return (
+        resource.customID ||
+        "built-" + index
+      );
+    }
+
+    function renderResourceTabs() {
+      const categories = getCategories();
+
+      resourceTabs.innerHTML =
+        categories
+          .map(function (category) {
+            const activeClass =
+              category === activeCategory
+                ? " active"
+                : "";
+
+            return `
+              <button
+                type="button"
+                class="resource-tab${activeClass}"
+                data-category="${escapeHTML(category)}"
+              >
+                ${escapeHTML(category)}
+              </button>
+            `;
+          })
+          .join("");
+
+      resourceTabs
+        .querySelectorAll("button")
+        .forEach(function (button) {
+          button.addEventListener(
+            "click",
+            function () {
+              activeCategory =
+                button.dataset.category;
+
+              renderResources();
+            }
+          );
+        });
+    }
+
+    function createResourceCard(
+      resource,
+      index
+    ) {
+      const resourceID =
+        getResourceID(resource, index);
+
+      const isFavorite =
+        favorites.has(resourceID);
+
+      const isInternal =
+        resource.internal ||
+        String(resource.url).startsWith("#");
+
+      const mainAction = isInternal
+        ? `
+          <button
+            class="open-link local-placeholder"
+            type="button"
+            data-title="${escapeHTML(resource.title)}"
+          >
+            Preview pathway
+          </button>
+        `
+        : `
+          <a
+            class="open-link"
+            href="${escapeHTML(resource.url)}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Open source ↗
+          </a>
+        `;
+
+      return `
+        <article
+          class="resource-card"
+          style="
+            --card-wash:
+            ${escapeHTML(
+              resource.color ||
+              "rgba(43,142,145,.14)"
+            )}
+          "
+        >
+          <div class="card-top">
+            <span class="resource-tag">
+              ${escapeHTML(resource.category)}
+            </span>
+
+            <h3>
+              ${escapeHTML(resource.title)}
+            </h3>
+          </div>
+
+          <div class="card-bottom">
+            <p>
+              ${escapeHTML(resource.description)}
+            </p>
+
+            <div class="card-actions">
+              ${mainAction}
+
+              <button
+                class="
+                  mini-button
+                  favorite
+                  ${isFavorite ? "active" : ""}
+                "
+                type="button"
+                data-id="${escapeHTML(resourceID)}"
+                aria-label="${
+                  isFavorite
+                    ? "Remove from favorites"
+                    : "Add to favorites"
+                }"
+              >
+                ${isFavorite ? "★" : "☆"}
+              </button>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    function renderResources() {
+      renderResourceTabs();
+
+      const query =
+        resourceSearch
+          .value
+          .trim()
+          .toLowerCase();
+
+      const resources =
+        getAllResources()
+          .map(function (resource, index) {
+            return {
+              ...resource,
+              originalIndex: index
+            };
+          });
+
+      const filtered =
+        resources.filter(
+          function (resource) {
+            const resourceID =
+              getResourceID(
+                resource,
+                resource.originalIndex
+              );
+
+            const categoryMatches =
+              activeCategory === "All" ||
+              (
+                activeCategory ===
+                "Favorites" &&
+                favorites.has(resourceID)
+              ) ||
+              resource.category ===
+                activeCategory;
+
+            const searchable =
+              [
+                resource.title,
+                resource.category,
+                resource.description,
+                resource.url
+              ]
+                .join(" ")
+                .toLowerCase();
+
+            const queryMatches =
+              !query ||
+              searchable.includes(query);
+
+            return (
+              categoryMatches &&
+              queryMatches
+            );
+          }
+        );
+
+      resourceGrid.innerHTML =
+        filtered
+          .map(function (resource) {
+            return createResourceCard(
+              resource,
+              resource.originalIndex
+            );
+          })
+          .join("");
+
+      resourceCount.textContent =
+        filtered.length +
+        " " +
+        (
+          filtered.length === 1
+            ? "resource"
+            : "resources"
+        );
+
+      resourceEmpty.style.display =
+        filtered.length
+          ? "none"
+          : "block";
+
+      resourceGrid
+        .querySelectorAll(".favorite")
+        .forEach(function (button) {
+          button.addEventListener(
+            "click",
+            function () {
+              const id =
+                button.dataset.id;
+
+              if (favorites.has(id)) {
+                favorites.delete(id);
+              } else {
+                favorites.add(id);
+              }
+
+              saveJSON(
+                storageKeys.favorites,
+                Array.from(favorites)
+              );
+
+              renderResources();
+            }
+          );
+        });
+
+      resourceGrid
+        .querySelectorAll(
+          ".local-placeholder"
+        )
+        .forEach(function (button) {
+          button.addEventListener(
+            "click",
+            function () {
+              showToast(
+                button.dataset.title +
+                " is reserved for the next connected page."
+              );
+            }
+          );
+        });
+    }
+
+    function spinArtistCompass() {
+      const prompt =
+        compassPrompts[
+          Math.floor(
+            Math.random() *
+            compassPrompts.length
+          )
+        ];
+
+      const mood =
+        document
+          .getElementById("compassMood")
+          .value;
+
+      const time =
+        document
+          .getElementById("compassTime")
+          .value;
+
+      const medium =
+        document
+          .getElementById("compassMedium")
+          .value;
+
+      const goal =
+        document
+          .getElementById("compassGoal")
+          .value;
+
+      const meta =
+        [
+          mood,
+          time,
+          medium,
+          goal
+        ]
+          .map(escapeHTML)
+          .join(" · ");
+
+      document
+        .getElementById("compassResult")
+        .innerHTML = `
+          <div class="result-icon">
+            ${prompt.icon}
+          </div>
+
+          <h3>
+            ${escapeHTML(prompt.title)}
+          </h3>
+
+          <p>
+            ${escapeHTML(prompt.text)}
+          </p>
+
+          <p
+            style="
+              margin-top: 12px;
+              font-size: .78rem;
+            "
+          >
+            <strong>${meta}</strong>
+          </p>
+        `;
+
+      document
+        .getElementById("artist-compass")
+        .scrollIntoView({
+          behavior: "smooth",
+          block: "center"
+        });
+    }
+
+    function openDrawer() {
+      drawerOverlay.classList.add("open");
+
+      drawerOverlay.setAttribute(
+        "aria-hidden",
+        "false"
+      );
+
+      document.body.classList.add(
+        "drawer-open"
+      );
+
+      document
+        .getElementById("menuButton")
+        .setAttribute(
+          "aria-expanded",
+          "true"
+        );
+
+      window.setTimeout(
+        function () {
+          document
+            .getElementById(
+              "closeDrawerButton"
+            )
+            .focus();
+        },
+        50
+      );
+    }
+
+    function closeDrawer() {
+      drawerOverlay.classList.remove(
+        "open"
+      );
+
+      drawerOverlay.setAttribute(
+        "aria-hidden",
+        "true"
+      );
+
+      document.body.classList.remove(
+        "drawer-open"
+      );
+
+      document
+        .getElementById("menuButton")
+        .setAttribute(
+          "aria-expanded",
+          "false"
+        );
+    }
+
+    function openAdmin() {
+      closeDrawer();
+
+      adminModal.classList.add("open");
+
+      adminModal.setAttribute(
+        "aria-hidden",
+        "false"
+      );
+
+      document.body.classList.add(
+        "modal-open"
+      );
+
+      renderAdminList();
+
+      window.setTimeout(
+        function () {
+          document
+            .getElementById("customTitle")
+            .focus();
+        },
+        50
+      );
+    }
+
+    function closeAdmin() {
+      adminModal.classList.remove("open");
+
+      adminModal.setAttribute(
+        "aria-hidden",
+        "true"
+      );
+
+      document.body.classList.remove(
+        "modal-open"
+      );
+    }
+
+    function renderAdminList() {
+      const adminList =
+        document.getElementById(
+          "adminList"
+        );
+
+      if (!customResources.length) {
+        adminList.innerHTML = `
+          <div
+            class="empty-state"
+            style="display: block"
+          >
+            No custom links have been added.
+          </div>
+        `;
+
+        return;
+      }
+
+      adminList.innerHTML =
+        customResources
+          .map(function (resource) {
+            return `
+              <div class="admin-item">
+                <span>
+                  <strong>
+                    ${escapeHTML(resource.title)}
+                  </strong>
+
+                  <small>
+                    ${escapeHTML(resource.category)}
+                    ·
+                    ${escapeHTML(resource.url)}
+                  </small>
+                </span>
+
+                <button
+                  class="mini-button delete-custom"
+                  data-id="${escapeHTML(
+                    resource.customID
+                  )}"
+                  type="button"
+                >
+                  Remove
+                </button>
+              </div>
+            `;
+          })
+          .join("");
+
+      adminList
+        .querySelectorAll(
+          ".delete-custom"
+        )
+        .forEach(function (button) {
+          button.addEventListener(
+            "click",
+            function () {
+              customResources =
+                customResources.filter(
+                  function (resource) {
+                    return (
+                      resource.customID !==
+                      button.dataset.id
+                    );
+                  }
+                );
+
+              saveJSON(
+                storageKeys.customResources,
+                customResources
+              );
+
+              renderAdminList();
+              renderResources();
+            }
+          );
+        });
+    }
+
+    function exportRegistry() {
+      const payload = {
+        version: 1,
+        exportedAt:
+          new Date().toISOString(),
+        customResources:
+          customResources,
+        favorites:
+          Array.from(favorites)
+      };
+
+      const blob =
+        new Blob(
+          [
+            JSON.stringify(
+              payload,
+              null,
+              2
+            )
+          ],
+          {
+            type: "application/json"
+          }
+        );
+
+      const link =
+        document.createElement("a");
+
+      link.href =
+        URL.createObjectURL(blob);
+
+      link.download =
+        "bazaar-art-registry-" +
+        new Date()
+          .toISOString()
+          .slice(0, 10) +
+        ".json";
+
+      link.click();
+
+      URL.revokeObjectURL(link.href);
+    }
+
+    async function importRegistry(file) {
+      try {
+        const text =
+          await file.text();
+
+        const payload =
+          JSON.parse(text);
+
+        if (
+          !Array.isArray(
+            payload.customResources
+          )
+        ) {
+          throw new Error(
+            "Invalid registry"
+          );
+        }
+
+        customResources =
+          payload.customResources;
+
+        favorites =
+          new Set(
+            Array.isArray(
+              payload.favorites
+            )
+              ? payload.favorites
+              : []
+          );
+
+        saveJSON(
+          storageKeys.customResources,
+          customResources
+        );
+
+        saveJSON(
+          storageKeys.favorites,
+          Array.from(favorites)
+        );
+
+        renderAdminList();
+        renderResources();
+
+        showToast(
+          "Registry restored."
+        );
+      } catch (error) {
+        console.error(error);
+
+        showToast(
+          "That file is not a valid Bazaar Art registry."
+        );
+      }
+    }
+
+    const galleryDatabaseName =
+      "bazaar-art-local-gallery";
+
+    const galleryStoreName =
+      "artworks";
+
+    function openGalleryDatabase() {
+      return new Promise(
+        function (resolve, reject) {
+          const request =
+            indexedDB.open(
+              galleryDatabaseName,
+              1
+            );
+
+          request.onupgradeneeded =
+            function () {
+              const database =
+                request.result;
+
+              if (
+                !database
+                  .objectStoreNames
+                  .contains(
+                    galleryStoreName
+                  )
+              ) {
+                database.createObjectStore(
+                  galleryStoreName,
+                  {
+                    keyPath: "id"
+                  }
+                );
+              }
+            };
+
+          request.onsuccess =
+            function () {
+              resolve(request.result);
+            };
+
+          request.onerror =
+            function () {
+              reject(request.error);
+            };
+        }
+      );
+    }
+
+    async function getAllGalleryItems() {
+      const database =
+        await openGalleryDatabase();
+
+      return new Promise(
+        function (resolve, reject) {
+          const request =
+            database
+              .transaction(
+                galleryStoreName,
+                "readonly"
+              )
+              .objectStore(
+                galleryStoreName
+              )
+              .getAll();
+
+          request.onsuccess =
+            function () {
+              resolve(request.result);
+            };
+
+          request.onerror =
+            function () {
+              reject(request.error);
+            };
+        }
+      );
+    }
+
+    async function saveGalleryItem(
+      item
+    ) {
+      const database =
+        await openGalleryDatabase();
+
+      return new Promise(
+        function (resolve, reject) {
+          const request =
+            database
+              .transaction(
+                galleryStoreName,
+                "readwrite"
+              )
+              .objectStore(
+                galleryStoreName
+              )
+              .put(item);
+
+          request.onsuccess =
+            function () {
+              resolve();
+            };
+
+          request.onerror =
+            function () {
+              reject(request.error);
+            };
+        }
+      );
+    }
+
+    async function deleteGalleryItem(
+      id
+    ) {
+      const database =
+        await openGalleryDatabase();
+
+      return new Promise(
+        function (resolve, reject) {
+          const request =
+            database
+              .transaction(
+                galleryStoreName,
+                "readwrite"
+              )
+              .objectStore(
+                galleryStoreName
+              )
+              .delete(id);
+
+          request.onsuccess =
+            function () {
+              resolve();
+            };
+
+          request.onerror =
+            function () {
+              reject(request.error);
+            };
+        }
+      );
+    }
+
+    async function clearGalleryItems() {
+      const database =
+        await openGalleryDatabase();
+
+      return new Promise(
+        function (resolve, reject) {
+          const request =
+            database
+              .transaction(
+                galleryStoreName,
+                "readwrite"
+              )
+              .objectStore(
+                galleryStoreName
+              )
+              .clear();
+
+          request.onsuccess =
+            function () {
+              resolve();
+            };
+
+          request.onerror =
+            function () {
+              reject(request.error);
+            };
+        }
+      );
+    }
+
+    function fileToDataURL(file) {
+      return new Promise(
+        function (resolve, reject) {
+          const reader =
+            new FileReader();
+
+          reader.onload =
+            function () {
+              resolve(reader.result);
+            };
+
+          reader.onerror =
+            function () {
+              reject(reader.error);
+            };
+
+          reader.readAsDataURL(file);
+        }
+      );
+    }
+
+    async function renderLocalGallery() {
+      const items =
+        await getAllGalleryItems();
+
+      const grid =
+        document.getElementById(
+          "localGalleryGrid"
+        );
+
+      const empty =
+        document.getElementById(
+          "galleryEmpty"
+        );
+
+      grid.innerHTML =
+        items
+          .map(function (item) {
+            return `
+              <figure class="art-tile">
+                <img
+                  src="${item.dataURL}"
+                  alt="${escapeHTML(item.name)}"
+                >
+
+                <figcaption class="art-caption">
+                  ${escapeHTML(item.name)}
+
+                  <div class="art-caption-actions">
+                    <button
+                      class="remove-art"
+                      type="button"
+                      data-id="${escapeHTML(item.id)}"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </figcaption>
+              </figure>
+            `;
+          })
+          .join("");
+
+      empty.style.display =
+        items.length
+          ? "none"
+          : "block";
+
+      grid
+        .querySelectorAll(".remove-art")
+        .forEach(function (button) {
+          button.addEventListener(
+            "click",
+            async function () {
+              await deleteGalleryItem(
+                button.dataset.id
+              );
+
+              await renderLocalGallery();
+
+              showToast(
+                "Artwork removed from the local gallery."
+              );
+            }
+          );
+        });
+    }
+
+    resourceSearch.addEventListener(
+      "input",
+      renderResources
+    );
+
+    document
+      .getElementById(
+        "compassSpinButton"
+      )
+      .addEventListener(
+        "click",
+        spinArtistCompass
+      );
+
+    document
+      .getElementById(
+        "heroCompassButton"
+      )
+      .addEventListener(
+        "click",
+        spinArtistCompass
+      );
+
+    document
+      .getElementById("menuButton")
+      .addEventListener(
+        "click",
+        openDrawer
+      );
+
+    document
+      .getElementById(
+        "closeDrawerButton"
+      )
+      .addEventListener(
+        "click",
+        closeDrawer
+      );
+
+    drawerOverlay.addEventListener(
+      "click",
+      function (event) {
+        if (
+          event.target ===
+          drawerOverlay
+        ) {
+          closeDrawer();
+        }
+      }
+    );
+
+    drawerOverlay
+      .querySelectorAll("a")
+      .forEach(function (link) {
+        link.addEventListener(
+          "click",
+          closeDrawer
+        );
       });
-    }, {threshold:.12});
-  }
-  nodes.forEach(n => revealObserver.observe(n));
-}
 
-appSearch.addEventListener("input", renderApps);
-repoSearch.addEventListener("input", renderRepos);
-menuSearch.addEventListener("input", renderDrawer);
-menuButton.addEventListener("click", () => menuDrawer.classList.contains("open") ? closeDrawer() : openMenu());
-closeMenu.addEventListener("click", closeDrawer);
-menuDrawer.addEventListener("click", event => { if(event.target === menuDrawer) closeDrawer(); });
-drawerNav.addEventListener("click", event => { if(event.target.closest("a")) closeDrawer(); });
-document.addEventListener("keydown", event => {
-  if(event.key === "Escape" && menuDrawer.classList.contains("open")) closeDrawer();
-  trapFocus(event);
-});
+    document
+      .getElementById("adminButton")
+      .addEventListener(
+        "click",
+        openAdmin
+      );
 
-document.getElementById("year").textContent = new Date().getFullYear();
-renderApps();
-renderRepos();
-renderDrawer();
-observeReveals();
-</script>
+    document
+      .getElementById(
+        "drawerAdminButton"
+      )
+      .addEventListener(
+        "click",
+        openAdmin
+      );
+
+    document
+      .getElementById(
+        "closeAdminButton"
+      )
+      .addEventListener(
+        "click",
+        closeAdmin
+      );
+
+    adminModal.addEventListener(
+      "click",
+      function (event) {
+        if (
+          event.target ===
+          adminModal
+        ) {
+          closeAdmin();
+        }
+      }
+    );
+
+    document.addEventListener(
+      "keydown",
+      function (event) {
+        if (event.key === "Escape") {
+          closeDrawer();
+          closeAdmin();
+        }
+      }
+    );
+
+    document
+      .getElementById("resourceForm")
+      .addEventListener(
+        "submit",
+        function (event) {
+          event.preventDefault();
+
+          const newResource = {
+            customID:
+              "custom-" +
+              Date.now(),
+
+            title:
+              document
+                .getElementById(
+                  "customTitle"
+                )
+                .value
+                .trim(),
+
+            category:
+              document
+                .getElementById(
+                  "customCategory"
+                )
+                .value,
+
+            url:
+              document
+                .getElementById(
+                  "customUrl"
+                )
+                .value
+                .trim(),
+
+            description:
+              document
+                .getElementById(
+                  "customDescription"
+                )
+                .value
+                .trim(),
+
+            color:
+              "rgba(43,142,145,.14)"
+          };
+
+          customResources.push(
+            newResource
+          );
+
+          saveJSON(
+            storageKeys.customResources,
+            customResources
+          );
+
+          event.target.reset();
+
+          renderAdminList();
+          renderResources();
+
+          showToast(
+            "Local resource added."
+          );
+        }
+      );
+
+    document
+      .getElementById(
+        "exportRegistryButton"
+      )
+      .addEventListener(
+        "click",
+        exportRegistry
+      );
+
+    document
+      .getElementById(
+        "importRegistryInput"
+      )
+      .addEventListener(
+        "change",
+        function (event) {
+          const file =
+            event.target.files[0];
+
+          if (file) {
+            importRegistry(file);
+          }
+
+          event.target.value = "";
+        }
+      );
+
+    document
+      .getElementById(
+        "resetCustomButton"
+      )
+      .addEventListener(
+        "click",
+        function () {
+          const confirmed =
+            window.confirm(
+              "Remove all custom links from this browser?"
+            );
+
+          if (!confirmed) {
+            return;
+          }
+
+          customResources = [];
+
+          saveJSON(
+            storageKeys.customResources,
+            customResources
+          );
+
+          renderAdminList();
+          renderResources();
+
+          showToast(
+            "Custom resources cleared."
+          );
+        }
+      );
+
+    document
+      .getElementById("artUpload")
+      .addEventListener(
+        "change",
+        async function (event) {
+          const files =
+            Array.from(
+              event.target.files
+            );
+
+          for (const file of files) {
+            if (
+              !file.type.startsWith(
+                "image/"
+              )
+            ) {
+              continue;
+            }
+
+            const dataURL =
+              await fileToDataURL(file);
+
+            await saveGalleryItem({
+              id:
+                "art-" +
+                Date.now() +
+                "-" +
+                Math.random()
+                  .toString(16)
+                  .slice(2),
+
+              name:
+                file.name,
+
+              dataURL:
+                dataURL,
+
+              addedAt:
+                new Date()
+                  .toISOString()
+            });
+          }
+
+          event.target.value = "";
+
+          await renderLocalGallery();
+
+          showToast(
+            "Artwork added to your local gallery."
+          );
+        }
+      );
+
+    document
+      .getElementById(
+        "clearGalleryButton"
+      )
+      .addEventListener(
+        "click",
+        async function () {
+          const confirmed =
+            window.confirm(
+              "Clear every locally stored gallery image from this browser?"
+            );
+
+          if (!confirmed) {
+            return;
+          }
+
+          await clearGalleryItems();
+
+          await renderLocalGallery();
+
+          showToast(
+            "Local gallery cleared."
+          );
+        }
+      );
+
+    document
+      .getElementById("year")
+      .textContent =
+        new Date().getFullYear();
+
+    renderResources();
+
+    renderLocalGallery()
+      .catch(function (error) {
+        console.error(error);
+
+        showToast(
+          "Local gallery storage is unavailable in this browser."
+        );
+      });
+  </script>
 </body>
 </html>
