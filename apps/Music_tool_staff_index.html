@@ -1,1328 +1,205 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Harmony Haven — Write on the Staff</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Little Composer Studio — a child-friendly piano, rhythm, recording, and music-writing app that works fully offline.">
+<title>Little Composer Studio</title>
 <style>
-  :root{
-    --accent:#6f5aa7;
-    --bg-a:#706C6B;
-    --bg-b:#d5e6fa;
-    --text:#32274c;
-    --card:#fffdfc;
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%;margin:0;padding:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial;color:var(--text);-webkit-font-smoothing:antialiased}
-  body{display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--bg-a) 40%,var(--bg-b) 100%)}
-  .wrap{width:100%;max-width:860px;margin:32px;padding:26px;border-radius:18px;background:var(--card);box-shadow:0 10px 30px rgba(80,60,110,0.08)}
-  h1{font-size:1.9rem;margin:0 0 8px}
-  p.lead{margin:6px 0 14px;color:rgba(50,39,76,0.8);line-height:1.45}
-  .note{color:rgba(50,39,76,0.78);margin-top:6px;line-height:1.35}
-
-  .top-row{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
-  .controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
-  .controls label{font-size:.92rem;color:rgba(50,39,76,0.75)}
-  select, button, input[type="range"]{
-    font-size:0.98rem;padding:10px 12px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);background:#fff;cursor:pointer
-  }
-  input[type="range"]{padding:10px 0}
-  .btn-primary{background:var(--accent);color:white;border:none;font-weight:800}
-  .btn-soft{background:#efeaff}
-  .btn-danger{background:#ffe7e7}
-  .pill{
-    display:inline-flex;align-items:center;gap:8px;
-    padding:8px 10px;border-radius:999px;
-    background:rgba(111,90,167,0.08);
-    border:1px solid rgba(111,90,167,0.22);
-    font-weight:700;color:rgba(50,39,76,0.85);font-size:.92rem;
-  }
-
-  .staff-area{margin:18px 0}
-  #staffWrap{
-    position:relative;width:100%;height:340px;background:#fcfbff;border-radius:12px;
-    box-shadow:0 2px 14px rgba(70,60,110,0.06);
-    overflow:hidden;
-    touch-action:none;
-  }
-  svg#staffSVG{display:block;width:100%;height:100%}
-  .hit{cursor:pointer}
-
-  .ink{
-    position: absolute;
-    width: 8px; height:8px; border-radius:50%;
-    background: rgba(80,60,140,0.16);
-    pointer-events:none;
-    transform: translate(-50%,-50%);
-    animation: inkFade 1800ms linear forwards;
-  }
-  @keyframes inkFade {
-    0% {opacity:1; transform: translate(-50%,-50%) scale(1);}
-    100% {opacity:0; transform: translate(-50%,-50%) scale(2.2);}
-  }
-
-  .ripple {
-    position:absolute;width:18px;height:18px;border-radius:50%;
-    background:rgba(162,140,255,0.2);
-    pointer-events:none;transform:translate(-50%,-50%);
-    animation:rippleAnim 650ms ease-out forwards;
-  }
-  @keyframes rippleAnim {
-    from {opacity:0.9; transform:translate(-50%,-50%) scale(0.6)}
-    to {opacity:0; transform:translate(-50%,-50%) scale(3.2)}
-  }
-
-  #lsOut {margin:12px 0;font-size:1.05rem;min-height:24px}
-  .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:6px}
-  .toolbar .small{font-size:.92rem;color:rgba(50,39,76,0.7)}
-  .kpi{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
-  .kpi .box{
-    background:#f4efff;border:1px solid rgba(111,90,167,0.18);
-    padding:10px 12px;border-radius:12px;font-weight:700;
-  }
-
-  .module{margin-top:18px}
-  .module h2{margin:0 0 8px}
-  .quiz{margin-top:12px}
-  .quiz-q{font-weight:800;margin:12px 0 8px}
-  .choices button{margin:6px 8px 6px 0;padding:10px 18px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);background:#ece6ff;cursor:pointer}
-  .choices button.correct{background:#b0e7b1;color:#245726}
-  .choices button.incorrect{background:#fa9797;color:#902a2a}
-
-  .footer-row{display:flex;justify-content:space-between;align-items:center;margin-top:18px;color:rgba(50,39,76,0.65);font-size:0.95rem;flex-wrap:wrap;gap:8px}
-  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
-
-  /* SVG clef interaction */
-  .clef-grab { cursor: grab; }
-  .clef-grab:active { cursor: grabbing; }
-
-  @media (max-width:720px){
-    .wrap{padding:18px}
-    #staffWrap{height:320px}
-  }
+:root{
+--bg1:#f4eaff;--bg2:#e8f7ff;--panel:#fffafd;--ink:#43344f;--muted:#706679;
+--primary:#8266c7;--secondary:#df82b1;--accent:#ffd76d;--card:#f8efff;--border:#cdbce4;
+--good:#3ca86e;--bad:#d65f70;--shadow:0 24px 58px rgba(60,42,80,.16)
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;padding:24px 14px 46px;color:var(--ink);font-family:"Avenir Next Rounded","Trebuchet MS","Arial Rounded MT Bold","Comic Sans MS",system-ui,sans-serif;background:linear-gradient(145deg,var(--bg1),var(--bg2));transition:.35s}
+button,select,input{font:inherit}button{touch-action:manipulation}
+.wrap{width:min(1220px,100%);margin:auto}
+.hero{text-align:center;margin-bottom:16px}
+.badge{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:var(--panel);border:1px solid var(--border);font-weight:900;color:var(--primary)}
+h1{margin:11px 0 5px;font-size:clamp(2.35rem,7vw,4.8rem);line-height:.95;letter-spacing:-.04em;color:var(--primary)}
+.subtitle{max-width:860px;margin:auto;color:var(--muted);line-height:1.6}
+.app{background:var(--panel);border:1px solid var(--border);border-radius:30px;padding:18px;box-shadow:var(--shadow)}
+.toolbar{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px}
+.control{background:var(--panel);border:1px solid var(--border);border-radius:17px;padding:10px}
+.control label{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:900;margin-bottom:5px}
+.control select,.control input{width:100%;padding:9px;border-radius:11px;border:1px solid var(--border);background:var(--panel);color:var(--ink)}
+.notice{margin-top:11px;padding:12px 14px;border-radius:17px;background:color-mix(in srgb,var(--accent) 24%,var(--panel));border:1px solid var(--border);line-height:1.5}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.tab{border:1px solid var(--border);border-radius:999px;padding:9px 13px;background:var(--panel);color:var(--primary);font-weight:900;cursor:pointer}
+.tab.on{background:linear-gradient(135deg,var(--accent),var(--secondary));color:var(--ink)}
+.screen{display:none}.screen.on{display:block}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:24px;padding:16px}
+.piano{display:grid;grid-template-columns:repeat(8,1fr);gap:7px;margin-top:14px}
+.key{min-height:230px;border:4px solid #fff;border-radius:20px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;padding:12px 5px;color:#2d2433;font-size:1.25rem;font-weight:950;cursor:pointer;box-shadow:0 8px 18px #382a501f;user-select:none}
+.key span{display:block}.key .small{font-size:.75rem;opacity:.8}.key.active{transform:translateY(4px);box-shadow:0 0 0 5px var(--accent),0 6px 12px #0002}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.btn{border:0;border-radius:14px;padding:10px 14px;cursor:pointer;font-weight:900;background:var(--panel);color:var(--primary);box-shadow:0 5px 13px rgba(60,45,80,.1)}
+.btn.primary{color:#fff;background:linear-gradient(135deg,var(--secondary),var(--primary))}.btn.sunny{background:linear-gradient(135deg,var(--accent),var(--secondary));color:var(--ink)}.btn.danger{background:#ffe1e5;color:#9a3545}
+.message{min-height:32px;margin-top:10px;text-align:center;color:var(--muted);font-weight:900}
+.composer-grid{display:grid;grid-template-columns:260px 1fr;gap:14px}
+.palette{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:13px}
+.palette h3{margin:0 0 9px;color:var(--primary)}
+.palette-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.symbol{border:1px solid var(--border);border-radius:12px;padding:9px;background:var(--panel);font-weight:900;cursor:pointer}
+.symbol.on{background:var(--accent)}
+.staff-wrap{position:relative;background:#fff;border:1px solid var(--border);border-radius:20px;min-height:350px;overflow:hidden;touch-action:none}
+.staff-wrap svg{width:100%;height:350px;display:block}
+.lesson{margin-top:12px;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:13px;line-height:1.55}
+.sequence{display:flex;flex-wrap:wrap;gap:7px;min-height:56px;padding:10px;background:var(--card);border-radius:16px;border:1px solid var(--border)}
+.token{padding:8px 10px;border-radius:12px;background:var(--panel);border:1px solid var(--border);font-weight:900}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:13px}
+.stat{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:10px;text-align:center}.stat strong{display:block;font-size:1.25rem;color:var(--primary)}
+footer{margin-top:15px;text-align:center;color:var(--muted);font-size:.82rem;line-height:1.55}footer strong{color:var(--primary)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+@media(max-width:920px){.toolbar{grid-template-columns:repeat(2,1fr)}.composer-grid{grid-template-columns:1fr}.piano{grid-template-columns:repeat(4,1fr)}.key{min-height:145px}}
+@media(max-width:560px){.toolbar{grid-template-columns:1fr}.piano{grid-template-columns:repeat(2,1fr)}.stats{grid-template-columns:repeat(2,1fr)}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
-  <div class="wrap" role="main" aria-labelledby="title">
-    <div class="top-row">
-      <div style="min-width:260px;flex:1">
-        <h1 id="title">🎼 Harmony Haven — Write on the Staff</h1>
-        <div class="note">Place symbols, drag the clef, resize it, and press Play. Everything stays local.</div>
-      </div>
+<main class="wrap">
+<header class="hero"><div class="badge" id="badge">🌈 Little Composer Studio</div><h1>Little Composer Studio</h1><p class="subtitle">Play a rainbow piano, record melodies, explore rhythm, and place notes on a real five-line staff.</p></header>
 
-      <div class="controls">
-        <span class="pill" title="Everything stays local on your device">🔒 Local-only</span>
+<section class="app">
+<div class="toolbar">
+<div class="control"><label for="theme">Color theme</label><select id="theme"></select></div>
+<div class="control"><label for="instrument">Instrument</label><select id="instrument"><option value="piano">🎹 Piano</option><option value="xylophone">🔔 Xylophone</option><option value="bells">✨ Bells</option></select></div>
+<div class="control"><label for="tempo">Tempo</label><input id="tempo" type="range" min="50" max="160" value="90"></div>
+<div class="control"><label for="volume">Volume</label><input id="volume" type="range" min="0" max="0.7" step="0.01" value="0.32"></div>
+<div class="control"><label for="labels">Key labels</label><select id="labels"><option value="letters">Letters</option><option value="solfege">Do Re Mi</option><option value="both">Both</option></select></div>
+</div>
 
-        <label for="themeSelect">Mood</label>
-        <select id="themeSelect" aria-label="Choose theme">
-          <option value="calm">Calm Ivory</option>
-          <option value="indigo">Deep Indigo</option>
-          <option value="sienna">Warm Sienna</option>
-          <option value="moon">Moonlit Silver</option>
-          <option value="gold">Golden Dawn</option>
-        </select>
+<div class="notice"><strong>Music learning:</strong> Tap, point, listen, sing, move, or use adult support. Keep device volume comfortable. The app stores compositions only on this device.</div>
 
-        <label for="instrumentSelect">Instrument</label>
-        <select id="instrumentSelect" aria-label="Choose instrument">
-          <option value="piano">Piano</option>
-          <option value="guitar">Guitar</option>
-          <option value="drums">Drums</option>
-        </select>
+<div class="tabs">
+<button class="tab on" data-screen="play">🎹 Play Piano</button>
+<button class="tab" data-screen="write">🎼 Write Music</button>
+<button class="tab" data-screen="rhythm">🥁 Rhythm Builder</button>
+<button class="tab" data-screen="learn">📚 Mini Lessons</button>
+</div>
 
-        <label for="symbolSelect">Symbol</label>
-        <select id="symbolSelect" aria-label="Choose music symbol">
-          <option value="clef_treble">Treble Clef (place)</option>
-          <option value="clef_bass">Bass Clef (place)</option>
-          <option value="note_quarter">Quarter Note</option>
-          <option value="note_half">Half Note</option>
-          <option value="note_whole">Whole Note</option>
-          <option value="note_eighth">Eighth Note</option>
-          <option value="rest_quarter">Quarter Rest</option>
-          <option value="rest_half">Half Rest</option>
-          <option value="mark_sharp">Sharp ♯</option>
-          <option value="mark_flat">Flat ♭</option>
-          <option value="mark_natural">Natural ♮</option>
-          <option value="mark_staccato">Staccato • (toggles nearest note)</option>
-          <option value="barline">Bar Line</option>
-          <option value="eraser">Eraser</option>
-        </select>
+<section class="screen on" id="playScreen">
+<div class="panel">
+<h2>Rainbow Piano</h2>
+<div class="piano" id="piano"></div>
+<div class="actions">
+<button class="btn primary" id="recordBtn">⏺ Record</button>
+<button class="btn" id="stopRecordBtn">⏹ Stop</button>
+<button class="btn sunny" id="playRecordBtn">▶ Play Recording</button>
+<button class="btn danger" id="clearRecordBtn">Clear Recording</button>
+</div>
+<div class="message" id="playMessage">Tap a key to begin.</div>
+<div class="sequence" id="recordSequence"></div>
+</div>
+</section>
 
-        <button id="speakBtn" title="Narration">🔊 Narrate</button>
-      </div>
-    </div>
+<section class="screen" id="writeScreen">
+<div class="composer-grid">
+<aside class="palette">
+<h3>Music Symbols</h3>
+<div class="palette-grid" id="palette"></div>
+<div class="actions"><button class="btn" id="playScoreBtn">▶ Play Score</button><button class="btn" id="undoScoreBtn">↶ Undo</button><button class="btn danger" id="clearScoreBtn">Clear</button></div>
+</aside>
+<section>
+<div class="staff-wrap"><svg id="staff" viewBox="0 0 760 350" aria-label="Interactive five-line music staff"></svg></div>
+<div class="message" id="scoreMessage">Choose a note value, then tap a line or space.</div>
+</section>
+</div>
+</section>
 
-    <p class="lead">
-      Tap to place symbols. Clefs are true SVG icons (not text), draggable, and resizable. Treble vs Bass also changes pitch mapping.
-      Double-tap / double-click the clef to grow it quickly.
-    </p>
+<section class="screen" id="rhythmScreen">
+<div class="panel">
+<h2>Rhythm Builder</h2>
+<p>Build a four-beat rhythm. Quarter notes use 1 beat. Half notes use 2. Whole notes use 4. Eighth notes use ½ beat.</p>
+<div class="palette-grid" id="rhythmPalette"></div>
+<h3>Your Rhythm</h3><div class="sequence" id="rhythmSequence"></div>
+<div class="actions"><button class="btn primary" id="playRhythmBtn">🥁 Play Rhythm</button><button class="btn" id="undoRhythmBtn">↶ Undo</button><button class="btn danger" id="clearRhythmBtn">Clear</button></div>
+<div class="message" id="rhythmMessage"></div>
+</div>
+</section>
 
-    <div class="staff-area">
-      <div id="staffWrap" aria-label="Interactive musical staff">
-        <svg id="staffSVG" viewBox="0 0 700 340" role="img" aria-labelledby="staffTitle">
-          <title id="staffTitle">Five-line staff with writing layer</title>
-        </svg>
-      </div>
+<section class="screen" id="learnScreen">
+<div class="panel">
+<h2>Mini Music Lessons</h2>
+<div class="lesson"><strong>1. High and low:</strong> Notes placed higher on the staff sound higher. Notes placed lower sound lower.</div>
+<div class="lesson"><strong>2. Lines and spaces:</strong> A note can sit on a line or in a space. Each step moves to the next letter name.</div>
+<div class="lesson"><strong>3. Rhythm:</strong> Note shapes tell us how long a sound lasts.</div>
+<div class="lesson"><strong>4. Rests:</strong> A rest is a planned silence. Silence is part of music.</div>
+<div class="lesson"><strong>5. Compose:</strong> A composer chooses sounds and silences and puts them in an order.</div>
+</div>
+</section>
 
-      <div id="lsOut" aria-live="polite"></div>
-
-      <div class="toolbar">
-        <button class="btn-primary" id="beginBtn">Begin Class</button>
-        <button class="btn-soft" id="traceToggle">Tracing: OFF</button>
-        <button class="btn-soft" id="soundBrushToggle">Sound Brush: OFF</button>
-
-        <button class="btn-soft" id="playBtn">▶ Play</button>
-        <button class="btn-soft" id="stopBtn">■ Stop</button>
-        <button class="btn-soft" id="undoBtn">↶ Undo</button>
-        <button class="btn-danger" id="clearBtn">Clear</button>
-
-        <button class="btn-soft" id="clefSmaller" title="Shrink clef">➖ Clef</button>
-        <button class="btn-soft" id="clefBigger" title="Grow clef">➕ Clef</button>
-
-        <span class="small">Tempo</span>
-        <input id="tempo" type="range" min="50" max="160" value="96" />
-        <span class="small mono" id="tempoLabel">96 bpm</span>
-
-        <span class="small">Vol</span>
-        <input id="masterVol" type="range" min="0" max="1" step="0.01" value="0.35" />
-        <span class="small mono" id="volLabel">35%</span>
-      </div>
-
-      <div class="kpi">
-        <div class="box">Placed: <span id="placedCount">0</span></div>
-        <div class="box">Clef: <span id="clefLabel">Treble</span></div>
-        <div class="box">Saved: <span id="saveState">yes</span></div>
-      </div>
-    </div>
-
-    <div class="module" id="module"></div>
-
-    <div class="footer-row">
-      <div>Created for mindful music learning • No external resources</div>
-      <div id="progressText"></div>
-    </div>
-  </div>
+<div class="stats">
+<div class="stat"><strong id="playedStat">0</strong>Notes played</div>
+<div class="stat"><strong id="recordStat">0</strong>Recorded notes</div>
+<div class="stat"><strong id="scoreStat">0</strong>Score symbols</div>
+<div class="stat"><strong id="rhythmStat">0</strong>Rhythm beats</div>
+</div>
+</section>
+<footer><strong>© 2026 Verve N Veda · Khaemenes Academy · Jennifer Kay Pearl</strong><br>All Rights Reserved. · Local, private, offline-first, and child-friendly.</footer>
+</main>
 
 <script>
-/* ================== THEME ================== */
-const THEMES = {
-  calm:   { '--bg-a':'#f6eefd', '--bg-b':'#d5e6fa', '--accent':'#6f5aa7' },
-  indigo: { '--bg-a':'#eef2ff', '--bg-b':'#e6eafc', '--accent':'#37328a' },
-  sienna: { '--bg-a':'#fff6f0', '--bg-b':'#fde7d9', '--accent':'#a85b3a' },
-  moon:   { '--bg-a':'#f6f8fb', '--bg-b':'#eef1f6', '--accent':'#6b6f86' },
-  gold:   { '--bg-a':'#fffaf0', '--bg-b':'#fff6e0', '--accent':'#b8892f' }
-};
-const themeSelect = document.getElementById('themeSelect');
-function applyTheme(name){
-  const t = THEMES[name] || THEMES.calm;
-  for(const k in t) document.documentElement.style.setProperty(k, t[k]);
+const NOTES=[{"name": "C4", "label": "C", "freq": 261.63, "color": "#ff6b6b", "solfege": "Do"}, {"name": "D4", "label": "D", "freq": 293.66, "color": "#ff9f43", "solfege": "Re"}, {"name": "E4", "label": "E", "freq": 329.63, "color": "#feca57", "solfege": "Mi"}, {"name": "F4", "label": "F", "freq": 349.23, "color": "#1dd1a1", "solfege": "Fa"}, {"name": "G4", "label": "G", "freq": 392.0, "color": "#54a0ff", "solfege": "Sol"}, {"name": "A4", "label": "A", "freq": 440.0, "color": "#7d5fff", "solfege": "La"}, {"name": "B4", "label": "B", "freq": 493.88, "color": "#f368e0", "solfege": "Ti"}, {"name": "C5", "label": "C", "freq": 523.25, "color": "#ff6b6b", "solfege": "Do"}],THEMES={"rainbow": {"name": "Rainbow Music", "emoji": "🌈", "bg1": "#f4eaff", "bg2": "#e8f7ff", "panel": "#fffafd", "ink": "#43344f", "muted": "#706679", "primary": "#8266c7", "secondary": "#df82b1", "accent": "#ffd76d", "card": "#f8efff", "border": "#cdbce4"}, "ocean": {"name": "Ocean Melody", "emoji": "🌊", "bg1": "#e7f8ff", "bg2": "#e6f6ef", "panel": "#fbffff", "ink": "#24434f", "muted": "#61747c", "primary": "#2f8fad", "secondary": "#63bfc1", "accent": "#ffd88b", "card": "#ecfaff", "border": "#acdce4"}, "forest": {"name": "Forest Song", "emoji": "🌿", "bg1": "#eaf7e9", "bg2": "#f0f3df", "panel": "#fcfff9", "ink": "#304536", "muted": "#667168", "primary": "#5b9468", "secondary": "#8fbd7d", "accent": "#e8cf73", "card": "#f1f8ed", "border": "#b7d2b2"}, "sunset": {"name": "Sunset Symphony", "emoji": "🌅", "bg1": "#fff0da", "bg2": "#ffe7ef", "panel": "#fffaf8", "ink": "#513a36", "muted": "#786766", "primary": "#d66f61", "secondary": "#e99982", "accent": "#ffd36a", "card": "#fff0eb", "border": "#edc0b7"}, "night": {"name": "Starry Song", "emoji": "🌙", "bg1": "#1f2445", "bg2": "#34325d", "panel": "#2d3053", "ink": "#f6f3ff", "muted": "#cbc8e4", "primary": "#9faeff", "secondary": "#c98be1", "accent": "#ffd76d", "card": "#383c66", "border": "#606698"}},$=id=>document.getElementById(id);
+const KEY='little-composer-studio-v1';
+let audioCtx=null,master=null,recording=[],recordStart=0,isRecording=false,score=[],rhythm=[],selectedSymbol='quarter',timeouts=[],playedCount=0;
+function save(){try{localStorage.setItem(KEY,JSON.stringify({recording,score,rhythm,theme:$('theme').value,instrument:$('instrument').value,tempo:$('tempo').value,labels:$('labels').value}))}catch{}}
+function load(){try{const x=JSON.parse(localStorage.getItem(KEY)||'{}');if(Array.isArray(x.recording))recording=x.recording;if(Array.isArray(x.score))score=x.score;if(Array.isArray(x.rhythm))rhythm=x.rhythm;return x}catch{return{}}}
+const saved=load();
+function ensureAudio(){if(!audioCtx){audioCtx=new (window.AudioContext||window.webkitAudioContext)();master=audioCtx.createGain();master.connect(audioCtx.destination)}if(audioCtx.state==='suspended')audioCtx.resume();master.gain.value=Number($('volume').value);return audioCtx}
+function freq(midi){return 440*Math.pow(2,(midi-69)/12)}
+function noteMidi(name){const map={C4:60,D4:62,E4:64,F4:65,G4:67,A4:69,B4:71,C5:72};return map[name]||60}
+function playTone(name,dur=.55,when=null){
+ const ctx=ensureAudio(),t=when??ctx.currentTime,f=NOTES.find(n=>n.name===name)?.freq||261.63;
+ const osc=ctx.createOscillator(),g=ctx.createGain(),inst=$('instrument').value;
+ osc.type=inst==='piano'?'triangle':inst==='xylophone'?'sine':'sine';
+ osc.frequency.value=f;
+ g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(inst==='bells'?.2:.28,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+ osc.connect(g);g.connect(master);osc.start(t);osc.stop(t+dur+.05)
 }
-applyTheme('calm');
-
-/* ================== ELEMENTS ================== */
-const staffSVG = document.getElementById('staffSVG');
-const staffWrap = document.getElementById('staffWrap');
-const lsOut = document.getElementById('lsOut');
-const speakBtn = document.getElementById('speakBtn');
-
-const instrumentSelect = document.getElementById('instrumentSelect');
-const symbolSelect = document.getElementById('symbolSelect');
-
-const beginBtn = document.getElementById('beginBtn');
-const traceToggle = document.getElementById('traceToggle');
-const soundBrushToggle = document.getElementById('soundBrushToggle');
-
-const playBtn = document.getElementById('playBtn');
-const stopBtn = document.getElementById('stopBtn');
-const undoBtn = document.getElementById('undoBtn');
-const clearBtn = document.getElementById('clearBtn');
-
-const clefSmaller = document.getElementById('clefSmaller');
-const clefBigger  = document.getElementById('clefBigger');
-
-const tempo = document.getElementById('tempo');
-const tempoLabel = document.getElementById('tempoLabel');
-const masterVol = document.getElementById('masterVol');
-const volLabel = document.getElementById('volLabel');
-
-const placedCount = document.getElementById('placedCount');
-const progressText = document.getElementById('progressText');
-const saveState = document.getElementById('saveState');
-const clefLabelEl = document.getElementById('clefLabel');
-
-const moduleEl = document.getElementById('module');
-
-/* ================== STATE ================== */
-let tracing = false;
-let soundBrush = false;
-let pointerDown = false;
-let lastBrushAt = 0;
-
-let step = 0;
-let isPlaying = false;
-let playTimerIds = [];
-
-const STORAGE_KEY = "HH_STAFF_WRITER_V2_CLEF_DRAG";
-
-/* Staff geometry */
-const staff = {
-  left: 55,
-  right: 680,
-  topLineY: 102,
-  gap: 26,
-  lineThickness: 3
-};
-
-/* Composition items */
-let composition = []; // {id,type,...}
-let idCounter = 0;
-
-/* Drag state for clef */
-const drag = { active:false, id:null, dx:0, dy:0, pointerId:null };
-
-/* ================== CLEF SYSTEM ================== */
-let currentClef = "treble";
-const CLEF_BASE = {
-  treble: { baseLetterIndex: 2, baseOctave: 4 }, // bottom line E4
-  bass:   { baseLetterIndex: 4, baseOctave: 2 }  // bottom line G2
-};
-
-// Font-free clef icons (simple stylized)
-const CLEF_ICON = {
-  treble: {
-    scaleDefault: 0.92,
-    paths: [
-      { d:"M32 6 C20 6 14 16 18 26 C22 36 40 34 38 22 C36 8 14 10 10 30 C5 56 26 70 36 84 C50 104 44 132 26 134 C14 136 10 126 14 118 C20 108 36 112 30 124 C26 134 10 132 8 120", w:5 },
-      { d:"M30 14 L30 138", w:4 }
-    ]
-  },
-  bass: {
-    scaleDefault: 0.76,
-    paths: [
-      { d:"M20 18 C8 28 10 56 34 60 C58 64 72 44 64 28 C56 12 36 10 28 22 C20 32 26 44 40 44", w:6 }
-    ],
-    dots: [{cx:62, cy:30, r:4.5}, {cx:62, cy:48, r:4.5}]
-  }
-};
-
-function setClef(clef){
-  currentClef = (clef === "bass") ? "bass" : "treble";
-  clefLabelEl.textContent = currentClef === "bass" ? "Bass" : "Treble";
-  recomputeNotesForClef();
+function keyLabel(n){const v=$('labels').value;return v==='letters'?n.label:v==='solfege'?n.solfege:`${n.label}<span class="small">${n.solfege}</span>`}
+function renderPiano(){
+ $('piano').innerHTML='';NOTES.forEach(n=>{const b=document.createElement('button');b.className='key';b.style.background=n.color;b.innerHTML=keyLabel(n);b.onpointerdown=()=>{playTone(n.name);b.classList.add('active');setTimeout(()=>b.classList.remove('active'),180);playedCount++;if(isRecording)recording.push({note:n.name,time:performance.now()-recordStart});$('playMessage').textContent=`${n.label} — ${n.solfege}`;renderRecording();updateStats();save()};$('piano').appendChild(b)})
 }
+function renderRecording(){$('recordSequence').innerHTML=recording.length?recording.map(x=>`<span class="token">${x.note.replace(/[0-9]/g,'')}</span>`).join(''):'<span class="token">Your recorded melody will appear here.</span>'}
+$('recordBtn').onclick=()=>{recording=[];recordStart=performance.now();isRecording=true;$('playMessage').textContent='Recording started.';renderRecording();save()};
+$('stopRecordBtn').onclick=()=>{isRecording=false;$('playMessage').textContent='Recording stopped.'};
+$('playRecordBtn').onclick=()=>{if(!recording.length)return $('playMessage').textContent='Record a melody first.';timeouts.forEach(clearTimeout);timeouts=[];$('playMessage').textContent='Playing your melody.';recording.forEach(ev=>timeouts.push(setTimeout(()=>playTone(ev.note),ev.time)))};
+$('clearRecordBtn').onclick=()=>{recording=[];renderRecording();updateStats();save()};
 
-function recomputeNotesForClef(){
-  composition.forEach(it=>{
-    if(it.type === "note"){
-      const out = diatonicToMidi(it.stepsUp, it.accidental || 0);
-      it.midi = out.midi;
-      it.name = out.name;
-    }
-  });
+const symbols=[['quarter','♩','Quarter note'],['half','𝅗𝅥','Half note'],['whole','𝅝','Whole note'],['eighth','♪','Eighth note'],['rest','𝄽','Quarter rest'],['bar','|','Bar line'],['eraser','⌫','Eraser']];
+function renderPalette(){$('palette').innerHTML='';symbols.forEach(([id,ico,label])=>{const b=document.createElement('button');b.className='symbol'+(id===selectedSymbol?' on':'');b.innerHTML=`${ico}<br><span style="font-size:.75rem">${label}</span>`;b.onclick=()=>{selectedSymbol=id;renderPalette()};$('palette').appendChild(b)})}
+function staffY(step){return 248-step*13}
+function drawStaff(){
+ const svg=$('staff');svg.innerHTML='';for(let i=0;i<5;i++){const l=document.createElementNS('http://www.w3.org/2000/svg','line');l.setAttribute('x1','55');l.setAttribute('x2','730');l.setAttribute('y1',String(144+i*26));l.setAttribute('y2',String(144+i*26));l.setAttribute('stroke','#594b6d');l.setAttribute('stroke-width','3');svg.appendChild(l)}
+ const clef=document.createElementNS('http://www.w3.org/2000/svg','text');clef.setAttribute('x','63');clef.setAttribute('y','228');clef.setAttribute('font-size','92');clef.textContent='𝄞';svg.appendChild(clef);
+ score.forEach((it,idx)=>{if(it.type==='bar'){const l=document.createElementNS('http://www.w3.org/2000/svg','line');l.setAttribute('x1',it.x);l.setAttribute('x2',it.x);l.setAttribute('y1','136');l.setAttribute('y2','252');l.setAttribute('stroke','#594b6d');l.setAttribute('stroke-width','3');svg.appendChild(l);return}
+ if(it.type==='rest'){const t=document.createElementNS('http://www.w3.org/2000/svg','text');t.setAttribute('x',it.x-8);t.setAttribute('y','205');t.setAttribute('font-size','32');t.textContent='𝄽';svg.appendChild(t);return}
+ const g=document.createElementNS('http://www.w3.org/2000/svg','g'),head=document.createElementNS('http://www.w3.org/2000/svg','ellipse');head.setAttribute('cx',it.x);head.setAttribute('cy',it.y);head.setAttribute('rx','10');head.setAttribute('ry','7');head.setAttribute('stroke','#49395e');head.setAttribute('stroke-width','2');head.setAttribute('fill',['quarter','eighth'].includes(it.kind)?'#49395e':'#fff');g.appendChild(head);
+ if(it.kind!=='whole'){const stem=document.createElementNS('http://www.w3.org/2000/svg','line');stem.setAttribute('x1',it.x+9);stem.setAttribute('x2',it.x+9);stem.setAttribute('y1',it.y);stem.setAttribute('y2',it.y-45);stem.setAttribute('stroke','#49395e');stem.setAttribute('stroke-width','3');g.appendChild(stem)}
+ if(it.kind==='eighth'){const flag=document.createElementNS('http://www.w3.org/2000/svg','path');flag.setAttribute('d',`M ${it.x+9} ${it.y-45} q 24 8 5 28`);flag.setAttribute('fill','none');flag.setAttribute('stroke','#49395e');flag.setAttribute('stroke-width','3');g.appendChild(flag)}
+ const lbl=document.createElementNS('http://www.w3.org/2000/svg','text');lbl.setAttribute('x',it.x-12);lbl.setAttribute('y',it.y-14);lbl.setAttribute('font-size','12');lbl.textContent=it.note;g.appendChild(lbl);svg.appendChild(g)})
+ updateStats()
 }
-
-function getClefItem(){
-  return composition.find(i => i.type === "clef") || null;
-}
-
-function clamp(v,min,max){ return Math.max(min, Math.min(max, v)); }
-
-/* ================== HELPERS ================== */
-function getAccent(){
-  const a = getComputedStyle(document.documentElement).getPropertyValue("--accent") || "#6f5aa7";
-  return a.trim();
-}
-function svgEl(name){ return document.createElementNS("http://www.w3.org/2000/svg", name); }
-function showOut(txt){ lsOut.textContent = txt; }
-
-function clientToSvg(clientX, clientY){
-  const rect = staffSVG.getBoundingClientRect();
-  const sx = (clientX - rect.left) * (700 / rect.width);
-  const sy = (clientY - rect.top) * (340 / rect.height);
-  return {x:sx, y:sy};
-}
-
-function snapYToStaff(y){
-  const bottomLineY = staff.topLineY + 4*staff.gap;
-  const stepSize = staff.gap / 2;
-  const stepsUp = Math.round((bottomLineY - y) / stepSize);
-  const snappedY = bottomLineY - stepsUp * stepSize;
-  return {snappedY, stepsUp};
-}
-
-/* UPDATED mapping depends on currentClef */
-function diatonicToMidi(stepsUp, accidental=0){
-  const letters = ["C","D","E","F","G","A","B"];
-  const base = CLEF_BASE[currentClef] || CLEF_BASE.treble;
-
-  const idxRaw = base.baseLetterIndex + stepsUp;
-
-  const floorDiv = (n,d)=> Math.floor(n/d);
-  let octShift = floorDiv(idxRaw, 7);
-  let letterIndex = idxRaw - octShift*7;
-  if(letterIndex < 0){ letterIndex += 7; octShift -= 1; }
-
-  const octave = base.baseOctave + octShift;
-  const semis = {C:0,D:2,E:4,F:5,G:7,A:9,B:11}[letters[letterIndex]];
-  const midi = 12*(octave+1) + semis + accidental;
-  const name = letters[letterIndex] + octave;
-  return { midi, name };
-}
-
-function accidentalFromSymbol(sym){
-  if(sym === "mark_sharp") return 1;
-  if(sym === "mark_flat") return -1;
-  return 0;
-}
-function durationFromKind(kind){
-  if(kind === "note_whole") return 4;
-  if(kind === "note_half") return 2;
-  if(kind === "note_eighth") return 0.5;
-  return 1;
-}
-function isNoteKind(kind){ return kind.startsWith("note_"); }
-function isRestKind(kind){ return kind.startsWith("rest_"); }
-
-/* ================== BUILD STAFF ================== */
-let gLines, gSymbols, gOverlay;
-
-function rebuildStaff(){
-  staffSVG.innerHTML = "";
-  gLines = svgEl("g");
-  gSymbols = svgEl("g");
-  gOverlay = svgEl("g");
-  staffSVG.appendChild(gLines);
-  staffSVG.appendChild(gSymbols);
-  staffSVG.appendChild(gOverlay);
-
-  // 5 staff lines
-  for(let i=0;i<5;i++){
-    const y = staff.topLineY + i*staff.gap;
-    const r = svgEl("rect");
-    r.setAttribute("x", staff.left);
-    r.setAttribute("y", y);
-    r.setAttribute("width", staff.right - staff.left);
-    r.setAttribute("height", staff.lineThickness);
-    r.setAttribute("fill", getAccent());
-    r.setAttribute("rx","2");
-    gLines.appendChild(r);
-  }
-
-  // click zone
-  const zone = svgEl("rect");
-  zone.setAttribute("x", staff.left);
-  zone.setAttribute("y", staff.topLineY - staff.gap*2);
-  zone.setAttribute("width", staff.right - staff.left);
-  zone.setAttribute("height", staff.gap*8);
-  zone.setAttribute("fill", "transparent");
-  zone.classList.add("hit");
-  gOverlay.appendChild(zone);
-
-  redrawSymbols();
-}
-rebuildStaff();
-
-themeSelect.addEventListener('change', ()=>{
-  applyTheme(themeSelect.value);
-  rebuildStaff(); // refresh line colors + redraw
-});
-
-/* ================== AUDIO (WebAudio + limiter) ================== */
-let audioCtx=null, masterGainNode=null, limiter=null;
-
-function ensureAudio(){
-  if(!audioCtx){
-    const Ctx = window.AudioContext || window.webkitAudioContext;
-    if(!Ctx){ alert("Web Audio not supported."); return null; }
-    audioCtx = new Ctx();
-
-    masterGainNode = audioCtx.createGain();
-    masterGainNode.gain.value = Number(masterVol.value || 0.35);
-
-    limiter = audioCtx.createDynamicsCompressor();
-    limiter.threshold.value = -12;
-    limiter.knee.value = 0;
-    limiter.ratio.value = 12;
-    limiter.attack.value = 0.002;
-    limiter.release.value = 0.10;
-
-    masterGainNode.connect(limiter);
-    limiter.connect(audioCtx.destination);
-  }
-  if(audioCtx.state === "suspended"){ audioCtx.resume().catch(()=>{}); }
-  return audioCtx;
-}
-window.addEventListener("pointerdown", ()=>ensureAudio(), {once:true});
-
-function setMasterVol(){
-  const v = Number(masterVol.value || 0.35);
-  volLabel.textContent = Math.round(v*100) + "%";
-  if(masterGainNode && audioCtx){
-    masterGainNode.gain.setValueAtTime(v, audioCtx.currentTime);
-  }
-}
-masterVol.addEventListener("input", setMasterVol);
-setMasterVol();
-
-function noteToFrequency(midi){ return 440 * Math.pow(2, (midi-69)/12); }
-
-function playPiano(midi, when, dur, vel=0.9){
-  const ctx = ensureAudio(); if(!ctx) return;
-  const freq = noteToFrequency(midi);
-
-  const oscA = ctx.createOscillator();
-  const oscB = ctx.createOscillator();
-  oscA.type = "triangle";
-  oscB.type = "sine";
-  oscA.frequency.value = freq;
-  oscB.frequency.value = freq * 2;
-
-  const filter = ctx.createBiquadFilter();
-  filter.type = "lowpass";
-  filter.frequency.value = 5200;
-  filter.Q.value = 0.7;
-
-  const g = ctx.createGain();
-  g.gain.setValueAtTime(0.0001, when);
-
-  const peak = 0.18 * vel;
-  g.gain.exponentialRampToValueAtTime(peak, when + 0.012);
-  g.gain.exponentialRampToValueAtTime(Math.max(0.0001, peak*0.35), when + 0.12);
-  g.gain.exponentialRampToValueAtTime(0.0001, when + dur);
-
-  oscA.connect(filter);
-  oscB.connect(filter);
-  filter.connect(g);
-  g.connect(masterGainNode);
-
-  oscA.start(when); oscB.start(when);
-  oscA.stop(when + dur + 0.05);
-  oscB.stop(when + dur + 0.05);
-}
-
-function playGuitar(midi, when, dur, vel=0.9){
-  const ctx = ensureAudio(); if(!ctx) return;
-  const freq = noteToFrequency(midi);
-
-  const delay = ctx.createDelay();
-  delay.delayTime.value = 1 / Math.max(40, freq);
-
-  const feedback = ctx.createGain();
-  feedback.gain.value = 0.86;
-
-  const tone = ctx.createBiquadFilter();
-  tone.type = "lowpass";
-  tone.frequency.value = 3200;
-  tone.Q.value = 0.6;
-
-  const out = ctx.createGain();
-  out.gain.setValueAtTime(0.0001, when);
-
-  const peak = 0.22 * vel;
-  out.gain.exponentialRampToValueAtTime(peak, when + 0.008);
-  out.gain.exponentialRampToValueAtTime(Math.max(0.0001, peak*0.55), when + 0.08);
-  out.gain.exponentialRampToValueAtTime(0.0001, when + dur);
-
-  const len = Math.floor(ctx.sampleRate * 0.04);
-  const buf = ctx.createBuffer(1, len, ctx.sampleRate);
-  const data = buf.getChannelData(0);
-  for(let i=0;i<len;i++) data[i] = (Math.random()*2-1) * (1 - i/len);
-  const src = ctx.createBufferSource();
-  src.buffer = buf;
-
-  src.connect(delay);
-  delay.connect(tone);
-  tone.connect(out);
-  out.connect(masterGainNode);
-
-  tone.connect(feedback);
-  feedback.connect(delay);
-
-  src.start(when);
-  src.stop(when + 0.05);
-}
-
-function playDrum(kind, when, vel=0.9){
-  const ctx = ensureAudio(); if(!ctx) return;
-
-  if(kind === "kick"){
-    const osc = ctx.createOscillator();
-    const g = ctx.createGain();
-    osc.type = "sine";
-    osc.frequency.setValueAtTime(150, when);
-    osc.frequency.exponentialRampToValueAtTime(50, when + 0.08);
-
-    g.gain.setValueAtTime(0.0001, when);
-    g.gain.exponentialRampToValueAtTime(0.35*vel, when + 0.005);
-    g.gain.exponentialRampToValueAtTime(0.0001, when + 0.18);
-
-    osc.connect(g); g.connect(masterGainNode);
-    osc.start(when); osc.stop(when + 0.2);
-    return;
-  }
-
-  const len = Math.floor(ctx.sampleRate * 0.12);
-  const buf = ctx.createBuffer(1, len, ctx.sampleRate);
-  const data = buf.getChannelData(0);
-  for(let i=0;i<len;i++) data[i] = (Math.random()*2-1);
-
-  const src = ctx.createBufferSource(); src.buffer = buf;
-
-  const filter = ctx.createBiquadFilter();
-  if(kind === "snare"){ filter.type="bandpass"; filter.frequency.value=1800; filter.Q.value=0.7; }
-  else { filter.type="highpass"; filter.frequency.value=5500; filter.Q.value=0.8; }
-
-  const g = ctx.createGain();
-  g.gain.setValueAtTime(0.0001, when);
-  g.gain.exponentialRampToValueAtTime((kind==="snare"?0.22:0.14)*vel, when + 0.004);
-  g.gain.exponentialRampToValueAtTime(0.0001, when + (kind==="snare"?0.12:0.06));
-
-  src.connect(filter); filter.connect(g); g.connect(masterGainNode);
-  src.start(when); src.stop(when + 0.13);
-}
-
-function stepsToDrumKind(stepsUp){
-  if(stepsUp >= 6) return "hat";
-  if(stepsUp >= 2) return "snare";
-  return "kick";
-}
-
-function playInstrument(midi, when, dur, vel=0.9, drumKind="snare"){
-  const inst = instrumentSelect.value;
-  if(inst === "drums") return playDrum(drumKind, when, vel);
-  if(inst === "guitar") return playGuitar(midi, when, dur, vel);
-  return playPiano(midi, when, dur, vel);
-}
-
-/* ================== RENDER SYMBOLS ================== */
-function redrawSymbols(){
-  gSymbols.innerHTML = "";
-
-  composition.forEach(item=>{
-    // --- CLEF (SVG icon), draggable + resizable ---
-    if(item.type === "clef"){
-      const cfg = CLEF_ICON[item.clef] || CLEF_ICON.treble;
-      const g = svgEl("g");
-      g.classList.add("clef-grab");
-      g.dataset.id = String(item.id);
-
-      const scale = (typeof item.scale === "number" ? item.scale : cfg.scaleDefault);
-      g.setAttribute("transform", `translate(${item.x},${item.y}) scale(${scale})`);
-      g.setAttribute("pointer-events", "all");
-
-      cfg.paths.forEach(p=>{
-        const path = svgEl("path");
-        path.setAttribute("d", p.d);
-        path.setAttribute("fill","none");
-        path.setAttribute("stroke","rgba(50,39,76,0.88)");
-        path.setAttribute("stroke-width", String(p.w));
-        path.setAttribute("stroke-linecap","round");
-        path.setAttribute("stroke-linejoin","round");
-        g.appendChild(path);
-      });
-
-      if(cfg.dots){
-        cfg.dots.forEach(d=>{
-          const c = svgEl("circle");
-          c.setAttribute("cx", d.cx);
-          c.setAttribute("cy", d.cy);
-          c.setAttribute("r", d.r);
-          c.setAttribute("fill","rgba(50,39,76,0.88)");
-          g.appendChild(c);
-        });
-      }
-
-      // drag handlers (re-attached on every redraw)
-      g.addEventListener("pointerdown", (e)=>{
-        e.stopPropagation();
-        e.preventDefault();
-        const p = clientToSvg(e.clientX, e.clientY);
-        drag.active = true;
-        drag.id = item.id;
-        drag.dx = p.x - item.x;
-        drag.dy = p.y - item.y;
-        drag.pointerId = e.pointerId;
-        try{ staffSVG.setPointerCapture(e.pointerId); }catch(err){}
-      });
-
-      // double click / double tap to grow
-      g.addEventListener("dblclick", (e)=>{
-        e.stopPropagation();
-        item.scale = clamp((item.scale || cfg.scaleDefault) * 1.18, 0.45, 1.85);
-        redrawSymbols(); saveComposition();
-        showOut("Clef size increased.");
-      });
-
-      gSymbols.appendChild(g);
-      return;
-    }
-
-    // --- BARLINE ---
-    if(item.type === "barline"){
-      const ln = svgEl("rect");
-      ln.setAttribute("x", item.x);
-      ln.setAttribute("y", staff.topLineY - 8);
-      ln.setAttribute("width", 3);
-      ln.setAttribute("height", staff.gap*4 + 16);
-      ln.setAttribute("fill", "rgba(50,39,76,0.55)");
-      gSymbols.appendChild(ln);
-      return;
-    }
-
-    // --- MARKS ---
-    if(item.type === "mark"){
-      const t = svgEl("text");
-      t.setAttribute("x", item.x);
-      t.setAttribute("y", item.y + 5);
-      t.setAttribute("fill", "rgba(50,39,76,0.85)");
-      t.setAttribute("font-size", "22");
-      t.setAttribute("font-weight", "800");
-      t.textContent = item.kind === "sharp" ? "♯" : item.kind === "flat" ? "♭" : "♮";
-      gSymbols.appendChild(t);
-      return;
-    }
-
-    // --- RESTS ---
-    if(item.type === "rest"){
-      if(item.restKind === "half"){
-        const y = staff.topLineY + 2*staff.gap - 3;
-        const r = svgEl("rect");
-        r.setAttribute("x", item.x - 10);
-        r.setAttribute("y", y);
-        r.setAttribute("width", 20);
-        r.setAttribute("height", 10);
-        r.setAttribute("rx", "2");
-        r.setAttribute("fill", "rgba(50,39,76,0.75)");
-        gSymbols.appendChild(r);
-      } else {
-        const p = svgEl("path");
-        const x = item.x, y = staff.topLineY + staff.gap*1.7;
-        p.setAttribute("d", `M ${x} ${y-24} L ${x+8} ${y-10} L ${x-6} ${y} L ${x+6} ${y+12} L ${x-6} ${y+24}`);
-        p.setAttribute("stroke","rgba(50,39,76,0.75)");
-        p.setAttribute("stroke-width","4");
-        p.setAttribute("fill","none");
-        p.setAttribute("stroke-linecap","round");
-        p.setAttribute("stroke-linejoin","round");
-        gSymbols.appendChild(p);
-      }
-      return;
-    }
-
-    // --- NOTES ---
-    if(item.type === "note"){
-      const isDrum = (instrumentSelect.value === "drums");
-      const filled = (item.noteKind === "quarter" || item.noteKind === "eighth");
-      const hasStem = (item.noteKind !== "whole");
-      const hasFlag = (item.noteKind === "eighth");
-
-      // ledger (light)
-      const topY = staff.topLineY;
-      const botY = staff.topLineY + 4*staff.gap;
-      const stepSize = staff.gap/2;
-      if(item.y < topY - stepSize || item.y > botY + stepSize){
-        const lr = svgEl("rect");
-        lr.setAttribute("x", item.x - 18);
-        lr.setAttribute("y", item.y - 1.5);
-        lr.setAttribute("width", 36);
-        lr.setAttribute("height", 3);
-        lr.setAttribute("fill", "rgba(50,39,76,0.35)");
-        gSymbols.appendChild(lr);
-      }
-
-      if(isDrum){
-        const x1 = svgEl("path");
-        const x = item.x, y = item.y;
-        x1.setAttribute("d", `M ${x-7} ${y-6} L ${x+7} ${y+6} M ${x+7} ${y-6} L ${x-7} ${y+6}`);
-        x1.setAttribute("stroke","rgba(50,39,76,0.9)");
-        x1.setAttribute("stroke-width","3");
-        x1.setAttribute("stroke-linecap","round");
-        gSymbols.appendChild(x1);
-      } else {
-        const head = svgEl("ellipse");
-        head.setAttribute("cx", item.x);
-        head.setAttribute("cy", item.y);
-        head.setAttribute("rx", 10);
-        head.setAttribute("ry", 7);
-        head.setAttribute("fill", filled ? "rgba(50,39,76,0.9)" : "rgba(255,255,255,0.0)");
-        head.setAttribute("stroke", "rgba(50,39,76,0.9)");
-        head.setAttribute("stroke-width", "2.2");
-        gSymbols.appendChild(head);
-      }
-
-      if(item.accidental){
-        const t = svgEl("text");
-        t.setAttribute("x", item.x - 22);
-        t.setAttribute("y", item.y + 6);
-        t.setAttribute("fill","rgba(50,39,76,0.9)");
-        t.setAttribute("font-size","20");
-        t.setAttribute("font-weight","900");
-        t.textContent = item.accidental === 1 ? "♯" : "♭";
-        gSymbols.appendChild(t);
-      }
-
-      if(hasStem){
-        const stemH = 46;
-        const stem = svgEl("rect");
-        const xStem = item.x + 8;
-        const yStem = item.y - stemH;
-        stem.setAttribute("x", xStem);
-        stem.setAttribute("y", yStem);
-        stem.setAttribute("width", 3);
-        stem.setAttribute("height", stemH);
-        stem.setAttribute("fill", "rgba(50,39,76,0.9)");
-        gSymbols.appendChild(stem);
-
-        if(hasFlag){
-          const flag = svgEl("path");
-          flag.setAttribute("d", `M ${xStem+3} ${yStem+8} C ${xStem+18} ${yStem+12}, ${xStem+18} ${yStem+30}, ${xStem+2} ${yStem+30}`);
-          flag.setAttribute("stroke","rgba(50,39,76,0.9)");
-          flag.setAttribute("stroke-width","3");
-          flag.setAttribute("fill","none");
-          flag.setAttribute("stroke-linecap","round");
-          gSymbols.appendChild(flag);
-        }
-      }
-
-      if(item.staccato){
-        const dot = svgEl("circle");
-        dot.setAttribute("cx", item.x + 18);
-        dot.setAttribute("cy", item.y - 14);
-        dot.setAttribute("r", 3.5);
-        dot.setAttribute("fill","rgba(50,39,76,0.9)");
-        gSymbols.appendChild(dot);
-      }
-
-      // learning label
-      if(document.getElementById("showLabels")?.checked){
-        const lbl = svgEl("text");
-        lbl.setAttribute("x", item.x - 14);
-        lbl.setAttribute("y", item.y - 14);
-        lbl.setAttribute("fill","rgba(50,39,76,0.6)");
-        lbl.setAttribute("font-size","12");
-        lbl.setAttribute("font-weight","800");
-        lbl.textContent = item.name;
-        gSymbols.appendChild(lbl);
-      }
-      return;
-    }
-  });
-
-  placedCount.textContent = composition.length;
-}
-
-/* ================== PLACE + EDIT ================== */
-function findNearestItem(x, y, radius=18){
-  let best=null, bestD=Infinity;
-  composition.forEach(it=>{
-    if(it.type === "barline"){
-      const d = Math.abs(it.x - x);
-      if(d < bestD && d <= radius){ best=it; bestD=d; }
-      return;
-    }
-    if(it.type === "clef"){
-      const dx = (it.x+25) - x;
-      const dy = (it.y+60) - y;
-      const d = Math.sqrt(dx*dx + dy*dy);
-      if(d < bestD && d <= 45){ best=it; bestD=d; }
-      return;
-    }
-    if(typeof it.x==="number" && typeof it.y==="number"){
-      const dx = it.x - x;
-      const dy = it.y - y;
-      const d = Math.sqrt(dx*dx + dy*dy);
-      if(d < bestD && d <= radius){ best=it; bestD=d; }
-    }
-  });
-  return best;
-}
-
-function placeSymbolAt(svgX, svgY){
-  const kind = symbolSelect.value;
-  const x = clamp(svgX, staff.left + 18, staff.right - 18);
-
-  const snap = snapYToStaff(svgY);
-  const y = snap.snappedY;
-  const stepsUp = snap.stepsUp;
-
-  if(kind === "eraser"){
-    const near = findNearestItem(x, y, 20);
-    if(near){
-      composition = composition.filter(i=>i.id !== near.id);
-      redrawSymbols(); saveComposition();
-      showOut("Erased.");
-    }
-    return;
-  }
-
-  if(kind === "mark_staccato"){
-    const near = findNearestItem(x, y, 26);
-    if(near && near.type === "note"){
-      near.staccato = !near.staccato;
-      redrawSymbols(); saveComposition();
-      previewItem(near);
-      showOut(`Staccato ${near.staccato ? "ON" : "OFF"} for ${near.name}.`);
-    } else {
-      showOut("Tap near a note to toggle staccato.");
-    }
-    return;
-  }
-
-  // Place clef (single on staff)
-  if(kind === "clef_treble" || kind === "clef_bass"){
-    const clef = (kind === "clef_bass") ? "bass" : "treble";
-    const cfg = CLEF_ICON[clef] || CLEF_ICON.treble;
-
-    // remove existing clef
-    composition = composition.filter(i => i.type !== "clef");
-
-    // default position
-    const cx = staff.left + 6;
-    const cy = clef === "bass"
-      ? (staff.topLineY + staff.gap*0.6)
-      : (staff.topLineY - staff.gap*1.35);
-
-    composition.push({
-      id: ++idCounter,
-      type:"clef",
-      clef,
-      x: cx,
-      y: cy,
-      scale: cfg.scaleDefault
-    });
-
-    setClef(clef);
-    redrawSymbols(); saveComposition();
-    showOut(`Placed ${clef === "bass" ? "Bass" : "Treble"} clef. Drag it to reposition.`);
-    return;
-  }
-
-  if(kind === "barline"){
-    composition.push({id:++idCounter, type:"barline", x, y:staff.topLineY});
-    redrawSymbols(); saveComposition();
-    showOut("Bar line placed.");
-    return;
-  }
-
-  if(kind === "mark_sharp" || kind === "mark_flat" || kind === "mark_natural"){
-    const acc = accidentalFromSymbol(kind);
-    const out = diatonicToMidi(stepsUp, acc);
-    composition.push({
-      id:++idCounter, type:"mark", x, y,
-      kind: (kind==="mark_sharp"?"sharp":kind==="mark_flat"?"flat":"natural"),
-      stepsUp
-    });
-    redrawSymbols(); saveComposition();
-    // audio reaction
-    const ctx = ensureAudio(); if(ctx){
-      if(instrumentSelect.value === "drums"){
-        playDrum(stepsToDrumKind(stepsUp), ctx.currentTime, 0.9);
-      } else {
-        playInstrument(out.midi, ctx.currentTime, 0.35, 0.9);
-      }
-    }
-    showOut(`Placed ${kind.replace("mark_","")} at ${out.name}${acc===1?"♯":acc===-1?"♭":""}.`);
-    return;
-  }
-
-  if(isRestKind(kind)){
-    const isHalf = (kind === "rest_half");
-    composition.push({
-      id:++idCounter, type:"rest",
-      x, y,
-      restKind: isHalf ? "half" : "quarter",
-      beats: isHalf ? 2 : 1
-    });
-    redrawSymbols(); saveComposition();
-    showOut(`Placed ${isHalf ? "half" : "quarter"} rest.`);
-    return;
-  }
-
-  if(isNoteKind(kind)){
-    const accidental = 0;
-    const out = diatonicToMidi(stepsUp, accidental);
-    const noteKind = kind.replace("note_","");
-    const beats = durationFromKind(kind);
-
-    const item = {
-      id:++idCounter, type:"note",
-      x, y, stepsUp,
-      midi: out.midi, name: out.name,
-      noteKind, beats,
-      accidental,
-      staccato:false
-    };
-    composition.push(item);
-    redrawSymbols(); saveComposition();
-    previewItem(item);
-    showOut(`Placed ${noteKind} note: ${out.name} (${currentClef}).`);
-    return;
-  }
-}
-
-function previewItem(item){
-  const ctx = ensureAudio(); if(!ctx) return;
-  const bpm = Number(tempo.value || 96);
-  const beatSec = 60 / bpm;
-  let dur = (item.beats || 1) * beatSec * 0.92;
-  if(item.staccato) dur *= 0.35;
-  const drumKind = stepsToDrumKind(item.stepsUp ?? 0);
-  playInstrument(item.midi ?? 60, ctx.currentTime, dur, 0.9, drumKind);
-}
-
-/* ================== DRAG CLEF (tap-and-drag) ================== */
-function onDragMove(clientX, clientY){
-  if(!drag.active) return;
-  const it = composition.find(i => i.id === drag.id && i.type === "clef");
-  if(!it) return;
-
-  const p = clientToSvg(clientX, clientY);
-  let nx = p.x - drag.dx;
-  let ny = p.y - drag.dy;
-
-  // clamp within a reasonable staff region
-  nx = clamp(nx, staff.left - 10, staff.right - 70);
-  ny = clamp(ny, staff.topLineY - staff.gap*3.0, staff.topLineY + staff.gap*4.2);
-
-  it.x = nx;
-  it.y = ny;
-
-  redrawSymbols();
-}
-
-staffSVG.addEventListener("pointermove", (e)=>{
-  if(!drag.active) return;
-  e.preventDefault();
-  onDragMove(e.clientX, e.clientY);
-});
-
-staffSVG.addEventListener("pointerup", (e)=>{
-  if(!drag.active) return;
-  drag.active = false;
-  try{ staffSVG.releasePointerCapture(drag.pointerId); }catch(err){}
-  drag.pointerId = null;
-  saveComposition();
-  showOut("Clef moved.");
-});
-
-staffSVG.addEventListener("pointercancel", ()=>{
-  if(!drag.active) return;
-  drag.active = false;
-  try{ staffSVG.releasePointerCapture(drag.pointerId); }catch(err){}
-  drag.pointerId = null;
-  saveComposition();
-});
-
-/* ================== TRACING + SOUND BRUSH ================== */
-function hexToRgba(hex,alpha){
-  if(!/^#/.test(hex)) return `rgba(80,60,140,${alpha})`;
-  let c = hex.replace('#','');
-  if(c.length===3) c = c.split('').map(ch=>ch+ch).join('');
-  const r = parseInt(c.substr(0,2),16), g = parseInt(c.substr(2,2),16), b = parseInt(c.substr(4,2),16);
-  return `rgba(${r},${g},${b},${alpha})`;
-}
-function createInkAt(clientX, clientY){
-  const rect = staffWrap.getBoundingClientRect();
-  const x = clientX - rect.left;
-  const y = clientY - rect.top;
-  if(x<0||y<0||x>rect.width||y>rect.height) return;
-  const el = document.createElement('div');
-  el.className = 'ink';
-  el.style.left = (rect.left + x) + 'px';
-  el.style.top = (rect.top + y) + 'px';
-  el.style.background = hexToRgba(getAccent(), 0.14);
-  document.body.appendChild(el);
-  setTimeout(()=> el.remove(), 1900);
-}
-function createRippleAt(clientX, clientY){
-  const r = document.createElement('div');
-  r.className='ripple';
-  r.style.left = clientX+'px';
-  r.style.top = clientY+'px';
-  document.body.appendChild(r);
-  setTimeout(()=> r.remove(), 720);
-}
-function brushSoundAt(clientX, clientY){
-  const now = performance.now();
-  if(now - lastBrushAt < 90) return;
-  lastBrushAt = now;
-
-  const p = clientToSvg(clientX, clientY);
-  const snap = snapYToStaff(p.y);
-  const out = diatonicToMidi(snap.stepsUp, 0);
-  const ctx = ensureAudio(); if(!ctx) return;
-
-  playInstrument(out.midi, ctx.currentTime, 0.12, 0.45, stepsToDrumKind(snap.stepsUp));
-}
-
-/* Pointer placing/tracing */
-staffWrap.addEventListener('pointerdown', (e)=>{
-  pointerDown = true;
-  staffWrap.setPointerCapture?.(e.pointerId);
-
-  // if clef drag is active, don't place symbols
-  if(drag.active) return;
-
-  const p = clientToSvg(e.clientX, e.clientY);
-
-  if(tracing){
-    createInkAt(e.clientX, e.clientY);
-    if(soundBrush) brushSoundAt(e.clientX, e.clientY);
-    return;
-  }
-
-  placeSymbolAt(p.x, p.y);
-  createRippleAt(e.clientX, e.clientY);
-});
-staffWrap.addEventListener('pointermove', (e)=>{
-  if(!pointerDown) return;
-  if(drag.active) return;
-  if(!tracing) return;
-  createInkAt(e.clientX, e.clientY);
-  if(soundBrush) brushSoundAt(e.clientX, e.clientY);
-});
-staffWrap.addEventListener('pointerup', (e)=>{
-  pointerDown = false;
-  try{ staffWrap.releasePointerCapture(e.pointerId); }catch(err){}
-});
-staffWrap.addEventListener('pointercancel', ()=> pointerDown=false);
-
-/* Controls */
-traceToggle.addEventListener('click', ()=>{
-  tracing = !tracing;
-  traceToggle.textContent = tracing ? 'Tracing: ON' : 'Tracing: OFF';
-  traceToggle.classList.toggle('btn-primary', tracing);
-  showOut(tracing ? "Tracing enabled. Drag to draw." : "Tracing off. Tap to place symbols.");
-});
-soundBrushToggle.addEventListener('click', ()=>{
-  soundBrush = !soundBrush;
-  soundBrushToggle.textContent = soundBrush ? 'Sound Brush: ON' : 'Sound Brush: OFF';
-  soundBrushToggle.classList.toggle('btn-primary', soundBrush);
-  showOut(soundBrush ? "Sound brush ON (gliss while tracing)." : "Sound brush OFF.");
-});
-tempo.addEventListener('input', ()=> tempoLabel.textContent = `${tempo.value} bpm`);
-tempoLabel.textContent = `${tempo.value} bpm`;
-
-undoBtn.addEventListener('click', ()=>{
-  const last = composition.pop();
-  if(last){
-    redrawSymbols(); saveComposition();
-    showOut("Undo.");
-  }
-});
-clearBtn.addEventListener('click', ()=>{
-  composition = [];
-  redrawSymbols(); saveComposition();
-  showOut("Cleared.");
-});
-
-/* ================== CLEF RESIZE CONTROLS ================== */
-function adjustClefScale(mult){
-  const clef = getClefItem();
-  if(!clef){
-    showOut("Place a clef first (Treble or Bass).");
-    return;
-  }
-  const cfg = CLEF_ICON[clef.clef] || CLEF_ICON.treble;
-  clef.scale = clamp((clef.scale ?? cfg.scaleDefault) * mult, 0.45, 1.85);
-  redrawSymbols(); saveComposition();
-  showOut(`Clef size: ${Math.round(clef.scale*100)}%`);
-}
-clefSmaller.addEventListener("click", ()=>adjustClefScale(0.90));
-clefBigger.addEventListener("click",  ()=>adjustClefScale(1.10));
-
-/* ================== PLAYBACK ================== */
-function stopPlayback(){
-  isPlaying = false;
-  playTimerIds.forEach(id=>clearTimeout(id));
-  playTimerIds = [];
-  showOut("Stopped.");
-}
-stopBtn.addEventListener('click', stopPlayback);
-
-playBtn.addEventListener('click', ()=>{
-  if(isPlaying) return;
-  playComposition();
-});
-
-function playComposition(){
-  const ctx = ensureAudio(); if(!ctx) return;
-  if(!composition.length){
-    showOut("Nothing to play yet — place some notes!");
-    return;
-  }
-  stopPlayback();
-  isPlaying = true;
-
-  const items = composition
-    .filter(i=> i.type==="note" || i.type==="rest")
-    .slice()
-    .sort((a,b)=>a.x - b.x);
-
-  const bpm = Number(tempo.value || 96);
-  const beatSec = 60 / bpm;
-
-  let t = ctx.currentTime + 0.02;
-
-  items.forEach((it)=>{
-    const beats = it.beats || 1;
-    const dur = beats * beatSec;
-
-    if(it.type === "note"){
-      let d = dur * 0.92;
-      if(it.staccato) d *= 0.35;
-      playInstrument(it.midi, t, d, 0.9, stepsToDrumKind(it.stepsUp ?? 0));
-    }
-    t += dur;
-  });
-
-  const totalMs = Math.round((t - ctx.currentTime) * 1000) + 40;
-  playTimerIds.push(setTimeout(()=>{
-    if(isPlaying){
-      isPlaying = false;
-      showOut("Playback finished.");
-    }
-  }, totalMs));
-
-  showOut("Playing…");
-}
-
-/* ================== NARRATION + LESSON FLOW ================== */
-speakBtn.addEventListener('click', ()=>{
-  speakText("Choose a clef, then place notes on lines and spaces. Drag the clef to reposition. Press play to hear your score.");
-});
-function speakText(text){
-  if('speechSynthesis' in window){
-    const u = new SpeechSynthesisUtterance(text);
-    u.rate = 1.02; u.pitch = 1.05;
-    window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(u);
-  }
-}
-
-function setProgress(){
-  const total = 4;
-  progressText.textContent = `Step ${step} of ${total}`;
-}
-setProgress();
-
-function showWelcome(){
-  moduleEl.innerHTML = `
-    <h2>Welcome</h2>
-    <p>Start by placing a <b>Treble</b> clef. Then place 4 quarter notes across the staff and press <b>Play</b>.</p>
-    <p><b>Tip:</b> Double-click / double-tap the clef to grow it quickly.</p>
-  `;
-}
-function showBasics(){
-  moduleEl.innerHTML = `
-    <h2>Staff Basics</h2>
-    <p>Each line/space is the next letter name. Clef changes the pitch mapping (Treble vs Bass).</p>
-    <div class="quiz">
-      <div class="quiz-q">Treble staff spaces spell:</div>
-      <div class="choices">
-        <button onclick="grade(this,false)">EGBDF</button>
-        <button onclick="grade(this,true)">FACE</button>
-        <button onclick="grade(this,false)">ACEG</button>
-      </div>
-      <div id="miniScore" class="mono" style="margin-top:10px;font-weight:900"></div>
-    </div>
-  `;
-  window.__mini = {a:0,s:0};
-  window.grade = function(btn, ok){
-    if(btn.classList.contains("correct")||btn.classList.contains("incorrect")) return;
-    btn.classList.add(ok?"correct":"incorrect");
-    window.__mini.a++;
-    if(ok) window.__mini.s++;
-    document.getElementById("miniScore").textContent = `Score: ${window.__mini.s}/${window.__mini.a}`;
-  };
-}
-function showSymbolsLesson(){
-  moduleEl.innerHTML = `
-    <h2>Symbols</h2>
-    <ul>
-      <li><b>Notes</b> change duration (whole/half/quarter/eighth).</li>
-      <li><b>Rests</b> are timed silence.</li>
-      <li><b>♯/♭</b> shift pitch.</li>
-      <li><b>Staccato</b> makes notes short and detached.</li>
-    </ul>
-  `;
-}
-function showInstrumentLesson(){
-  moduleEl.innerHTML = `
-    <h2>Compare Instruments</h2>
-    <p>Switch the instrument and replay the same notes. Drums map high placement to hat and low placement to kick.</p>
-  `;
-}
-
-function nextStep(){
-  step++;
-  if(step===1){ showWelcome(); beginBtn.textContent="Next"; }
-  else if(step===2){ showBasics(); }
-  else if(step===3){ showSymbolsLesson(); }
-  else if(step===4){ showInstrumentLesson(); beginBtn.textContent="Restart"; }
-  else { step=0; showWelcome(); beginBtn.textContent="Begin Class"; }
-  setProgress();
-}
-beginBtn.addEventListener("click", nextStep);
-showWelcome();
-
-/* ================== LABEL TOGGLE ================== */
-(function injectLabelToggle(){
-  const c = document.querySelector(".controls");
-  const wrap = document.createElement("div");
-  wrap.style.display="inline-flex";
-  wrap.style.alignItems="center";
-  wrap.style.gap="6px";
-  wrap.innerHTML = `
-    <label for="showLabels" style="font-size:.92rem;color:rgba(50,39,76,0.75)">Labels</label>
-    <input id="showLabels" type="checkbox" checked style="width:18px;height:18px;cursor:pointer;accent-color:${getAccent()}">
-  `;
-  c.appendChild(wrap);
-  wrap.querySelector("#showLabels").addEventListener("change", ()=>redrawSymbols());
-})();
-
-/* ================== SAVE / LOAD ================== */
-function saveComposition(){
-  try{
-    const payload = { idCounter, composition, currentClef };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
-    saveState.textContent = "yes";
-  }catch(e){
-    saveState.textContent = "no";
-  }
-}
-function loadComposition(){
-  try{
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if(!raw) return;
-    const payload = JSON.parse(raw);
-    if(payload && Array.isArray(payload.composition)){
-      composition = payload.composition;
-      idCounter = payload.idCounter || 0;
-      if(payload.currentClef) setClef(payload.currentClef);
-      redrawSymbols();
-      saveState.textContent = "yes";
-    }
-  }catch(e){}
-}
-loadComposition();
-
-/* ================== QUICK SHORTCUTS ================== */
-document.addEventListener("keydown", (e)=>{
-  if(e.key === " "){
-    tracing = !tracing;
-    traceToggle.textContent = tracing ? 'Tracing: ON' : 'Tracing: OFF';
-    traceToggle.classList.toggle('btn-primary', tracing);
-    e.preventDefault();
-  }
-  if(e.key.toLowerCase() === "p") playComposition();
-  if(e.key.toLowerCase() === "s") stopPlayback();
-});
-
-/* Prevent text selection while interacting */
-staffWrap.addEventListener('mousedown', (e)=> e.preventDefault());
-
-/* Final */
-redrawSymbols();
-showOut("Ready. Place a Treble or Bass clef, then start writing notes.");
+$('staff').addEventListener('pointerdown',e=>{const r=$('staff').getBoundingClientRect(),x=(e.clientX-r.left)*(760/r.width),y=(e.clientY-r.top)*(350/r.height);if(selectedSymbol==='eraser'){let best=-1,dist=999;score.forEach((it,i)=>{const d=Math.abs(it.x-x)+Math.abs((it.y||195)-y);if(d<dist){dist=d;best=i}});if(best>=0&&dist<60)score.splice(best,1)}else if(selectedSymbol==='bar')score.push({type:'bar',x});else if(selectedSymbol==='rest')score.push({type:'rest',x});else{const step=Math.round((248-y)/13),sy=staffY(step),letters=['C','D','E','F','G','A','B'],base=2,raw=base+step,oct=4+Math.floor(raw/7),li=((raw%7)+7)%7,note=letters[li]+oct;score.push({type:'note',kind:selectedSymbol,x,y:sy,step,note})}drawStaff();save()});
+function beats(k){return k==='whole'?4:k==='half'?2:k==='eighth'?.5:1}
+$('playScoreBtn').onclick=()=>{const ctx=ensureAudio(),beat=60/Number($('tempo').value);let t=ctx.currentTime+.05;score.slice().sort((a,b)=>a.x-b.x).forEach(it=>{if(it.type==='note')playTone(it.note,beats(it.kind)*beat*.9,t);t+=it.type==='note'?beats(it.kind)*beat:it.type==='rest'?beat:0})};
+$('undoScoreBtn').onclick=()=>{score.pop();drawStaff();save()};$('clearScoreBtn').onclick=()=>{score=[];drawStaff();save()};
+
+const rhythmKinds=[['quarter','♩',1],['half','𝅗𝅥',2],['whole','𝅝',4],['eighth','♪',.5],['rest','𝄽',1]];
+function renderRhythmPalette(){$('rhythmPalette').innerHTML='';rhythmKinds.forEach(([id,ico,b])=>{const x=document.createElement('button');x.className='symbol';x.innerHTML=`${ico}<br>${b} beat${b===1?'':'s'}`;x.onclick=()=>{rhythm.push({id,beats:b});renderRhythm();save()};$('rhythmPalette').appendChild(x)})}
+function renderRhythm(){const total=rhythm.reduce((a,b)=>a+b.beats,0);$('rhythmSequence').innerHTML=rhythm.length?rhythm.map(x=>`<span class="token">${rhythmKinds.find(r=>r[0]===x.id)[1]}</span>`).join(''):'<span class="token">Build a rhythm here.</span>';$('rhythmMessage').textContent=`Total: ${total} beat${total===1?'':'s'}. ${total===4?'You made one full four-beat measure!':''}`;updateStats()}
+$('playRhythmBtn').onclick=()=>{const ctx=ensureAudio(),beat=60/Number($('tempo').value);let t=ctx.currentTime+.05;rhythm.forEach(x=>{if(x.id!=='rest')playTone('C4',Math.max(.08,x.beats*beat*.3),t);t+=x.beats*beat})};
+$('undoRhythmBtn').onclick=()=>{rhythm.pop();renderRhythm();save()};$('clearRhythmBtn').onclick=()=>{rhythm=[];renderRhythm();save()};
+
+function updateStats(){$('playedStat').textContent=playedCount;$('recordStat').textContent=recording.length;$('scoreStat').textContent=score.length;$('rhythmStat').textContent=rhythm.reduce((a,b)=>a+b.beats,0)}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));document.querySelectorAll('.screen').forEach(x=>x.classList.remove('on'));b.classList.add('on');$(b.dataset.screen+'Screen').classList.add('on')});
+function applyTheme(k){const t=THEMES[k]||THEMES.rainbow;Object.entries(t).forEach(([n,v])=>{if(!['name','emoji'].includes(n))document.documentElement.style.setProperty('--'+n,v)});$('badge').textContent=`${t.emoji} ${t.name} · Little Composer Studio`;save()}
+$('theme').innerHTML=Object.entries(THEMES).map(([k,t])=>`<option value="${k}">${t.emoji} ${t.name}</option>`).join('');
+$('theme').value=saved.theme||'rainbow';$('instrument').value=saved.instrument||'piano';$('tempo').value=saved.tempo||90;$('labels').value=saved.labels||'letters';
+$('theme').onchange=e=>applyTheme(e.target.value);$('labels').onchange=()=>{renderPiano();save()};$('instrument').onchange=save;$('tempo').onchange=save;$('volume').oninput=()=>{if(master)master.gain.value=Number($('volume').value)};
+applyTheme($('theme').value);renderPiano();renderRecording();renderPalette();drawStaff();renderRhythmPalette();renderRhythm();updateStats();
 </script>
 </body>
 </html>
