@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Harmony Haven Staff Studio — a local, child-friendly music notation app for writing and hearing simple melodies.">
+<title>Harmony Haven — Staff Studio</title>
+<style>
+:root{
+--bg1:#f5efe6;--bg2:#dfeafa;--panel:#fffdf9;--ink:#332b43;--muted:#706779;
+--primary:#6f5aa7;--secondary:#9e86c8;--accent:#e8c66d;--card:#f6f0ff;--border:#d7cbe8;
+--good:#3ca96e;--bad:#d65d6e;--shadow:0 24px 58px rgba(55,43,75,.16)
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;padding:24px 14px 46px;color:var(--ink);font-family:"Avenir Next Rounded","Trebuchet MS","Segoe UI",system-ui,sans-serif;background:linear-gradient(145deg,var(--bg1),var(--bg2));transition:.35s}
+button,select,input{font:inherit}button{touch-action:manipulation}
+.wrap{width:min(1180px,100%);margin:auto}
+.hero{text-align:center;margin-bottom:16px}
+.badge{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:var(--panel);border:1px solid var(--border);font-weight:900;color:var(--primary)}
+h1{margin:11px 0 5px;font-size:clamp(2.35rem,7vw,4.8rem);line-height:.95;letter-spacing:-.04em;color:var(--primary)}
+.subtitle{max-width:850px;margin:auto;color:var(--muted);line-height:1.6}
+.app{background:var(--panel);border:1px solid var(--border);border-radius:30px;padding:18px;box-shadow:var(--shadow)}
+.toolbar{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px}
+.control{background:var(--panel);border:1px solid var(--border);border-radius:17px;padding:10px}
+.control label{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:900;margin-bottom:5px}
+.control select,.control input{width:100%;padding:9px;border-radius:11px;border:1px solid var(--border);background:var(--panel);color:var(--ink)}
+.notice{margin-top:11px;padding:12px 14px;border-radius:17px;background:color-mix(in srgb,var(--accent) 22%,var(--panel));border:1px solid var(--border);line-height:1.5}
+.layout{display:grid;grid-template-columns:260px 1fr;gap:14px;margin-top:14px}
+.palette,.workspace{background:var(--panel);border:1px solid var(--border);border-radius:24px;padding:15px}
+.palette h2,.workspace h2{margin:0 0 9px;color:var(--primary)}
+.symbols{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.symbol{border:1px solid var(--border);border-radius:13px;padding:10px 6px;background:var(--panel);color:var(--ink);font-weight:900;cursor:pointer;min-height:72px}
+.symbol.on{background:linear-gradient(135deg,var(--accent),var(--secondary))}
+.symbol .ico{font-size:1.8rem;display:block}.symbol .name{font-size:.74rem}
+.staff-wrap{position:relative;background:#fff;border:1px solid var(--border);border-radius:20px;overflow:hidden;touch-action:none}
+#staff{display:block;width:100%;height:390px}
+.message{min-height:31px;margin-top:9px;color:var(--muted);font-weight:900;text-align:center}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.btn{border:0;border-radius:14px;padding:10px 14px;cursor:pointer;font-weight:900;background:var(--panel);color:var(--primary);box-shadow:0 5px 13px rgba(60,45,80,.1)}
+.btn.primary{color:#fff;background:linear-gradient(135deg,var(--secondary),var(--primary))}.btn.sunny{background:linear-gradient(135deg,var(--accent),var(--secondary));color:var(--ink)}.btn.danger{background:#ffe1e5;color:#9a3545}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:13px}.metric{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:10px;text-align:center}.metric strong{display:block;font-size:1.25rem;color:var(--primary)}
+.lesson{margin-top:14px;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:14px}
+.lesson h3{margin:0 0 7px;color:var(--primary)}
+.lesson-nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}
+.toggle-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:12px;color:var(--muted)}
+footer{margin-top:15px;text-align:center;color:var(--muted);font-size:.82rem;line-height:1.55}footer strong{color:var(--primary)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+@media(max-width:900px){.toolbar{grid-template-columns:repeat(2,1fr)}.layout{grid-template-columns:1fr}.symbols{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:600px){.toolbar{grid-template-columns:1fr}.symbols{grid-template-columns:repeat(2,1fr)}.metrics{grid-template-columns:repeat(2,1fr)}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header class="hero"><div class="badge" id="badge">🎼 Harmony Haven Staff Studio</div><h1>Harmony Haven</h1><p class="subtitle">Write notes on a real five-line staff, hear your melody, explore rhythm, and learn the foundations of music notation.</p></header>
+
+<section class="app">
+<div class="toolbar">
+<div class="control"><label for="theme">Visual mood</label><select id="theme"></select></div>
+<div class="control"><label for="clef">Clef</label><select id="clef"><option value="treble">Treble</option><option value="bass">Bass</option></select></div>
+<div class="control"><label for="instrument">Instrument</label><select id="instrument"><option value="piano">Piano</option><option value="guitar">Guitar</option><option value="bells">Bells</option></select></div>
+<div class="control"><label for="tempo">Tempo</label><input id="tempo" type="range" min="50" max="160" value="92"></div>
+<div class="control"><label for="volume">Volume</label><input id="volume" type="range" min="0" max=".7" step=".01" value=".32"></div>
+</div>
+
+<div class="notice"><strong>How to use:</strong> Choose a symbol, then tap a line or space. Notes snap into place. Press Play to hear the score from left to right. Everything saves only on this device.</div>
+
+<div class="layout">
+<aside class="palette">
+<h2>Music Symbols</h2>
+<div class="symbols" id="symbols"></div>
+<div class="toggle-row"><label><input type="checkbox" id="labels" checked> Show note names</label></div>
+<div class="actions"><button class="btn" id="undoBtn">↶ Undo</button><button class="btn danger" id="clearBtn">Clear</button></div>
+</aside>
+
+<section class="workspace">
+<h2>Your Staff</h2>
+<div class="staff-wrap"><svg id="staff" viewBox="0 0 820 390" aria-label="Interactive music staff"></svg></div>
+<div class="message" id="message" aria-live="polite">Choose a note value, then tap the staff.</div>
+<div class="actions">
+<button class="btn primary" id="playBtn">▶ Play Score</button>
+<button class="btn" id="stopBtn">■ Stop</button>
+<button class="btn sunny" id="speakBtn">🔊 Read Instructions</button>
+<button class="btn" id="exportBtn">⬇ Export Score</button>
+<button class="btn" id="importBtn">⬆ Import Score</button>
+<input id="importFile" type="file" accept="application/json" hidden>
+</div>
+</section>
+</div>
+
+<div class="metrics">
+<div class="metric"><strong id="symbolStat">0</strong>Symbols placed</div>
+<div class="metric"><strong id="noteStat">0</strong>Notes</div>
+<div class="metric"><strong id="beatStat">0</strong>Total beats</div>
+<div class="metric"><strong id="saveStat">✓</strong>Saved locally</div>
+</div>
+
+<section class="lesson">
+<h3 id="lessonTitle"></h3>
+<div id="lessonText"></div>
+<div class="lesson-nav"><button class="btn" id="lessonPrev">← Previous Lesson</button><button class="btn" id="lessonNext">Next Lesson →</button></div>
+</section>
+</section>
+
+<footer><strong>© 2026 Verve N Veda · Khaemenes Academy · Jennifer Kay Pearl</strong><br>All Rights Reserved. · Local, private, offline-first, and child-friendly.</footer>
+</main>
+
+<script>
+const THEMES={"ivory": {"name": "Calm Ivory", "emoji": "🎼", "bg1": "#f5efe6", "bg2": "#dfeafa", "panel": "#fffdf9", "ink": "#332b43", "muted": "#706779", "primary": "#6f5aa7", "secondary": "#9e86c8", "accent": "#e8c66d", "card": "#f6f0ff", "border": "#d7cbe8"}, "indigo": {"name": "Deep Indigo", "emoji": "💙", "bg1": "#e9edff", "bg2": "#dce4fa", "panel": "#fbfcff", "ink": "#292849", "muted": "#666782", "primary": "#3e3a91", "secondary": "#7470c5", "accent": "#f0cf72", "card": "#eef0ff", "border": "#c7cae8"}, "sienna": {"name": "Warm Sienna", "emoji": "🍂", "bg1": "#fff1e8", "bg2": "#f7dfd3", "panel": "#fffaf7", "ink": "#49342f", "muted": "#786a64", "primary": "#a85b3a", "secondary": "#d58764", "accent": "#f1cd79", "card": "#fff0e7", "border": "#e8c4b4"}, "moon": {"name": "Moonlit Silver", "emoji": "🌙", "bg1": "#22263f", "bg2": "#3b405e", "panel": "#2e334f", "ink": "#f5f4ff", "muted": "#c8c8dc", "primary": "#aab5ff", "secondary": "#c0a1dd", "accent": "#f2d77d", "card": "#3b4161", "border": "#606887"}, "gold": {"name": "Golden Dawn", "emoji": "🌅", "bg1": "#fff7e6", "bg2": "#f4e6c8", "panel": "#fffdf7", "ink": "#493d2a", "muted": "#786d5d", "primary": "#a47726", "secondary": "#d6a64a", "accent": "#f6d36f", "card": "#fff6df", "border": "#e5c98f"}},LESSONS=[{"title": "Lines and Spaces", "text": "Notes can sit on a line or in a space. Each step upward moves to the next letter name."}, {"title": "High and Low", "text": "Notes placed higher on the staff sound higher. Notes placed lower sound lower."}, {"title": "Note Values", "text": "Whole, half, quarter, and eighth notes tell us how long a sound lasts."}, {"title": "Rests", "text": "A rest is planned silence. Silence helps shape music."}, {"title": "Compose", "text": "A composer chooses sounds and silences and places them in an order."}],$=id=>document.getElementById(id);
+const KEY='harmony-haven-staff-studio-v3';
+const SYMBOLS=[
+['quarter','♩','Quarter Note'],['half','𝅗𝅥','Half Note'],['whole','𝅝','Whole Note'],['eighth','♪','Eighth Note'],
+['restQuarter','𝄽','Quarter Rest'],['restHalf','𝄼','Half Rest'],['sharp','♯','Sharp'],['flat','♭','Flat'],
+['natural','♮','Natural'],['bar','|','Bar Line'],['staccato','•','Staccato'],['eraser','⌫','Eraser']
+];
+let selected='quarter',score=[],lessonIndex=0,audioCtx=null,master=null,playing=[];
+function fresh(){return{theme:'ivory',clef:'treble',instrument:'piano',tempo:92,volume:.32,labels:true,score:[]}}
+function load(){try{return Object.assign(fresh(),JSON.parse(localStorage.getItem(KEY)||'{}'))}catch{return fresh()}}
+let state=load();score=Array.isArray(state.score)?state.score:[];
+function save(){state={theme:$('theme').value,clef:$('clef').value,instrument:$('instrument').value,tempo:Number($('tempo').value),volume:Number($('volume').value),labels:$('labels').checked,score};try{localStorage.setItem(KEY,JSON.stringify(state));$('saveStat').textContent='✓'}catch{$('saveStat').textContent='!'}}
+function applyTheme(k){const t=THEMES[k]||THEMES.ivory;Object.entries(t).forEach(([n,v])=>{if(!['name','emoji'].includes(n))document.documentElement.style.setProperty('--'+n,v)});$('badge').textContent=`${t.emoji} ${t.name} · Harmony Haven`;save()}
+function ensureAudio(){if(!audioCtx){audioCtx=new (window.AudioContext||window.webkitAudioContext)();master=audioCtx.createGain();master.connect(audioCtx.destination)}if(audioCtx.state==='suspended')audioCtx.resume();master.gain.value=Number($('volume').value);return audioCtx}
+function midiFreq(m){return 440*Math.pow(2,(m-69)/12)}
+function playTone(midi,dur=.5,when=null){const ctx=ensureAudio(),t=when??ctx.currentTime,osc=ctx.createOscillator(),g=ctx.createGain(),inst=$('instrument').value;osc.type=inst==='piano'?'triangle':inst==='guitar'?'sawtooth':'sine';osc.frequency.value=midiFreq(midi);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(inst==='bells'?.16:.22,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+dur);osc.connect(g);g.connect(master);osc.start(t);osc.stop(t+dur+.05)}
+function duration(kind){return kind==='whole'?4:kind==='half'?2:kind==='eighth'?.5:1}
+function restBeats(kind){return kind==='restHalf'?2:1}
+function staffY(step){return 258-step*13}
+function pitchFromStep(step,acc=0){
+ const letters=['C','D','E','F','G','A','B'],base=$('clef').value==='treble'?{i:2,o:4}:{i:4,o:2},raw=base.i+step,oct=base.o+Math.floor(raw/7),li=((raw%7)+7)%7,semi={C:0,D:2,E:4,F:5,G:7,A:9,B:11}[letters[li]],midi=12*(oct+1)+semi+acc;
+ return{name:letters[li]+oct,midi}
+}
+function renderSymbols(){$('symbols').innerHTML='';SYMBOLS.forEach(([id,ico,name])=>{const b=document.createElement('button');b.className='symbol'+(id===selected?' on':'');b.innerHTML=`<span class="ico">${ico}</span><span class="name">${name}</span>`;b.onclick=()=>{selected=id;renderSymbols();$('message').textContent=`Selected: ${name}.`};$('symbols').appendChild(b)})}
+function svgEl(n){return document.createElementNS('http://www.w3.org/2000/svg',n)}
+function drawStaff(){
+ const svg=$('staff');svg.innerHTML='';
+ for(let i=0;i<5;i++){const l=svgEl('line');l.setAttribute('x1','70');l.setAttribute('x2','790');l.setAttribute('y1',String(154+i*26));l.setAttribute('y2',String(154+i*26));l.setAttribute('stroke','#51455f');l.setAttribute('stroke-width','3');svg.appendChild(l)}
+ const clef=svgEl('text');clef.setAttribute('x','78');clef.setAttribute('y',$('clef').value==='treble'?'239':'214');clef.setAttribute('font-size',$('clef').value==='treble'?'94':'74');clef.textContent=$('clef').value==='treble'?'𝄞':'𝄢';svg.appendChild(clef);
+ score.forEach((it,idx)=>{
+  if(it.type==='bar'){const l=svgEl('line');l.setAttribute('x1',it.x);l.setAttribute('x2',it.x);l.setAttribute('y1','144');l.setAttribute('y2','264');l.setAttribute('stroke','#51455f');l.setAttribute('stroke-width','3');svg.appendChild(l);return}
+  if(it.type==='rest'){const t=svgEl('text');t.setAttribute('x',it.x-10);t.setAttribute('y','218');t.setAttribute('font-size','34');t.textContent=it.kind==='restHalf'?'𝄼':'𝄽';svg.appendChild(t);return}
+  if(it.type==='note'){
+   const g=svgEl('g'),head=svgEl('ellipse');head.setAttribute('cx',it.x);head.setAttribute('cy',it.y);head.setAttribute('rx','10');head.setAttribute('ry','7');head.setAttribute('stroke','#49395e');head.setAttribute('stroke-width','2.2');head.setAttribute('fill',['quarter','eighth'].includes(it.kind)?'#49395e':'#fff');g.appendChild(head);
+   if(it.kind!=='whole'){const stem=svgEl('line');stem.setAttribute('x1',it.x+9);stem.setAttribute('x2',it.x+9);stem.setAttribute('y1',it.y);stem.setAttribute('y2',it.y-46);stem.setAttribute('stroke','#49395e');stem.setAttribute('stroke-width','3');g.appendChild(stem)}
+   if(it.kind==='eighth'){const flag=svgEl('path');flag.setAttribute('d',`M ${it.x+9} ${it.y-46} q 24 8 5 28`);flag.setAttribute('fill','none');flag.setAttribute('stroke','#49395e');flag.setAttribute('stroke-width','3');g.appendChild(flag)}
+   if(it.acc){const a=svgEl('text');a.setAttribute('x',it.x-24);a.setAttribute('y',it.y+6);a.setAttribute('font-size','21');a.textContent=it.acc===1?'♯':it.acc===-1?'♭':'♮';g.appendChild(a)}
+   if(it.staccato){const d=svgEl('circle');d.setAttribute('cx',it.x+18);d.setAttribute('cy',it.y-14);d.setAttribute('r','3.5');d.setAttribute('fill','#49395e');g.appendChild(d)}
+   if($('labels').checked){const n=svgEl('text');n.setAttribute('x',it.x-13);n.setAttribute('y',it.y-14);n.setAttribute('font-size','12');n.textContent=it.name;g.appendChild(n)}
+   svg.appendChild(g)
+  }
+ });
+ updateStats()
+}
+function nearest(x,y,r=34){let bi=-1,bd=1e9;score.forEach((it,i)=>{const iy=it.y??205,d=Math.hypot((it.x||0)-x,iy-y);if(d<bd){bd=d;bi=i}});return bd<=r?bi:-1}
+$('staff').addEventListener('pointerdown',e=>{
+ const r=$('staff').getBoundingClientRect(),x=(e.clientX-r.left)*(820/r.width),y=(e.clientY-r.top)*(390/r.height);
+ if(selected==='eraser'){const i=nearest(x,y,45);if(i>=0)score.splice(i,1)}
+ else if(selected==='bar')score.push({type:'bar',x})
+ else if(selected==='restQuarter'||selected==='restHalf')score.push({type:'rest',kind:selected,x})
+ else if(['sharp','flat','natural','staccato'].includes(selected)){const i=nearest(x,y,42);if(i>=0&&score[i].type==='note'){if(selected==='staccato')score[i].staccato=!score[i].staccato;else{score[i].acc=selected==='sharp'?1:selected==='flat'?-1:0;const p=pitchFromStep(score[i].step,score[i].acc);score[i].midi=p.midi;score[i].name=p.name}}else $('message').textContent='Tap close to a note to add that marking.'}
+ else{const step=Math.round((258-y)/13),sy=staffY(step),p=pitchFromStep(step,0),it={type:'note',kind:selected,x,y:sy,step,name:p.name,midi:p.midi,acc:0,staccato:false};score.push(it);playTone(it.midi,.45);$('message').textContent=`Placed ${p.name}.`}
+ drawStaff();save()
+});
+function updateStats(){const notes=score.filter(x=>x.type==='note'),beats=score.reduce((a,x)=>a+(x.type==='note'?duration(x.kind):x.type==='rest'?restBeats(x.kind):0),0);$('symbolStat').textContent=score.length;$('noteStat').textContent=notes.length;$('beatStat').textContent=beats}
+function stop(){playing.forEach(clearTimeout);playing=[];$('message').textContent='Stopped.'}
+$('playBtn').onclick=()=>{if(!score.some(x=>x.type==='note'||x.type==='rest'))return $('message').textContent='Place notes or rests first.';stop();const ctx=ensureAudio(),beat=60/Number($('tempo').value);let t=ctx.currentTime+.05;score.slice().sort((a,b)=>(a.x||0)-(b.x||0)).forEach(it=>{if(it.type==='note'){let d=duration(it.kind)*beat*.9;if(it.staccato)d*=.35;playTone(it.midi,d,t);t+=duration(it.kind)*beat}else if(it.type==='rest')t+=restBeats(it.kind)*beat});$('message').textContent='Playing your score.'}
+$('stopBtn').onclick=stop;$('undoBtn').onclick=()=>{score.pop();drawStaff();save()};$('clearBtn').onclick=()=>{if(confirm('Clear the entire score?')){score=[];drawStaff();save()}};
+$('speakBtn').onclick=()=>{if('speechSynthesis'in window){speechSynthesis.cancel();const u=new SpeechSynthesisUtterance('Choose a music symbol, then tap a line or space on the staff. Notes placed higher sound higher. Press play to hear your score.');u.rate=.9;speechSynthesis.speak(u)}}
+$('exportBtn').onclick=()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='harmony_haven_score.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
+$('importBtn').onclick=()=>$('importFile').click();$('importFile').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);score=Array.isArray(x.score)?x.score:[];if(x.clef)$('clef').value=x.clef;if(x.instrument)$('instrument').value=x.instrument;drawStaff();save();$('message').textContent='Score imported.'}catch{$('message').textContent='That score file could not be imported.'}};r.readAsText(f)};
+function lesson(){const l=LESSONS[lessonIndex];$('lessonTitle').textContent=l.title;$('lessonText').textContent=l.text}
+$('lessonPrev').onclick=()=>{lessonIndex=(lessonIndex-1+LESSONS.length)%LESSONS.length;lesson()};$('lessonNext').onclick=()=>{lessonIndex=(lessonIndex+1)%LESSONS.length;lesson()};
+$('theme').innerHTML=Object.entries(THEMES).map(([k,t])=>`<option value="${k}">${t.emoji} ${t.name}</option>`).join('');
+$('theme').value=state.theme;$('clef').value=state.clef;$('instrument').value=state.instrument;$('tempo').value=state.tempo;$('volume').value=state.volume;$('labels').checked=state.labels;
+$('theme').onchange=e=>applyTheme(e.target.value);$('clef').onchange=()=>{score.forEach(it=>{if(it.type==='note'){const p=pitchFromStep(it.step,it.acc||0);it.name=p.name;it.midi=p.midi}});drawStaff();save()};$('instrument').onchange=save;$('tempo').onchange=save;$('volume').oninput=()=>{if(master)master.gain.value=Number($('volume').value);save()};$('labels').onchange=()=>{drawStaff();save()};
+applyTheme(state.theme);renderSymbols();drawStaff();lesson();
+</script>
+</body>
+</html>
