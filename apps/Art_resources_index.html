@@ -1,205 +1,227 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Khaemenes Academy - Elementary Art Portal</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Elementary Art Atlas — a curated, child-friendly art resource and studio planning portal from Bazaar Art and Khaemenes Academy.">
+<title>Elementary Art Atlas</title>
 <style>
-  /* --- Global Styles --- */
-  body {
-    margin: 0;
-    font-family: "Comic Sans MS", sans-serif;
-    background: #f0f8ff;
-    color: #333;
-  }
-  a { text-decoration: none; color: inherit; }
-
-  header {
-    background: #0b3d91;
-    color: #fff;
-    padding: 15px 20px;
-    text-align: center;
-    position: relative;
-  }
-  header h1 {
-    margin: 0;
-    font-size: 2rem;
-  }
-  header .breadcrumb {
-    font-size: 0.9rem;
-    margin-top: 5px;
-  }
-  header .breadcrumb a { color: #ffdd00; }
-
-  /* --- Tabs --- */
-  .tabs {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin: 15px 0;
-    gap: 10px;
-  }
-  .tab {
-    padding: 10px 20px;
-    border-radius: 8px;
-    background: #0b3d91;
-    color: #fff;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-  .tab.active { background: #ffdd00; color: #0b3d91; }
-
-  /* --- Resource Cards --- */
-  .cards-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
-    gap: 15px;
-    padding: 0 20px 50px;
-  }
-  .card {
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    transition: transform 0.2s;
-  }
-  .card:hover { transform: scale(1.05); }
-  .card h3 {
-    margin: 0 0 10px 0;
-    font-size: 1.2rem;
-    color: #0b3d91;
-  }
-  .card p { font-size: 0.95rem; margin: 0 0 10px; }
-  .card button {
-    background: #ffdd00;
-    border: none;
-    padding: 8px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    color: #0b3d91;
-    transition: 0.3s;
-  }
-  .card button:hover { background: #ffc107; }
-
-  /* --- Back to Top Button --- */
-  #backToTop {
-    position: fixed;
-    bottom: 25px;
-    right: 25px;
-    background: #ffdd00;
-    color: #0b3d91;
-    border: none;
-    padding: 12px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 1.2rem;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-    display: none;
-    z-index: 1000;
-  }
-
-  /* --- Footer --- */
-  footer {
-    background: #0b3d91;
-    color: #fff;
-    text-align: center;
-    padding: 12px 0;
-    margin-top: 20px;
-  }
-
-  /* --- Prompt Section --- */
-  #prompt {
-    text-align: center;
-    font-size: 1.2rem;
-    padding: 10px;
-    color: #0b3d91;
-    font-weight: bold;
-  }
-
+:root{
+  --ink:#241e35;--muted:#675f72;--paper:#fff8e9;--panel:#fffdf7;--line:#c8b78e;
+  --indigo:#233d86;--cobalt:#1667a8;--orange:#e55e2f;--coral:#d84848;--gold:#e0ad32;
+  --green:#24785e;--plum:#6a346e;--shadow:0 24px 64px rgba(20,16,38,.25)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;min-height:100vh;color:var(--ink);
+  font-family:"Avenir Next","Trebuchet MS","Segoe UI",system-ui,sans-serif;
+  background:
+    radial-gradient(circle at 8% 8%,rgba(229,94,47,.28),transparent 20rem),
+    radial-gradient(circle at 90% 10%,rgba(22,103,168,.26),transparent 23rem),
+    radial-gradient(circle at 12% 88%,rgba(36,120,94,.23),transparent 22rem),
+    linear-gradient(145deg,#2b1d45,#173f55 54%,#873f2a);
+}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.wrap{width:min(1260px,calc(100% - 28px));margin:22px auto 42px}
+.hero{display:grid;grid-template-columns:1.08fr .92fr;gap:18px}
+.hero-copy,.hero-art,.shell{background:var(--paper);border:1px solid #ffffff7a;border-radius:32px;box-shadow:var(--shadow)}
+.hero-copy{padding:clamp(27px,5vw,58px)}
+.eyebrow{display:inline-flex;padding:8px 13px;border-radius:999px;background:#fff3d5;border:1px solid #d4bc83;color:var(--plum);font-size:.75rem;font-weight:900;letter-spacing:.13em;text-transform:uppercase}
+h1{margin:18px 0 12px;font-family:Georgia,"Times New Roman",serif;font-size:clamp(3.25rem,8vw,7rem);line-height:.87;letter-spacing:-.055em;color:var(--indigo)}
+.lead{margin:0;max-width:730px;color:var(--muted);line-height:1.7;font-size:1.08rem}
+.hero-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:22px}
+.btn{border:0;border-radius:14px;padding:11px 15px;font-weight:900;background:#fffaf0;color:var(--indigo);box-shadow:0 6px 15px #21182e20}
+.btn.primary{color:#fff;background:linear-gradient(135deg,var(--indigo),var(--plum))}
+.btn.sunny{color:#34240e;background:linear-gradient(135deg,var(--gold),#ef7c42)}
+.btn.green{color:#fff;background:linear-gradient(135deg,var(--green),#479d7c)}
+.hero-art{position:relative;min-height:430px;overflow:hidden;background:#f7ae31}
+.hero-art .block{position:absolute;border:8px solid #262038}
+.b1{width:54%;height:44%;left:-7%;top:-4%;background:#ef6a30;border-radius:44% 56% 62% 38%}
+.b2{width:52%;height:50%;right:-8%;top:-5%;background:#1c6ca7;border-radius:56% 44% 37% 63%}
+.b3{width:48%;height:50%;left:2%;bottom:-13%;background:#248367;border-radius:50%}
+.b4{width:42%;height:56%;right:-3%;bottom:-14%;background:#5d3f8d;border-radius:45% 55% 60% 40%}
+.star{position:absolute;left:7%;top:9%;font-size:7rem;color:#135f9d;text-shadow:0 0 0 #222}
+.spiral{position:absolute;width:220px;height:220px;left:35%;top:25%;border:26px solid #285fa5;border-right-color:#ef7b58;border-radius:50%;transform:rotate(20deg)}
+.ribbon{position:absolute;width:92px;height:390px;right:18%;top:8%;border-radius:999px;border:24px solid #17679f;border-left-color:transparent;transform:rotate(-15deg)}
+.art-note{position:absolute;left:22px;right:22px;bottom:22px;padding:15px 17px;border-radius:19px;background:#fff8e9d9;border:1px solid #fff;backdrop-filter:blur(8px)}
+.art-note strong{display:block;font-family:Georgia,serif;color:var(--indigo);font-size:1.35rem}.art-note span{display:block;margin-top:5px;color:#5e5664}
+.shell{margin-top:18px;padding:18px}
+.toolbar{display:grid;grid-template-columns:1.2fr repeat(2,.8fr) auto;gap:9px}
+.control{padding:10px;border:1px solid #d3c29a;border-radius:17px;background:#fffaf0}
+.control label{display:block;margin-bottom:5px;color:var(--muted);font-size:.7rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+.control input,.control select{width:100%;padding:10px 11px;border:1px solid #d3c29a;border-radius:11px;background:#fff;color:var(--ink)}
+.notice{margin-top:11px;padding:12px 14px;border:1px solid #d8bd78;border-radius:17px;background:#fff2c7;line-height:1.5}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin:15px 0}
+.tab{border:1px solid #c9b78d;border-radius:999px;padding:9px 13px;background:#fffaf0;color:var(--ink);font-weight:900}
+.tab.active{color:#fff;background:linear-gradient(135deg,var(--indigo),var(--plum));border-color:transparent}
+.view{display:none}.view.active{display:block}
+.resource-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.card{position:relative;display:flex;flex-direction:column;min-height:260px;padding:17px;border-radius:23px;background:#fffdf7;border:1px solid #d7c69d;box-shadow:0 9px 23px #2a1b3720;overflow:hidden}
+.card:before{content:"";position:absolute;inset:0 0 auto;height:8px;background:var(--tone,var(--indigo))}
+.card-head{display:grid;grid-template-columns:auto 1fr auto;gap:11px;align-items:start}
+.icon{display:grid;place-items:center;width:52px;height:52px;border-radius:16px;background:color-mix(in srgb,var(--tone,var(--indigo)) 13%,white);font-size:1.5rem}
+.card h2{margin:0;font-family:Georgia,serif;font-size:1.35rem;color:var(--tone,var(--indigo))}
+.favorite{border:1px solid #d5c39b;border-radius:50%;width:36px;height:36px;background:#fff;color:var(--coral);font-size:1.1rem}
+.card p{color:var(--muted);line-height:1.5;font-size:.92rem}
+.badges{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 10px}.badge{padding:5px 8px;border-radius:999px;background:#f1eadc;font-size:.7rem;font-weight:900;color:#574b55}
+.card-note{margin-top:auto;padding:10px;border-radius:13px;background:#fff5dc;color:#5f5148;font-size:.8rem;line-height:1.4}
+.card-actions{display:grid;grid-template-columns:1fr auto;gap:7px;margin-top:10px}
+.open{display:flex;align-items:center;justify-content:center;min-height:44px;border-radius:13px;text-decoration:none;font-weight:900;color:#fff;background:var(--tone,var(--indigo))}
+.preview{border:1px solid #cab98f;border-radius:13px;background:#fff;padding:9px 11px;font-weight:900;color:var(--tone,var(--indigo))}
+.empty{padding:30px;text-align:center;border:2px dashed #c5b387;border-radius:20px;background:#fffaf0;color:var(--muted)}
+.studio-grid{display:grid;grid-template-columns:1fr .9fr;gap:14px}
+.challenge,.planner{border:1px solid #d5c39a;border-radius:24px;background:#fffdf7;padding:18px}
+.challenge h2,.planner h2{margin:0 0 8px;font-family:Georgia,serif;color:var(--indigo);font-size:2rem}
+.challenge-title{margin:20px 0 8px;font-family:Georgia,serif;font-size:clamp(1.7rem,4vw,3rem);color:var(--plum)}
+.challenge-prompt{font-size:1.05rem;line-height:1.65;color:#4e4651}
+.challenge-meta{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}.meta{padding:7px 9px;border-radius:999px;background:#efe7d7;font-size:.76rem;font-weight:900}
+textarea{width:100%;min-height:190px;padding:13px;border:1px solid #d0bd91;border-radius:16px;background:#fffaf0;color:var(--ink);resize:vertical}
+.saved-list{display:grid;gap:8px;margin-top:12px;max-height:320px;overflow:auto}
+.saved-item{padding:11px;border:1px solid #d8c79e;border-radius:15px;background:#fffaf0}.saved-item strong{display:block;color:var(--plum)}.saved-item small{display:block;margin-top:5px;color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:13px}.stat{padding:11px;text-align:center;border:1px solid #d2c092;border-radius:17px;background:#fffaf0}.stat strong{display:block;font-size:1.25rem;color:var(--indigo)}
+footer{text-align:center;color:#f5ebf1;margin-top:15px;line-height:1.55;font-size:.84rem}
+.modal{position:fixed;inset:0;display:none;place-items:center;padding:18px;background:#171226c7;z-index:1000}.modal.open{display:grid}.modal-card{width:min(650px,100%);max-height:88vh;overflow:auto;padding:24px;border-radius:25px;background:var(--paper);box-shadow:var(--shadow)}.modal-card h2{font-family:Georgia,serif;color:var(--indigo);font-size:2rem}.close{float:right;border:0;border-radius:50%;width:40px;height:40px;color:#fff;background:var(--ink)}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+@media(max-width:1000px){.hero,.studio-grid{grid-template-columns:1fr}.resource-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:720px){.toolbar{grid-template-columns:1fr 1fr}.toolbar .control:first-child{grid-column:1/-1}.resource-grid{grid-template-columns:1fr}.hero-art{min-height:330px}}
+@media(max-width:520px){.toolbar{grid-template-columns:1fr}.toolbar .control:first-child{grid-column:auto}.stats{grid-template-columns:repeat(2,1fr)}.card-actions{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
+<main class="wrap">
+<section class="hero">
+<div class="hero-copy">
+<span class="eyebrow">Bazaar Art × Khaemenes Academy</span>
+<h1>Elementary Art Atlas</h1>
+<p class="lead">A curated doorway into free art lessons, museum collections, creative games, visual research, and studio challenges for kindergarten through fifth grade—with planning tools for families and educators.</p>
+<div class="hero-actions">
+<button class="btn primary" data-scroll="resources">Browse Resources</button>
+<button class="btn sunny" data-scroll="studio">Open Studio Challenge</button>
+<button class="btn green" id="randomResource">Surprise Resource</button>
+</div>
+</div>
+<div class="hero-art" aria-label="Abstract orange, cobalt, green, and plum artwork">
+<div class="block b1"></div><div class="block b2"></div><div class="block b3"></div><div class="block b4"></div>
+<div class="star">★</div><div class="spiral"></div><div class="ribbon"></div>
+<div class="art-note"><strong>Look closely. Make boldly. Reflect honestly.</strong><span>Art learning can begin with one question, one object, one color, or one unexpected mark.</span></div>
+</div>
+</section>
 
-<header>
-  <h1>🎨 Khaemenes Academy</h1>
-  <div>Elementary Art & Creative Resources Portal</div>
-  <div class="breadcrumb">
-    <a href="https://www.KhaemenesAcademy.org/elementaryart">Home</a> / Elementary Art
-  </div>
-</header>
-
-<div id="prompt">🌟 Welcome! Select a grade to explore art resources.</div>
-
+<section class="shell" id="resources">
+<div class="toolbar">
+<div class="control"><label for="search">Search resources</label><input id="search" placeholder="museum, painting, games, video..."></div>
+<div class="control"><label for="grade">Grade band</label><select id="grade"><option>All Grades</option><option>K–1</option><option>2–3</option><option>4–5</option></select></div>
+<div class="control"><label for="type">Resource type</label><select id="type"></select></div>
+<button class="btn" id="savedOnly">♡ Saved</button>
+</div>
+<div class="notice"><strong>Grown-up note:</strong> These buttons open trusted third-party learning sites in a new tab. Content, advertisements, account requirements, and privacy practices can change, so adults should preview external resources and supervise younger learners.</div>
 <div class="tabs">
-  <div class="tab active" data-grade="all">All Grades</div>
-  <div class="tab" data-grade="k1">K–1</div>
-  <div class="tab" data-grade="2-3">2–3</div>
-  <div class="tab" data-grade="4-5">4–5</div>
+<button class="tab active" data-view="resources">Resource Gallery</button>
+<button class="tab" data-view="studio">Studio Challenge</button>
+<button class="tab" data-view="planner">Teacher & Family Planner</button>
 </div>
 
-<div class="cards-container" id="cardsContainer">
-  <!-- Resource cards will be injected here -->
+<section class="view active" id="resourcesView">
+<div class="resource-grid" id="resourceGrid"></div>
+<div class="empty" id="empty" hidden>No resources match those filters.</div>
+</section>
+
+<section class="view" id="studioView">
+<div class="studio-grid">
+<div class="challenge">
+<h2>Studio Challenge</h2>
+<div class="challenge-title" id="challengeTitle"></div>
+<div class="challenge-prompt" id="challengePrompt"></div>
+<div class="challenge-meta"><span class="meta" id="challengeMaterials"></span><span class="meta" id="challengeTime"></span><span class="meta" id="challengeGrades"></span></div>
+<div class="hero-actions"><button class="btn primary" id="newChallenge">New Challenge</button><button class="btn sunny" id="saveChallenge">Save Challenge</button></div>
 </div>
+<div class="planner">
+<h2>Reflection</h2>
+<p class="lead" style="font-size:.95rem">What did you notice? What choice are you proud of? What might you change next time?</p>
+<textarea id="reflection" placeholder="Write or dictate a short studio reflection..."></textarea>
+<button class="btn green" id="saveReflection" style="margin-top:10px">Save Reflection</button>
+</div>
+</div>
+</section>
 
-<button id="backToTop" onclick="scrollToTop()">⬆️</button>
+<section class="view" id="plannerView">
+<div class="studio-grid">
+<div class="planner">
+<h2>Lesson Planner</h2>
+<textarea id="plannerText" placeholder="Lesson title:
+Learning goal:
+Materials:
+Warm-up:
+Main activity:
+Reflection:
+Cleanup and safety:"></textarea>
+<div class="hero-actions"><button class="btn primary" id="savePlan">Save Plan</button><button class="btn" id="exportPlan">Export Notes</button><button class="btn" id="clearPlan">Clear</button></div>
+</div>
+<div class="planner">
+<h2>Saved Studio Notes</h2>
+<div class="saved-list" id="savedList"></div>
+</div>
+</div>
+</section>
 
-<footer>
-  © 2026 Khaemenes Academy • Free Educational Art Resources
-</footer>
+<div class="stats">
+<div class="stat"><strong id="resourceStat">0</strong>Resources visible</div>
+<div class="stat"><strong id="favoriteStat">0</strong>Resources saved</div>
+<div class="stat"><strong id="challengeStat">0</strong>Challenges saved</div>
+<div class="stat"><strong id="reflectionStat">0</strong>Notes saved</div>
+</div>
+</section>
+
+<footer><strong>© 2026 Bazaar Art · Khaemenes Academy · Jennifer Kay Pearl</strong><br>All Rights Reserved. · Curated learning portal · Local planning tools · External resources open separately.</footer>
+</main>
+
+<div class="modal" id="modal">
+<div class="modal-card"><button class="close" id="close">×</button><div id="modalContent"></div></div>
+</div>
 
 <script>
-const resources = [
-  { name: "Artsology", grades: "all", desc: "Fun art games and puzzles for kids.", url: "https://www.artsology.com/" },
-  { name: "KinderArt", grades: "all", desc: "Creative projects sorted by grade level.", url: "https://kinderart.com/" },
-  { name: "K12 IRC", grades: "all", desc: "Comprehensive free resources for K-12 art lessons.", url: "https://k12.artsedsearch.org/" },
-  { name: "Art Projects for Kids", grades: "all", desc: "Step-by-step easy art ideas.", url: "https://artprojectsforkids.org/" },
-  { name: "Golden Road Arts", grades: "all", desc: "Free art lessons and videos.", url: "https://www.goldenroadarts.com/" },
-  { name: "National Gallery of Art – Kids", grades: "all", desc: "Interactive art tools and printable activities.", url: "https://www.nga.gov/education/kids.html" },
-  { name: "Smithsonian Learning Lab", grades: "2-5", desc: "Curated digital collections and classroom resources.", url: "https://learninglab.si.edu/" },
-  { name: "Art History Kids", grades: "all", desc: "Printable art history activities.", url: "https://arthistorykids.com/" }
-];
-
-// --- Generate Resource Cards ---
-function renderCards(grade = "all") {
-  const container = document.getElementById("cardsContainer");
-  container.innerHTML = "";
-  const filtered = resources.filter(r => grade === "all" || r.grades === grade || grade === "k1" && r.grades === "all");
-  filtered.forEach(r => {
-    const card = document.createElement("div");
-    card.className = "card";
-    card.innerHTML = `<h3>${r.name}</h3><p>${r.desc}</p>
-                      <button onclick="window.open('${r.url}','_blank')">Visit Resource</button>`;
-    container.appendChild(card);
-  });
+const RESOURCES=[{"id": "artsology", "name": "Artsology", "grades": ["K–1", "2–3", "4–5"], "type": "Games & Exploration", "icon": "🧩", "desc": "Art games, visual puzzles, artist activities, and playful art-history exploration.", "url": "https://artsology.com/", "note": "Best for short discovery sessions and independent exploration."}, {"id": "kinderart-primary", "name": "KinderArt — Primary Lessons", "grades": ["K–1", "2–3"], "type": "Lessons & Projects", "icon": "🖍️", "desc": "Grade-organized art lessons using drawing, painting, collage, printmaking, and classroom-friendly materials.", "url": "https://kinderart.com/k-1-2-art-lessons/", "note": "Useful for teachers, families, and structured project planning."}, {"id": "kinderart-junior", "name": "KinderArt — Grades 3–5", "grades": ["2–3", "4–5"], "type": "Lessons & Projects", "icon": "✏️", "desc": "Projects for developing technique, observation, creative problem-solving, and confidence.", "url": "https://kinderart.com/grade-3-4-5-art-lessons/", "note": "Good for learners ready for more detailed processes."}, {"id": "nga", "name": "National Gallery of Art — Education", "grades": ["K–1", "2–3", "4–5"], "type": "Museums & Collections", "icon": "🏛️", "desc": "Artwork explorations, teaching resources, artist media, family activities, and collection-based learning.", "url": "https://www.nga.gov/educational-resources", "note": "Use with an adult or teacher to connect artmaking with real museum objects."}, {"id": "smithsonian", "name": "Smithsonian Learning Lab", "grades": ["2–3", "4–5"], "type": "Museums & Collections", "icon": "🔎", "desc": "Millions of museum images, recordings, texts, videos, and educator-created learning collections.", "url": "https://learninglab.si.edu/", "note": "Excellent for research, visual inquiry, and building themed collections."}, {"id": "golden-road", "name": "Golden Road Arts", "grades": ["K–1", "2–3", "4–5"], "type": "Video & Demonstration", "icon": "🎥", "desc": "Free art instruction and art-literacy lessons designed for elementary and middle-school learners.", "url": "https://www.goldenroadarts.org/", "note": "Helpful for students who learn best by watching a demonstration."}, {"id": "nga-teaching", "name": "NGA Teaching Resources", "grades": ["2–3", "4–5"], "type": "Teacher Planning", "icon": "📚", "desc": "Units, artwork discussions, artist videos, and prompts for developing observation and critical thinking.", "url": "https://www.nga.gov/educational-resources/teaching-resources", "note": "A strong planning doorway for classroom or homeschool instruction."}, {"id": "smithsonian-discover", "name": "Smithsonian Discover Collections", "grades": ["2–3", "4–5"], "type": "Research & Inquiry", "icon": "🌐", "desc": "Curated pages and authentic digital resources organized for discovery and learning.", "url": "https://learninglab.si.edu/help/discover", "note": "Use for artist research, object study, and visual storytelling."}],CHALLENGES=[{"title": "Color Detective", "prompt": "Find three colors around you. Mix or draw a new color that could connect all three.", "materials": "Paper and any coloring tool", "time": "10–15 minutes", "grades": "All grades"}, {"title": "Museum Pose", "prompt": "Choose an artwork or sculpture. Recreate its pose, then sketch the strongest line of movement.", "materials": "Museum image and pencil", "time": "10 minutes", "grades": "2–5"}, {"title": "Texture Map", "prompt": "Collect six textures by rubbing, drawing, or describing them. Arrange them into a map.", "materials": "Paper, crayons, safe textured surfaces", "time": "15–25 minutes", "grades": "All grades"}, {"title": "Shape Transformation", "prompt": "Begin with one circle, square, or triangle. Transform it into an animal, place, invention, or character.", "materials": "Paper and drawing tools", "time": "10–20 minutes", "grades": "All grades"}, {"title": "Three-View Object", "prompt": "Draw one familiar object from the front, side, and above. Notice what changes.", "materials": "Small object and pencil", "time": "15 minutes", "grades": "3–5"}, {"title": "Warm and Cool Story", "prompt": "Create two small pictures of the same place: one with warm colors and one with cool colors. Compare the mood.", "materials": "Coloring or painting tools", "time": "20–30 minutes", "grades": "2–5"}, {"title": "No-Erasing Sketch", "prompt": "Draw for five minutes without erasing. Turn every unexpected mark into part of the artwork.", "materials": "Pen or marker and paper", "time": "5–10 minutes", "grades": "All grades"}, {"title": "Tiny Gallery", "prompt": "Make three postcard-sized artworks that belong together. Give the set a title and arrange a mini exhibition.", "materials": "Paper, art tools, tape", "time": "25–40 minutes", "grades": "3–5"}],$=id=>document.getElementById(id);
+const KEY='elementary-art-atlas-v2';
+const tones=['#233d86','#e55e2f','#24785e','#6a346e','#1667a8','#d84848','#a77913','#356d79'];
+function fresh(){return{favorites:[],savedChallenges:[],notes:[],plan:'',currentChallenge:0,savedOnly:false}}
+function load(){try{return Object.assign(fresh(),JSON.parse(localStorage.getItem(KEY)||'{}'))}catch{return fresh()}}
+let state=load();
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch{};renderStats()}
+function resourceId(r){return r.id}
+function filtered(){
+ const q=$('search').value.trim().toLowerCase(),g=$('grade').value,t=$('type').value;
+ return RESOURCES.filter(r=>(g==='All Grades'||r.grades.includes(g))&&(t==='All Types'||r.type===t)&&(!q||[r.name,r.desc,r.type,r.note,...r.grades].join(' ').toLowerCase().includes(q))&&(!state.savedOnly||state.favorites.includes(resourceId(r))))
 }
-
-// --- Tabs Functionality ---
-const tabs = document.querySelectorAll(".tab");
-tabs.forEach(tab => {
-  tab.addEventListener("click", () => {
-    tabs.forEach(t => t.classList.remove("active"));
-    tab.classList.add("active");
-    const grade = tab.dataset.grade;
-    renderCards(grade);
-  });
-});
-
-// --- Back to Top Button ---
-const backBtn = document.getElementById("backToTop");
-window.onscroll = () => {
-  backBtn.style.display = document.documentElement.scrollTop > 200 ? "block" : "none";
-};
-function scrollToTop() {
-  window.scrollTo({ top: 0, behavior: "smooth" });
+function renderResources(){
+ const list=filtered();$('resourceGrid').innerHTML=list.map((r,i)=>`<article class="card" style="--tone:${tones[RESOURCES.indexOf(r)%tones.length]}"><div class="card-head"><span class="icon">${r.icon}</span><div><h2>${r.name}</h2><div class="badges"><span class="badge">${r.type}</span>${r.grades.map(g=>`<span class="badge">${g}</span>`).join('')}</div></div><button class="favorite" data-fav="${r.id}" aria-label="Save ${r.name}">${state.favorites.includes(r.id)?'♥':'♡'}</button></div><p>${r.desc}</p><div class="card-note">${r.note}</div><div class="card-actions"><a class="open" href="${r.url}" target="_blank" rel="noopener noreferrer">Open Resource</a><button class="preview" data-preview="${r.id}">Details</button></div></article>`).join('');
+ $('empty').hidden=!!list.length;
+ document.querySelectorAll('[data-fav]').forEach(b=>b.onclick=()=>toggleFavorite(b.dataset.fav));
+ document.querySelectorAll('[data-preview]').forEach(b=>b.onclick=()=>preview(b.dataset.preview));
+ renderStats()
 }
-
-// --- Initialize ---
-renderCards();
-
+function toggleFavorite(id){state.favorites=state.favorites.includes(id)?state.favorites.filter(x=>x!==id):[...state.favorites,id];save();renderResources()}
+function preview(id){const r=RESOURCES.find(x=>x.id===id);$('modalContent').innerHTML=`<div style="font-size:2.5rem">${r.icon}</div><h2>${r.name}</h2><p>${r.desc}</p><p><strong>Grade bands:</strong> ${r.grades.join(', ')}</p><p><strong>Resource type:</strong> ${r.type}</p><p>${r.note}</p><a class="open" style="padding:12px 16px;margin-top:10px" href="${r.url}" target="_blank" rel="noopener noreferrer">Open External Resource</a>`;$('modal').classList.add('open')}
+function showView(v){document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.view===v));document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));$(v+'View').classList.add('active')}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>showView(b.dataset.view));
+function renderChallenge(){const c=CHALLENGES[state.currentChallenge%CHALLENGES.length];$('challengeTitle').textContent=c.title;$('challengePrompt').textContent=c.prompt;$('challengeMaterials').textContent='Materials: '+c.materials;$('challengeTime').textContent='Time: '+c.time;$('challengeGrades').textContent=c.grades}
+$('newChallenge').onclick=()=>{let n=state.currentChallenge;while(n===state.currentChallenge&&CHALLENGES.length>1)n=Math.floor(Math.random()*CHALLENGES.length);state.currentChallenge=n;save();renderChallenge()};
+$('saveChallenge').onclick=()=>{const c=CHALLENGES[state.currentChallenge];if(!state.savedChallenges.some(x=>x.title===c.title))state.savedChallenges.unshift({...c,date:new Date().toISOString()});save();renderSaved()};
+$('saveReflection').onclick=()=>{const text=$('reflection').value.trim();if(!text)return;state.notes.unshift({type:'Reflection',text,date:new Date().toISOString()});$('reflection').value='';save();renderSaved()};
+$('savePlan').onclick=()=>{state.plan=$('plannerText').value;state.notes.unshift({type:'Lesson Plan',text:state.plan,date:new Date().toISOString()});save();renderSaved()};
+$('exportPlan').onclick=()=>{const blob=new Blob([$ ('plannerText').value],{type:'text/plain'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='elementary_art_lesson_plan.txt';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
+$('clearPlan').onclick=()=>{$('plannerText').value='';state.plan='';save()};
+function renderSaved(){$('savedList').innerHTML=[...state.savedChallenges.map(x=>({type:'Challenge',text:`${x.title}: ${x.prompt}`,date:x.date})),...state.notes].sort((a,b)=>new Date(b.date)-new Date(a.date)).map(x=>`<div class="saved-item"><strong>${x.type}</strong><div>${x.text}</div><small>${new Date(x.date).toLocaleDateString()}</small></div>`).join('')||'<div class="saved-item">No saved studio notes yet.</div>'}
+function renderStats(){$('resourceStat').textContent=filtered().length;$('favoriteStat').textContent=state.favorites.length;$('challengeStat').textContent=state.savedChallenges.length;$('reflectionStat').textContent=state.notes.length}
+$('type').innerHTML=['All Types',...new Set(RESOURCES.map(r=>r.type))].map(x=>`<option>${x}</option>`).join('');
+['search','grade','type'].forEach(id=>$(id).addEventListener(id==='search'?'input':'change',renderResources));
+$('savedOnly').onclick=()=>{state.savedOnly=!state.savedOnly;$('savedOnly').textContent=state.savedOnly?'♥ Showing Saved':'♡ Saved';save();renderResources()};
+$('randomResource').onclick=()=>{const r=RESOURCES[Math.floor(Math.random()*RESOURCES.length)];preview(r.id)};
+document.querySelectorAll('[data-scroll]').forEach(b=>b.onclick=()=>{if(b.dataset.scroll==='resources')document.getElementById('resources').scrollIntoView({behavior:'smooth'});else{showView('studio');document.getElementById('resources').scrollIntoView({behavior:'smooth'})}});
+$('close').onclick=()=>$('modal').classList.remove('open');$('modal').onclick=e=>{if(e.target===$('modal'))$('modal').classList.remove('open')};document.addEventListener('keydown',e=>{if(e.key==='Escape')$('modal').classList.remove('open')});
+$('plannerText').value=state.plan;renderResources();renderChallenge();renderSaved();renderStats();
 </script>
 </body>
 </html>
