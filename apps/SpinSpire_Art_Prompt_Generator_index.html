@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="SpinSpire — an offline art prompt spinner with categories, mashups, favorites, history, notes, and exports.">
+<title>SpinSpire — Art Prompt Generator</title>
+<style>
+:root{
+  --bg:#0b0f16;--bg2:#121a25;--panel:#111924;--panel2:#172231;--ink:#eef5fb;--muted:#9db0c3;
+  --cyan:#4cc9f0;--blue:#4895ef;--violet:#7209b7;--pink:#f72585;--orange:#ff9e00;--line:#2a3d52;
+  --shadow:0 26px 70px rgba(0,0,0,.44)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;padding:22px 14px 44px;color:var(--ink);font-family:Inter,"Segoe UI",system-ui,sans-serif;background:
+radial-gradient(circle at 12% 8%,rgba(76,201,240,.12),transparent 24rem),
+radial-gradient(circle at 88% 12%,rgba(247,37,133,.10),transparent 24rem),
+linear-gradient(145deg,var(--bg),var(--bg2))}
+button,select,textarea,input{font:inherit}button{cursor:pointer;touch-action:manipulation}
+.wrap{width:min(1180px,100%);margin:auto}
+.hero{text-align:center;margin-bottom:16px}
+.eyebrow{display:inline-flex;padding:8px 13px;border-radius:999px;background:#0f1721;border:1px solid var(--line);font-size:.72rem;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan)}
+h1{margin:12px 0 5px;font-size:clamp(3rem,8vw,6.5rem);line-height:.86;letter-spacing:-.05em;text-transform:uppercase}
+h1 span{color:var(--cyan)}
+.subtitle{max-width:820px;margin:auto;color:var(--muted);line-height:1.6}
+.shell{background:linear-gradient(180deg,var(--panel),#0f1721);border:1px solid var(--line);border-radius:30px;padding:18px;box-shadow:var(--shadow)}
+.toolbar{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+.control{padding:10px;border:1px solid var(--line);border-radius:15px;background:#0f1823}
+.control label{display:block;margin-bottom:5px;color:var(--muted);font-size:.68rem;font-weight:900;letter-spacing:.09em;text-transform:uppercase}
+.control select{width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:#111d29;color:var(--ink)}
+.main{display:grid;grid-template-columns:.9fr 1.1fr;gap:15px;margin-top:14px}
+.spinner-card,.result-card,.panel{background:#0f1823;border:1px solid var(--line);border-radius:24px;padding:17px}
+.spinner-wrap{position:relative;display:grid;place-items:center;min-height:430px}
+.pointer{position:absolute;top:12px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:18px solid transparent;border-right:18px solid transparent;border-top:34px solid var(--orange);z-index:4;filter:drop-shadow(0 4px 5px #0007)}
+#wheel{width:min(390px,90vw);aspect-ratio:1;filter:drop-shadow(0 18px 34px #0008);transition:transform 2.2s cubic-bezier(.15,.85,.19,1)}
+.center{fill:#111924;stroke:#fff;stroke-width:5}
+.centerText{font-size:36px;pointer-events:none}
+.actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px}
+.btn{border:1px solid var(--line);border-radius:12px;padding:10px 14px;font-weight:900;background:#162230;color:var(--ink)}
+.btn.primary{color:#081018;background:linear-gradient(135deg,var(--cyan),var(--blue));border:0}
+.btn.mash{color:#160b16;background:linear-gradient(135deg,var(--pink),var(--orange));border:0}
+.btn.danger{color:#ffd8dc;background:#3a1c24;border-color:#6a2a39}
+.result-card h2,.panel h2{margin:0;color:var(--cyan)}
+.prompt{margin-top:14px;min-height:150px;padding:22px;border-radius:18px;background:linear-gradient(145deg,#142131,#182638);border:1px solid var(--line);font-size:clamp(1.35rem,3.5vw,2rem);line-height:1.4;font-weight:850;display:grid;place-items:center;text-align:center}
+.meta{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}.tag{padding:6px 9px;border-radius:999px;background:#1c2c3d;color:#c7dbea;font-size:.76rem;font-weight:900}
+.notes{margin-top:12px}.notes textarea{width:100%;min-height:130px;padding:12px;border:1px solid var(--line);border-radius:13px;background:#0b141e;color:var(--ink);resize:vertical}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.list{display:grid;gap:8px;max-height:360px;overflow:auto;margin-top:10px}
+.item{padding:11px;border:1px solid var(--line);border-radius:13px;background:#121d29;color:#d7e4ef;line-height:1.4}
+.item-head{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.item small{color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:13px}.stat{padding:10px;text-align:center;border:1px solid var(--line);border-radius:14px;background:#101a25}.stat strong{display:block;color:var(--cyan);font-size:1.25rem}
+footer{margin-top:15px;text-align:center;color:#8395a8;line-height:1.55;font-size:.82rem}
+:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+@media(max-width:900px){.main,.grid{grid-template-columns:1fr}.toolbar{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.toolbar{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header class="hero">
+<div class="eyebrow">Offline Creative Prompt Engine</div>
+<h1>Spin<span>Spire</span></h1>
+<p class="subtitle">Spin by category, create mashups, save favorites, keep a project note, and export your creative history. Everything stays on this device.</p>
+</header>
+
+<section class="shell">
+<div class="toolbar">
+<div class="control"><label for="category">Prompt category</label><select id="category"></select></div>
+<div class="control"><label for="mode">Prompt mode</label><select id="mode"><option value="single">Single prompt</option><option value="mashup">Mashup</option></select></div>
+<div class="control"><label for="motion">Wheel motion</label><select id="motion"><option value="on">On</option><option value="off">Off</option></select></div>
+<div class="control"><label for="historyLimit">History shown</label><select id="historyLimit"><option>10</option><option>20</option><option>40</option></select></div>
+</div>
+
+<div class="main">
+<section class="spinner-card">
+<div class="spinner-wrap">
+<div class="pointer"></div>
+<svg id="wheel" viewBox="0 0 360 360" role="button" tabindex="0" aria-label="Spin for an art prompt">
+<g id="segments"></g>
+<circle class="center" cx="180" cy="180" r="42"></circle>
+<text class="centerText" x="180" y="192" text-anchor="middle">🎨</text>
+</svg>
+</div>
+<div class="actions"><button class="btn primary" id="spinBtn">Spin Prompt</button><button class="btn mash" id="mashBtn">Instant Mashup</button></div>
+</section>
+
+<section class="result-card">
+<h2>Creative Challenge</h2>
+<div class="prompt" id="prompt">Spin the wheel to begin.</div>
+<div class="meta"><span class="tag" id="categoryTag">No category yet</span><span class="tag" id="countTag">0 spins today</span></div>
+<div class="notes"><label for="projectNotes"><strong>Project notes</strong></label><textarea id="projectNotes" placeholder="Materials, color ideas, composition plan, title ideas, or what you want to explore..."></textarea></div>
+<div class="actions">
+<button class="btn" id="copyBtn">Copy</button>
+<button class="btn" id="favBtn">★ Favorite</button>
+<button class="btn" id="saveNoteBtn">Save Notes</button>
+<button class="btn" id="newBtn">New Prompt</button>
+</div>
+</section>
+</div>
+
+<div class="grid">
+<section class="panel"><h2>Favorites</h2><div class="list" id="favorites"></div><div class="actions"><button class="btn" id="exportBtn">Export Log</button><button class="btn danger" id="clearFavs">Clear Favorites</button></div></section>
+<section class="panel"><h2>Recent Spins</h2><div class="list" id="history"></div><div class="actions"><button class="btn danger" id="clearHistory">Clear History</button></div></section>
+</div>
+
+<div class="stats">
+<div class="stat"><strong id="spinStat">0</strong>Spins today</div>
+<div class="stat"><strong id="favoriteStat">0</strong>Favorites</div>
+<div class="stat"><strong id="historyStat">0</strong>Saved spins</div>
+<div class="stat"><strong id="promptStat">0</strong>Prompt library</div>
+</div>
+</section>
+<footer><strong>© 2026 Bazaar Art · Verve N Veda · Jennifer Kay Pearl</strong><br>All Rights Reserved. · Local, private, offline-first, and creativity-centered.</footer>
+</main>
+
+<script>
+const PROMPTS=[{"text": "Draw your favorite sound", "category": "Sound"}, {"text": "Paint the shape of silence", "category": "Creative"}, {"text": "Sketch the way laughter feels", "category": "Creative"}, {"text": "Draw a memory made of light", "category": "Creative"}, {"text": "Illustrate a song youâve never heard", "category": "Sound"}, {"text": "Design the feeling of courage", "category": "Creative"}, {"text": "Paint the sound of laughter in the rain", "category": "Sound"}, {"text": "Sketch the moment before a dream begins", "category": "Imagination"}, {"text": "Imagine the shape of hope at sunrise", "category": "Nature"}, {"text": "Create a portrait of silence", "category": "People"}, {"text": "Design a bridge between two hearts", "category": "People"}, {"text": "Illustrate the scent of nostalgia", "category": "Creative"}, {"text": "Draw what freedom looks like underwater", "category": "Creative"}, {"text": "Capture the rhythm of kindness", "category": "Sound"}, {"text": "Design a window that opens to possibility", "category": "Imagination"}, {"text": "Illustrate the heartbeat of the earth", "category": "Sound"}, {"text": "Paint the taste of tomorrow", "category": "Creative"}, {"text": "Sketch your future self meeting your past self", "category": "Imagination"}, {"text": "Draw what it feels like to belong", "category": "People"}, {"text": "Illustrate the secret language of trees", "category": "Nature"}, {"text": "Design a home for your imagination", "category": "Imagination"}, {"text": "Create an emblem for inner peace", "category": "Growth"}, {"text": "Draw the light that lives inside your shadow", "category": "Creative"}, {"text": "Illustrate the courage to begin again", "category": "Creative"}, {"text": "Paint the whisper of an untold story", "category": "Creative"}, {"text": "Design a garden that grows dreams", "category": "Imagination"}, {"text": "Draw the edge between fear and wonder", "category": "Creative"}, {"text": "Illustrate the moment you found your voice", "category": "Sound"}, {"text": "Paint the color of resilience", "category": "Growth"}, {"text": "Sketch a map to your happiest memory", "category": "Creative"}, {"text": "Design the texture of time", "category": "Creative"}, {"text": "Illustrate the way gratitude feels", "category": "People"}, {"text": "Draw what love would look like as architecture", "category": "People"}, {"text": "Create a symbol for transformation", "category": "Creative"}, {"text": "Paint the echo of a kind word", "category": "Sound"}, {"text": "Sketch the shape of your favorite emotion", "category": "Creative"}, {"text": "Illustrate a constellation of your memories", "category": "Creative"}, {"text": "Design a door that leads to your best self", "category": "Imagination"}, {"text": "Draw a sound that doesn't exist yet", "category": "Sound"}, {"text": "Illustrate a dream that teaches you something", "category": "Imagination"}, {"text": "Paint the warmth of being understood", "category": "Creative"}, {"text": "Design a pattern inspired by forgiveness", "category": "Growth"}, {"text": "Draw the feeling of standing in awe", "category": "Creative"}, {"text": "Illustrate the harmony between chaos and calm", "category": "Creative"}, {"text": "Paint the way inspiration moves through you", "category": "Creative"}, {"text": "Sketch the balance between stillness and motion", "category": "Creative"}, {"text": "Draw the horizon of your imagination", "category": "Imagination"}, {"text": "Illustrate the moment your heart forgave itself", "category": "People"}, {"text": "Draw the shape of healing in motion", "category": "Growth"}, {"text": "Design a light that only appears in darkness", "category": "Creative"}, {"text": "Paint the strength found in gentleness", "category": "Creative"}, {"text": "Sketch the feeling of finally letting go", "category": "Growth"}, {"text": "Illustrate a seed becoming who it was meant to be", "category": "Nature"}, {"text": "Draw your soul learning to breathe again", "category": "Creative"}, {"text": "Design a symbol for quiet courage", "category": "Creative"}, {"text": "Paint the color of self-acceptance", "category": "Growth"}, {"text": "Sketch the path between pain and peace", "category": "Growth"}, {"text": "Illustrate your reflection learning to smile", "category": "Creative"}, {"text": "Draw the heartbeat of renewal", "category": "Growth"}, {"text": "Design a sanctuary within your mind", "category": "Creative"}, {"text": "Paint a horizon made of second chances", "category": "Nature"}, {"text": "Illustrate the sound of trust returning", "category": "Growth"}, {"text": "Draw the invisible wings of perseverance", "category": "Creative"}, {"text": "Design a tapestry woven from lessons learned", "category": "Creative"}, {"text": "Paint the warmth of inner sunlight", "category": "Creative"}, {"text": "Illustrate how growth feels beneath the surface", "category": "Creative"}, {"text": "Draw the dance between surrender and strength", "category": "Creative"}, {"text": "Create a symbol for rebirth through art", "category": "Creative"}, {"text": "Illustrate the rhythm of your healing journey", "category": "Growth"}, {"text": "Paint the silence that follows understanding", "category": "Creative"}, {"text": "Draw the river of your resilience", "category": "Growth"}, {"text": "Design a light that guides you home to yourself", "category": "Creative"}, {"text": "Illustrate your fear transforming into wisdom", "category": "Creative"}, {"text": "Draw a garden that grows from old tears", "category": "Nature"}, {"text": "Paint the sound of peace settling in", "category": "Growth"}, {"text": "Sketch a conversation between your heart and mind", "category": "People"}, {"text": "Design a crown made of self-worth", "category": "Creative"}, {"text": "Illustrate the bridge between who you were and who you are becoming", "category": "Creative"}, {"text": "Draw the first spark of self-belief", "category": "Creative"}, {"text": "Paint the beauty of imperfection", "category": "Creative"}, {"text": "Design a mirror that reflects only your growth", "category": "Creative"}, {"text": "Illustrate what it feels like to be free within", "category": "Creative"}, {"text": "Draw the courage it takes to rest", "category": "Creative"}, {"text": "Paint a sunrise made of forgiveness", "category": "Growth"}, {"text": "Sketch your spirit after it learns to trust again", "category": "Growth"}, {"text": "Design the shape of transformation", "category": "Creative"}, {"text": "Illustrate the quiet triumph of healing unseen wounds", "category": "Growth"}, {"text": "Draw a cocoon turning into light", "category": "Creative"}, {"text": "Paint your soulâs favorite lesson", "category": "Creative"}, {"text": "Illustrate the stillness that gives birth to creativity", "category": "Creative"}, {"text": "Draw the color of emotional balance", "category": "Creative"}, {"text": "Design a flame that never burns out", "category": "Creative"}, {"text": "Illustrate the spark that starts creation", "category": "Creative"}, {"text": "Draw the moment inspiration takes a breath", "category": "Creative"}, {"text": "Design the pulse of pure imagination", "category": "Imagination"}, {"text": "Paint the fire that fuels your art", "category": "Creative"}, {"text": "Sketch the rhythm of creative freedom", "category": "Sound"}, {"text": "Illustrate the heartbeat of a new idea", "category": "Sound"}, {"text": "Draw the melody that moves your hands", "category": "Sound"}, {"text": "Design a storm made of passion and purpose", "category": "Creative"}, {"text": "Paint the moment when color finds its courage", "category": "Creative"}, {"text": "Illustrate how energy becomes art", "category": "Creative"}, {"text": "Draw the dance between chaos and creation", "category": "Creative"}, {"text": "Design the echo of your museâs voice", "category": "Sound"}, {"text": "Paint the electricity of an inspired mind", "category": "Creative"}, {"text": "Sketch the space between impulse and masterpiece", "category": "Creative"}, {"text": "Illustrate the symphony of your creativity", "category": "Creative"}, {"text": "Draw what it feels like to lose yourself in the work", "category": "Creative"}, {"text": "Paint a blaze of unstoppable focus", "category": "Creative"}, {"text": "Design a shape made of rhythm and risk", "category": "Sound"}, {"text": "Illustrate the touch of artistic obsession", "category": "Creative"}, {"text": "Draw a flame that paints instead of burns", "category": "Creative"}, {"text": "Paint the feeling of being completely alive", "category": "Creative"}, {"text": "Design the movement of joy through color", "category": "Creative"}, {"text": "Illustrate a dream catching fire", "category": "Imagination"}, {"text": "Draw the heartbeat behind every brushstroke", "category": "Sound"}, {"text": "Paint the heat of imagination in bloom", "category": "Imagination"}, {"text": "Design a portal to your most vivid idea", "category": "Imagination"}, {"text": "Illustrate the rush of creative surrender", "category": "Creative"}, {"text": "Draw your inspiration mid-flight", "category": "Creative"}, {"text": "Paint the electricity that lives in curiosity", "category": "Creative"}, {"text": "Design a current that carries creativity forward", "category": "Creative"}, {"text": "Illustrate passion as a living creature", "category": "Creative"}, {"text": "Draw the color of unstoppable expression", "category": "Creative"}, {"text": "Paint your muse whispering in light", "category": "Creative"}, {"text": "Design the moment art begins to breathe", "category": "Creative"}, {"text": "Illustrate creativity as a wildfire of beauty", "category": "Creative"}, {"text": "Draw what artistic freedom tastes like", "category": "Creative"}, {"text": "Paint the instant before genius arrives", "category": "Creative"}, {"text": "Design the rhythm that moves through your veins", "category": "Sound"}, {"text": "Illustrate passion as gravity pulling you forward", "category": "Creative"}, {"text": "Draw your energy turning into form", "category": "Creative"}, {"text": "Paint the fusion of focus and flow", "category": "Creative"}, {"text": "Design the architecture of inspiration", "category": "Creative"}, {"text": "Illustrate art being born from motion", "category": "Creative"}, {"text": "Draw the space where ideas collide and ignite", "category": "Creative"}, {"text": "Paint the thrill of fearless expression", "category": "Creative"}, {"text": "Design your creativity as a constellation", "category": "Creative"}, {"text": "Illustrate a spark transforming into symphony", "category": "Creative"}, {"text": "Draw the heartbeat of artistic devotion", "category": "Sound"}, {"text": "Paint the warmth of doing what you love", "category": "People"}, {"text": "Design a river made entirely of creative flow", "category": "Nature"}, {"text": "Paint the whisper of inner wisdom", "category": "Creative"}, {"text": "Sketch the cycle of breaking and blooming", "category": "Creative"}, {"text": "Illustrate the moment you said yes to growth", "category": "Creative"}, {"text": "Draw the feeling of being whole again", "category": "Creative"}, {"text": "Paint the invisible roots of your resilience", "category": "Growth"}, {"text": "Illustrate the voice of intuition", "category": "Sound"}, {"text": "Create a monument to creativity", "category": "Creative"}, {"text": "Design a landscape made entirely of emotion", "category": "Creative"}, {"text": "Draw the glow of genuine connection", "category": "People"}, {"text": "Illustrate how joy travels through space", "category": "Creative"}, {"text": "Paint the invisible thread that connects us all", "category": "Creative"}, {"text": "Draw the horizon of your dreams", "category": "Imagination"}, {"text": "Depict the scent of rain", "category": "Nature"}, {"text": "Draw a map of your imagination", "category": "Imagination"}, {"text": "Sketch the sound of wind in a forest", "category": "Sound"}, {"text": "Draw what kindness looks like", "category": "People"}, {"text": "Create a portrait of time", "category": "People"}],CATEGORIES=["Creative", "Imagination", "Nature", "Sound", "People", "Growth"],COLORS=["#4cc9f0", "#4895ef", "#4361ee", "#7209b7", "#f72585", "#ff9e00"],$=id=>document.getElementById(id),KEY='spinspire-pro-v2';
+function today(){const d=new Date(),o=d.getTimezoneOffset();return new Date(d.getTime()-o*60000).toISOString().slice(0,10)}
+function fresh(){return{date:today(),spinsToday:0,favorites:[],history:[],current:null,notes:{}}}
+function load(){try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(!x)return fresh();if(x.date!==today())x.spinsToday=0,x.date=today();return Object.assign(fresh(),x)}catch{return fresh()}}
+let state=load(),rotation=0,spinning=false;
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch{}}
+function buildWheel(){
+ const g=$('segments');g.innerHTML='';const n=CATEGORIES.length,cx=180,cy=180,r=160;
+ for(let i=0;i<n;i++){const a1=-Math.PI/2+i*2*Math.PI/n,a2=-Math.PI/2+(i+1)*2*Math.PI/n,x1=cx+r*Math.cos(a1),y1=cy+r*Math.sin(a1),x2=cx+r*Math.cos(a2),y2=cy+r*Math.sin(a2),p=document.createElementNS('http://www.w3.org/2000/svg','path');p.setAttribute('d',`M${cx},${cy} L${x1},${y1} A${r},${r} 0 0 1 ${x2},${y2} Z`);p.setAttribute('fill',COLORS[i]);p.setAttribute('stroke','#fff');p.setAttribute('stroke-width','2');g.appendChild(p);
+ const mid=(a1+a2)/2,tx=cx+110*Math.cos(mid),ty=cy+110*Math.sin(mid),t=document.createElementNS('http://www.w3.org/2000/svg','text');t.setAttribute('x',tx);t.setAttribute('y',ty);t.setAttribute('text-anchor','middle');t.setAttribute('dominant-baseline','middle');t.setAttribute('fill','#fff');t.setAttribute('font-size','14');t.setAttribute('font-weight','900');t.setAttribute('transform',`rotate(${mid*180/Math.PI+90} ${tx} ${ty})`);t.textContent=CATEGORIES[i];g.appendChild(t)}
+}
+function pool(cat){return cat==='All'?PROMPTS:PROMPTS.filter(p=>p.category===cat)}
+function choose(cat,exclude=''){const a=pool(cat).filter(p=>p.text!==exclude);return a[Math.floor(Math.random()*a.length)]||PROMPTS[Math.floor(Math.random()*PROMPTS.length)]}
+function setPrompt(item,mode='single',second=null){
+ const text=mode==='mashup'?`${item.text}\n\nPLUS\n\n${second.text}`:item.text,category=mode==='mashup'?`${item.category} + ${second.category}`:item.category;
+ state.current={text,category,mode,created:new Date().toISOString()};state.spinsToday++;state.history.unshift(state.current);state.history=state.history.slice(0,100);save();renderCurrent();renderLists();renderStats()
+}
+function spin(forceMash=false){
+ if(spinning)return;spinning=true;const cat=$('category').value,mode=forceMash?'mashup':$('mode').value,item=choose(cat),second=mode==='mashup'?choose(cat,item.text):null,idx=Math.max(0,CATEGORIES.indexOf(item.category)),step=360/CATEGORIES.length;
+ rotation+=1080+Math.floor(Math.random()*720)+(360-idx*step-step/2);
+ if($('motion').value==='off')$('wheel').style.transition='none';else $('wheel').style.transition='transform 2.2s cubic-bezier(.15,.85,.19,1)';
+ $('wheel').style.transform=`rotate(${rotation}deg)`;$('prompt').textContent='Spinning…';
+ setTimeout(()=>{setPrompt(item,mode,second);spinning=false},$('motion').value==='off'?50:2200)
+}
+function renderCurrent(){
+ const c=state.current;$('prompt').textContent=c?c.text:'Spin the wheel to begin.';$('categoryTag').textContent=c?c.category:'No category yet';$('countTag').textContent=`${state.spinsToday} spin${state.spinsToday===1?'':'s'} today`;$('projectNotes').value=c?(state.notes[c.text]||''):''
+}
+function renderLists(){
+ const lim=Number($('historyLimit').value||10);
+ $('favorites').innerHTML=state.favorites.length?state.favorites.map((f,i)=>`<div class="item"><div class="item-head"><strong>${f.category}</strong><button class="btn" data-remove="${i}">Remove</button></div>${f.text}</div>`).join(''):'<div class="item">No favorites yet.</div>';
+ document.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{state.favorites.splice(Number(b.dataset.remove),1);save();renderLists();renderStats()});
+ $('history').innerHTML=state.history.slice(0,lim).map(h=>`<div class="item"><div class="item-head"><strong>${h.category}</strong><small>${new Date(h.created).toLocaleString()}</small></div>${h.text}</div>`).join('')||'<div class="item">No spins yet.</div>'
+}
+function renderStats(){$('spinStat').textContent=state.spinsToday;$('favoriteStat').textContent=state.favorites.length;$('historyStat').textContent=state.history.length;$('promptStat').textContent=PROMPTS.length}
+$('category').innerHTML=['All',...CATEGORIES].map(c=>`<option>${c}</option>`).join('');
+$('spinBtn').onclick=()=>spin(false);$('mashBtn').onclick=()=>spin(true);$('newBtn').onclick=()=>spin(false);
+$('wheel').onclick=()=>spin(false);$('wheel').onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();spin(false)}};
+$('copyBtn').onclick=async()=>{if(!state.current)return;try{await navigator.clipboard.writeText(state.current.text);$('copyBtn').textContent='Copied';setTimeout(()=>$('copyBtn').textContent='Copy',900)}catch{alert('Copy is not available in this browser.')}};
+$('favBtn').onclick=()=>{if(!state.current)return;if(!state.favorites.some(f=>f.text===state.current.text))state.favorites.push(state.current);save();renderLists();renderStats()};
+$('saveNoteBtn').onclick=()=>{if(!state.current)return;state.notes[state.current.text]=$('projectNotes').value;save();$('saveNoteBtn').textContent='Saved';setTimeout(()=>$('saveNoteBtn').textContent='Save Notes',900)};
+$('historyLimit').onchange=renderLists;
+$('clearFavs').onclick=()=>{if(confirm('Clear all favorites?')){state.favorites=[];save();renderLists();renderStats()}};
+$('clearHistory').onclick=()=>{if(confirm('Clear recent spin history?')){state.history=[];save();renderLists();renderStats()}};
+$('exportBtn').onclick=()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='spinspire_creative_log.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
+buildWheel();renderCurrent();renderLists();renderStats();
+</script>
+</body>
+</html>
