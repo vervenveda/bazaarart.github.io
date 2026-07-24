@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SixBit Bun™ — Image → Base64 Tool</title>
+<style>
+:root {
+  --main: #fffbe7;
+  --accent: #d285ff;
+  --brand: #6c39c8;
+  --btn: #ffe285;
+  --text: #1a1a1a;
+  --gray: #eee;
+  --bunny: #f6e1ff;
+
+  --nebula1:#0b0427;
+  --nebula2:#1a0b47;
+}
+body {
+  background: radial-gradient(circle at 50% 15%, #2a185f 0%, var(--nebula2) 40%, var(--nebula1) 100%);
+  margin: 0; padding: 0; min-height: 100vh;
+  font-family: system-ui, "Segoe UI", Arial, sans-serif;
+  color: var(--text);
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* App card */
+#app {
+  background: var(--main);
+  margin: 40px 12px;
+  padding: 28px 26px 24px 26px;
+  max-width: 640px;
+  width: 100%;
+  border-radius: 22px;
+  box-shadow:
+    0 18px 46px rgba(0,0,0,0.35),
+    0 0 0 1px rgba(255,255,255,0.3);
+  position: relative;
+}
+
+/* Header */
+header {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 4px;
+  margin-bottom: 10px;
+}
+.logo-bun {
+  width: 52px; height: 52px;
+  position: absolute; right: 22px; top: 17px;
+  opacity: 0.97; z-index: 10;
+}
+h1 {
+  letter-spacing: 1.6px;
+  font-size: 2.1rem; margin: 0;
+  color: var(--brand); font-weight: 700;
+}
+small { color: #76559a; letter-spacing: 0.5px; }
+
+/* Status chips under title */
+.chip-row{
+  margin-top:6px;
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+.chip{
+  font-size:0.72rem;
+  text-transform:uppercase;
+  letter-spacing:0.08em;
+  padding:3px 8px;
+  border-radius:999px;
+  border:1px solid rgba(108,57,200,0.18);
+  background:#f8f1ff;
+  color:#6c39c8;
+}
+.chip.secure{
+  background:#e5ffea;
+  border-color:rgba(41,145,88,0.25);
+  color:#298f56;
+}
+.chip.offline{
+  background:#fff4d4;
+  border-color:rgba(180,132,40,0.35);
+  color:#8b5b08;
+}
+
+.guide-btn {
+  color: var(--brand); background: none;
+  border: none; cursor: pointer; font-weight: 700;
+  font-size:1rem; margin-left:6px;
+  text-decoration:underline;
+}
+
+/* Dropzone */
+.drop {
+  background: #f9f5fc;
+  border: 2.5px dashed #bba9d1;
+  border-radius: 13px;
+  text-align: center;
+  padding: 33px 10px 27px 10px;
+  font-size: 1.05rem;
+  color: #5e5585;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, transform 0.15s;
+  margin-bottom: 12px;
+  position: relative;
+}
+.drop.dragover {
+  border-color: var(--brand);
+  background: #f3e7ff;
+  transform: translateY(-1px);
+}
+input[type="file"] { display: none; }
+
+/* Controls */
+.controls {
+  display: flex; flex-wrap: wrap;
+  gap: 7px 13px; align-items: center;
+  margin-bottom: 7px;
+  font-size: .97rem;
+}
+.controls label { display:flex;align-items:center;gap:4px;}
+input[type="number"], select {
+  padding: 5px 7px; border-radius: 6px;
+  border: 1px solid #ccc; width: 55px;
+  font-size: .97rem; margin-left: 2px;
+}
+input[type="checkbox"] { accent-color: var(--accent);}
+
+/* Buttons */
+button {
+  background: var(--btn); color: var(--brand);
+  border: none; font-weight: 700; border-radius: 9px;
+  padding: 10px 18px; margin-top: 2px;
+  cursor: pointer; box-shadow:0 2px 8px #eee;
+  font-size: 1.02rem;
+  transition: background 0.18s, transform 0.12s, box-shadow 0.12s;
+}
+button:hover {
+  background: #ffeeb8;
+  transform: translateY(-1px);
+  box-shadow:0 4px 12px rgba(0,0,0,0.12);
+}
+button:active {
+  background: #ffe9a4;
+  transform: translateY(0);
+}
+button.secondary { background: var(--gray); color: var(--brand);}
+button.copy-done {background: #e1ffd7;color:#268234;}
+#historyBtn { font-size:0.93em; }
+
+/* Gallery */
+.gallery {
+  margin-top: 13px;
+  display: grid;
+  gap: 17px;
+}
+.card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px #ece8ff59;
+  padding: 10px 11px 15px 11px;
+  display: flex; flex-direction: column;
+  gap: 5px; align-items: stretch;
+  position:relative;
+}
+.card img {
+  max-width:96px; max-height:96px;
+  margin: 5px 0 3px 0;
+  border-radius:8px;
+  align-self:center;
+}
+.card .name {
+  font-size: 1.03rem;
+  color: #654cc0;
+  font-weight: 600;
+}
+.card .status {
+  font-size:0.88rem;
+  color:#7b6c96;
+}
+
+/* Textarea */
+textarea {
+  width: 100%; border-radius: 7px;
+  border: 1.5px solid #dad2ea;
+  background: #fcf7ff;
+  font-family: monospace;
+  font-size: 0.96rem;
+  min-height: 96px;
+  padding: 7px; margin-top: 7px;
+  resize: vertical; color: #3e254a;
+  word-break: break-all;
+}
+textarea.nowrap {white-space:pre;}
+.card .actions {
+  display: flex;
+  gap: 9px;
+  margin-top: 3px;
+}
+
+/* Footer */
+footer {
+  text-align:center;
+  color: #9a88b6;
+  margin-top:22px;
+  font-size:.92em;
+  line-height:1.5;
+}
+
+/* Guide Modal */
+#guideModal {
+  display: none;
+  position: fixed;
+  z-index: 40;
+  inset: 0;
+  background: rgba(36,22,56,0.35);
+  align-items: center;
+  justify-content: center;
+}
+#guideModal.open { display: flex;}
+.guide-card {
+  background: #fffbe9;
+  border-radius: 15px;
+  padding: 26px 34px 19px 34px;
+  box-shadow: 0 8px 30px #8166be23;
+  max-width: 410px;
+  text-align: left;
+}
+.guide-card h2 {
+  margin-top:0;
+  color:#a265f5;
+  font-size:1.27rem;
+}
+.guide-card ul {
+  margin-top:5px;
+  margin-bottom:13px;
+}
+.guide-card li {margin-bottom:7px;}
+.guide-close {
+  background: #ece7ff;
+  color: #6c39c8;
+  border: none;
+  padding: 7px 14px;
+  border-radius: 7px;
+  font-weight: bold;
+  font-size: 1.03rem;
+  float:right;
+  cursor:pointer;
+}
+
+/* Mascot bun SVG */
+.logo-bun svg {
+  width: 52px; height: 52px; display: block;
+}
+
+@media (max-width:600px){
+  body {
+    align-items:flex-start;
+  }
+  #app {
+    margin: 16px 6px 22px 6px;
+    padding: 16px 10px 18px 10px;
+  }
+  .guide-card{
+    padding:13px 5vw;
+  }
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <span class="logo-bun" title="SixBit Bun mascot">
+    <!-- Bunny SVG mascot -->
+    <svg viewBox="0 0 80 80" fill="none">
+      <ellipse cx="40" cy="57" rx="24" ry="20" fill="#fff"/>
+      <ellipse cx="30" cy="35" rx="9" ry="18" fill="#ecd6f7"/>
+      <ellipse cx="50" cy="35" rx="9" ry="18" fill="#ecd6f7"/>
+      <ellipse cx="30" cy="29" rx="4.5" ry="12" fill="#fff"/>
+      <ellipse cx="50" cy="29" rx="4.5" ry="12" fill="#fff"/>
+      <ellipse cx="40" cy="59" rx="19" ry="13.5" fill="#fff"/>
+      <ellipse cx="40" cy="62" rx="8" ry="7" fill="#ecd6f7"/>
+      <ellipse cx="40" cy="54" rx="7" ry="6" fill="#fff"/>
+      <ellipse cx="34" cy="62" rx="2.2" ry="2.6" fill="#a88add"/>
+      <ellipse cx="46" cy="62" rx="2.2" ry="2.6" fill="#a88add"/>
+      <ellipse cx="40" cy="54" rx="2.7" ry="2.3" fill="#a88add"/>
+      <ellipse cx="36" cy="50" rx="2.2" ry="1.6" fill="#fdc6be"/>
+      <ellipse cx="44" cy="50" rx="2.2" ry="1.6" fill="#fdc6be"/>
+      <ellipse cx="40" cy="41" rx="7.5" ry="7.5" fill="#fff"/>
+      <ellipse cx="37.5" cy="40" rx="1.8" ry="2.4" fill="#444"/>
+      <ellipse cx="42.5" cy="40" rx="1.8" ry="2.4" fill="#444"/>
+      <ellipse cx="40" cy="46" rx="2.7" ry="1.3" fill="#fd6f7f"/>
+      <rect x="47" y="68" width="13" height="5" rx="2.2" fill="#ffd6c0"/>
+      <rect x="20" y="68" width="13" height="5" rx="2.2" fill="#ffd6c0"/>
+      <!-- Cute glasses -->
+      <ellipse cx="34" cy="44" rx="4.2" ry="2.5" fill="none" stroke="#b289e3" stroke-width="2"/>
+      <ellipse cx="46" cy="44" rx="4.2" ry="2.5" fill="none" stroke="#b289e3" stroke-width="2"/>
+      <rect x="38" y="43" width="4" height="1.1" rx="0.6" fill="#b289e3"/>
+    </svg>
+  </span>
+
+  <header>
+    <h1>SixBit Bun™</h1>
+    <div>
+      <small>Batch image → base64 converter for creators</small>
+      <button class="guide-btn" onclick="openGuide()">How to use?</button>
+    </div>
+    <div class="chip-row">
+      <span class="chip offline">Local Only</span>
+      <span class="chip">No Uploads</span>
+      <span class="chip secure">Private & Secure</span>
+    </div>
+  </header>
+
+  <div class="drop" id="dropzone" tabindex="0">
+    Drop images here or click to browse<br>
+    <small>(PNG, JPG, GIF, WebP, SVG — unlimited, local only)</small>
+    <input type="file" id="fileInput" multiple accept="image/*,.svg">
+  </div>
+
+  <div class="controls">
+    <label>Resize max width:
+      <input type="number" id="resizeWidth" min="0" placeholder="(auto)" style="width:60px">
+    </label>
+    <label>JPEG quality:
+      <input type="number" id="jpegQ" min="20" max="100" step="5" value="85" style="width:52px">
+    </label>
+    <label><input type="checkbox" id="stripPrefix">Strip prefix</label>
+    <label><input type="checkbox" id="minifySvg">Minify SVG</label>
+    <label><input type="checkbox" id="wrapLines">Wrap lines</label>
+    <button id="convertBtn">Convert All</button>
+    <button class="secondary" id="clearBtn">Clear</button>
+    <button class="secondary" id="historyBtn">History</button>
+  </div>
+
+  <div class="gallery" id="gallery"></div>
+
+  <footer>
+    🐰 SixBit Bun™ v3.0 — All Rights Reserved by<br>
+    My Art Gallery & Khaemenes Academy.<br>
+    By Jenny Pearl (2025). Local & private. No uploads ever.
+  </footer>
+</div>
+
+<!-- Guide Modal -->
+<div id="guideModal">
+  <div class="guide-card">
+    <button class="guide-close" onclick="closeGuide()">✕</button>
+    <h2>How to use SixBit Bun</h2>
+    <ul>
+      <li><b>1.</b> Drag in or click to choose images (PNG, JPG, GIF, WebP, SVG).</li>
+      <li><b>2.</b> (Optional) Set max width or JPEG quality. SVG: can minify.</li>
+      <li><b>3.</b> Click <b>Convert All</b>. Preview and base64 code appears instantly!</li>
+      <li><b>4.</b> Copy code (one or all), or download as .txt for easy use in code, HTML, or JSON.</li>
+      <li><b>5.</b> All work is local; nothing is saved or uploaded.</li>
+      <li><b>6.</b> <b>History</b> button shows your last 10 conversions this session.</li>
+      <li><b>7.</b> "Strip prefix" removes <i>data:image/png;base64,</i> etc from output.</li>
+      <li><b>8.</b> <b>Minify SVG</b> strips whitespace/comments from SVG code (SVG only).</li>
+      <li><b>9.</b> <b>Wrap lines</b> for easier copy-paste.</li>
+    </ul>
+    <b>Tip:</b> Nothing is uploaded. Everything stays on your device.
+  </div>
+</div>
+
+<script>
+/* --- SixBit Bun Core Logic (Optimized v2.1) --- */
+const el = id => document.getElementById(id);
+
+const dz = el('dropzone'),
+      fi = el('fileInput'),
+      gal = el('gallery'),
+      resize = el('resizeWidth'),
+      strip = el('stripPrefix'),
+      minifySvg = el('minifySvg'),
+      wrapLines = el('wrapLines'),
+      jpegQ = el('jpegQ'),
+      histBtn = el('historyBtn');
+
+let files = [], results = [], history = [], previewUrls = [];
+
+/* --- File Input / Drag-Drop --- */
+dz.addEventListener('click', () => fi.click());
+dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('dragover'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('dragover'));
+dz.addEventListener('keydown', e => {
+  if (e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault();
+    fi.click();
+  }
+});
+dz.addEventListener('drop', e => {
+  e.preventDefault(); dz.classList.remove('dragover');
+  handleFiles(e.dataTransfer.files);
+});
+fi.addEventListener('change', e => handleFiles(e.target.files));
+
+/* --- Handle Selected Files --- */
+function clearPreviewUrls() {
+  previewUrls.forEach(url => URL.revokeObjectURL(url));
+  previewUrls = [];
+}
+  function handleFiles(list) {
+  clearPreviewUrls();
+  files = [...list].filter(f => /^image\//.test(f.type) || /\.svg$/i.test(f.name));
+  gal.innerHTML = '';
+  results = [];
+
+  files.forEach((f, i) => {
+    const isSvg = /\.svg$/i.test(f.name) || f.type === 'image/svg+xml';
+    const previewUrl = isSvg ? '' : URL.createObjectURL(f);
+    if (previewUrl) previewUrls.push(previewUrl);
+
+    const c = document.createElement('div');
+    c.className = 'card';
+    c.innerHTML = `
+      <div class="name">${f.name}</div>
+      ${previewUrl ? `<img src="${previewUrl}" alt="">` : ''}
+      <div class="status" id="st${i}">Ready</div>
+      <textarea id="ta${i}" class="nowrap" placeholder="Base64 code will appear here"></textarea>
+      <div class="actions">
+        <button class="copyBtn" data-i="${i}">Copy</button>
+        <button class="secondary dlBtn" data-i="${i}">Download</button>
+      </div>`;
+    gal.appendChild(c);
+  });
+
+  fi.value = '';
+}
+}
+
+/* --- Convert All --- */
+el('convertBtn').onclick = async () => {
+  if (!files.length) return alert('No images selected');
+  results = new Array(files.length).fill('');
+
+  for (let i = 0; i < files.length; i++) {
+    updateStatus(i, 'Converting...');
+    const f = files[i];
+    const isSvg = /\.svg$/i.test(f.name) || f.type === 'image/svg+xml';
+
+    try {
+      const base64 = isSvg
+        ? await svgToBase64(f, minifySvg.checked)
+        : await imgToBase64(f, +resize.value || 0, +jpegQ.value / 100);
+
+      const out = strip.checked
+        ? base64.replace(/^data:image\/[a-zA-Z0-9+\-]+;base64,/, '').replace(/^data:image\/svg\+xml;base64,/, '')
+        : base64;
+
+      results[i] = out;
+
+      const ta = el('ta' + i);
+      ta.value = wrapLines.checked ? out.replace(/(.{88})/g, '$1\n') : out;
+      ta.classList.toggle('nowrap', !wrapLines.checked);
+      updateStatus(i, 'Done ✓');
+    } catch (err) {
+      console.error(err);
+      const ta = el('ta' + i);
+      if (ta) ta.value = '';
+      updateStatus(i, 'Failed ✕');
+    }
+  }
+
+  history.unshift({
+    date: new Date().toLocaleString(),
+    files: files.map(f => f.name),
+    codes: [...results]
+  });
+  if (history.length > 10) history.length = 10;
+
+  alert('Conversion complete!');
+};
+
+/* --- Gallery Actions --- */
+gal.onclick = e => {
+  const i = +e.target.dataset.i;
+  if (e.target.classList.contains('copyBtn')) {
+    copyText(el('ta' + i).value, e.target);
+  }
+  if (e.target.classList.contains('dlBtn')) {
+    downloadText(el('ta' + i).value, (files[i]?.name || 'image') + '.b64.txt');
+  }
+};
+
+/* --- Utility Functions --- */
+const updateStatus = (i, txt) => {
+  const st = el('st' + i);
+  if (st) st.textContent = txt;
+};
+
+const copyText = async (txt, btn) => {
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(txt);
+    } else {
+      const temp = document.createElement('textarea');
+      temp.value = txt;
+      temp.setAttribute('readonly', '');
+      temp.style.position = 'fixed';
+      temp.style.opacity = '0';
+      document.body.appendChild(temp);
+      temp.select();
+      document.execCommand('copy');
+      temp.remove();
+    }
+
+    btn.classList.add('copy-done');
+    btn.textContent = 'Copied!';
+    setTimeout(() => {
+      btn.classList.remove('copy-done');
+      btn.textContent = 'Copy';
+    }, 850);
+  } catch (err) {
+    alert('Copy failed. Please copy manually from the text box.');
+  }
+};
+const downloadText = (txt, name) => {
+  const blob = new Blob([txt], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = name;
+  a.click();
+  URL.revokeObjectURL(a.href);
+};
+
+/* --- Clear & History --- */
+el('clearBtn').onclick = () => {
+  clearPreviewUrls();
+  files = [];
+  results = [];
+  gal.innerHTML = '';
+  fi.value = '';
+};
+histBtn.onclick = () => {
+  if (!history.length) return alert('No conversion history yet this session!');
+  const msg = history.map((h, idx) =>
+    `#${history.length - idx} — ${h.date}\n` + h.files.map(f => `   ${f}`).join('\n')
+  ).join('\n\n');
+  alert("Recent Conversions (session only):\n\n" + msg);
+};
+
+/* --- Conversion Engines --- */
+function imgToBase64(file, maxWidth, jpegQuality) {
+  return new Promise((res, rej) => {
+    const reader = new FileReader();
+
+    reader.onerror = () => rej(new Error('Failed to read file'));
+    reader.onload = () => {
+      if (/gif/i.test(file.type) && !maxWidth) {
+        res(reader.result);
+        return;
+      }
+
+      const img = new Image();
+      img.onload = () => {
+        let { width: w, height: h } = img;
+        if (maxWidth && w > maxWidth) {
+          h = h * maxWidth / w;
+          w = maxWidth;
+        }
+
+        const c = document.createElement('canvas');
+        c.width = w;
+        c.height = h;
+
+        const ctx = c.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+
+        let out;
+        if (/jpe?g/i.test(file.type)) out = c.toDataURL('image/jpeg', jpegQuality || 0.85);
+        else if (/webp/i.test(file.type)) out = c.toDataURL('image/webp', jpegQuality || 0.92);
+        else out = c.toDataURL('image/png');
+
+        res(out);
+      };
+      img.onerror = () => rej(new Error('Failed to load image'));
+      img.src = reader.result;
+    };
+
+    reader.readAsDataURL(file);
+  });
+}
+
+function svgToBase64(file, minify) {
+  return new Promise((res, rej) => {
+    const reader = new FileReader();
+
+    reader.onerror = () => rej(new Error('Failed to read SVG'));
+    reader.onload = () => {
+      let txt = reader.result;
+      if (minify) {
+        txt = txt.replace(/<!--[\s\S]*?-->/g, '')
+                 .replace(/[\r\n\t]+/g, ' ')
+                 .replace(/\s{2,}/g, ' ')
+                 .replace(/> </g, '><');
+      }
+
+      txt = txt.replace(/<\?xml.*?\?>/g, '');
+
+      const bytes = new TextEncoder().encode(txt);
+      let binary = '';
+      const chunkSize = 0x8000;
+
+      for (let i = 0; i < bytes.length; i += chunkSize) {
+        binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
+      }
+
+      res('data:image/svg+xml;base64,' + btoa(binary));
+    };
+
+    reader.readAsText(file);
+  });
+}
+
+/* --- Guide Modal --- */
+function openGuide() { el('guideModal').classList.add('open'); }
+function closeGuide() { el('guideModal').classList.remove('open'); }
+window.openGuide = openGuide;
+window.closeGuide = closeGuide;
+
+window.addEventListener('keydown', e => { if (e.key === "Escape") closeGuide(); });
+el('guideModal').onclick = e => { if (e.target === e.currentTarget) closeGuide(); };
+</script>
+</body>
+</html>
