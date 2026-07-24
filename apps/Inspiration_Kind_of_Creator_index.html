@@ -1,257 +1,82 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Catalyst™  <br> What Kind of Creator Are You?</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Brandon+Grotesque&display=swap" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Catalyst Creative DNA — a reflective Monte Carlo creativity archetype assessment for teens and adults.">
+<title>Catalyst™ — Creative DNA Assessment</title>
 <style>
-  body {
-    margin: 0;
-    padding: 0;
-    background: #000000;
-    font-family: 'Brandon Grotesque', sans-serif;
-    color: #2a2a2a;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-  }
-  .quiz-container {
-    background: #fff;
-    border-radius: 20px;
-    padding: 30px;
-    width: 90%;
-    max-width: 500px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    text-align: center;
-    animation: fadeIn 0.8s ease;
-  }
-  h1 {
-    font-family: 'Cinzel', serif;
-    font-size: 1.8rem;
-    margin-bottom: 1.2em;
-    color: #333;
-  }
-  .question { font-size: 1.1rem; margin-bottom: 1em; }
-  .option {
-    display: block;
-    background: #f3eee9;
-    margin: 0.4em 0;
-    padding: 10px;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-  .option:hover { background: #e6ded6; }
-  #nextBtn, .cta-btn, .share-btn {
-    margin-top: 1em;
-    padding: 10px 20px;
-    background: #2a2a2a;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-  #nextBtn:hover, .cta-btn:hover, .share-btn:hover {
-    background: #444;
-  }
-  #result { display: none; font-size: 1.1rem; margin-top: 1.2em; }
-  .optin-section {
-    background: #f9f7f4;
-    margin-top: 1em;
-    padding: 15px;
-    border-radius: 12px;
-  }
-  .optin-section input {
-    width: 80%;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-    margin-top: 8px;
-  }
-  .social-icons {
-    margin-top: 1em;
-  }
-  .social-icons a {
-    margin: 0 8px;
-    text-decoration: none;
-    color: #2a2a2a;
-    font-size: 1.4rem;
-  }
-  #copiedMsg {
-    margin-top: 0.5em;
-    color: #007a5a;
-    font-size: 0.9rem;
-    display: none;
-  }
-  @keyframes fadeIn {
-    from {opacity: 0; transform: translateY(10px);}
-    to {opacity: 1; transform: translateY(0);}
-  }
+:root{--bg1:#121323;--bg2:#36204b;--panel:#f1e8db;--panel2:#fff8ef;--ink:#2d2631;--muted:#6e6470;--primary:#3d4f99;--secondary:#a04d78;--accent:#d9ab43;--green:#2f7b68;--border:#c9b58f;--shadow:0 28px 70px rgba(8,8,18,.38)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;padding:22px 14px 42px;color:var(--ink);font-family:"Avenir Next","Trebuchet MS","Segoe UI",system-ui,sans-serif;background:radial-gradient(circle at 12% 10%,rgba(50,103,180,.22),transparent 24rem),radial-gradient(circle at 88% 12%,rgba(174,77,127,.2),transparent 24rem),radial-gradient(circle at 15% 88%,rgba(217,171,67,.13),transparent 22rem),linear-gradient(145deg,var(--bg1),var(--bg2))}
+button,input{font:inherit}button{cursor:pointer;touch-action:manipulation}.wrap{width:min(1180px,100%);margin:auto}.hero,.assessment{background:var(--panel);border:1px solid rgba(255,255,255,.42);border-radius:32px;box-shadow:var(--shadow)}.hero{display:grid;grid-template-columns:1.08fr .92fr;overflow:hidden}.hero-copy{padding:clamp(28px,5vw,58px)}.eyebrow{display:inline-flex;padding:8px 13px;border-radius:999px;background:var(--panel2);border:1px solid var(--border);font-size:.75rem;font-weight:900;letter-spacing:.13em;text-transform:uppercase;color:var(--primary)}h1{margin:18px 0 10px;font-family:Georgia,"Times New Roman",serif;font-size:clamp(3.2rem,8vw,7rem);line-height:.87;letter-spacing:-.055em;color:var(--primary)}.lead{margin:0;color:var(--muted);line-height:1.68;font-size:1.07rem}.hero-art{position:relative;min-height:430px;background:conic-gradient(from 0deg,#7c4dff,#d85c9d,#d94a4a,#e97b2f,#e2b93b,#4d9a57,#2a9d8f,#2cb9d1,#4f78d1,#c9992e,#7c4dff)}.hero-art:before{content:"";position:absolute;inset:12%;border-radius:50%;background:var(--bg1);box-shadow:0 0 0 20px #fff2}.hero-art:after{content:"CREATIVE\A DNA";white-space:pre;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;font-family:Georgia,serif;font-size:clamp(2.4rem,6vw,4.8rem);line-height:.9;color:#fff}.assessment{margin-top:18px;padding:18px}.intro{text-align:center;padding:24px}.intro h2,.result h2{font-family:Georgia,serif;color:var(--primary);font-size:2.2rem}.notice{padding:12px 14px;border:1px solid var(--border);border-radius:17px;background:#fff1c9;color:#5c514b;line-height:1.52}.btn{border:0;border-radius:14px;padding:11px 15px;font-weight:900;background:var(--panel2);color:var(--primary);box-shadow:0 6px 14px #24182d18}.btn.primary{color:#fff;background:linear-gradient(135deg,var(--primary),var(--secondary))}.btn.gold{color:#35250e;background:linear-gradient(135deg,var(--accent),#ed8245)}.btn.green{color:#fff;background:linear-gradient(135deg,var(--green),#4ea08a)}.actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:15px}.quiz{display:none}.topline{display:flex;justify-content:space-between;gap:12px;align-items:center}.section-chip{padding:7px 10px;border-radius:999px;background:#ede3f4;color:var(--primary);font-size:.75rem;font-weight:900}.progress{height:10px;border-radius:999px;background:#ded4c3;overflow:hidden;margin:12px 0 20px}.progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--secondary),var(--accent));transition:width .25s}.question{font-family:Georgia,serif;font-size:clamp(1.55rem,4vw,2.6rem);line-height:1.18;text-align:center;margin:20px auto;max-width:850px}.options{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:950px;margin:auto}.option{min-height:110px;text-align:left;padding:16px;border:1px solid var(--border);border-radius:19px;background:var(--panel2);color:var(--ink);font-weight:800;line-height:1.45}.option:hover{transform:translateY(-2px);box-shadow:0 10px 20px #24182d18}.option.selected{color:#fff;background:linear-gradient(135deg,var(--primary),var(--secondary));border-color:transparent}.nav{display:flex;justify-content:space-between;margin-top:16px}.result{display:none}.dna-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:14px}.profile,.side{padding:18px;border:1px solid var(--border);border-radius:24px;background:var(--panel2)}.primary-result{display:flex;gap:14px;align-items:center}.big-emoji{font-size:4.5rem}.primary-result h3{margin:0;font-family:Georgia,serif;font-size:2rem;color:var(--primary)}.bar-list{display:grid;gap:9px;margin-top:16px}.bar-row{display:grid;grid-template-columns:170px 1fr 54px;gap:9px;align-items:center}.bar-track{height:13px;border-radius:999px;background:#e3d9c8;overflow:hidden}.bar-fill{height:100%;border-radius:999px}.traits{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}.trait{padding:7px 9px;border-radius:999px;background:#efe5d5;font-size:.78rem;font-weight:900}.challenge-list{display:grid;gap:8px}.day{padding:11px;border:1px solid var(--border);border-radius:15px;background:#fffaf2}.day strong{color:var(--primary)}.small{color:var(--muted);line-height:1.5}.archive{margin-top:13px;padding:14px;border:1px solid var(--border);border-radius:20px;background:var(--panel2)}footer{margin-top:15px;text-align:center;color:#eee7f1;line-height:1.55;font-size:.83rem}@media(max-width:900px){.hero,.dna-grid{grid-template-columns:1fr}.hero-art{min-height:320px}}@media(max-width:650px){.options{grid-template-columns:1fr}.bar-row{grid-template-columns:120px 1fr 46px}.option{min-height:90px}}:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
 </style>
 </head>
 <body>
+<main class="wrap">
+<section class="hero"><div class="hero-copy"><span class="eyebrow">Bazaar Art Reflective Assessment</span><h1>Catalyst™</h1><p class="lead">Discover how your mind naturally notices, solves, expresses, and builds. Fifty reflective questions map a creative profile across ten archetypes and generate a personalized seven-day creative journey.</p></div><div class="hero-art" aria-hidden="true"></div></section>
 
-<div class="quiz-container" id="quizBox">
-  <h1>Catalyst™  <br> What Kind of Creator Are You?</h1>
-  <div id="quizContent">
-    <div id="question" class="question"></div>
-    <div id="options"></div>
-    <button id="nextBtn">Next</button>
-  </div>
-  <div id="result"></div>
-  <div id="copiedMsg">Copied to clipboard!</div>
+<section class="assessment">
+<div class="intro" id="intro">
+<h2>What Kind of Creator Are You?</h2>
+<p class="small">This is a reflective creative-strength assessment, not a clinical or psychological diagnosis. There are no right answers. Choose the response that feels most natural today.</p>
+<div class="notice"><strong>Monte Carlo scoring:</strong> Your selected answers create a base profile. The app then runs 2,000 small simulations around those choices to estimate which strengths remain most stable when natural uncertainty is included.</div>
+<div class="actions"><button class="btn primary" id="start">Begin 50 Questions</button><button class="btn" id="resume">Resume Saved Progress</button></div>
 </div>
 
+<div class="quiz" id="quiz">
+<div class="topline"><span class="section-chip" id="section"></span><strong id="count"></strong></div>
+<div class="progress"><span id="progress"></span></div>
+<div class="question" id="question"></div>
+<div class="options" id="options"></div>
+<div class="nav"><button class="btn" id="back">Back</button><button class="btn primary" id="next">Next</button></div>
+</div>
+
+<div class="result" id="result">
+<div class="dna-grid">
+<section class="profile">
+<h2>Your Creative DNA</h2>
+<div class="primary-result"><div class="big-emoji" id="heroEmoji"></div><div><h3 id="heroTitle"></h3><p class="small" id="heroDesc"></p></div></div>
+<div class="bar-list" id="bars"></div>
+<h3>Strengths</h3><div class="traits" id="strengths"></div>
+<h3>Creative directions to explore</h3><div class="traits" id="try"></div>
+<div class="notice" id="affirmation"></div>
+</section>
+<aside class="side">
+<h2>7-Day Creativity Challenge</h2>
+<div class="challenge-list" id="challenge"></div>
+<div class="actions"><button class="btn gold" id="print">Print Results</button><button class="btn green" id="export">Export Profile</button><button class="btn" id="restart">Retake</button></div>
+</aside>
+</div>
+<div class="archive"><strong>How to read the profile:</strong> The highest percentage is your primary tendency in this response set. Secondary and emerging styles are not lesser; they often show how your strongest style becomes more flexible and distinctive.</div>
+</div>
+</section>
+<footer><strong>© 2026 Bazaar Art · Verve N Veda · Jennifer Kay Pearl</strong><br>All Rights Reserved. · Local, private, offline-first, and creativity-centered.</footer>
+</main>
+
 <script>
-// --- Quiz Data (can be expanded to 600 randomized later) ---
-const quizData = [
-  {
-    question: "When you start a creative project, what draws you in first?",
-    options: {
-      A: "The play of light and color — painting feels like breathing.",
-      B: "Capturing a moment through a lens — photography speaks truth.",
-      C: "The rhythm of words — poetry lets my emotions dance.",
-      D: "Blending visuals and verse — mixed media feels limitless."
-    }
-  },
-  {
-    question: "Your ideal studio vibe is:",
-    options: {
-      A: "Quiet and filled with brushes, textures, and scent of paint.",
-      B: "Dimly lit with a camera ready and music in the background.",
-      C: "Candlelight, journal, and soft rain outside.",
-      D: "A mix of chaos and beauty — everything within reach."
-    }
-  },
-  {
-    question: "What do you want your art to *do*?",
-    options: {
-      A: "Move people through color and form.",
-      B: "Reveal the unseen beauty of reality.",
-      C: "Speak to the soul through words.",
-      D: "Bridge emotion, vision, and sound in new ways."
-    }
-  },
-  {
-    question: "Which phrase feels most like you?",
-    options: {
-      A: "I see emotion in color.",
-      B: "I see stories in faces.",
-      C: "I see music in language.",
-      D: "I see unity in chaos."
-    }
-  }
-];
-
-let current = 0;
-let scores = {A:0, B:0, C:0, D:0};
-
-function loadQuestion() {
-  const q = quizData[current];
-  document.getElementById('question').innerText = q.question;
-  const opts = document.getElementById('options');
-  opts.innerHTML = '';
-  for (const [key, value] of Object.entries(q.options)) {
-    const div = document.createElement('div');
-    div.className = 'option';
-    div.innerText = value;
-    div.onclick = () => selectOption(key);
-    opts.appendChild(div);
-  }
+const ARCH={"artist": {"title": "The Artist", "emoji": "🎨", "color": "#7C4DFF", "creates": "drawing, painting, visual composition, and color", "description": "You think through images, color relationships, form, and visual atmosphere.", "strengths": ["Visual imagination", "Color sensitivity", "Composition", "Emotional expression", "Aesthetic judgment"], "try": ["Keep a visual journal", "Study one object in five styles", "Build a personal color library", "Try painting, collage, or illustration"], "affirmation": "Your way of seeing can make the invisible visible."}, "storyteller": {"title": "The Storyteller", "emoji": "✍️", "color": "#4F78D1", "creates": "writing, poetry, journaling, and narrative", "description": "You organize experience through words, meaning, character, and sequence.", "strengths": ["Language", "Narrative thinking", "Empathy", "Communication", "Meaning-making"], "try": ["Write one-page stories", "Keep a reflective journal", "Create a comic script", "Record a short spoken story"], "affirmation": "Your words can help people recognize themselves and imagine more."}, "observer": {"title": "The Observer", "emoji": "📸", "color": "#2A9D8F", "creates": "photography, documentation, noticing, and visual research", "description": "You notice moments, patterns, expressions, and details that others often pass by.", "strengths": ["Attention", "Timing", "Visual evidence", "Curiosity", "Subtle perception"], "try": ["Take a five-photo texture walk", "Document one ordinary place", "Study light at three times of day", "Build a visual archive"], "affirmation": "Your attention turns overlooked moments into meaningful evidence."}, "musician": {"title": "The Musician", "emoji": "🎵", "color": "#D94A4A", "creates": "music, rhythm, sound, and performance", "description": "You respond to rhythm, tone, emotional pacing, and the energy of sound.", "strengths": ["Rhythm", "Listening", "Emotional timing", "Pattern memory", "Performance energy"], "try": ["Build a beat from household sounds", "Learn a short melody", "Make a mood playlist", "Write eight lines of lyrics"], "affirmation": "Your sense of rhythm can move people before words begin."}, "builder": {"title": "The Builder", "emoji": "🏗️", "color": "#E97B2F", "creates": "structures, systems, engineering, and hands-on inventions", "description": "You understand ideas by constructing, testing, repairing, and improving them.", "strengths": ["Spatial reasoning", "Persistence", "Systems thinking", "Problem-solving", "Practical imagination"], "try": ["Prototype with cardboard", "Repair or redesign an object", "Build a small kinetic sculpture", "Sketch an invention from three views"], "affirmation": "Your creativity becomes real through structure, testing, and care."}, "digital": {"title": "The Digital Creator", "emoji": "💻", "color": "#2CB9D1", "creates": "video, coding, animation, interactive media, and AI-assisted work", "description": "You enjoy combining tools, logic, media, and experimentation into responsive experiences.", "strengths": ["Tool fluency", "Iteration", "Multimedia thinking", "Logic", "Rapid experimentation"], "try": ["Make a 20-second animation", "Code a tiny interactive scene", "Edit a one-minute video", "Design a digital poster system"], "affirmation": "You can turn ideas into experiences people can explore."}, "nature": {"title": "The Nature Creator", "emoji": "🌿", "color": "#4D9A57", "creates": "gardens, ecological work, natural materials, and place-based art", "description": "You create through living systems, observation of nature, stewardship, and organic materials.", "strengths": ["Patience", "Ecological awareness", "Material sensitivity", "Seasonal thinking", "Care"], "try": ["Make a land-art study", "Design a small pollinator space", "Draw one plant through its life cycle", "Create with leaves, clay, or stone"], "affirmation": "Your creativity grows through relationship with living systems."}, "performer": {"title": "The Performer", "emoji": "🎭", "color": "#D85C9D", "creates": "acting, dance, speaking, movement, and shared experience", "description": "You think with voice, body, timing, presence, and the energy between people.", "strengths": ["Presence", "Improvisation", "Expression", "Collaboration", "Audience awareness"], "try": ["Perform a one-minute monologue", "Translate a feeling into movement", "Practice storytelling aloud", "Create a short scene with a partner"], "affirmation": "Your presence can transform a room into a shared experience."}, "maker": {"title": "The Maker", "emoji": "🍳", "color": "#E2B93B", "creates": "cooking, crafting, textiles, and useful handmade objects", "description": "You enjoy transforming materials through process, care, technique, and sensory judgment.", "strengths": ["Craftsmanship", "Process memory", "Resourcefulness", "Sensory awareness", "Finishing"], "try": ["Invent a simple recipe", "Try bookbinding or stitching", "Make a useful object from scraps", "Create a small gift by hand"], "affirmation": "Your care for materials turns ordinary things into useful beauty."}, "visionary": {"title": "The Visionary", "emoji": "💡", "color": "#C9992E", "creates": "big ideas, ventures, concepts, and future possibilities", "description": "You naturally imagine what could exist, connect distant ideas, and see potential before it is obvious.", "strengths": ["Possibility thinking", "Leadership", "Concept development", "Synthesis", "Initiative"], "try": ["Write a one-page future concept", "Map a community idea", "Design a project pitch", "Create three solutions to one stubborn problem"], "affirmation": "Your imagination can give direction to possibilities others have not seen yet."}},QUESTIONS=[{"section": "How You See the World", "q": "When you enter a new place, what reaches you first?", "options": [{"text": "The colors, shapes, and visual balance.", "scores": {"artist": 1.0, "observer": 0.35}}, {"text": "Small details and moments most people miss.", "scores": {"observer": 1.0, "nature": 0.35}}, {"text": "The feeling that a story has already begun there.", "scores": {"storyteller": 1.0, "visionary": 0.35}}, {"text": "The sound, movement, and energy of the room.", "scores": {"musician": 1.0, "performer": 0.35}}]}, {"section": "How You See the World", "q": "Which change in your surroundings are you most likely to notice?", "options": [{"text": "A color feels slightly wrong.", "scores": {"artist": 1.0, "maker": 0.35}}, {"text": "The light has shifted across a surface.", "scores": {"observer": 1.0, "artist": 0.35}}, {"text": "Someone's mood has changed.", "scores": {"performer": 1.0, "storyteller": 0.35}}, {"text": "A tool or object could work better.", "scores": {"builder": 1.0, "visionary": 0.35}}]}, {"section": "How You See the World", "q": "What makes an ordinary walk memorable?", "options": [{"text": "Unexpected shadows, reflections, and frames.", "scores": {"observer": 1.0, "artist": 0.35}}, {"text": "Plants, weather, animals, and seasonal changes.", "scores": {"nature": 1.0, "observer": 0.35}}, {"text": "A conversation or character I keep thinking about.", "scores": {"storyteller": 1.0, "performer": 0.35}}, {"text": "A rhythm formed by footsteps, traffic, or voices.", "scores": {"musician": 1.0, "digital": 0.35}}]}, {"section": "How You See the World", "q": "You are given a box of unrelated objects. What do you do first?", "options": [{"text": "Arrange them into a striking composition.", "scores": {"artist": 1.0, "maker": 0.35}}, {"text": "Examine how each one was made.", "scores": {"builder": 1.0, "maker": 0.35}}, {"text": "Invent a story connecting them.", "scores": {"storyteller": 1.0, "visionary": 0.35}}, {"text": "Photograph them from unusual angles.", "scores": {"observer": 1.0, "digital": 0.35}}]}, {"section": "How You See the World", "q": "Which kind of pattern feels most satisfying?", "options": [{"text": "Repeating color and shape.", "scores": {"artist": 1.0, "maker": 0.35}}, {"text": "A mechanical sequence that works precisely.", "scores": {"builder": 1.0, "digital": 0.35}}, {"text": "A rhythm that builds and changes.", "scores": {"musician": 1.0, "performer": 0.35}}, {"text": "A natural pattern that is ordered but never identical.", "scores": {"nature": 1.0, "observer": 0.35}}]}, {"section": "How You See the World", "q": "What do you instinctively collect?", "options": [{"text": "Images, color combinations, or beautiful packaging.", "scores": {"artist": 1.0, "observer": 0.35}}, {"text": "Quotes, phrases, and fragments of ideas.", "scores": {"storyteller": 1.0, "visionary": 0.35}}, {"text": "Materials, tools, or useful parts.", "scores": {"maker": 1.0, "builder": 0.35}}, {"text": "Clips, links, files, and digital inspiration.", "scores": {"digital": 1.0, "visionary": 0.35}}]}, {"section": "How You See the World", "q": "What kind of contrast interests you most?", "options": [{"text": "Light against dark.", "scores": {"artist": 1.0, "observer": 0.35}}, {"text": "Silence against sound.", "scores": {"musician": 1.0, "performer": 0.35}}, {"text": "Wild growth beside human structure.", "scores": {"nature": 1.0, "builder": 0.35}}, {"text": "What people say compared with what they mean.", "scores": {"storyteller": 1.0, "performer": 0.35}}]}, {"section": "How You See the World", "q": "A room feels unfinished. What would you change first?", "options": [{"text": "The color and visual focal point.", "scores": {"artist": 1.0, "visionary": 0.35}}, {"text": "The layout and function.", "scores": {"builder": 1.0, "maker": 0.35}}, {"text": "The lighting and atmosphere.", "scores": {"observer": 1.0, "performer": 0.35}}, {"text": "Add something living or natural.", "scores": {"nature": 1.0, "maker": 0.35}}]}, {"section": "How You See the World", "q": "Which question appears most often in your mind?", "options": [{"text": "How could this look more powerful?", "scores": {"artist": 1.0, "digital": 0.35}}, {"text": "What is really happening here?", "scores": {"observer": 1.0, "storyteller": 0.35}}, {"text": "How could this be built or improved?", "scores": {"builder": 1.0, "visionary": 0.35}}, {"text": "What could this become?", "scores": {"visionary": 1.0, "digital": 0.35}}]}, {"section": "How You See the World", "q": "What kind of beauty are you most drawn to?", "options": [{"text": "Bold, deliberate visual beauty.", "scores": {"artist": 1.0, "performer": 0.35}}, {"text": "Quiet beauty discovered by paying attention.", "scores": {"observer": 1.0, "nature": 0.35}}, {"text": "Beauty created through skill and process.", "scores": {"maker": 1.0, "builder": 0.35}}, {"text": "Beauty that appears in a shared live moment.", "scores": {"performer": 1.0, "musician": 0.35}}]}, {"section": "How You Think", "q": "When a difficult problem appears, what is your first useful move?", "options": [{"text": "Sketch possibilities.", "scores": {"artist": 1.0, "builder": 0.35}}, {"text": "Break it into working parts.", "scores": {"builder": 1.0, "digital": 0.35}}, {"text": "Write out what I know and what I do not.", "scores": {"storyteller": 1.0, "visionary": 0.35}}, {"text": "Imagine several future outcomes.", "scores": {"visionary": 1.0, "digital": 0.35}}]}, {"section": "How You Think", "q": "How do your strongest ideas usually arrive?", "options": [{"text": "As a clear image.", "scores": {"artist": 1.0, "observer": 0.35}}, {"text": "As a sentence, title, or question.", "scores": {"storyteller": 1.0, "visionary": 0.35}}, {"text": "As a system I want to test.", "scores": {"builder": 1.0, "digital": 0.35}}, {"text": "As a feeling, rhythm, or impulse.", "scores": {"musician": 1.0, "performer": 0.35}}]}, {"section": "How You Think", "q": "What makes learning feel real to you?", "options": [{"text": "Seeing an example.", "scores": {"observer": 1.0, "artist": 0.35}}, {"text": "Doing it with my hands.", "scores": {"maker": 1.0, "builder": 0.35}}, {"text": "Explaining it in my own words.", "scores": {"storyteller": 1.0, "performer": 0.35}}, {"text": "Experimenting with the tool until it responds.", "scores": {"digital": 1.0, "builder": 0.35}}]}, {"section": "How You Think", "q": "When plans change suddenly, what helps most?", "options": [{"text": "Improvising in the moment.", "scores": {"performer": 1.0, "musician": 0.35}}, {"text": "Rebuilding the plan around the new limits.", "scores": {"builder": 1.0, "visionary": 0.35}}, {"text": "Finding a fresh visual direction.", "scores": {"artist": 1.0, "digital": 0.35}}, {"text": "Observing before deciding.", "scores": {"observer": 1.0, "nature": 0.35}}]}, {"section": "How You Think", "q": "Which kind of challenge can hold your attention longest?", "options": [{"text": "Refining a composition until it feels balanced.", "scores": {"artist": 1.0, "observer": 0.35}}, {"text": "Making a process work reliably.", "scores": {"builder": 1.0, "maker": 0.35}}, {"text": "Developing a believable character or argument.", "scores": {"storyteller": 1.0, "performer": 0.35}}, {"text": "Combining several media or tools into one experience.", "scores": {"digital": 1.0, "visionary": 0.35}}]}, {"section": "How You Think", "q": "What do you do when an idea is not working?", "options": [{"text": "Change the material or technique.", "scores": {"maker": 1.0, "artist": 0.35}}, {"text": "Test another structure.", "scores": {"builder": 1.0, "digital": 0.35}}, {"text": "Step away and watch for new information.", "scores": {"observer": 1.0, "nature": 0.35}}, {"text": "Reframe the purpose of the idea.", "scores": {"visionary": 1.0, "storyteller": 0.35}}]}, {"section": "How You Think", "q": "Which mental activity feels most natural?", "options": [{"text": "Visualizing objects in space.", "scores": {"builder": 1.0, "artist": 0.35}}, {"text": "Hearing patterns internally.", "scores": {"musician": 1.0, "performer": 0.35}}, {"text": "Connecting people, motives, and meaning.", "scores": {"storyteller": 1.0, "observer": 0.35}}, {"text": "Connecting distant ideas into a new concept.", "scores": {"visionary": 1.0, "digital": 0.35}}]}, {"section": "How You Think", "q": "When you have too many ideas, how do you sort them?", "options": [{"text": "Make a visual map.", "scores": {"artist": 1.0, "visionary": 0.35}}, {"text": "Create categories and a system.", "scores": {"digital": 1.0, "builder": 0.35}}, {"text": "Talk them through aloud.", "scores": {"performer": 1.0, "storyteller": 0.35}}, {"text": "Make a quick sample of each.", "scores": {"maker": 1.0, "builder": 0.35}}]}, {"section": "How You Think", "q": "What kind of mistake teaches you the most?", "options": [{"text": "A visual choice that changes the whole mood.", "scores": {"artist": 1.0, "observer": 0.35}}, {"text": "A structural failure that reveals how something works.", "scores": {"builder": 1.0, "maker": 0.35}}, {"text": "A line or scene that sounds false.", "scores": {"storyteller": 1.0, "performer": 0.35}}, {"text": "A technical error that leads to an unexpected effect.", "scores": {"digital": 1.0, "musician": 0.35}}]}, {"section": "How You Think", "q": "What does your curiosity most often ask you to do?", "options": [{"text": "Look closer.", "scores": {"observer": 1.0, "nature": 0.35}}, {"text": "Take it apart.", "scores": {"builder": 1.0, "maker": 0.35}}, {"text": "Tell someone about it.", "scores": {"storyteller": 1.0, "performer": 0.35}}, {"text": "Turn it into a larger possibility.", "scores": {"visionary": 1.0, "digital": 0.35}}]}, {"section": "How You Express Yourself", "q": "What would you choose to communicate a complicated feeling?", "options": [{"text": "A painting or visual symbol.", "scores": {"artist": 1.0, "observer": 0.35}}, {"text": "A poem, journal entry, or story.", "scores": {"storyteller": 1.0, "visionary": 0.35}}, {"text": "A piece of music or sound.", "scores": {"musician": 1.0, "digital": 0.35}}, {"text": "Movement, acting, or speaking aloud.", "scores": {"performer": 1.0, "storyteller": 0.35}}]}, {"section": "How You Express Yourself", "q": "Which finished object would make you proudest?", "options": [{"text": "A strong series of images.", "scores": {"artist": 1.0, "observer": 0.35}}, {"text": "A useful object made beautifully.", "scores": {"maker": 1.0, "builder": 0.35}}, {"text": "An interactive digital experience.", "scores": {"digital": 1.0, "visionary": 0.35}}, {"text": "A garden or outdoor place that keeps growing.", "scores": {"nature": 1.0, "builder": 0.35}}]}, {"section": "How You Express Yourself", "q": "How do you prefer to share an idea with others?", "options": [{"text": "Show them a visual concept.", "scores": {"artist": 1.0, "digital": 0.35}}, {"text": "Tell the story behind it.", "scores": {"storyteller": 1.0, "performer": 0.35}}, {"text": "Demonstrate how it works.", "scores": {"builder": 1.0, "maker": 0.35}}, {"text": "Create an experience they can join.", "scores": {"performer": 1.0, "visionary": 0.35}}]}, {"section": "How You Express Yourself", "q": "What kind of personal project sounds most meaningful?", "options": [{"text": "A photographic record of a changing place.", "scores": {"observer": 1.0, "nature": 0.35}}, {"text": "A handmade book or crafted object.", "scores": {"maker": 1.0, "storyteller": 0.35}}, {"text": "A short film, animation, or coded artwork.", "scores": {"digital": 1.0, "artist": 0.35}}, {"text": "A live event that brings people together.", "scores": {"performer": 1.0, "visionary": 0.35}}]}, {"section": "How You Express Yourself", "q": "Which limitation might inspire you rather than frustrate you?", "options": [{"text": "Only three colors.", "scores": {"artist": 1.0, "maker": 0.35}}, {"text": "Only one minute of sound.", "scores": {"musician": 1.0, "digital": 0.35}}, {"text": "Only one page of text.", "scores": {"storyteller": 1.0, "visionary": 0.35}}, {"text": "Only found or recycled materials.", "scores": {"maker": 1.0, "nature": 0.35}}]}, {"section": "How You Express Yourself", "q": "What would you most enjoy teaching someone?", "options": [{"text": "How to see and compose an image.", "scores": {"observer": 1.0, "artist": 0.35}}, {"text": "How to make or repair something.", "scores": {"builder": 1.0, "maker": 0.35}}, {"text": "How to speak or perform with confidence.", "scores": {"performer": 1.0, "storyteller": 0.35}}, {"text": "How to use a creative digital tool.", "scores": {"digital": 1.0, "visionary": 0.35}}]}, {"section": "How You Express Yourself", "q": "Which part of a collaborative project would you naturally claim?", "options": [{"text": "Visual direction.", "scores": {"artist": 1.0, "visionary": 0.35}}, {"text": "Documentation and research.", "scores": {"observer": 1.0, "storyteller": 0.35}}, {"text": "Technical production.", "scores": {"digital": 1.0, "builder": 0.35}}, {"text": "Presentation and audience connection.", "scores": {"performer": 1.0, "musician": 0.35}}]}, {"section": "How You Express Yourself", "q": "What makes a creative project feel complete?", "options": [{"text": "The composition feels resolved.", "scores": {"artist": 1.0, "observer": 0.35}}, {"text": "The story reaches the right emotional ending.", "scores": {"storyteller": 1.0, "performer": 0.35}}, {"text": "The object works and is well finished.", "scores": {"maker": 1.0, "builder": 0.35}}, {"text": "The system can keep growing after launch.", "scores": {"visionary": 1.0, "digital": 0.35}}]}, {"section": "How You Express Yourself", "q": "Which material calls to you most?", "options": [{"text": "Paint, ink, charcoal, or pixels.", "scores": {"artist": 1.0, "digital": 0.35}}, {"text": "Wood, clay, fabric, food, or paper.", "scores": {"maker": 1.0, "builder": 0.35}}, {"text": "Sound, voice, and silence.", "scores": {"musician": 1.0, "performer": 0.35}}, {"text": "Plants, soil, stone, water, or natural fiber.", "scores": {"nature": 1.0, "maker": 0.35}}]}, {"section": "How You Express Yourself", "q": "What kind of audience response matters most?", "options": [{"text": "They notice something differently.", "scores": {"observer": 1.0, "artist": 0.35}}, {"text": "They feel understood.", "scores": {"storyteller": 1.0, "performer": 0.35}}, {"text": "They want to participate or move.", "scores": {"musician": 1.0, "performer": 0.35}}, {"text": "They use the idea to build something new.", "scores": {"visionary": 1.0, "builder": 0.35}}]}, {"section": "Your Creative Energy", "q": "When do you most easily lose track of time?", "options": [{"text": "While making visual decisions.", "scores": {"artist": 1.0, "digital": 0.35}}, {"text": "While constructing or refining something.", "scores": {"builder": 1.0, "maker": 0.35}}, {"text": "While writing or developing an idea.", "scores": {"storyteller": 1.0, "visionary": 0.35}}, {"text": "While performing, moving, or making sound.", "scores": {"performer": 1.0, "musician": 0.35}}]}, {"section": "Your Creative Energy", "q": "Which working rhythm suits you best?", "options": [{"text": "Quiet observation followed by one decisive moment.", "scores": {"observer": 1.0, "artist": 0.35}}, {"text": "Steady hands-on progress.", "scores": {"maker": 1.0, "builder": 0.35}}, {"text": "Fast experimentation and iteration.", "scores": {"digital": 1.0, "visionary": 0.35}}, {"text": "Bursts of energy shaped by rehearsal.", "scores": {"performer": 1.0, "musician": 0.35}}]}, {"section": "Your Creative Energy", "q": "What restores your creativity after exhaustion?", "options": [{"text": "Time outdoors.", "scores": {"nature": 1.0, "observer": 0.35}}, {"text": "Music and movement.", "scores": {"musician": 1.0, "performer": 0.35}}, {"text": "Making something simple with my hands.", "scores": {"maker": 1.0, "artist": 0.35}}, {"text": "Reading, journaling, or being alone with ideas.", "scores": {"storyteller": 1.0, "visionary": 0.35}}]}, {"section": "Your Creative Energy", "q": "How much structure do you prefer at the beginning?", "options": [{"text": "A blank surface and freedom.", "scores": {"artist": 1.0, "performer": 0.35}}, {"text": "A clear plan and working constraints.", "scores": {"builder": 1.0, "maker": 0.35}}, {"text": "A flexible system I can modify.", "scores": {"digital": 1.0, "visionary": 0.35}}, {"text": "A place or subject to observe closely.", "scores": {"observer": 1.0, "nature": 0.35}}]}, {"section": "Your Creative Energy", "q": "Which environment helps you create best?", "options": [{"text": "A visually rich studio.", "scores": {"artist": 1.0, "maker": 0.35}}, {"text": "A quiet place near natural light or outdoors.", "scores": {"nature": 1.0, "observer": 0.35}}, {"text": "A workshop with tools and materials ready.", "scores": {"builder": 1.0, "maker": 0.35}}, {"text": "A collaborative room with energy and feedback.", "scores": {"performer": 1.0, "visionary": 0.35}}]}, {"section": "Your Creative Energy", "q": "How do you respond to creative risk?", "options": [{"text": "I test a small version first.", "scores": {"builder": 1.0, "digital": 0.35}}, {"text": "I follow the emotional impulse.", "scores": {"performer": 1.0, "musician": 0.35}}, {"text": "I research and observe before committing.", "scores": {"observer": 1.0, "nature": 0.35}}, {"text": "I am energized by the possibility of something new.", "scores": {"visionary": 1.0, "artist": 0.35}}]}, {"section": "Your Creative Energy", "q": "Which pace feels most natural?", "options": [{"text": "Slow noticing and precise timing.", "scores": {"observer": 1.0, "nature": 0.35}}, {"text": "Layer-by-layer development.", "scores": {"artist": 1.0, "maker": 0.35}}, {"text": "Rapid prototypes and revisions.", "scores": {"digital": 1.0, "builder": 0.35}}, {"text": "Build-up, climax, and release.", "scores": {"musician": 1.0, "performer": 0.35}}]}, {"section": "Your Creative Energy", "q": "When working with others, what role feels comfortable?", "options": [{"text": "The one who sees the overall direction.", "scores": {"visionary": 1.0, "artist": 0.35}}, {"text": "The one who keeps the process working.", "scores": {"builder": 1.0, "maker": 0.35}}, {"text": "The one who listens and notices what is missing.", "scores": {"observer": 1.0, "storyteller": 0.35}}, {"text": "The one who energizes the group.", "scores": {"performer": 1.0, "musician": 0.35}}]}, {"section": "Your Creative Energy", "q": "What kind of feedback is most useful?", "options": [{"text": "Show me where the composition loses focus.", "scores": {"artist": 1.0, "observer": 0.35}}, {"text": "Tell me where the story becomes unclear.", "scores": {"storyteller": 1.0, "performer": 0.35}}, {"text": "Show me where the process breaks.", "scores": {"builder": 1.0, "digital": 0.35}}, {"text": "Tell me what possibility I have not considered.", "scores": {"visionary": 1.0, "nature": 0.35}}]}, {"section": "Your Creative Energy", "q": "What helps you finish?", "options": [{"text": "A deadline and an audience.", "scores": {"performer": 1.0, "storyteller": 0.35}}, {"text": "A checklist and clear standards.", "scores": {"builder": 1.0, "maker": 0.35}}, {"text": "Seeing the whole piece come into visual balance.", "scores": {"artist": 1.0, "observer": 0.35}}, {"text": "Knowing the project can create future opportunities.", "scores": {"visionary": 1.0, "digital": 0.35}}]}, {"section": "Your Hidden Potential", "q": "What would you attempt if failure carried no embarrassment?", "options": [{"text": "Exhibit a body of visual work.", "scores": {"artist": 1.0, "observer": 0.35}}, {"text": "Perform in front of people.", "scores": {"performer": 1.0, "musician": 0.35}}, {"text": "Launch an invention or venture.", "scores": {"visionary": 1.0, "builder": 0.35}}, {"text": "Publish a deeply personal story.", "scores": {"storyteller": 1.0, "digital": 0.35}}]}, {"section": "Your Hidden Potential", "q": "Which unexplored skill feels strangely familiar?", "options": [{"text": "Editing film or animation.", "scores": {"digital": 1.0, "observer": 0.35}}, {"text": "Working with clay, wood, textiles, or food.", "scores": {"maker": 1.0, "builder": 0.35}}, {"text": "Growing, arranging, or creating with living materials.", "scores": {"nature": 1.0, "artist": 0.35}}, {"text": "Composing or producing music.", "scores": {"musician": 1.0, "digital": 0.35}}]}, {"section": "Your Hidden Potential", "q": "With unlimited time and resources, what would you create?", "options": [{"text": "A public place filled with art.", "scores": {"artist": 1.0, "visionary": 0.35}}, {"text": "A documentary archive of people and places.", "scores": {"observer": 1.0, "storyteller": 0.35}}, {"text": "A workshop where ideas become useful objects.", "scores": {"builder": 1.0, "maker": 0.35}}, {"text": "An interactive platform connecting many creators.", "scores": {"digital": 1.0, "visionary": 0.35}}]}, {"section": "Your Hidden Potential", "q": "Which compliment might reveal a talent you underestimate?", "options": [{"text": "You make complex ideas easy to understand.", "scores": {"storyteller": 1.0, "visionary": 0.35}}, {"text": "You always know how things could work better.", "scores": {"builder": 1.0, "digital": 0.35}}, {"text": "You notice beauty where nobody else looks.", "scores": {"observer": 1.0, "nature": 0.35}}, {"text": "People pay attention when you speak or move.", "scores": {"performer": 1.0, "musician": 0.35}}]}, {"section": "Your Hidden Potential", "q": "What kind of legacy feels most meaningful?", "options": [{"text": "A body of images that changes how people see.", "scores": {"artist": 1.0, "observer": 0.35}}, {"text": "Stories or teachings people continue to share.", "scores": {"storyteller": 1.0, "performer": 0.35}}, {"text": "Useful things and systems that outlast me.", "scores": {"builder": 1.0, "maker": 0.35}}, {"text": "A healthier place or living system.", "scores": {"nature": 1.0, "visionary": 0.35}}]}, {"section": "Your Hidden Potential", "q": "What would you most like to combine?", "options": [{"text": "Art and technology.", "scores": {"digital": 1.0, "artist": 0.35}}, {"text": "Nature and design.", "scores": {"nature": 1.0, "builder": 0.35}}, {"text": "Story and performance.", "scores": {"storyteller": 1.0, "performer": 0.35}}, {"text": "Craft and entrepreneurship.", "scores": {"maker": 1.0, "visionary": 0.35}}]}, {"section": "Your Hidden Potential", "q": "Which future project makes your pulse quicken?", "options": [{"text": "A major visual installation.", "scores": {"artist": 1.0, "builder": 0.35}}, {"text": "A book, podcast, or narrative series.", "scores": {"storyteller": 1.0, "digital": 0.35}}, {"text": "A concert, show, or live event.", "scores": {"musician": 1.0, "performer": 0.35}}, {"text": "A new product, tool, or social venture.", "scores": {"visionary": 1.0, "maker": 0.35}}]}, {"section": "Your Hidden Potential", "q": "What could you practice for a year without needing immediate praise?", "options": [{"text": "Drawing, painting, or visual study.", "scores": {"artist": 1.0, "observer": 0.35}}, {"text": "Writing and revising.", "scores": {"storyteller": 1.0, "visionary": 0.35}}, {"text": "Building and testing.", "scores": {"builder": 1.0, "digital": 0.35}}, {"text": "Growing, cooking, crafting, or tending materials.", "scores": {"nature": 1.0, "maker": 0.35}}]}, {"section": "Your Hidden Potential", "q": "Which creative risk might expand your identity?", "options": [{"text": "Learning to perform publicly.", "scores": {"performer": 1.0, "musician": 0.35}}, {"text": "Learning a technical digital medium.", "scores": {"digital": 1.0, "builder": 0.35}}, {"text": "Working with natural systems or environmental art.", "scores": {"nature": 1.0, "observer": 0.35}}, {"text": "Turning a personal idea into a public project.", "scores": {"visionary": 1.0, "storyteller": 0.35}}]}, {"section": "Your Hidden Potential", "q": "What do you hope creativity gives you most?", "options": [{"text": "A stronger way to see.", "scores": {"observer": 1.0, "artist": 0.35}}, {"text": "A stronger way to communicate.", "scores": {"storyteller": 1.0, "performer": 0.35}}, {"text": "A stronger way to shape the material world.", "scores": {"builder": 1.0, "maker": 0.35}}, {"text": "A stronger way to imagine and build the future.", "scores": {"visionary": 1.0, "digital": 0.35}}]}],$=id=>document.getElementById(id),KEY='catalyst-creative-dna-v2';
+let state={i:0,answers:Array(50).fill(null),started:false,result:null};
+try{state=Object.assign(state,JSON.parse(localStorage.getItem(KEY)||'{}'))}catch{}
+function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+function start(resume=false){if(!resume){state={i:0,answers:Array(50).fill(null),started:true,result:null};save()}$('intro').style.display='none';$('result').style.display='none';$('quiz').style.display='block';render()}
+function render(){const q=QUESTIONS[state.i];$('section').textContent=q.section;$('count').textContent=`${state.i+1} / ${QUESTIONS.length}`;$('progress').style.width=((state.i+1)/QUESTIONS.length*100)+'%';$('question').textContent=q.q;$('options').innerHTML=q.options.map((o,j)=>`<button class="option ${state.answers[state.i]===j?'selected':''}" data-o="${j}">${o.text}</button>`).join('');document.querySelectorAll('[data-o]').forEach(b=>b.onclick=()=>{state.answers[state.i]=+b.dataset.o;save();render()});$('back').disabled=state.i===0;$('next').textContent=state.i===QUESTIONS.length-1?'Reveal Creative DNA':'Next'}
+function next(){if(state.answers[state.i]===null){alert('Choose the response that feels most natural before continuing.');return}if(state.i<QUESTIONS.length-1){state.i++;save();render()}else score()}
+function baseScores(){const s=Object.fromEntries(Object.keys(ARCH).map(k=>[k,0]));QUESTIONS.forEach((q,i)=>{const a=state.answers[i];if(a===null)return;Object.entries(q.options[a].scores).forEach(([k,v])=>s[k]+=v)});return s}
+function score(){
+ const base=baseScores(),keys=Object.keys(ARCH),wins=Object.fromEntries(keys.map(k=>[k,0])),totals=Object.fromEntries(keys.map(k=>[k,0]));
+ for(let n=0;n<2000;n++){const sim={};keys.forEach(k=>sim[k]=base[k]*(.88+Math.random()*.24)+Math.random()*.7);const sum=Object.values(sim).reduce((a,b)=>a+b,0);keys.forEach(k=>totals[k]+=sim[k]/sum);const winner=keys.reduce((a,b)=>sim[a]>sim[b]?a:b);wins[winner]++}
+ const percentages=keys.map(k=>({id:k,p:totals[k]/2000*100,stability:wins[k]/20})).sort((a,b)=>b.p-a.p);
+ state.result=percentages;save();showResult()
 }
-
-function selectOption(choice) {
-  scores[choice]++;
-  document.querySelectorAll('.option').forEach(opt => opt.style.pointerEvents = 'none');
-  setTimeout(() => nextQuestion(), 400);
+function showResult(){
+ $('quiz').style.display='none';$('intro').style.display='none';$('result').style.display='block';
+ const r=state.result||[],top=r[0],a=ARCH[top.id];$('heroEmoji').textContent=a.emoji;$('heroTitle').textContent=`${a.title} · ${top.p.toFixed(1)}%`;$('heroDesc').textContent=a.description;
+ $('bars').innerHTML=r.slice(0,10).map(x=>`<div class="bar-row"><strong>${ARCH[x.id].emoji} ${ARCH[x.id].title.replace('The ','')}</strong><div class="bar-track"><div class="bar-fill" style="width:${Math.max(2,x.p*3.2)}%;background:${ARCH[x.id].color}"></div></div><span>${x.p.toFixed(1)}%</span></div>`).join('');
+ $('strengths').innerHTML=a.strengths.map(x=>`<span class="trait">${x}</span>`).join('');$('try').innerHTML=a.try.map(x=>`<span class="trait">${x}</span>`).join('');$('affirmation').textContent=a.affirmation;makeChallenge(r[0].id,r[1].id)
 }
-
-function nextQuestion() {
-  if (current < quizData.length - 1) {
-    current++;
-    loadQuestion();
-  } else {
-    showResult();
-  }
-}
-
-function showResult() {
-  document.getElementById('quizContent').style.display = 'none';
-  const resultDiv = document.getElementById('result');
-  resultDiv.style.display = 'block';
-  let maxKey = Object.keys(scores).reduce((a,b) => scores[a] > scores[b] ? a : b);
-  let resultText = "";
-  switch(maxKey) {
-    case 'A': resultText = "🎨 You are a Painter — your heart speaks through color and texture."; break;
-    case 'B': resultText = "📸 You are a Photographer — your vision captures truth and emotion."; break;
-    case 'C': resultText = "🖋️ You are a Poet — your words shape worlds and stir hearts."; break;
-    case 'D': resultText = "🌈 You are a Mixed Media Creator — blending worlds into something new."; break;
-  }
-
-  resultDiv.innerHTML = `
-    <h2>${resultText}</h2>
-    <button class="cta-btn" onclick="openSignup()">Unlock My Free Artist Profile</button>
-
-    <div class="optin-section">
-      <p><strong>Want your full creative profile, journal, and community access?</strong></p>
-      <form id="signupForm" onsubmit="handleSignup(event)">
-        <input type="email" id="emailInput" placeholder="Enter your email" required>
-        <button type="submit" class="cta-btn">Unlock My Free Profile</button>
-      </form>
-      <p style="font-size:0.9em; color:#777;">No spam, ever. Only creative inspiration and your welcome gift.</p>
-    </div>
-
-    <div class="social-icons">
-      <p>Share your result:</p>
-      <a href="#" onclick="shareSocial('facebook')" title="Share on Facebook">📘</a>
-      <a href="#" onclick="shareSocial('twitter')" title="Share on X/Twitter">🐦</a>
-      <a href="#" onclick="shareSocial('instagram')" title="Share on Instagram">📸</a>
-      <a href="#" onclick="shareSocial('tiktok')" title="Share on TikTok">🎵</a>
-    </div>
-
-    <button class="share-btn" onclick="copyResult('${resultText}')">Copy Result</button>
-  `;
-}
-
-function handleSignup(e){
-  e.preventDefault();
-  const email = document.getElementById('emailInput').value;
-  alert(`Thank you, ${email}! Your creative journey begins soon.`);
-  window.location.href = "https://www.myartgallery.online/pricing-plans"; // redirect or modal
-}
-
-function openSignup(){
-  document.querySelector('.optin-section').scrollIntoView({behavior:'smooth'});
-}
-
-function shareSocial(platform){
-  const url = encodeURIComponent("https://myartgallery.online");
-  const text = encodeURIComponent("I just discovered what kind of creator I am at My Art Gallery!");
-  let shareUrl = "";
-  switch(platform){
-    case "facebook": shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`; break;
-    case "twitter": shareUrl = `https://twitter.com/intent/tweet?text=${text}&url=${url}`; break;
-    case "instagram": shareUrl = `https://instagram.com/intent/share?text=${text}&url=${url}`; break;
-    case "tiktok": shareUrl = `https://tiktok.com/intent/share?text=${text}&url=${url}`; break;
-  }
-  window.open(shareUrl, "_blank");
-}
-
-function copyResult(resultText) {
-  const shareMsg = `${resultText} — Discover your creative path at My Art Gallery: https://myartgallery.online`;
-  navigator.clipboard.writeText(shareMsg).then(() => {
-    const msg = document.getElementById('copiedMsg');
-    msg.style.display = 'block';
-    setTimeout(() => msg.style.display = 'none', 2000);
-  });
-}
-
-document.getElementById('nextBtn').onclick = nextQuestion;
-loadQuestion();
+function makeChallenge(a,b){const A=ARCH[a],B=ARCH[b],tasks=[`Create one small work using ${A.creates}. Keep it under 20 minutes.`,`Observe an ordinary place for ten minutes and record what your ${A.title.toLowerCase()} mind notices.`,`Combine ${A.creates} with one element of ${B.creates}.`,`Make something using only three materials or tools.`,`Revisit Day 1 and change one major decision intentionally.`,`Share or explain one work aloud, in writing, or to a trusted person.`,`Choose your strongest piece, give it a title, and write the next creative step.`];$('challenge').innerHTML=tasks.map((t,i)=>`<div class="day"><strong>Day ${i+1}</strong><div>${t}</div></div>`).join('')}
+$('start').onclick=()=>start(false);$('resume').onclick=()=>state.started?start(true):start(false);$('back').onclick=()=>{if(state.i>0){state.i--;save();render()}};$('next').onclick=next;$('restart').onclick=()=>{if(confirm('Clear this assessment and begin again?'))start(false)};$('print').onclick=()=>window.print();$('export').onclick=()=>{const blob=new Blob([JSON.stringify({completed:new Date().toISOString(),results:state.result,archetypes:ARCH},null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='catalyst_creative_dna_profile.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
+if(state.result)showResult();else if(state.started)$('resume').style.display='inline-block';
 </script>
-
 </body>
 </html>
