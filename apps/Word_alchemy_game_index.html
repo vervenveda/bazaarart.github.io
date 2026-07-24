@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>PROSE – Word Alchemy Mini Game</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<style>
+  /* Scoped to #prose-landing-game so it won't collide with other styles */
+  #prose-landing-game * { box-sizing:border-box; }
+
+  #prose-landing-game {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    padding: 16px;
+    background: radial-gradient(circle at top, #fffaf1 0, #f6ecda 45%, #f1e3cf 100%);
+    display:flex;
+    justify-content:center;
+  }
+
+  #prose-landing-game .plg-card {
+    width: 100%;
+    max-width: 720px;
+    background: #fdf7ec;
+    border-radius: 7px;
+    border: 1px solid #dcc8a5;
+    box-shadow: 0 0 0 2px #231710, 0 12px 28px rgba(0,0,0,0.22);
+    padding: 16px 18px 18px;
+  }
+
+  #prose-landing-game h2 {
+    margin: 0 0 4px;
+    font-family: "Times New Roman","Georgia",serif;
+    letter-spacing: 0.08em;
+    font-size: 20px;
+    text-transform: uppercase;
+  }
+
+  #prose-landing-game .plg-sub {
+    margin: 0 0 10px;
+    font-size: 13px;
+    color:#6f5c45;
+  }
+
+  #prose-landing-game .plg-status {
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    gap:6px;
+    font-size: 11px;
+    padding:6px 8px;
+    border-radius:7px;
+    background:#f5ebdb;
+    border:1px solid #e0ceb0;
+    margin-bottom:10px;
+  }
+
+  #prose-landing-game .plg-grid {
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    gap:6px;
+    margin-bottom:10px;
+  }
+
+  #prose-landing-game .plg-word {
+    border-radius: 7px;
+    border: 1px solid #dcc8a5;
+    background:#fff9ee;
+    padding:7px 3px;
+    font-size: 11px;
+    cursor:pointer;
+    text-align:center;
+    transition: background 0.15s, transform 0.05s, box-shadow 0.15s;
+    white-space:nowrap;
+  }
+
+  #prose-landing-game .plg-word:hover {
+    background:#f2e4cf;
+    box-shadow:0 1px 0 rgba(0,0,0,0.08);
+  }
+
+  #prose-landing-game .plg-word:active {
+    transform: translateY(1px);
+    box-shadow:none;
+  }
+
+  #prose-landing-game .plg-word.plg-selected {
+    background:#d8c39b;
+    color:#231710;
+    border-color:#b49966;
+    box-shadow:0 1px 0 rgba(0,0,0,0.16) inset;
+  }
+
+  #prose-landing-game .plg-actions {
+    display:flex;
+    gap:8px;
+    justify-content:flex-end;
+    margin-bottom:8px;
+  }
+
+  #prose-landing-game .plg-btn {
+    border-radius: 9997d #cbb48c;
+    background:#f7ecdd;
+    padding:6px 12px;
+    font-size:12px;
+    cursor:pointer;
+    transition: background 0.15s, transform 0.05s, box-shadow 0.15s;
+  }
+
+  #prose-landing-game .plg-btn:hover {
+    background:#efe0c8;
+    box-shadow:0 1px 0 rgba(0,0,0,0.08);
+  }
+
+  #prose-landing-game .plg-btn:active {
+    transform:translateY(1px);
+    box-shadow:none;
+  }
+
+  #prose-landing-game .plg-btn-primary {
+    background:#d1b377;
+    border-color:#b29258;
+    color:#231710;
+    font-weight:600;
+  }
+
+  #prose-landing-game .plg-btn-primary:hover {
+    background:#c39f5e;
+  }
+
+  #prose-landing-game .plg-result {
+    min-height: 32px;
+    font-size: 12px;
+    color:#5d4a32;
+  }
+
+  #prose-landing-game .plg-result-strong {
+    color:#295819;
+    font-weight:600;
+  }
+
+  #prose-landing-game .plg-result-soft {
+    color:#7c4b2c;
+  }
+
+  #prose-landing-game .plg-enter {
+    display:inline-block;
+    margin-top:8px;
+    padding:7px 13px;
+    border-radius:7px;
+    background:#17110c;
+    color:#f9f2e4;
+    font-size:12px;
+    text-decoration:none;
+    border:1px solid #f0e3c9;
+    box-shadow:0 3px 10px rgba(0,0,0,0.35);
+  }
+
+  #prose-landing-game .plg-enter:hover {
+    text-decoration:none;
+    background:#25160c;
+  }
+
+  #prose-landing-game .plg-enter.hidden {
+    display:none;
+  }
+
+  @media (max-width: 600px) {
+    #prose-landing-game .plg-card {
+      padding:13px 12px 14px;
+    }
+    #prose-landing-game h2 {
+      font-size:17px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div id="prose-landing-game">
+  <div class="plg-card">
+    <h2>Word Alchemy — PROSE Warm-Up</h2>
+    <p class="plg-sub">
+      Tap up to <b>10 words</b> that feel vivid, precise, or powerful. Then see how your editor’s instinct scores — and unlock the PROSE suite.
+    </p>
+
+    <div class="plg-status">
+      <span id="plg-selected-count">Selected: 0 / 10</span>
+      <span id="plg-score-label">Score: —</span>
+    </div>
+
+    <div class="plg-grid" id="plg-grid">
+      <!-- power words -->
+      <button type="button" class="plg-word" data-type="power">luminous</button>
+      <button type="button" class="plg-word" data-type="power">sovereign</button>
+      <button type="button" class="plg-word" data-type="power">ember</button>
+      <button type="button" class="plg-word" data-type="power">clarity</button>
+      <button type="button" class="plg-word" data-type="power">haven</button>
+      <button type="button" class="plg-word" data-type="power">cadence</button>
+      <button type="button" class="plg-word" data-type="power">threshold</button>
+      <button type="button" class="plg-word" data-type="power">whisper</button>
+      <button type="button" class="plg-word" data-type="power">archive</button>
+      <button type="button" class="plg-word" data-type="power">tender</button>
+      <button type="button" class="plg-word" data-type="power">radiant</button>
+      <button type="button" class="plg-word" data-type="power">resolve</button>
+       <button type="button" class="plg-word" data-type="power">beautiful</button>
+      <button type="button" class="plg-word" data-type="power">amazing</button>
+      <button type="button" class="plg-word" data-type="power">scrumptious</button>
+      <button type="button" class="plg-word" data-type="power">extra</button>
+      <button type="button" class="plg-word" data-type="power">vivid</button>
+      <button type="button" class="plg-word" data-type="power">harsh</button>
+      <button type="button" class="plg-word" data-type="power">bountiful</button>
+      <button type="button" class="plg-word" data-type="power">arrogant</button>
+
+      <!-- filler / noise words -->
+      <button type="button" class="plg-word" data-type="noise">really</button>
+      <button type="button" class="plg-word" data-type="noise">very</button>
+      <button type="button" class="plg-word" data-type="noise">just</button>
+      <button type="button" class="plg-word" data-type="noise">kinda</button>
+      <button type="button" class="plg-word" data-type="noise">stuff</button>
+      <button type="button" class="plg-word" data-type="noise">things</button>
+      <button type="button" class="plg-word" data-type="noise">maybe</button>
+      <button type="button" class="plg-word" data-type="noise">nice</button>
+      <button type="button" class="plg-word" data-type="noise">literally</button>
+      <button type="button" class="plg-word" data-type="noise">sort of</button>
+      <button type="button" class="plg-word" data-type="noise">kind of</button>
+      <button type="button" class="plg-word" data-type="noise">okay</button>
+   
+    <button type="button" class="plg-word" data-type="noise">some</button>
+      <button type="button" class="plg-word" data-type="noise">little</button>
+      <button type="button" class="plg-word" data-type="noise">maybe</button>
+       </div>
+
+    <div class="plg-actions">
+      <button type="button" id="plg-reset" class="plg-btn">Start Over</button>
+     
+      <button type="button" id="plg-score" class="plg-btn plg-btn-primary">See My Score</button>
+    </div>
+
+    <div id="plg-result" class="plg-result"></div>
+
+    <!-- CTA: replace YOUR_PROSE_URL_HERE with your hidden suite / free tier link -->
+    <a id="plg-enter-prose"
+       class="plg-enter hidden"
+       href="YOUR_PROSE_URL_HERE"
+       target="_blank"
+       rel="noopener">
+      Enter the PROSE Editorial Suite →
+    </a>
+  </div>
+</div>
+
+<script>
+(function(){
+  const MAX_SELECT = 10;
+  const grid = document.getElementById("plg-grid");
+  const countLabel = document.getElementById("plg-selected-count");
+  const scoreLabel = document.getElementById("plg-score-label");
+  const resultBox  = document.getElementById("plg-result");
+  const resetBtn   = document.getElementById("plg-reset");
+  const scoreBtn   = document.getElementById("plg-score");
+  const enterLink  = document.getElementById("plg-enter-prose");
+
+  function getSelectedWords(){
+    return Array.from(grid.querySelectorAll(".plg-word.plg-selected"));
+  }
+
+  function updateCountLabel(){
+    const selected = getSelectedWords().length;
+    countLabel.textContent = "Selected: " + selected + " / " + MAX_SELECT;
+  }
+
+  function resetGame(){
+    grid.querySelectorAll(".plg-word").forEach(btn => {
+      btn.classList.remove("plg-selected");
+    });
+    resultBox.textContent = "";
+    resultBox.className = "plg-result";
+    scoreLabel.textContent = "Score: —";
+    enterLink.classList.add("hidden");
+    updateCountLabel();
+  }
+
+  grid.addEventListener("click", function(e){
+    const btn = e.target.closest(".plg-word");
+    if(!btn) return;
+
+    if(btn.classList.contains("plg-selected")){
+      btn.classList.remove("plg-selected");
+    } else {
+      const selectedNow = getSelectedWords().length;
+      if(selectedNow >= MAX_SELECT){
+        // Soft message: limit reached
+        resultBox.textContent = "You’ve already chosen " + MAX_SELECT + " words — tap one again to deselect it.";
+        resultBox.className = "plg-result plg-result-soft";
+        return;
+      }
+      btn.classList.add("plg-selected");
+    }
+    resultBox.textContent = "";
+    resultBox.className = "plg-result";
+    updateCountLabel();
+  });
+
+  scoreBtn.addEventListener("click", function(){
+    const selected = getSelectedWords();
+    if(!selected.length){
+      resultBox.textContent = "Try picking a few words that feel strong or specific, then check your score.";
+      resultBox.className = "plg-result plg-result-soft";
+      return;
+    }
+
+    let score = 0;
+    let powerPicked = 0;
+    let noisePicked = 0;
+
+    selected.forEach(btn => {
+      const type = btn.getAttribute("data-type");
+      if(type === "power"){
+        score += 2;
+        powerPicked++;
+      } else {
+        score -= 1;
+        noisePicked++;
+      }
+    });
+
+    scoreLabel.textContent = "Score: " + score;
+
+    // Summary message
+    let msg = "";
+    let strong = false;
+
+    if(score >= 12){
+      msg = "Beautiful instinct. You gravitate toward vivid, precise language — the heart of strong editing.";
+      strong = true;
+    } else if(score >= 6){
+      msg = "You’re balancing power words with a little everyday filler. With PROSE, you’ll sharpen that even more.";
+      strong = true;
+    } else {
+      msg = "You picked some strong words and some softer ones. PROSE was built to help you trade the ‘nice’ for the unforgettable.";
+    }
+
+    msg += "  Selected: " + powerPicked + " power word" + (powerPicked!==1?"s":"") +
+           ", " + noisePicked + " filler.";
+
+    resultBox.textContent = msg;
+    resultBox.className = "plg-result " + (strong ? "plg-result-strong" : "plg-result-soft");
+
+    // Unlock CTA if they’re at or above this threshold
+    if(score >= 6){
+      enterLink.classList.remove("hidden");
+    } else {
+      enterLink.classList.add("hidden");
+    }
+  });
+
+  resetBtn.addEventListener("click", resetGame);
+
+  // init
+  resetGame();
+})();
+</script>
+
+</body>
+</html>
