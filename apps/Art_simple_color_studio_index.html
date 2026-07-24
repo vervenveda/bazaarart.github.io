@@ -30,13 +30,64 @@ button,input,select{font:inherit}button{cursor:pointer;touch-action:manipulation
 .eyebrow{display:inline-flex;padding:8px 13px;border-radius:999px;background:var(--panel2);border:1px solid var(--border);font-size:.75rem;font-weight:900;letter-spacing:.13em;text-transform:uppercase;color:var(--primary)}
 h1{margin:18px 0 11px;font-family:Georgia,"Times New Roman",serif;font-size:clamp(3.1rem,8vw,6.8rem);line-height:.88;letter-spacing:-.05em;color:var(--primary)}
 .lead{margin:0;max-width:720px;color:var(--muted);line-height:1.68;font-size:1.06rem}
-.hero-art{position:relative;overflow:hidden;min-height:390px;background:linear-gradient(145deg,#e9592f,#ec9e2d 30%,#1d6da8 58%,#2f7d69 78%,#5e3f8b)}
-.hero-art:before{content:"";position:absolute;width:250px;height:250px;border:22px solid #ffebaeaa;border-radius:50%;left:31%;top:16%}
-.hero-art:after{content:"";position:absolute;width:180px;height:180px;background:#173e8dcc;border-radius:42% 58% 63% 37%;left:8%;bottom:10%;transform:rotate(28deg)}
-.stroke{position:absolute;border-radius:999px;background:#ffedd2cc}
-.s1{width:420px;height:28px;right:-70px;top:100px;transform:rotate(-22deg)}
-.s2{width:330px;height:24px;left:80px;bottom:90px;transform:rotate(14deg)}
-.art-caption{position:absolute;left:22px;right:22px;bottom:22px;padding:15px 17px;border-radius:18px;background:#fff7e9d9;border:1px solid #fff;backdrop-filter:blur(8px)}
+.hero-art{
+  position:relative;overflow:hidden;min-height:390px;
+  background:
+    radial-gradient(circle at 18% 18%,rgba(255,191,54,.95) 0 14%,transparent 14.5%),
+    radial-gradient(circle at 82% 16%,rgba(224,73,47,.94) 0 18%,transparent 18.5%),
+    radial-gradient(circle at 22% 80%,rgba(41,132,101,.94) 0 20%,transparent 20.5%),
+    radial-gradient(circle at 78% 82%,rgba(93,63,139,.94) 0 18%,transparent 18.5%),
+    linear-gradient(145deg,#f47b2c 0 31%,#f0a426 31% 46%,#1f70a8 46% 68%,#2f7d69 68% 100%);
+}
+.hero-art:before{
+  content:"";position:absolute;inset:0;
+  background:
+    linear-gradient(112deg,transparent 0 37%,rgba(255,243,214,.72) 37% 41%,transparent 41% 100%),
+    linear-gradient(24deg,transparent 0 49%,rgba(255,243,214,.55) 49% 53%,transparent 53% 100%);
+  opacity:.9;
+}
+.hero-art:after{
+  content:"";position:absolute;width:165px;height:165px;left:9%;top:11%;
+  background:#1b5d99;
+  clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 92%,50% 71%,21% 92%,32% 57%,2% 35%,39% 35%);
+  filter:drop-shadow(0 8px 0 rgba(30,28,48,.24));
+}
+.art-spiral{
+  position:absolute;left:34%;top:22%;width:190px;height:190px;border-radius:50%;
+  border:22px solid #245f9e;border-right-color:#ef6c4b;border-bottom-color:#ef6c4b;
+  transform:rotate(24deg);
+  box-shadow:0 0 0 11px rgba(255,226,117,.22);
+}
+.art-river{
+  position:absolute;left:20%;right:-10%;bottom:14%;height:150px;
+  border-radius:52% 48% 56% 44%;
+  border-top:28px solid #1a619a;
+  border-bottom:28px solid #1a619a;
+  transform:rotate(-8deg);
+}
+.art-river:before{
+  content:"";position:absolute;left:8%;right:20%;top:28px;height:18px;border-radius:999px;
+  background:#ef8c2c;
+}
+.art-river:after{
+  content:"";position:absolute;right:7%;top:-70px;width:92px;height:260px;border-radius:999px;
+  border:24px solid #1a619a;border-left-color:transparent;border-bottom-color:transparent;
+  transform:rotate(14deg);
+}
+.art-orb{
+  position:absolute;left:8%;bottom:7%;width:120px;height:120px;border-radius:50%;
+  background:#f4c630;box-shadow:0 0 0 19px rgba(38,126,95,.65);
+}
+.art-gridmark{
+  position:absolute;right:8%;bottom:8%;width:96px;height:116px;border-radius:12px;
+  background:
+    linear-gradient(90deg,transparent 47%,rgba(255,255,255,.18) 48% 52%,transparent 53%),
+    linear-gradient(transparent 47%,rgba(255,255,255,.18) 48% 52%,transparent 53%),
+    #5b3a86;
+  background-size:28px 28px;
+  box-shadow:0 8px 0 rgba(30,28,48,.22);
+}
+.art-caption{position:absolute;left:22px;right:22px;bottom:22px;padding:15px 17px;border-radius:18px;background:#fff7e9e8;border:1px solid #fff;backdrop-filter:blur(8px);z-index:5}
 .art-caption strong{display:block;font-family:Georgia,serif;color:var(--primary);font-size:1.32rem}.art-caption span{display:block;margin-top:6px;color:#5f5561;line-height:1.5}
 .studio{margin-top:18px;padding:16px}
 .toolbar{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px}
@@ -87,7 +138,13 @@ footer{margin-top:15px;text-align:center;color:#f7edf2;line-height:1.55;font-siz
 <h1>Chromatic Foundry</h1>
 <p class="lead">A deeper digital color and drawing workspace for middle-school artists through adults. Explore expressive marks, opacity, pressure-like brushes, symmetry, color sampling, composition, and local portfolio saving.</p>
 </div>
-<div class="hero-art" aria-label="Abstract cobalt, orange, green, and plum artwork"><div class="stroke s1"></div><div class="stroke s2"></div><div class="art-caption"><strong>Color is structure, mood, rhythm, and voice.</strong><span>Use the studio as a sketchbook, painting surface, design lab, or place to test visual ideas.</span></div></div>
+<div class="hero-art" aria-label="Abstract cobalt, orange, green, gold, and plum artwork">
+  <div class="art-spiral" aria-hidden="true"></div>
+  <div class="art-river" aria-hidden="true"></div>
+  <div class="art-orb" aria-hidden="true"></div>
+  <div class="art-gridmark" aria-hidden="true"></div>
+  <div class="art-caption"><strong>Color is structure, mood, rhythm, and voice.</strong><span>Use the studio as a sketchbook, painting surface, design lab, or place to test visual ideas.</span></div>
+</div>
 </section>
 
 <section class="studio">
