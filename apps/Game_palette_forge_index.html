@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Palette Forge — Advanced Color Theory Game</title>
+<title>Palette Forge — Advanced Color Theory Studio</title>
 <style>
   :root{
     --bg:#050816;
@@ -37,8 +37,8 @@
 
   .app{
     width:100%;
-    max-width:333px;
-    padding:0 10px;
+    max-width:1180px;
+    padding:0 14px;
   }
 
   header{
@@ -48,29 +48,37 @@
 
   h1{
     margin:0;
-    font-size:21px;
+    font-size:clamp(3rem,8vw,6.5rem);
+    font-family:Georgia,"Times New Roman",serif;
+    letter-spacing:-.05em;
+    line-height:.9;
     background:linear-gradient(90deg,var(--accent),var(--accent2));
     -webkit-background-clip:text;
     color:transparent;
   }
 
   .tagline{
-    font-size:12px;
+    font-size:1rem;
     color:var(--muted);
+    line-height:1.6;
+    max-width:760px;
+    margin:12px auto 0;
     margin-top:3px;
   }
 
   .card{
-    background:rgba(11,16,32,.96);
+    background:linear-gradient(180deg,rgba(11,16,32,.98),rgba(17,24,39,.98));
     border:1px solid rgba(148,163,184,.16);
-    border-radius:18px;
-    padding:12px;
+    border-radius:24px;
+    padding:18px;
     margin-top:10px;
     box-shadow:0 18px 42px rgba(0,0,0,.55);
   }
 
   .tabs{
     display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
     gap:6px;
     margin-top:8px;
   }
@@ -99,8 +107,11 @@
     display:flex;
     justify-content:space-between;
     align-items:center;
-    font-size:12px;
+    font-size:1rem;
     color:var(--muted);
+    line-height:1.6;
+    max-width:760px;
+    margin:12px auto 0;
   }
 
   .pill{
@@ -113,7 +124,7 @@
 
   .swatches{
     display:grid;
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:repeat(2,minmax(0,1fr));
     gap:8px;
     margin-top:10px;
   }
@@ -123,7 +134,7 @@
   }
 
   .swatch{
-    height:100px;
+    height:220px;
     border-radius:16px;
     border:1px solid rgba(255,255,255,.22);
     box-shadow:inset 0 0 0 1px rgba(0,0,0,.3), 0 8px 18px rgba(0,0,0,.35);
@@ -215,13 +226,13 @@
 
   .palette-grid{
     display:grid;
-    grid-template-columns:repeat(5,1fr);
+    grid-template-columns:repeat(5,minmax(0,1fr));
     gap:5px;
     margin-top:10px;
   }
 
   .palette-color{
-    height:54px;
+    height:110px;
     border-radius:12px;
     border:1px solid rgba(255,255,255,.22);
     box-shadow:0 4px 10px rgba(0,0,0,.35);
@@ -270,15 +281,26 @@
     font-size:11px;
     color:var(--muted);
   }
+
+  .hero-shell{display:grid;grid-template-columns:1.05fr .95fr;gap:16px;align-items:stretch;margin-bottom:14px}
+  .hero-copy,.hero-art{background:rgba(11,16,32,.96);border:1px solid rgba(148,163,184,.16);border-radius:28px;box-shadow:0 20px 50px rgba(0,0,0,.45)}
+  .hero-copy{padding:28px;text-align:left}.hero-copy header{text-align:left;margin:0}
+  .hero-art{min-height:330px;position:relative;overflow:hidden;background:conic-gradient(from 20deg,#ef4444,#f59e0b,#eab308,#22c55e,#06b6d4,#3b82f6,#8b5cf6,#d946ef,#ef4444)}
+  .hero-art:before{content:"";position:absolute;inset:22%;border-radius:50%;background:#090b18;box-shadow:0 0 0 18px rgba(255,255,255,.14)}
+  .hero-art:after{content:"Color is relationship";position:absolute;left:18px;right:18px;bottom:18px;padding:14px;border-radius:16px;background:rgba(2,6,23,.78);font-family:Georgia,serif;font-size:1.3rem;color:#facc15;text-align:center}
+  .studio-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.full{grid-column:1/-1}
+  .archive-list{display:grid;gap:8px;margin-top:10px}.archive-item{padding:10px;border-radius:12px;background:#020617;border:1px solid rgba(148,163,184,.18)}
+  @media(max-width:800px){.hero-shell,.studio-grid{grid-template-columns:1fr}.hero-copy header{text-align:center}.hero-copy{text-align:center}.full{grid-column:auto}}
+  @media(max-width:520px){.swatches{grid-template-columns:1fr}.palette-grid{grid-template-columns:repeat(2,1fr)}.swatch{height:160px}}
 </style>
 </head>
 
 <body>
 <div class="app">
-  <header>
-    <h1>Palette Forge</h1>
-    <div class="tagline">Advanced color theory practice for artists & designers.</div>
-  </header>
+  <div class="hero-shell">
+    <div class="hero-copy"><header><h1>Palette Forge</h1><div class="tagline">A deeper, local-first color theory studio for artists, students, and designers. Train your eye, build harmonies, and export professional palette systems.</div></header></div>
+    <div class="hero-art" aria-label="Color wheel inspired abstract artwork"></div>
+  </div>
 
   <div class="tabs">
     <button class="tab-btn active" data-pane="matchPane">Color Match</button>
@@ -364,9 +386,12 @@
 
     <div class="buttons">
       <button class="action secondary" id="copyPaletteBtn">Copy Palette JSON</button>
+      <button class="action secondary" id="savePaletteBtn">Save Palette</button>
     </div>
 
     <textarea id="paletteOutput" readonly placeholder="Palette JSON will appear here..."></textarea>
+
+    <div class="archive-list" id="savedPalettes"></div>
 
     <div class="info" id="harmonyInfo">
       Complementary palettes use colors opposite each other on the color wheel. They create strong contrast and visual energy.
@@ -374,7 +399,7 @@
   </section>
 
   <footer>
-    Local storage only. No ads, no tracking, no data collection.
+    © 2026 Bazaar Art · Verve N Veda · Jennifer Kay Pearl<br>Local storage only. No ads, no tracking, no data collection.
   </footer>
 </div>
 
@@ -385,6 +410,7 @@
   let target = {h:210,s:70,l:55};
   let round = 1;
   let bestScore = 0;
+  let savedPalettes = [];
 
   const hue = document.getElementById('hue');
   const sat = document.getElementById('sat');
@@ -409,13 +435,15 @@
       const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
       bestScore = saved.bestScore || 0;
       round = saved.round || 1;
+      savedPalettes = saved.savedPalettes || [];
     }catch(e){}
   }
 
   function save(){
     localStorage.setItem(STORAGE_KEY, JSON.stringify({
       bestScore,
-      round
+      round,
+      savedPalettes
     }));
   }
 
@@ -664,6 +692,14 @@
     document.getElementById('harmonyInfo').textContent = harmonyDescription(type);
   }
 
+  
+  function renderSavedPalettes(){
+    const host=document.getElementById('savedPalettes');
+    if(!host) return;
+    host.innerHTML=savedPalettes.length?savedPalettes.map((p,i)=>`<div class="archive-item"><strong>${p.type}</strong><div class="palette-grid" style="margin-top:7px">${p.colors.map(c=>`<div class="palette-color" style="background:${c.hex}" title="${c.hex}"></div>`).join('')}</div><button class="action secondary" data-delete-palette="${i}" style="margin-top:8px">Delete</button></div>`).join(''):'<div class="archive-item">No saved palettes yet.</div>';
+    host.querySelectorAll('[data-delete-palette]').forEach(b=>b.onclick=()=>{savedPalettes.splice(Number(b.dataset.deletePalette),1);save();renderSavedPalettes();});
+  }
+
   function setupTabs(){
     document.querySelectorAll('.tab-btn').forEach(btn=>{
       btn.addEventListener('click',()=>{
@@ -690,6 +726,12 @@
   document.getElementById('buildHarmonyBtn').addEventListener('click',buildHarmony);
   document.getElementById('harmonyType').addEventListener('change',buildHarmony);
 
+  document.getElementById('savePaletteBtn').addEventListener('click',()=>{
+    const txt=document.getElementById('paletteOutput').value;
+    if(!txt) return;
+    try{savedPalettes.unshift({...JSON.parse(txt),date:new Date().toISOString()});savedPalettes=savedPalettes.slice(0,20);save();renderSavedPalettes();}catch(e){}
+  });
+
   document.getElementById('copyPaletteBtn').addEventListener('click',async()=>{
     const txt = document.getElementById('paletteOutput').value;
     if(!txt) return;
@@ -705,6 +747,7 @@
   setupTabs();
   newTarget();
   updateUI();
+  renderSavedPalettes();
 })();
 </script>
 </body>
