@@ -1,350 +1,153 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>PLERA Sacred Geometry Sanctuary — Kids Guide</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --midnight:#0f0f1f;
-      --parchment:#f7f3ea;
-      --parchment-soft:#f0e9dc;
-      --gold:#d9b878;
-      --gold-soft:#e8d5a4;
-      --accent:#4f74c8;
-      --accent-soft:#d3e0ff;
-
-      --radius-sm:9px;
-      --radius-md:11px;
-      --radius-lg:21px;
-
-      --shadow:0 9px 27px rgba(0,0,0,.18);
-      --ink:#1f1c18;
-
-      --h1:30px;
-      --h2:24px;
-      --h3:19px;
-      --base:17px;
-      --small:14px;
-      --tiny:12px;
-      --lh:1.44;
-    }
-
-    *{box-sizing:border-box}
-    html,body{margin:0; padding:0}
-    body{
-      min-height:100vh;
-      font-family:"Cormorant Garamond", serif;
-      font-size:var(--base);
-      line-height:var(--lh);
-      color:var(--ink);
-      background:
-        radial-gradient(1200px 600px at 60% -10%, #1a2346 0%, var(--midnight) 60%, #000 100%),
-        var(--midnight);
-      display:flex;
-      align-items:flex-start;
-      justify-content:center;
-    }
-
-    .wrap{
-      width:100%;
-      max-width:720px;
-      background:var(--parchment);
-      border:1px solid rgba(0,0,0,.06);
-      border-radius:var(--radius-lg);
-      box-shadow:var(--shadow);
-      margin:21px;
-      overflow:hidden;
-    }
-
-    header{
-      background:linear-gradient(135deg, var(--parchment), var(--parchment-soft));
-      border-bottom:1px solid rgba(0,0,0,.08);
-      padding:18px 21px;
-      text-align:center;
-    }
-    .title{
-      font-family:"Cinzel", serif;
-      font-size:var(--h1);
-      letter-spacing:.06em;
-      margin:0 0 6px 0;
-      color:#2a261f;
-    }
-    .subtitle{
-      margin:0;
-      color:#5b5245;
-      font-size:var(--small);
-    }
-
-    .content{ padding:18px 18px 21px 18px; }
-
-    /* Step cards */
-    .steps{
-      display:grid;
-      grid-template-columns:1fr;
-      gap:14px;
-      margin:18px 0 10px 0;
-    }
-    .step{
-      background:#fff;
-      border-radius:var(--radius-md);
-      border:1px solid rgba(0,0,0,.07);
-      box-shadow:0 7px 21px rgba(0,0,0,.06);
-      padding:14px 16px;
-      display:grid;
-      grid-template-columns:auto 1fr;
-      gap:10px;
-      align-items:center;
-    }
-    .step-icon{
-      width:44px;
-      height:44px;
-      border-radius:50%;
-      background:var(--accent-soft);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:22px;
-    }
-    .step-text h2{
-      font-family:"Cinzel",serif;
-      font-size:var(--h3);
-      margin:0 0 4px 0;
-      color:#2a261f;
-    }
-    .step-text p{
-      margin:0;
-      font-size:var(--small);
-      color:#3b3328;
-    }
-
-    /* Mini sections */
-    .section{
-      border-top:1px solid rgba(0,0,0,.06);
-      padding-top:16px;
-      margin-top:16px;
-    }
-    .section h2{
-      font-family:"Cinzel",serif;
-      font-size:var(--h2);
-      margin:0 0 7px 0;
-      color:#25221d;
-      text-align:left;
-    }
-
-    .row{
-      display:grid;
-      grid-template-columns:1fr;
-      gap:12px;
-    }
-
-    /* Button list */
-    .button-list{
-      display:grid;
-      grid-template-columns:1fr;
-      gap:7px;
-      margin-top:4px;
-      font-size:var(--small);
-    }
-    .button-item{
-      background:#fff;
-      border-radius:var(--radius-md);
-      border:1px solid rgba(0,0,0,.06);
-      padding:8px 11px;
-      display:flex;
-      align-items:center;
-      gap:9px;
-    }
-    .button-label{
-      font-family:"Cinzel",serif;
-      font-size:var(--small);
-      color:#2a261f;
-      white-space:nowrap;
-    }
-    .button-desc{
-      color:#3b3328;
-    }
-
-    .tag{
-      display:inline-block;
-      padding:3px 7px;
-      border-radius:999px;
-      background:var(--parchment-soft);
-      font-size:var(--tiny);
-      color:#5b5245;
-      margin-right:4px;
-    }
-
-    /* Notes */
-    .notes{
-      background:#fff;
-      border-radius:var(--radius-md);
-      border:1px solid rgba(0,0,0,.06);
-      padding:11px 13px;
-      font-size:var(--small);
-      color:#5b5245;
-      margin-top:4px;
-    }
-    .notes ul{
-      margin:6px 0 0 0;
-      padding-left:20px;
-    }
-
-    /* Big button */
-    .btn-row{
-      display:flex;
-      justify-content:center;
-      margin:10px 0 0 0;
-    }
-    .btn{
-      appearance:none; border:none; cursor:pointer;
-      padding:11px 21px;
-      border-radius:var(--radius-md);
-      font-family:"Cinzel",serif;
-      font-size:var(--small);
-      letter-spacing:.02em;
-      background:var(--accent);
-      color:#fdfdfd;
-      border:1px solid #324d94;
-      box-shadow:0 3px 7px rgba(0,0,0,.14);
-      text-decoration:none;
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-    }
-
-    .small-text{
-      font-size:var(--tiny);
-      color:#7a7060;
-      text-align:center;
-      margin-top:7px;
-    }
-
-    footer{
-      padding:14px;
-      background:var(--parchment-soft);
-      border-top:1px solid rgba(0,0,0,.06);
-      color:#5b5245;
-      font-size:var(--tiny);
-      text-align:center;
-    }
-
-    @media (max-width:480px){
-      .step{
-        grid-template-columns:1fr;
-      }
-      .step-icon{
-        margin:0 auto;
-      }
-      .title{
-        font-size:26px;
-      }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Sacred Geometry Companion — an interactive guide to symmetry, mandalas, shape symbolism, and reflective geometric art.">
+<title>Sacred Geometry Companion</title>
+<style>
+:root{
+--bg1:#0c1022;--bg2:#23163a;--panel:#f0e8d8;--panel2:#fff8ed;--ink:#2c2631;--muted:#6f6571;
+--primary:#3c4f9a;--secondary:#8b4d86;--accent:#d8b05a;--green:#347765;--border:#cbb88e;
+--shadow:0 28px 70px rgba(8,8,18,.36)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;padding:22px 14px 42px;color:var(--ink);font-family:"Avenir Next","Trebuchet MS","Segoe UI",system-ui,sans-serif;background:
+radial-gradient(circle at 13% 12%,rgba(74,101,184,.22),transparent 24rem),
+radial-gradient(circle at 88% 14%,rgba(150,83,143,.22),transparent 23rem),
+radial-gradient(circle at 16% 88%,rgba(216,176,90,.14),transparent 22rem),
+linear-gradient(145deg,var(--bg1),var(--bg2))}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.wrap{width:min(1220px,100%);margin:auto}
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:18px}
+.hero-copy,.hero-art,.shell{background:var(--panel);border:1px solid rgba(255,255,255,.45);border-radius:32px;box-shadow:var(--shadow)}
+.hero-copy{padding:clamp(26px,5vw,56px)}
+.eyebrow{display:inline-flex;padding:8px 13px;border-radius:999px;background:var(--panel2);border:1px solid var(--border);color:var(--primary);font-size:.75rem;font-weight:900;letter-spacing:.13em;text-transform:uppercase}
+h1{margin:18px 0 11px;font-family:Georgia,"Times New Roman",serif;font-size:clamp(3.2rem,8vw,6.9rem);line-height:.88;letter-spacing:-.05em;color:var(--primary)}
+.lead{margin:0;color:var(--muted);line-height:1.68;font-size:1.06rem;max-width:720px}
+.hero-art{position:relative;overflow:hidden;min-height:390px;background:
+radial-gradient(circle at 50% 50%,transparent 0 13%,#e0b55f 13.5% 16%,transparent 16.5% 27%,#5a4793 27.5% 30%,transparent 30.5% 41%,#3e6db0 41.5% 44%,transparent 44.5%),
+conic-gradient(from 0deg,#283b82,#7d4b93,#c9624a,#dfa83c,#387b68,#2d6da0,#283b82)}
+.hero-art:before,.hero-art:after{content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border:3px solid rgba(255,248,220,.65);border-radius:50%}
+.hero-art:before{width:250px;height:250px}.hero-art:after{width:120px;height:120px}
+.axis{position:absolute;left:50%;top:50%;width:330px;height:330px;transform:translate(-50%,-50%) rotate(22deg);background:
+linear-gradient(transparent 49%,rgba(255,255,255,.6) 49% 51%,transparent 51%),
+linear-gradient(90deg,transparent 49%,rgba(255,255,255,.6) 49% 51%,transparent 51%)}
+.axis:after{content:"✦";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:5rem;color:#f4d06c;text-shadow:0 8px 0 #1b173155}
+.art-caption{position:absolute;left:22px;right:22px;bottom:22px;padding:15px 17px;border-radius:18px;background:#fff8ede8;border:1px solid #fff;backdrop-filter:blur(8px)}
+.art-caption strong{display:block;font-family:Georgia,serif;color:var(--primary);font-size:1.3rem}.art-caption span{display:block;margin-top:6px;color:#5f5662;line-height:1.5}
+.shell{margin-top:18px;padding:16px}
+.tabs{display:flex;flex-wrap:wrap;gap:8px}.tab{border:1px solid var(--border);border-radius:999px;padding:10px 14px;background:var(--panel2);color:var(--ink);font-weight:900}.tab.active{color:#fff;background:linear-gradient(135deg,var(--primary),var(--secondary));border-color:transparent}
+.pane{display:none;margin-top:14px}.pane.active{display:block}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.card{padding:17px;border:1px solid var(--border);border-radius:22px;background:var(--panel2);box-shadow:0 8px 20px #21172918}.card h2{margin:0 0 8px;font-family:Georgia,serif;color:var(--primary);font-size:1.45rem}.card p{color:var(--muted);line-height:1.55}
+.step-num{display:grid;place-items:center;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#f2d382);font-weight:950;color:#3a2b15;margin-bottom:10px}
+.shape-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:9px}.shape{min-height:110px;border:1px solid var(--border);border-radius:18px;background:#fffaf2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;font-weight:900;color:var(--primary)}.shape span{font-size:2.2rem}
+.guide-box{display:grid;grid-template-columns:1fr 1fr;gap:14px}.panel{padding:18px;border:1px solid var(--border);border-radius:22px;background:var(--panel2)}.panel h2{font-family:Georgia,serif;color:var(--primary);font-size:1.8rem;margin:0 0 8px}
+textarea,input[type=text],select{width:100%;padding:11px;border:1px solid var(--border);border-radius:13px;background:#fff;color:var(--ink)}
+textarea{min-height:150px;resize:vertical}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:11px}.btn{border:0;border-radius:13px;padding:10px 14px;font-weight:900;background:#fffaf2;color:var(--primary);box-shadow:0 5px 13px #21172915}.btn.primary{color:#fff;background:linear-gradient(135deg,var(--primary),var(--secondary))}.btn.gold{color:#3b2a12;background:linear-gradient(135deg,var(--accent),#efc86b)}.btn.green{color:#fff;background:linear-gradient(135deg,var(--green),#4da28b)}
+.output{margin-top:10px;padding:13px;border-radius:16px;background:#fffaf2;border:1px solid var(--border);color:var(--muted);line-height:1.5}
+.checklist{display:grid;gap:8px}.check{display:flex;gap:9px;align-items:flex-start;padding:11px;border-radius:14px;background:#fffaf2;border:1px solid var(--border)}
+footer{margin-top:15px;text-align:center;color:#eee7f1;line-height:1.55;font-size:.83rem}
+@media(max-width:900px){.hero,.guide-box{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}}
+@media(max-width:620px){.grid{grid-template-columns:1fr}.shape-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
 </head>
 <body>
-  <main class="wrap" role="main" aria-label="Kids guide for PLERA Sacred Geometry Sanctuary">
-    <header>
-      <h1 class="title">Sacred Geometry Sanctuary</h1>
-      <p class="subtitle">Kids Quick Guide · Make your own glowing mandala</p>
+<main class="wrap">
+<section class="hero">
+<div class="hero-copy">
+<span class="eyebrow">Bazaar Art Geometry & Reflection Guide</span>
+<h1>Sacred Geometry Companion</h1>
+<p class="lead">An interactive guide to symmetry, mandalas, geometric symbolism, layered pattern, and reflective artmaking. Designed for middle-school learners through adults, educators, and families.</p>
+</div>
+<div class="hero-art" aria-label="Abstract sacred geometry artwork"><div class="axis"></div><div class="art-caption"><strong>Geometry can be studied, designed, and interpreted.</strong><span>Use shape and pattern as artistic tools without requiring spiritual agreement or belief.</span></div></div>
+</section>
 
-      <!-- Optional: remove if guide sits directly above the game on the same page -->
-      <div class="btn-row">
-        <a class="btn" href="YOUR_GAME_URL_HERE" target="_blank" rel="noopener">
-          🎮 Open the Game
-        </a>
-      </div>
-    </header>
+<section class="shell">
+<div class="tabs">
+<button class="tab active" data-pane="guide">Quick Guide</button>
+<button class="tab" data-pane="shapes">Shape Library</button>
+<button class="tab" data-pane="reflection">Reflection Studio</button>
+<button class="tab" data-pane="safety">Care & Context</button>
+</div>
 
-    <div class="content">
-      <!-- Steps -->
-      <section aria-label="Three simple steps" class="section" style="border-top:none; margin-top:0; padding-top:0;">
-        <div class="steps">
-          <article class="step">
-            <div class="step-icon">💭</div>
-            <div class="step-text">
-              <h2>Step 1 · Choose a Feeling</h2>
-              <p>In the box at the top, type a feeling or wish like <strong>“Brave”</strong>, <strong>“Calm”</strong>, or <strong>“Loved”</strong>.  
-                 Then click <strong>Manifest</strong>. A soft glowing color appears in the middle.</p>
-            </div>
-          </article>
+<section class="pane active" id="guide">
+<div class="grid">
+<article class="card"><div class="step-num">1</div><h2>Choose an Intention</h2><p>Begin with a word, mood, value, question, or visual idea. It may be practical, emotional, symbolic, or purely formal.</p></article>
+<article class="card"><div class="step-num">2</div><h2>Build the Structure</h2><p>Select a center, symmetry system, repeating shape, palette, scale, and rhythm. Add layers gradually.</p></article>
+<article class="card"><div class="step-num">3</div><h2>Observe & Revise</h2><p>Notice balance, tension, contrast, movement, and negative space. Keep, change, or interrupt the pattern intentionally.</p></article>
+</div>
+<div class="output"><strong>Recommended workflow:</strong> sketch lightly, test one motif, repeat it, vary one element, step back, and decide what the pattern needs next.</div>
+</section>
 
-          <article class="step">
-            <div class="step-icon">✨</div>
-            <div class="step-text">
-              <h2>Step 2 · Add Shapes & Colors</h2>
-              <p>Pick a <strong>Theme</strong>, a <strong>Shape</strong> (circle, star, lotus, spiral…), and a <strong>Color</strong>.  
-                 Click <strong>Add Layer</strong> to add a new ring to your mandala.</p>
-            </div>
-          </article>
+<section class="pane" id="shapes">
+<div class="shape-grid" id="shapeGrid"></div>
+<div class="output" id="shapeOutput">Choose a shape to explore its visual qualities and possible uses.</div>
+</section>
 
-          <article class="step">
-            <div class="step-icon">⚔️</div>
-            <div class="step-text">
-              <h2>Step 3 · Watch & Battle</h2>
-              <p>Watch your mandala gently move.  
-                 If you’d like, choose a battle shape and press <strong>Start Battle</strong> to see your mandala give you little power boosts.</p>
-            </div>
-          </article>
-        </div>
-        <p class="small-text">You can play gently and just make art, or you can play the battle for fun. Both are okay.</p>
-      </section>
+<section class="pane" id="reflection">
+<div class="guide-box">
+<div class="panel">
+<h2>Create a Study Prompt</h2>
+<label>Intention or theme</label>
+<input id="intention" type="text" placeholder="balance, courage, movement, memory...">
+<label style="display:block;margin-top:10px">Primary form</label>
+<select id="form"><option>Circle</option><option>Triangle</option><option>Square</option><option>Spiral</option><option>Star</option><option>Lotus-like radial form</option></select>
+<label style="display:block;margin-top:10px">Visual approach</label>
+<select id="approach"><option>Quiet and restrained</option><option>Bold and contrasting</option><option>Organic and flowing</option><option>Precise and architectural</option><option>Layered and ceremonial</option></select>
+<div class="actions"><button class="btn primary" id="makePrompt">Generate Prompt</button><button class="btn gold" id="savePrompt">Save Prompt</button></div>
+<div class="output" id="promptOutput">Build a custom geometry study prompt.</div>
+</div>
+<div class="panel">
+<h2>Studio Reflection</h2>
+<textarea id="notes" placeholder="What changed as the pattern developed? Where does the eye move? What feels balanced or unresolved?"></textarea>
+<div class="actions"><button class="btn green" id="saveReflection">Save Reflection</button><button class="btn" id="exportNotes">Export Notes</button></div>
+<div class="output" id="savedOutput">Notes stay on this device.</div>
+</div>
+</div>
+</section>
 
-      <!-- Buttons / Controls -->
-      <section class="section" aria-label="Buttons in the game">
-        <h2>Buttons in the Game</h2>
-        <div class="row">
-          <div class="button-list">
-            <div class="button-item">
-              <span class="button-label">Manifest 💡</span>
-              <span class="button-desc">Uses your words to make a special glow color in the center.</span>
-            </div>
-            <div class="button-item">
-              <span class="button-label">Add Layer ➕</span>
-              <span class="button-desc">Adds a new ring with the shape and color you picked.</span>
-            </div>
-            <div class="button-item">
-              <span class="button-label">Export Geometry ⬇️</span>
-              <span class="button-desc">Saves your mandala as a picture file (SVG) on your device.</span>
-            </div>
-            <div class="button-item">
-              <span class="button-label">Clear Mandala 🧽</span>
-              <span class="button-desc">Erases all rings so you can start fresh.</span>
-            </div>
-            <div class="button-item">
-              <span class="button-label">Start Battle ⚔️</span>
-              <span class="button-desc">Lets your shape “fight” the computer’s shape. The log shows what happened.</span>
-            </div>
-          </div>
-        </div>
+<section class="pane" id="safety">
+<div class="checklist">
+<div class="check"><input type="checkbox"><div><strong>Creative freedom</strong><br>Geometry may be used as art, design, mathematics, symbolism, meditation, or decoration. No belief system is required.</div></div>
+<div class="check"><input type="checkbox"><div><strong>Emotional care</strong><br>If reflection brings up difficult feelings, pause and speak with a trusted person or qualified professional.</div></div>
+<div class="check"><input type="checkbox"><div><strong>Visual comfort</strong><br>Take breaks from bright, moving, or tightly repeated patterns if they cause strain, dizziness, or discomfort.</div></div>
+<div class="check"><input type="checkbox"><div><strong>Respectful context</strong><br>When borrowing symbols from a living culture or religious tradition, research their meaning and use them with care.</div></div>
+<div class="check"><input type="checkbox"><div><strong>Local privacy</strong><br>Saved prompts and notes remain in this browser unless you export them.</div></div>
+</div>
+</section>
+</section>
 
-        <p style="margin-top:10px; font-size:var(--small); color:#5b5245;">
-          <span class="tag">Circle</span> strong at protecting ·
-          <span class="tag">Triangle</span> strong at attacking ·
-          <span class="tag">Spiral</span> helps you heal ·
-          <span class="tag">Lotus</span> & <span class="tag">Star</span> mix bonuses
-        </p>
-      </section>
+<footer><strong>© 2026 Bazaar Art · Khaemenes Academy · Jennifer Kay Pearl</strong><br>All Rights Reserved. · Local, private, offline-first, and creativity-centered.</footer>
+</main>
 
-      <!-- Notes for kids & parents -->
-      <section class="section" aria-label="Safety and kindness notes">
-        <h2>Notes for Kids & Grown-Ups</h2>
-        <div class="notes">
-          <ul>
-            <li><strong>No log-in needed:</strong> the game runs in your browser. It doesn’t make an account.</li>
-            <li><strong>Art is yours:</strong> only you choose if you want to save your mandala picture.</li>
-            <li><strong>Feelings are welcome:</strong> you can type any kind feeling or hope. If a feeling is heavy, talk with a trusted grown-up too.</li>
-            <li><strong>Take breaks:</strong> if your eyes feel tired, pause, look away for a bit, and stretch.</li>
-          </ul>
-        </div>
-      </section>
-    </div>
-
-    <footer>
-      Khaemenes Academy · PLERA Sacred Geometry Sanctuary — Kids Guide
-    </footer>
-  </main>
+<script>
+const $=id=>document.getElementById(id),KEY='bazaar-sacred-geometry-companion-v1';
+const shapes=[
+{name:'Circle',icon:'◯',desc:'Unity, continuity, enclosure, rhythm, focus, and radial organization.'},
+{name:'Triangle',icon:'△',desc:'Direction, tension, stability, ascent, opposition, and dynamic structure.'},
+{name:'Square',icon:'□',desc:'Order, grounding, architecture, containment, grid, and measured proportion.'},
+{name:'Spiral',icon:'🌀',desc:'Growth, movement, expansion, return, sequence, and visual energy.'},
+{name:'Star',icon:'✦',desc:'Radiance, emphasis, orientation, repetition, and central focus.'},
+{name:'Hexagon',icon:'⬡',desc:'Tessellation, structure, natural pattern, modularity, and efficient repetition.'},
+{name:'Vesica',icon:'◒',desc:'Overlap, intersection, relationship, shared space, and paired geometry.'},
+{name:'Lotus Form',icon:'❁',desc:'Radial repetition, unfolding, layered petals, balance, and decorative rhythm.'},
+{name:'Grid',icon:'▦',desc:'Measurement, alignment, sequence, variation, architecture, and systems.'},
+{name:'Wave',icon:'∿',desc:'Flow, alternation, movement, rhythm, repetition, and organic transition.'}
+];
+let state={prompts:[],reflections:[]};try{state=Object.assign(state,JSON.parse(localStorage.getItem(KEY)||'{}'))}catch{}
+function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.pane').forEach(x=>x.classList.remove('active'));b.classList.add('active');$(b.dataset.pane).classList.add('active')});
+$('shapeGrid').innerHTML=shapes.map(s=>`<button class="shape" data-shape="${s.name}"><span>${s.icon}</span>${s.name}</button>`).join('');
+document.querySelectorAll('[data-shape]').forEach(b=>b.onclick=()=>{const s=shapes.find(x=>x.name===b.dataset.shape);$('shapeOutput').innerHTML=`<strong>${s.name}</strong><br>${s.desc}`});
+let currentPrompt='';
+$('makePrompt').onclick=()=>{const intention=$('intention').value.trim()||'balance',form=$('form').value,approach=$('approach').value;currentPrompt=`Create a ${approach.toLowerCase()} sacred-geometry study based on ${form.toLowerCase()} forms. Use the idea “${intention}” as the conceptual starting point. Begin with one central motif, repeat it through at least three layers, vary scale or spacing once, then intentionally interrupt one part of the pattern. Finish by describing how the composition changed.`;$('promptOutput').textContent=currentPrompt};
+$('savePrompt').onclick=()=>{if(!currentPrompt)return;state.prompts.unshift({text:currentPrompt,date:new Date().toISOString()});save();$('promptOutput').textContent='Prompt saved locally.'};
+$('saveReflection').onclick=()=>{const text=$('notes').value.trim();if(!text)return;state.reflections.unshift({text,date:new Date().toISOString()});save();$('savedOutput').textContent='Reflection saved locally.';$('notes').value=''};
+$('exportNotes').onclick=()=>{const text=[...state.prompts.map(x=>'PROMPT\n'+x.text),...state.reflections.map(x=>'REFLECTION\n'+x.text)].join('\n\n');const blob=new Blob([text],{type:'text/plain'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='sacred_geometry_notes.txt';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
+</script>
 </body>
 </html>
