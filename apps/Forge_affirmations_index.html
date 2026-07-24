@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Forge Affirmations — a private offline affirmation and reflection tool for teen boys and young men.">
+<title>Forge Affirmations</title>
+<style>
+:root{
+--bg:#0a0f16;--bg2:#111b27;--panel:#121c28;--panel2:#182636;--ink:#edf4fb;--muted:#9bafc2;
+--blue:#3ea6ff;--cyan:#58d6d2;--orange:#ff9f43;--lime:#9bd45c;--red:#ef6666;--line:#2a4056;
+--shadow:0 26px 70px rgba(0,0,0,.44)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;padding:22px 14px 44px;color:var(--ink);font-family:Inter,"Segoe UI",system-ui,sans-serif;background:
+radial-gradient(circle at 12% 8%,rgba(62,166,255,.12),transparent 25rem),
+radial-gradient(circle at 88% 12%,rgba(255,159,67,.09),transparent 24rem),
+linear-gradient(145deg,var(--bg),var(--bg2))}
+button,select,textarea,input{font:inherit}button{cursor:pointer;touch-action:manipulation}
+.wrap{width:min(1080px,100%);margin:auto}
+.hero{text-align:center;margin-bottom:16px}
+.eyebrow{display:inline-flex;padding:8px 13px;border-radius:999px;background:#0f1721;border:1px solid var(--line);font-size:.72rem;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan)}
+h1{margin:12px 0 5px;font-size:clamp(3rem,8vw,6.4rem);line-height:.87;letter-spacing:-.05em;text-transform:uppercase}
+h1 span{display:block;color:var(--blue)}
+.subtitle{max-width:760px;margin:auto;color:var(--muted);line-height:1.6}
+.shell{background:linear-gradient(180deg,var(--panel),#0f1721);border:1px solid var(--line);border-radius:30px;padding:18px;box-shadow:var(--shadow)}
+.toolbar{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+.control{padding:10px;border:1px solid var(--line);border-radius:15px;background:#0f1823}
+.control label{display:block;margin-bottom:5px;color:var(--muted);font-size:.68rem;font-weight:900;letter-spacing:.09em;text-transform:uppercase}
+.control select{width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:#111d29;color:var(--ink)}
+.main{display:grid;grid-template-columns:1.1fr .9fr;gap:14px;margin-top:14px}
+.card{background:#0f1823;border:1px solid var(--line);border-radius:24px;padding:18px}
+.focus-card{min-height:500px;display:flex;flex-direction:column;justify-content:center;text-align:center;background:
+linear-gradient(145deg,rgba(62,166,255,.06),transparent 50%),
+#0f1823}
+.category-pill{display:inline-flex;align-self:center;padding:7px 10px;border-radius:999px;background:#1c2d3e;border:1px solid var(--line);color:var(--cyan);font-size:.76rem;font-weight:900;text-transform:uppercase;letter-spacing:.08em}
+.affirmation{font-size:clamp(2rem,5vw,3.7rem);line-height:1.12;font-weight:950;letter-spacing:-.03em;margin:26px auto 18px;max-width:820px}
+.reflection{color:var(--muted);font-size:1.08rem;line-height:1.65;max-width:680px;margin:0 auto}
+.actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:22px}
+.btn{border:1px solid var(--line);border-radius:12px;padding:10px 14px;font-weight:900;background:#162230;color:var(--ink)}
+.btn.primary{color:#081018;background:linear-gradient(135deg,var(--blue),var(--cyan));border:0}
+.btn.orange{color:#1b1207;background:linear-gradient(135deg,var(--orange),#ffd166);border:0}
+.btn.green{color:#07120a;background:linear-gradient(135deg,var(--lime),var(--cyan));border:0}
+.btn.danger{color:#ffd9dd;background:#3b1c25;border-color:#6c2d3b}
+.side h2{margin:0;color:var(--blue)}
+.notes{margin-top:12px}.notes textarea{width:100%;min-height:145px;padding:12px;border:1px solid var(--line);border-radius:13px;background:#0b141e;color:var(--ink);resize:vertical}
+.list{display:grid;gap:8px;max-height:310px;overflow:auto;margin-top:10px}
+.item{padding:11px;border:1px solid var(--line);border-radius:13px;background:#121d29;color:#d7e4ef;line-height:1.45}
+.item-head{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.item small{color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:13px}.stat{padding:10px;text-align:center;border:1px solid var(--line);border-radius:14px;background:#101a25}.stat strong{display:block;color:var(--blue);font-size:1.25rem}
+.notice{margin-top:12px;padding:12px 14px;border-left:4px solid var(--orange);border-radius:13px;background:#172230;color:#cbd8e5;line-height:1.5}
+footer{margin-top:15px;text-align:center;color:#8395a8;line-height:1.55;font-size:.82rem}
+:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+@media(max-width:900px){.main{grid-template-columns:1fr}.toolbar{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.toolbar{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header class="hero">
+<div class="eyebrow">Private Mindset & Reflection Tool</div>
+<h1>Forge <span>Affirmations</span></h1>
+<p class="subtitle">Choose a focus, read one clear statement, reflect without pressure, and save what matters. Everything stays on this device.</p>
+</header>
+
+<section class="shell">
+<div class="toolbar">
+<div class="control"><label for="category">Focus area</label><select id="category"></select></div>
+<div class="control"><label for="voice">Read aloud</label><select id="voice"><option value="on">On</option><option value="off">Off</option></select></div>
+<div class="control"><label for="dailyMode">Daily mode</label><select id="dailyMode"><option value="random">Random</option><option value="daily">Same all day</option></select></div>
+<div class="control"><label for="historyLimit">History shown</label><select id="historyLimit"><option>10</option><option>20</option><option>40</option></select></div>
+</div>
+
+<div class="notice"><strong>Use this as a reflection tool, not a test.</strong> An affirmation can be useful even when it does not feel completely true yet. Keep what helps and leave what does not.</div>
+
+<div class="main">
+<section class="card focus-card">
+<div class="category-pill" id="categoryPill">Growth</div>
+<div class="affirmation" id="affirmation"></div>
+<div class="reflection" id="reflection"></div>
+<div class="actions">
+<button class="btn primary" id="newBtn">New Affirmation</button>
+<button class="btn orange" id="speakBtn">🔊 Read</button>
+<button class="btn" id="favoriteBtn">★ Save</button>
+<button class="btn green" id="copyBtn">Copy</button>
+</div>
+</section>
+
+<aside class="card side">
+<h2>Personal Reflection</h2>
+<div class="notes"><textarea id="notes" placeholder="What does this bring up? What action, choice, or reminder would make it real today?"></textarea></div>
+<div class="actions"><button class="btn primary" id="saveNoteBtn">Save Reflection</button></div>
+<h2 style="margin-top:20px">Saved Affirmations</h2>
+<div class="list" id="favorites"></div>
+<div class="actions"><button class="btn" id="exportBtn">Export</button><button class="btn danger" id="clearBtn">Clear Saved</button></div>
+</aside>
+</div>
+
+<div class="stats">
+<div class="stat"><strong id="viewStat">0</strong>Viewed today</div>
+<div class="stat"><strong id="favoriteStat">0</strong>Saved</div>
+<div class="stat"><strong id="noteStat">0</strong>Reflections</div>
+<div class="stat"><strong id="libraryStat">0</strong>Affirmations</div>
+</div>
+</section>
+
+<footer><strong>© 2026 Verve N Veda · Khaemenes Academy · Jennifer Kay Pearl</strong><br>All Rights Reserved. · Local, private, offline-first, and youth-centered.</footer>
+</main>
+
+<script>
+const AFFIRMATIONS=[{"text": "I am becoming a man I respect.", "category": "Growth"}, {"text": "I move forward with quiet confidence.", "category": "Confidence"}, {"text": "I trust myself to learn as I go.", "category": "Growth"}, {"text": "I do not need to rush my becoming.", "category": "Growth"}, {"text": "I am strong in both mind and body.", "category": "Growth"}, {"text": "I take responsibility for my choices.", "category": "Leadership"}, {"text": "I am learning discipline and self-control.", "category": "Discipline"}, {"text": "I honor my values even when it is difficult.", "category": "Growth"}, {"text": "I am capable of standing on my own.", "category": "Growth"}, {"text": "I am allowed to grow at my own pace.", "category": "Growth"}, {"text": "I build confidence through consistency.", "category": "Discipline"}, {"text": "I choose integrity over approval.", "category": "Confidence"}, {"text": "I am learning what matters to me.", "category": "Growth"}, {"text": "I am becoming dependable.", "category": "Leadership"}, {"text": "I respect my time and energy.", "category": "Growth"}, {"text": "I am learning patience.", "category": "Discipline"}, {"text": "I am capable of leadership.", "category": "Leadership"}, {"text": "I take pride in doing things well.", "category": "Growth"}, {"text": "I am learning from every experience.", "category": "Growth"}, {"text": "I respect myself enough to make good choices.", "category": "Growth"}, {"text": "I am becoming resilient.", "category": "Growth"}, {"text": "I trust my ability to adapt.", "category": "Growth"}, {"text": "I am learning how to manage pressure.", "category": "Growth"}, {"text": "I am building a strong foundation.", "category": "Growth"}, {"text": "I am steady even when uncertain.", "category": "Growth"}, {"text": "I value progress over perfection.", "category": "Growth"}, {"text": "I am learning emotional strength.", "category": "Growth"}, {"text": "I take ownership of my future.", "category": "Leadership"}, {"text": "I am allowed to ask questions.", "category": "Growth"}, {"text": "I am learning when to act and when to wait.", "category": "Growth"}, {"text": "I am capable of discipline.", "category": "Discipline"}, {"text": "I honor my commitments.", "category": "Discipline"}, {"text": "I am growing into responsibility.", "category": "Leadership"}, {"text": "I choose focus over distraction.", "category": "Discipline"}, {"text": "I am becoming grounded.", "category": "Growth"}, {"text": "I trust the process of growth.", "category": "Growth"}, {"text": "I am learning self-respect.", "category": "Confidence"}, {"text": "I am capable of providing for myself.", "category": "Growth"}, {"text": "I am becoming confident through action.", "category": "Growth"}, {"text": "I do not need to prove myself.", "category": "Growth"}, {"text": "I respect my body and mind.", "category": "Growth"}, {"text": "I am learning restraint.", "category": "Discipline"}, {"text": "I move with intention.", "category": "Growth"}, {"text": "I am becoming strong quietly.", "category": "Growth"}, {"text": "I trust myself to make wise decisions.", "category": "Growth"}, {"text": "I am allowed to take my time becoming skilled.", "category": "Growth"}, {"text": "I am learning clarity.", "category": "Growth"}, {"text": "I am building inner strength.", "category": "Growth"}, {"text": "I am becoming the man I am meant to be.", "category": "Growth"}, {"text": "I am allowed to build a life that fits my values.", "category": "Growth"}, {"text": "I trust myself to make wise decisions over time.", "category": "Growth"}, {"text": "My creativity is a form of service.", "category": "Growth"}, {"text": "I can be both nurturing and ambitious.", "category": "Growth"}, {"text": "I am learning how to lead with integrity.", "category": "Leadership"}, {"text": "My work has meaning because I bring meaning to it.", "category": "Growth"}, {"text": "I am capable of providing and protecting.", "category": "Leadership"}, {"text": "I honor my intuition alongside my intellect.", "category": "Growth"}, {"text": "I am allowed to grow slowly and still succeed.", "category": "Balance"}, {"text": "I am creating something lasting, not rushed.", "category": "Growth"}, {"text": "My family is strengthened by my presence.", "category": "Relationships"}, {"text": "I model courage simply by showing up.", "category": "Growth"}, {"text": "I am allowed to change my mind as I grow.", "category": "Growth"}, {"text": "I build with care, not fear.", "category": "Growth"}, {"text": "My family benefits from my self-trust.", "category": "Relationships"}, {"text": "I am worthy of rest and renewal.", "category": "Balance"}, {"text": "I can hold responsibility.", "category": "Leadership"}, {"text": "I am learning how to balance love and structure.", "category": "Relationships"}, {"text": "My voice belongs in the world.", "category": "Confidence"}, {"text": "I am capable of sustaining what I create.", "category": "Growth"}, {"text": "I lead by example, not by force.", "category": "Leadership"}, {"text": "My work does not have to cost me my peace.", "category": "Balance"}, {"text": "I am allowed to succeed in my own way.", "category": "Growth"}, {"text": "I trust my timing.", "category": "Balance"}, {"text": "I am teaching my friends and family resilience by living it.", "category": "Relationships"}, {"text": "I am allowed to receive support.", "category": "Growth"}, {"text": "My effort matters, even when unseen.", "category": "Growth"}, {"text": "I am growing into financial wisdom.", "category": "Growth"}, {"text": "I am building something honest.", "category": "Growth"}, {"text": "I do not have to prove my worth.", "category": "Confidence"}, {"text": "My home and my work can coexist.", "category": "Relationships"}, {"text": "I choose alignment over pressure.", "category": "Growth"}, {"text": "I am learning how to steward my energy.", "category": "Growth"}, {"text": "I am capable of creating stability.", "category": "Growth"}, {"text": "I honor the seasons of my life.", "category": "Growth"}, {"text": "I am becoming more confident with practice.", "category": "Growth"}, {"text": "My manhood informs my leadership.", "category": "Leadership"}, {"text": "I am allowed to be proud of myself.", "category": "Confidence"}, {"text": "I build with patience and foresight.", "category": "Discipline"}, {"text": "I trust the lessons I am learning.", "category": "Growth"}, {"text": "I am allowed to pause and recalibrate.", "category": "Balance"}, {"text": "My family witnesses strength in my honesty.", "category": "Relationships"}, {"text": "I am allowed to succeed without burnout.", "category": "Balance"}, {"text": "I am learning how to receive abundance responsibly.", "category": "Growth"}, {"text": "I am not behind.", "category": "Growth"}, {"text": "I am shaping a future with intention.", "category": "Leadership"}, {"text": "I trust myself to adapt.", "category": "Growth"}, {"text": "I am creating a legacy of integrity.", "category": "Leadership"}, {"text": "I am becoming who I need to be.", "category": "Growth"}, {"text": "You are allowed to move at your own pace.", "category": "Growth"}, {"text": "You are becoming more yourself every day.", "category": "Growth"}, {"text": "Nothing about you needs to be fixed.", "category": "Growth"}, {"text": "You are safe to rest here.", "category": "Balance"}, {"text": "Your presence is enough.", "category": "Relationships"}, {"text": "You are learning how to trust your own timing.", "category": "Balance"}, {"text": "You carry more wisdom than you realize.", "category": "Growth"}, {"text": "You do not need permission to rest.", "category": "Balance"}, {"text": "You are worthy of love.", "category": "Confidence"}, {"text": "Your voice matters, even when it is quiet.", "category": "Confidence"}, {"text": "You are not behind â you are unfolding.", "category": "Growth"}, {"text": "It is okay to take up space as you are.", "category": "Growth"}, {"text": "You are held, even when you feel unsure.", "category": "Growth"}, {"text": "You are allowed to choose peace.", "category": "Balance"}, {"text": "Your life does not need to look like anyone elseâs.", "category": "Growth"}],REFLECTIONS=["You donât have to have everything figured out.", "This moment is part of your foundation.", "Strength grows through patience.", "You are allowed to take your time.", "Confidence is built, not rushed.", "This is how steadiness forms.", "You are learning through experience.", "There is no need to impress anyone here.", "Growth happens quietly.", "You are becoming capable.", "Let this settle without pressure.", "You are allowed to be thoughtful.", "Discipline becomes freedom.", "You are building something real.", "This is part of your training.", "Trust the long path.", "You are learning discernment.", "Not knowing yet is not failure.", "You are allowed to pause.", "Strength does not need to announce itself.", "You are becoming dependable.", "This moment matters.", "Let consistency do the work.", "You are learning responsibility.", "Your effort counts.", "You are building confidence through repetition.", "This is enough for today.", "You are allowed to grow privately.", "Patience is strength.", "You are learning when to move and when to wait.", "You are becoming grounded.", "There is wisdom in restraint.", "You are developing judgment.", "Trust what you are learning.", "You are allowed to mature naturally.", "This is how character forms.", "You are steady.", "Let this anchor you.", "You are learning focus.", "You are becoming resilient.", "This moment belongs to you.", "You donât need shortcuts.", "Growth takes time.", "You are allowed to learn slowly.", "This is part of becoming.", "You are building inner strength.", "Stay present.", "You are capable of patience.", "Let this guide you forward.", "You are becoming.", "Let this land softly.", "You donât need to do anything else right now.", "Take a breath and notice how this feels.", "Carry this with you gently.", "There is no rush.", "Stay here for a moment if youâd like.", "Carry this gently into the day.", "There is no rush to become.", "Breathe and allow this to settle.", "You are allowed to move slowly.", "Trust that this is unfolding.", "Stay here for a moment.", "You are doing enough today.", "Let this be a quiet truth.", "You can return to this whenever you need.", "Nothing else is required right now.", "Feel where this rests in your body.", "You are supported, even when unseen.", "This does not need explanation.", "Hold this gently.", "Allow yourself to receive this.", "You are not late.", "Rest in what is already true.", "This can walk with you today.", "Let this soften your shoulders.", "You can trust this process.", "There is room for you here.", "You donât need to carry everything at once.", "Take one easy breath.", "This is enough for now.", "Let this guide, not push.", "You are allowed to take breaks.", "Stay present with what is.", "You can come back to this later.", "There is wisdom in your pace.", "Let go of the need to measure.", "This moment is complete.", "Allow this to integrate naturally.", "You are not alone in this.", "This belongs to you.", "Nothing needs fixing.", "Let this be a quiet anchor.", "You are safe to continue slowly.", "Feel the steadiness beneath you.", "Trust yourself to remember this.", "You can rest after this.", "Let this follow you gently.", "You are held by what you love.", "This is part of your becoming.", "Stay open, not strained.", "Let this bring ease.", "You are already enough here.", "Allow gratitude to arise naturally.", "When youâre ready, move forward softly."],CATEGORIES=["All", "Growth", "Confidence", "Discipline", "Leadership", "Balance", "Relationships"],$=id=>document.getElementById(id),KEY='forge-affirmations-v2';
+function today(){const d=new Date(),o=d.getTimezoneOffset();return new Date(d.getTime()-o*60000).toISOString().slice(0,10)}
+function fresh(){return{date:today(),views:0,current:null,favorites:[],notes:{},history:[]}}
+function load(){try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(!x)return fresh();if(x.date!==today()){x.date=today();x.views=0}return Object.assign(fresh(),x)}catch{return fresh()}}
+let state=load();
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch{}}
+function pool(cat){return cat==='All'?AFFIRMATIONS:AFFIRMATIONS.filter(x=>x.category===cat)}
+function dayIndex(){return Math.floor(new Date(today()+'T12:00').getTime()/86400000)}
+function choose(){
+ const p=pool($('category').value);if(!p.length)return AFFIRMATIONS[0];
+ if($('dailyMode').value==='daily')return p[Math.abs(dayIndex())%p.length];
+ let c=p[Math.floor(Math.random()*p.length)];
+ if(state.current&&p.length>1){while(c.text===state.current.text)c=p[Math.floor(Math.random()*p.length)]}
+ return c
+}
+function chooseReflection(){return REFLECTIONS[Math.floor(Math.random()*REFLECTIONS.length)]||''}
+function show(next=true){
+ if(next||!state.current){const a=choose();state.current={text:a.text,category:a.category,reflection:chooseReflection(),time:new Date().toISOString()};state.views++;state.history.unshift(state.current);state.history=state.history.slice(0,80);save()}
+ $('affirmation').textContent=state.current.text;$('reflection').textContent=state.current.reflection;$('categoryPill').textContent=state.current.category;$('notes').value=state.notes[state.current.text]||'';render()
+}
+function speak(){if($('voice').value==='off'||!('speechSynthesis'in window))return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(`${state.current.text}. ${state.current.reflection}`);u.rate=.9;u.pitch=1.0;speechSynthesis.speak(u)}
+function render(){
+ $('favorites').innerHTML=state.favorites.length?state.favorites.map((f,i)=>`<div class="item"><div class="item-head"><strong>${f.category}</strong><button class="btn" data-remove="${i}">Remove</button></div>${f.text}${state.notes[f.text]?`<small><br>${state.notes[f.text]}</small>`:''}</div>`).join(''):'<div class="item">No saved affirmations yet.</div>';
+ document.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{state.favorites.splice(Number(b.dataset.remove),1);save();render()});
+ $('viewStat').textContent=state.views;$('favoriteStat').textContent=state.favorites.length;$('noteStat').textContent=Object.values(state.notes).filter(Boolean).length;$('libraryStat').textContent=AFFIRMATIONS.length
+}
+$('category').innerHTML=CATEGORIES.map(c=>`<option>${c}</option>`).join('');
+$('newBtn').onclick=()=>show(true);$('speakBtn').onclick=speak;
+$('favoriteBtn').onclick=()=>{if(!state.current)return;if(!state.favorites.some(f=>f.text===state.current.text))state.favorites.push({...state.current});save();render()};
+$('copyBtn').onclick=async()=>{try{await navigator.clipboard.writeText(state.current.text);$('copyBtn').textContent='Copied';setTimeout(()=>$('copyBtn').textContent='Copy',900)}catch{alert('Copy is not available in this browser.')}};
+$('saveNoteBtn').onclick=()=>{if(!state.current)return;state.notes[state.current.text]=$('notes').value.trim();save();render();$('saveNoteBtn').textContent='Saved';setTimeout(()=>$('saveNoteBtn').textContent='Save Reflection',900)};
+$('clearBtn').onclick=()=>{if(confirm('Clear all saved affirmations?')){state.favorites=[];save();render()}};
+$('exportBtn').onclick=()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='forge_affirmations_export.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
+$('category').onchange=()=>show(true);$('dailyMode').onchange=()=>show(true);
+show(!state.current);
+</script>
+</body>
+</html>
