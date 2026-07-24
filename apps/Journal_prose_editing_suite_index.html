@@ -1,0 +1,2639 @@
+<!doctype html>
+<!-- PROSE™ Pro Tools build: Deep Repair + Ecosystem Header, 2026-07 -->
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>PROSE™ — Sovereign Editorial Suite</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    /* ===========================
+       PROSE – Layout & Theme
+       (scoped to #prose-app)
+       =========================== */
+    #prose-app * { box-sizing: border-box; }
+
+    #prose-app {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      max-width: 999px;
+      margin: 3px auto;
+      padding: 11px;
+      background: #fdf7ec;
+      border: 1px solid #d9c8aa;
+      box-shadow: 0 0 0 3px #222, 0 11px 14px rgba(0,0,0,0.30);
+      color: #261b10;
+    }
+
+    #prose-shell {
+      display: grid;
+      grid-template-columns: 222px minmax(0,1fr);
+      gap: 11px;
+    }
+
+    /* Brand + Side Column */
+    .prose-brand-block {
+      padding: 11px 11px 14px;
+      border-radius: 7px;
+      border: 1px solid #e1d4bd;
+      background: rgba(255,255,255,0.82);
+      margin-bottom: 7px;
+    }
+    .prose-brand-title {
+      font-family: "Times New Roman", "Georgia", serif;
+      font-size: 20px;
+      letter-spacing: 0.08em;
+    }
+    .prose-brand-sub {
+      font-size: 13px;
+      line-height: 1.25;
+      margin-top: 4px;
+    }
+
+    .prose-side {
+      background: rgba(255,255,255,0.9);
+      border-radius: 7px;
+      border: 1px solid #e1d4bd;
+      padding: 7px 7px 7px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .prose-side-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: #857660;
+      padding: 7px 7px;
+      border-radius: 7px;
+      background: #f4ece0;
+      margin-bottom: 7px;
+      text-align: center;
+    }
+
+    .prose-side .pro-tool-btn {
+      width: 100%;
+      padding: 7px 7px;
+      font-size: 11px;
+      border-radius: 7px;
+      border: 1px solid #dfd0b5;
+      background: #f8efe0;
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.15s, transform 0.05s, box-shadow 0.15s;
+    }
+    .prose-side .pro-tool-btn:hover {
+      background: #f1e4cf;
+      box-shadow: 0 1px 0 rgba(0,0,0,0.08);
+    }
+    .prose-side .pro-tool-btn:active {
+      transform: translateY(1px);
+      box-shadow: none;
+    }
+
+    .prose-wordbank {
+      border-radius: 7px;
+      border: 2px dashed #dcc9aa;
+      padding: 7px;
+      font-size: 11px;
+      background: #fdf8ef;
+      max-height: 777px;
+      overflow-y: auto;
+    }
+    .prose-wordbank-pill {
+      display: inline-block;
+      margin: 3px 7px;
+      padding: 3px 7px;
+      border-radius: 7px;
+      border: 1px solid #d0bfa4;
+      cursor: pointer;
+      font-size: 10px;
+      background: #f7efe0;
+    }
+
+    .prose-progress-wrap {
+      border-radius: 7px;
+      border: 1px solid #e1d4bd;
+      padding: 6px 8px;
+      font-size: 11px;
+      background: #fbf3e4;
+    }
+    .prose-progress-bar {
+      margin-top: 4px;
+      width: 100%;
+      height: 7px;
+      border-radius: 999px;
+      background: #e1d2b6;
+      overflow: hidden;
+    }
+    .prose-progress-bar-inner {
+      height: 100%;
+      width: 0%;
+      background: #9fb86f;
+      transition: width 0.2s ease-out;
+    }
+
+    .prose-outline-list {
+      font-size: 11px;
+      max-height: 222px;
+      overflow-y: auto;
+      padding: 7px 7px;
+    }
+    .prose-outline-item {
+      padding: 2px 0;
+      cursor: pointer;
+    }
+    .prose-outline-item span {
+      opacity: 0.7;
+      font-size: 10px;
+      margin-right: 3px;
+    }
+
+    /* Main area */
+    .prose-main {
+      background: #fefaf2;
+      border-radius: 12px;
+      border: 1px solid #e1d4bd;
+      padding: 10px 12px 12px;
+    }
+
+    .prose-topbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 7px;
+    }
+    .prose-pill-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+    .prose-pill-btn {
+      border-radius: 7px;
+      border: 2px solid #dfd0b5;
+      background: #f8efe0;
+      padding: 4px 11px;
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .prose-pill-btn.active {
+      background: #e9dbc5;
+      border-color: #c7b08a;
+    }
+
+    .prose-select {
+      font-size: 11px;
+      padding: 3px 7px;
+      border-radius: 7px;
+      border: 1px solid #dfd0b5;
+      background: #fffdf7;
+    }
+    .prose-small-btn {
+      font-size: 11px;
+      padding: 3px 7px;
+      border-radius: 7px;
+      border: 2px solid #dfd0b5;
+      background: #f8efe0;
+      cursor: pointer;
+    }
+
+    /* Toolbar */
+    .prose-toolbar {
+      margin-top: 7px;
+      border-radius: 7px;
+      border: 1px solid #e3d7bf;
+      background: #f9f1e4;
+      padding: 4px 6px 7px;
+      font-size: 12px;
+    }
+    .prose-toolbar-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 7px;
+      margin: 7px 0;
+    }
+    .prose-toolbar-btn {
+      border-radius: 7px;
+      border: 1px solid #d7c7aa;
+      background: #fff9ef;
+      padding: 3px 7px;
+      font-size: 12px;
+      cursor: pointer;
+      min-width: 24px;
+      text-align: center;
+    }
+    .prose-toolbar-btn:hover {
+      background: #f3e5cf;
+    }
+    .prose-toolbar-btn:active {
+      transform: translateY(1px);
+    }
+    .prose-divider {
+      width: 1px;
+      align-self: stretch;
+      background: #e1d4bd;
+      margin: 0 2px;
+    }
+    .prose-toolbar label {
+      font-size: 11px;
+      opacity: 0.85;
+    }
+
+    /* Title + Editor */
+    .prose-doc-title {
+      margin: 7px 0 4px;
+      text-align: center;
+      font-family: "Times New Roman", "Georgia", serif;
+      font-size: 14px;
+      letter-spacing: 0.08em;
+    }
+    .prose-title-input {
+      border: none;
+      border-bottom: 1px solid #d6c8aa;
+      background: transparent;
+      text-align: center;
+      font: inherit;
+      padding: 3px 7px 3px;
+      min-width: 60%;
+    }
+
+    .prose-editor-wrap {
+      margin-top: 6px;
+      border-radius: 7px;
+      border: 1px solid #e1d4bd;
+      background: #fffdf7;
+      padding: 11px 14px;
+      min-height: 333px;
+      max-height: 888px;
+      overflow-y: auto;
+    }
+    #prose-editor {
+      outline: none;
+      min-height: 222px;
+      line-height: 1.5;
+    }
+    #prose-editor p {
+      margin: 0 0 0.7em;
+    }
+    #prose-editor:empty::before {
+      content: "Start writing here…";
+      color: #c1b39a;
+    }
+
+    mark.prose-mark {
+      background: #ffe799;
+      padding: 0 7px;
+    }
+
+    .prose-footer {
+      margin-top: 7px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: #8c7a60;
+    }
+
+    /* Tool Panels */
+    .prose-panels {
+      margin-top: 11px;
+      border-radius: 7px;
+      border: 1px solid #e3d7bf;
+      background: #fbf3e4;
+      padding: 7px 11px 7px;
+      font-size: 14px;
+    }
+    .prose-panel-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 7px;
+    }
+    .prose-panel-nav button {
+      border-radius: 7px;
+      border: 1px solid #d7c7aa;
+      background: #fff9ef;
+      padding: 3px 7px;
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .prose-panel-nav button.active {
+      background: #e9dbc5;
+      border-color: #c4aa7e;
+    }
+    .prose-panel {
+      display: none;
+    }
+    .prose-panel.active {
+      display: block;
+    }
+    .prose-panel h3 {
+      margin: 4px 0 4px;
+      font-size: 13px;
+      font-weight: 555;
+      font-family: "Times New Roman","Georgia",serif;
+    }
+    .prose-panel-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 7px;
+      align-items: center;
+    }
+    .prose-panel input[type="text"],
+    .prose-panel input[type="number"],
+    .prose-panel textarea,
+    .prose-panel select {
+      font-size: 12px;
+      padding: 3px 7px;
+      border-radius: 7px;
+      border: 1px solid #d7c7aa;
+      background: #fffdf7;
+      width: 99%;
+    }
+    .prose-panel textarea {
+      min-height: 77px;
+      resize: vertical;
+    }
+    .prose-panel small {
+      font-size: 11px;
+      color: #8f7d68;
+    }
+
+    .prose-panel-list {
+      max-height: 111px;
+      overflow-y: auto;
+      border-radius: 8px;
+      border: 1px solid #e1d4bd;
+      background: #fffdf7;
+      padding: 4px 6px;
+      font-size: 12px;
+    }
+    .prose-panel-list-item {
+      padding: 3px 0;
+      border-bottom: 1px dashed #eddcc2;
+    }
+    .prose-panel-list-item:last-child {
+      border-bottom: none;
+    }
+    .prose-link-btn {
+      border: none;
+      background: none;
+      padding: 0;
+      color: #7e5f2c;
+      text-decoration: underline;
+      cursor: pointer;
+      font-size: 11px;
+    }
+
+    /* Toast */
+    .prose-toast {
+      position: fixed;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #222;
+      color: #f7f3e8;
+      padding: 6px 12px;
+      border-radius: 7px;
+      font-size: 12px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+      z-index: 9999;
+    }
+    .prose-toast.show {
+      opacity: 0.92;
+    }
+
+    /* Focus mode */
+    #prose-app.prose-focus .prose-side {
+      display: none;
+    }
+    #prose-app.prose-focus #prose-shell {
+      grid-template-columns: minmax(0,1fr);
+    }
+
+    /* Wide / narrow page */
+    #prose-app.prose-wide #prose-editor {
+      max-width: 100%;
+    }
+    #prose-app:not(.prose-wide) #prose-editor {
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    /* Image blocks & captions */
+    .prose-image-block {
+      border: 1px solid #d3c4aa;
+      border-radius: 7px;
+      padding: 4px;
+      margin: 10px auto;
+      background: #fdf8ef;
+      max-width: 100%;
+      resize: both;
+      overflow: hidden;
+      text-align: center;
+    }
+    .prose-image-block img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+    .prose-image-caption {
+      font-size: 11px;
+      color: #7a6a55;
+      margin-top: 4px;
+      border-top: 1px dashed #e1d4bd;
+      padding-top: 4px;
+    }
+
+    /* Text box / callout */
+    .prose-textbox {
+      border-radius: 8px;
+      border: 1px solid #cfbfa1;
+      background: #fff7e5;
+      padding: 8px 10px;
+      margin: 10px 0;
+    }
+
+    @media (max-width: 800px) {
+      #prose-shell {
+        grid-template-columns: minmax(0,1fr);
+      }
+      .prose-side {
+        order: -1;
+      }
+    }
+  
+/* ===== PROSE DEEP-REPAIR ADDITIONS ===== */
+.prose-toolbar-btn.active-format{
+  background:#d8c29e;
+  border-color:#9f7e49;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.55);
+}
+.prose-toolbar-btn[aria-pressed="true"]{
+  background:#d8c29e;
+  border-color:#9f7e49;
+}
+.prose-align-btn{
+  min-width:64px;
+  white-space:nowrap;
+}
+.prose-save-indicator{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+}
+.prose-save-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:#9fb86f;
+}
+.prose-save-dot.unsaved{background:#d79b44}
+.prose-save-dot.error{background:#c85b5b}
+.prose-find-current{
+  background:#ffb84d !important;
+  outline:2px solid #7a4f00;
+}
+.prose-panel-list-item button{
+  max-width:100%;
+}
+.prose-recents-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+  margin-top:5px;
+}
+.prose-warning{
+  padding:7px 9px;
+  border-radius:7px;
+  border:1px solid #d5b36b;
+  background:#fff4d4;
+  color:#5e4922;
+  margin:5px 0;
+}
+@media (max-width:520px){
+  .prose-toolbar-row{gap:5px}
+  .prose-toolbar-btn{padding:5px 7px}
+  .prose-align-btn{min-width:58px;font-size:10px}
+  .prose-footer{align-items:flex-start;gap:5px;flex-direction:column}
+}
+
+
+/* ===== VERve N VEDA ECOSYSTEM HEADER ===== */
+.prose-global-header{
+  max-width:999px;
+  margin:12px auto 8px;
+  padding:10px 12px;
+  border-radius:12px;
+  border:1px solid #d9c8aa;
+  background:linear-gradient(135deg,#fffaf0,#f3e5cf);
+  box-shadow:0 8px 24px rgba(58,42,22,.16);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.prose-global-brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:220px;
+}
+.prose-repo-logo{
+  width:46px;
+  height:46px;
+  border-radius:12px;
+  display:grid;
+  place-items:center;
+  flex:0 0 auto;
+  background:
+    radial-gradient(circle at 30% 25%,#fff4bb 0 16%,transparent 17%),
+    conic-gradient(from 25deg,#b57b38,#76542d,#c9a45c,#4a3520,#b57b38);
+  color:#fff9e9;
+  border:2px solid #fff8df;
+  box-shadow:0 6px 18px rgba(92,62,29,.28);
+  font-family:"Times New Roman",Georgia,serif;
+  font-weight:900;
+  letter-spacing:.05em;
+}
+.prose-global-brand-text strong{
+  display:block;
+  font-family:"Times New Roman",Georgia,serif;
+  font-size:1.05rem;
+  letter-spacing:.08em;
+  color:#3f2b18;
+}
+.prose-global-brand-text span{
+  display:block;
+  margin-top:2px;
+  font-size:.72rem;
+  color:#7a6a55;
+}
+.prose-global-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.prose-home-link,
+.prose-repo-select{
+  min-height:36px;
+  border-radius:9px;
+  border:1px solid #cfb98f;
+  background:#fffaf1;
+  color:#4a3420;
+  font:inherit;
+  font-size:.78rem;
+}
+.prose-home-link{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:8px 12px;
+  text-decoration:none;
+  font-weight:800;
+}
+.prose-home-link:hover{background:#f1e2c7}
+.prose-repo-select{padding:7px 9px;max-width:260px}
+.prose-app-footer{
+  max-width:999px;
+  margin:12px auto 24px;
+  padding:12px 16px;
+  text-align:center;
+  color:#6f604e;
+  font-size:.82rem;
+  line-height:1.55;
+}
+.prose-app-footer strong{color:#4b3420}
+@media(max-width:620px){
+  .prose-global-header{align-items:stretch}
+  .prose-global-brand{width:100%}
+  .prose-global-actions{width:100%}
+  .prose-home-link,.prose-repo-select{flex:1 1 100%}
+  .prose-repo-select{max-width:none}
+}
+
+</style>
+</head>
+<body>
+
+<header class="prose-global-header" aria-label="Verve N Veda ecosystem navigation">
+  <div class="prose-global-brand">
+    <div class="prose-repo-logo" aria-label="Pro Tools repository logo">PRO</div>
+    <div class="prose-global-brand-text">
+      <strong>Verve N Veda</strong>
+      <span>Pro Tools Repository · PROSE™ Editorial Suite</span>
+    </div>
+  </div>
+  <nav class="prose-global-actions" aria-label="Repository navigation">
+    <a class="prose-home-link" href="https://vervenveda.github.io/" aria-label="Return to Verve N Veda home">⌂ Home</a>
+    <select id="prose-repository-menu" class="prose-repo-select" aria-label="Open a connected repository">
+      <option value="">Explore 23 repositories…</option>
+      <option value="https://vervenveda.github.io/Arshif.github.io/">ARSHIF Archives</option>
+      <option value="https://vervenveda.github.io/creche_preschool.github.io/">Crèche Preschool</option>
+      <option value="https://vervenveda.github.io/onenationforall.github.io/">One Nation for All</option>
+      <option value="https://vervenveda.github.io/Site.github.io/">Site / Website Foundry</option>
+      <option value="https://vervenveda.github.io/admin.github.io/">Administration</option>
+      <option value="https://vervenveda.github.io/theverifier.github.io/">The Verifier</option>
+      <option value="https://vervenveda.github.io/bazaarart.github.io/">Bazaar Art</option>
+      <option value="https://vervenveda.github.io/aurora.github.io/">Aurora</option>
+      <option value="https://vervenveda.github.io/">Verve N Veda</option>
+      <option value="https://vervenveda.github.io/Khaemenes-university.github.io/">Khaemenes University</option>
+      <option value="https://vervenveda.github.io/Khaemenes-elementary.github.io/">Khaemenes Elementary</option>
+      <option value="https://vervenveda.github.io/Khaemenes-jrhigh.github.io/">Khaemenes Junior High</option>
+      <option value="https://vervenveda.github.io/Khaemenes-High_github.io/">Khaemenes High School</option>
+      <option value="https://vervenveda.github.io/river_to_road.github.io/">River to Road</option>
+      <option value="https://vervenveda.github.io/proresource_hub.github.io/">ProResource Hub</option>
+      <option value="https://vervenveda.github.io/khaemenesacademy.github.io/">Khaemenes Academy</option>
+      <option value="https://vervenveda.github.io/PLERASearch.github.io/">PLERA Search</option>
+      <option value="https://vervenveda.github.io/arcade.github.io/">Arcade</option>
+      <option value="https://vervenveda.github.io/KinderGarden.github.io/">KinderGarden</option>
+      <option value="https://vervenveda.github.io/linguistics.github.io/">Linguistics</option>
+      <option value="https://vervenveda.github.io/firmament.github.io/">Firmament Law</option>
+      <option value="https://vervenveda.github.io/solanar.github.io/">Solanar</option>
+      <option value="https://vervenveda.github.io/myartgallery.github.io/">My Art Gallery</option>
+    </select>
+  </nav>
+</header>
+
+<div id="prose-app">
+  <div id="prose-shell">
+    <!-- ===========================
+         LEFT COLUMN – PRO TOOLS
+         =========================== -->
+    <aside>
+      <div class="prose-brand-block">
+        <div class="prose-brand-title">PROSE™</div>
+        <div class="prose-brand-sub">Sovereign Editorial Suite<br/>Pro Tools</div>
+      </div>
+
+      <div class="prose-side">
+        <div class="prose-side-label">Pro Tools</div>
+        <button class="pro-tool-btn" data-panel="find">Find &amp; Replace</button>
+        <button class="pro-tool-btn" data-panel="comments">Comments</button>
+        <button class="pro-tool-btn" data-panel="templates">Templates / Snippets</button>
+        <button class="pro-tool-btn" data-panel="toc">Table of Contents</button>
+        <button class="pro-tool-btn" data-panel="goals">Writing Goals</button>
+        <button class="pro-tool-btn" data-panel="outline">Outliner</button>
+        <button class="pro-tool-btn" data-panel="footnotes">Footnotes</button>
+        <button class="pro-tool-btn" data-panel="thesaurus">Thesaurus</button>
+        <button class="pro-tool-btn" data-panel="versions">Versions</button>
+        <button class="pro-tool-btn" data-panel="export">Export / Restore</button>
+        <button class="pro-tool-btn" data-panel="images">Images</button>
+        <button class="pro-tool-btn" data-panel="library">Recent Docs</button>
+        <button class="pro-tool-btn" data-panel="thoughts">Private Thoughts</button>
+        <button class="pro-tool-btn" data-panel="ai">AuroraCore (AI)</button>
+
+        <div class="prose-side-label" style="margin-top:8px;">Outline</div>
+        <div id="prose-outline-list" class="prose-outline-list"></div>
+
+        <div class="prose-side-label" style="margin-top:6px;">Word Bank</div>
+        <div class="prose-wordbank">
+          <div id="prose-wordbank-pills"></div>
+          <div style="margin-top:4px; display:flex; gap:4px;">
+            <input id="prose-wordbank-input" type="text" placeholder="+ word" />
+            <button id="prose-wordbank-add" class="prose-small-btn" type="button">Add</button>
+          </div>
+        </div>
+
+        <div class="prose-side-label" style="margin-top:6px;">Writing Progress</div>
+        <div class="prose-progress-wrap">
+          <div id="prose-progress-counts">Words: 0 — Chars: 0</div>
+          <div id="prose-progress-goal" style="margin-top:2px;">Goal: —</div>
+          <div id="prose-top-words" style="margin-top:3px;">Top words: —</div>
+          <div class="prose-progress-bar">
+            <div id="prose-progress-bar-inner" class="prose-progress-bar-inner"></div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ===========================
+         MAIN EDITOR AREA
+         =========================== -->
+    <main class="prose-main">
+      <!-- Top controls -->
+      <div class="prose-topbar">
+        <div class="prose-pill-group">
+          <button type="button" id="prose-focus-toggle" class="prose-pill-btn">Focus Mode</button>
+          <button type="button" id="prose-width-toggle" class="prose-pill-btn">Wide Page</button>
+          <button type="button" id="prose-sound-toggle" class="prose-pill-btn">Sound Off</button>
+        </div>
+        <div class="prose-pill-group">
+          <select id="prose-paper-theme" class="prose-select">
+            <option value="parchment">Paper</option>
+            <option value="white">Clean</option>
+            <option value="night">Night</option>
+            <option value="custom">Custom</option>
+          </select>
+          <select id="prose-tone-select" class="prose-select">
+            <option value="">Tone: Neutral</option>
+            <option value="soft">Tone: Soft</option>
+            <option value="playful">Tone: Playful</option>
+            <option value="epic">Tone: Epic</option>
+            <option value="sacred">Tone: Sacred</option>
+            <option value="formal">Tone: Formal</option>
+          </select>
+          <select id="prose-starter-select" class="prose-select">
+            <option value="">Insert Starter…</option>
+            <option value="story">Story opening</option>
+            <option value="essay">Essay intro</option>
+            <option value="letter">Letter template</option>
+          </select>
+          <button type="button" id="prose-inspire-button" class="prose-small-btn">Inspiration Bell</button>
+          <button type="button" id="prose-new-doc-top" class="prose-small-btn">New Doc</button>
+          <button type="button" id="prose-save-button" class="prose-small-btn">Save Now</button>
+        </div>
+      </div>
+
+      <!-- Toolbar -->
+      <div class="prose-toolbar">
+        <div class="prose-toolbar-row">
+          <button type="button" class="prose-toolbar-btn" data-cmd="undo" title="Undo">↺</button>
+          <button type="button" class="prose-toolbar-btn" data-cmd="redo" title="Redo">↻</button>
+          <div class="prose-divider"></div>
+          <button type="button" class="prose-toolbar-btn" data-cmd="bold" title="Bold"><b>B</b></button>
+          <button type="button" class="prose-toolbar-btn" data-cmd="italic" title="Italic"><i>I</i></button>
+          <button type="button" class="prose-toolbar-btn" data-cmd="underline" title="Underline"><u>U</u></button>
+          <button type="button" class="prose-toolbar-btn" data-cmd="strikeThrough" title="Strikethrough"><s>S</s></button>
+          <div class="prose-divider"></div>
+          <button type="button" class="prose-toolbar-btn" data-cmd="insertUnorderedList" title="Bulleted list">• List</button>
+          <button type="button" class="prose-toolbar-btn" data-cmd="insertOrderedList" title="Numbered list">1. List</button>
+          <button type="button" class="prose-toolbar-btn prose-align-btn" data-cmd="justifyLeft" title="Align left" aria-label="Align left">☰ Left</button>
+          <button type="button" class="prose-toolbar-btn prose-align-btn" data-cmd="justifyCenter" title="Align center" aria-label="Align center">↔ Center</button>
+          <button type="button" class="prose-toolbar-btn prose-align-btn" data-cmd="justifyRight" title="Align right" aria-label="Align right">Right ☰</button>
+          <button type="button" class="prose-toolbar-btn" data-cmd="removeFormat" title="Clear selected formatting">Clear</button>
+        </div>
+        <div class="prose-toolbar-row">
+          <label>Font
+            <select id="prose-font-family" class="prose-select">
+              <option value="">Default</option>
+              <option value="'Cinzel', 'Times New Roman', serif">Cinzel / Sacred Serif</option>
+              <option value="'Cormorant Garamond', 'Times New Roman', serif">Cormorant Garamond</option>
+              <option value="'Garamond', 'Times New Roman', serif">Old-style Garamond</option>
+              <option value="'Times New Roman', Georgia, serif">Classic Serif</option>
+              <option value="'Palatino Linotype', 'Book Antiqua', Palatino, serif">Palatino / Book Antiqua</option>
+              <option value="'Aboreto', 'Trebuchet MS', system-ui, sans-serif">Aboreto Title</option>
+              <option value="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">Modern Sans</option>
+              <option value="'Gill Sans', 'Segoe UI', system-ui, sans-serif">Soft Sans</option>
+              <option value="'Trebuchet MS', system-ui, sans-serif">Trebuchet</option>
+              <option value="'Courier New', monospace">Monospace Manuscript</option>
+            </select>
+          </label>
+          <label>Size
+            <select id="prose-font-size" class="prose-select">
+              <option value="3">Small (Default)</option>
+              <option value="2">Smaller</option>
+              <option value="4">Large</option>
+              <option value="5">Title</option>
+            </select>
+          </label>
+          <label>Block
+            <select id="prose-block-format" class="prose-select">
+              <option value="p">Paragraph</option>
+              <option value="h1">Heading 1</option>
+              <option value="h2">Heading 2</option>
+              <option value="h3">Heading 3</option>
+              <option value="blockquote">Quote</option>
+            </select>
+          </label>
+          <div class="prose-divider"></div>
+          <button type="button" class="prose-toolbar-btn" data-color="foreColor">A</button>
+          <button type="button" class="prose-toolbar-btn" data-color="hiliteColor">▇</button>
+          <button type="button" class="prose-toolbar-btn" id="prose-insert-image-btn">Img</button>
+          <button type="button" class="prose-toolbar-btn" id="prose-insert-link-btn">Link</button>
+          <button type="button" class="prose-toolbar-btn" id="prose-insert-box-btn">Box</button>
+          <button type="button" class="prose-toolbar-btn" id="prose-page-color-btn">Page</button>
+          <input type="file" id="prose-image-input" accept="image/*" style="display:none" />
+        </div>
+      </div>
+
+      <!-- Title & Editor -->
+      <div class="prose-doc-title">
+        <input id="prose-title" class="prose-title-input" type="text" placeholder="Untitled Document" />
+      </div>
+
+      <div class="prose-editor-wrap" id="prose-editor-wrap">
+        <div id="prose-editor" contenteditable="true"></div>
+      </div>
+
+      <div class="prose-footer">
+        <div id="prose-status-left" class="prose-save-indicator"><span id="prose-save-dot" class="prose-save-dot"></span><span id="prose-save-text">Autosave ready</span></div>
+        <div id="prose-status-right">Local-first • Offline-ready</div>
+      </div>
+
+      <!-- Tool panels (bottom) -->
+      <section class="prose-panels">
+        <div class="prose-panel-nav">
+          <button type="button" class="prose-panel-tab active" data-panel="find">Find</button>
+          <button type="button" class="prose-panel-tab" data-panel="comments">Comments</button>
+          <button type="button" class="prose-panel-tab" data-panel="templates">Templates</button>
+          <button type="button" class="prose-panel-tab" data-panel="toc">TOC</button>
+          <button type="button" class="prose-panel-tab" data-panel="goals">Goals</button>
+          <button type="button" class="prose-panel-tab" data-panel="outline">Outliner</button>
+          <button type="button" class="prose-panel-tab" data-panel="footnotes">Footnotes</button>
+          <button type="button" class="prose-panel-tab" data-panel="thesaurus">Thesaurus</button>
+          <button type="button" class="prose-panel-tab" data-panel="versions">Versions</button>
+          <button type="button" class="prose-panel-tab" data-panel="export">Export</button>
+          <button type="button" class="prose-panel-tab" data-panel="images">Images</button>
+          <button type="button" class="prose-panel-tab" data-panel="library">Library</button>
+          <button type="button" class="prose-panel-tab" data-panel="thoughts">Private Thoughts</button>
+          <button type="button" class="prose-panel-tab" data-panel="ai">AuroraCore</button>
+        </div>
+
+        <!-- FIND -->
+        <div class="prose-panel active" id="prose-panel-find">
+          <h3>Find &amp; Replace</h3>
+          <div class="prose-panel-row">
+            <input id="prose-find-text" type="text" placeholder="Find…" />
+            <input id="prose-replace-text" type="text" placeholder="Replace with…" />
+          </div>
+          <div class="prose-panel-row">
+            <button type="button" id="prose-find-btn" class="prose-small-btn">Find + Highlight</button>
+            <button type="button" id="prose-find-clear-btn" class="prose-small-btn">Clear Highlights</button>
+            <button type="button" id="prose-replace-first-btn" class="prose-small-btn">Replace First</button>
+            <button type="button" id="prose-replace-all-btn" class="prose-small-btn">Replace All</button>
+          </div>
+          <small id="prose-find-status"></small>
+        </div>
+
+        <!-- COMMENTS -->
+        <div class="prose-panel" id="prose-panel-comments">
+          <h3>Comments</h3>
+          <div class="prose-panel-row">
+            <textarea id="prose-comment-input" placeholder="Comment on your draft…"></textarea>
+          </div>
+          <div class="prose-panel-row">
+            <button type="button" id="prose-comment-add" class="prose-small-btn">Add Comment</button>
+            <small>Optional: highlight text in the document first; the highlight snippet will be saved with the comment.</small>
+          </div>
+          <div class="prose-panel-list" id="prose-comments-list"></div>
+        </div>
+
+        <!-- TEMPLATES -->
+        <div class="prose-panel" id="prose-panel-templates">
+          <h3>Templates &amp; Snippets</h3>
+          <div class="prose-panel-row">
+            <select id="prose-template-select">
+              <option value="blank">Blank page</option>
+              <option value="essay5">5-Paragraph Essay</option>
+              <option value="story">Short Story Seed</option>
+              <option value="letter">Formal Letter</option>
+              <option value="article">Article / Blog</option>
+            </select>
+            <button type="button" id="prose-template-apply" class="prose-small-btn">Insert Template</button>
+          </div>
+          <small>Applying a template can replace the current document if you choose to overwrite.</small>
+        </div>
+
+        <!-- TOC -->
+        <div class="prose-panel" id="prose-panel-toc">
+          <h3>Table of Contents</h3>
+          <div class="prose-panel-list" id="prose-toc-list"></div>
+          <small>Use the Block → Heading options in the toolbar to create TOC entries.</small>
+        </div>
+
+        <!-- GOALS -->
+        <div class="prose-panel" id="prose-panel-goals">
+          <h3>Writing Goals</h3>
+          <div class="prose-panel-row">
+            <label style="flex:1;">
+              Target word count:
+              <input id="prose-goal-words" type="number" min="0" step="50" placeholder="e.g. 1500" />
+            </label>
+          </div>
+          <div class="prose-panel-row">
+            <button type="button" id="prose-goal-save" class="prose-small-btn">Save Goal</button>
+            <small>Progress updates live as you type.</small>
+          </div>
+        </div>
+
+        <!-- OUTLINER -->
+        <div class="prose-panel" id="prose-panel-outline">
+          <h3>Outliner</h3>
+          <div class="prose-panel-row">
+            <textarea id="prose-outline-notes" placeholder="Rough outline, beats, or scene list…"></textarea>
+          </div>
+          <small>Stored with your document in the local mini-cloud.</small>
+        </div>
+
+        <!-- FOOTNOTES -->
+        <div class="prose-panel" id="prose-panel-footnotes">
+          <h3>Footnotes</h3>
+          <div class="prose-panel-row">
+            <textarea id="prose-footnotes" placeholder="List your footnotes or references here. For now they are stored as a simple notes list."></textarea>
+          </div>
+          <small>Non-destructive: this will not alter your main text, just stores references alongside it.</small>
+        </div>
+
+        <!-- THESAURUS -->
+        <div class="prose-panel" id="prose-panel-thesaurus">
+          <h3>Mini Thesaurus</h3>
+          <div class="prose-panel-row">
+            <input id="prose-thesaurus-input" type="text" placeholder="Word (e.g. luminous)" />
+            <button type="button" id="prose-thesaurus-from-selection" class="prose-small-btn">Use Selection</button>
+            <button type="button" id="prose-thesaurus-look" class="prose-small-btn">Look Up</button>
+          </div>
+          <div id="prose-thesaurus-result" class="prose-panel-list"></div>
+          <small>Offline mini-lexicon only (safe words baked in). You can expand the list inside the script.</small>
+        </div>
+
+        <!-- VERSIONS -->
+        <div class="prose-panel" id="prose-panel-versions">
+          <h3>Versions &amp; Snapshots</h3>
+          <div class="prose-panel-row">
+            <button type="button" id="prose-version-save" class="prose-small-btn">Save Snapshot</button>
+            <small>Stores a copy of title + document in localStorage. Up to 20 versions.</small>
+          </div>
+          <div class="prose-panel-list" id="prose-versions-list"></div>
+        </div>
+
+        <!-- EXPORT -->
+        <div class="prose-panel" id="prose-panel-export">
+          <h3>Export &amp; Restore</h3>
+          <div class="prose-panel-row">
+            <button type="button" id="prose-export-html" class="prose-small-btn">Export as HTML</button>
+            <button type="button" id="prose-export-text" class="prose-small-btn">Export as TXT</button>
+          </div>
+          <div class="prose-panel-row">
+            <button type="button" id="prose-restore-latest" class="prose-small-btn">Restore Last Saved</button>
+            <small>Everything is stored locally in your browser. No network, no external storage.</small>
+          </div>
+        </div>
+
+        <!-- IMAGES -->
+        <div class="prose-panel" id="prose-panel-images">
+          <h3>Images in Document</h3>
+          <div class="prose-panel-list" id="prose-images-list"></div>
+          <small>Click a thumbnail to jump. Edit alt text for accessibility; captions live under each image.</small>
+        </div>
+
+        <!-- LIBRARY / RECENT DOCS -->
+        <div class="prose-panel" id="prose-panel-library">
+          <h3>Document Library</h3>
+          <div class="prose-panel-row">
+            <button type="button" id="prose-new-doc" class="prose-small-btn">New Document</button>
+            <small>Create a fresh page and keep your recent docs below.</small>
+          </div>
+          <div class="prose-panel-list" id="prose-recents-list"></div>
+          <small>All items live only in this browser. Click a title to switch docs.</small>
+        </div>
+
+        <!-- PRIVATE THOUGHTS -->
+        <div class="prose-panel" id="prose-panel-thoughts">
+          <h3>Private Thoughts Chamber</h3>
+          <div class="prose-panel-row">
+            <textarea id="prose-thoughts" placeholder="Stream-of-consciousness notes that never leave this device. These are not included in exports."></textarea>
+          </div>
+          <small>For emotions, decompression, and side-notes. Stored locally with this document and not exported.</small>
+        </div>
+
+        <!-- AURORACORE -->
+        <div class="prose-panel" id="prose-panel-ai">
+          <h3>AuroraCore (AI) Scratchpad</h3>
+          <div class="prose-panel-row">
+            <textarea id="prose-ai-notes" placeholder="Questions, prompts, and instructions you'd like to send to AuroraCore when connected. These are stored privately with this document."></textarea>
+          </div>
+          <div class="prose-panel-row">
+            <button type="button" id="prose-grammar-scan" class="prose-small-btn">Run Grammar Scan</button>
+            <small>Offline “quantum” pass across clarity, rhythm, and filler words.</small>
+          </div>
+          <div class="prose-panel-list" id="prose-grammar-results"></div>
+          <small>This helper never sends data anywhere. All analysis is local-only.</small>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="prose-toast" class="prose-toast">Saved</div>
+</div>
+
+
+<footer class="prose-app-footer">
+  <strong>© 2026 Verve N Veda · Khaemenes Academy · Jennifer Kay Pearl</strong><br>
+  All Rights Reserved. · Local, private, offline-first, and creativity-centered.
+</footer>
+
+<script>
+(function(){
+  const app = document.getElementById("prose-app");
+  const root = app;
+  const $  = (sel)=> root.querySelector(sel);
+  const $$ = (sel)=> Array.from(root.querySelectorAll(sel));
+
+  const editor      = $("#prose-editor");
+  const editorWrap  = $("#prose-editor-wrap");
+  const titleInput  = $("#prose-title");
+  const toastEl     = $("#prose-toast");
+  const statusLeft  = $("#prose-status-left");
+  const statusText  = $("#prose-save-text");
+  const statusDot   = $("#prose-save-dot");
+  const statusRight = $("#prose-status-right");
+  const toneSelect  = $("#prose-tone-select");
+  const thoughtsEl  = $("#prose-thoughts");
+  const topWordsEl  = $("#prose-top-words");
+  const imageInput  = $("#prose-image-input");
+
+  const repositoryMenu = document.getElementById("prose-repository-menu");
+  if(repositoryMenu){
+    repositoryMenu.addEventListener("change", ()=>{
+      const url = repositoryMenu.value;
+      if(!url) return;
+      window.location.href = url;
+    });
+  }
+
+
+  const STORAGE_KEY_DOC      = "prose_suite_v1_doc";     // currently open doc
+  const STORAGE_KEY_VERSIONS = "prose_suite_v1_versions";
+  const STORAGE_KEY_DOCS_MAP = "prose_suite_v1_docs";    // all saved docs
+  const STORAGE_KEY_RECENTS  = "prose_suite_v1_recents"; // recent docs list
+
+  let savedRange = null;
+  let autosaveTimer = null;
+  let comments = [];
+  let wordBank = [];
+  let currentDocId = null;
+  let currentCreatedAt = null;
+  let imageCounter = 0;
+
+  function setSaveStatus(text, kind="saved"){
+    if(statusText) statusText.textContent = text;
+    else if(statusLeft) statusLeft.textContent = text;
+    if(statusDot){
+      statusDot.classList.toggle("unsaved", kind === "unsaved");
+      statusDot.classList.toggle("error", kind === "error");
+    }
+  }
+
+
+  // Enriched default word bank
+  const defaultWordBank = [
+    "sovereign","luminous","sanctuary","archive","codex","whisper","ember","threshold","resolve",
+    "quantum","resonance","haven","compassion","clarity","intuition","constellation","cipher",
+    "founder","radiant","gentle","steady","echo","stillness","fragile","fierce"
+  ];
+
+  const INSPIRATION_PROMPTS = [
+    "Write the moment everything quietly changed, without anyone noticing at first.",
+    "Describe a sanctuary that only appears for people who are exhausted.",
+    "Begin with the line: 'I almost missed the signal.'",
+    "Write a letter from your future self who is proud of the page you’re on right now.",
+    "Describe a character who keeps a secret archive of forgotten stories.",
+    "Write about a single decision that split a life into a 'before' and 'after.'",
+    "Describe hope as if it were a person walking into the room.",
+    "Write a scene where a character finally tells the truth they’ve been avoiding.",
+    "Capture one ordinary task as if it were sacred ritual.",
+    "Write the story of a document that changed someone’s entire life."
+  ];
+
+  /* ---------- Selection helpers ---------- */
+  function selectionIsInsideEditor(range){
+    if(!range) return false;
+    return editor.contains(range.commonAncestorContainer);
+  }
+
+  function saveSelection(){
+    const sel = window.getSelection();
+    if(!sel || sel.rangeCount === 0) return;
+    const range = sel.getRangeAt(0);
+    if(selectionIsInsideEditor(range)){
+      savedRange = range.cloneRange();
+    }
+  }
+
+  function restoreSelection(){
+    if(!savedRange) return false;
+    try{
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(savedRange.cloneRange());
+      return true;
+    }catch(e){
+      savedRange = null;
+      return false;
+    }
+  }
+
+  function ensureEditorSelection(){
+    editor.focus();
+    if(restoreSelection()) return true;
+    const sel = window.getSelection();
+    if(!sel) return false;
+    const range = document.createRange();
+    range.selectNodeContents(editor);
+    range.collapse(false);
+    sel.removeAllRanges();
+    sel.addRange(range);
+    savedRange = range.cloneRange();
+    return true;
+  }
+
+  function getSavedSelectionText(){
+    if(!savedRange || !selectionIsInsideEditor(savedRange)) return "";
+    return savedRange.toString().trim();
+  }
+
+  /* ---------- Command helpers ---------- */
+  function updateToolbarStates(){
+    const queryable = ["bold","italic","underline","strikeThrough","justifyLeft","justifyCenter","justifyRight"];
+    queryable.forEach(cmd=>{
+      const btn = root.querySelector('.prose-toolbar-btn[data-cmd="'+cmd+'"]');
+      if(!btn) return;
+      let active = false;
+      try{ active = document.queryCommandState(cmd); }catch(e){}
+      btn.classList.toggle("active-format", !!active);
+      btn.setAttribute("aria-pressed", active ? "true" : "false");
+    });
+  }
+
+  function applyCommand(cmd, val=null){
+    ensureEditorSelection();
+    let ok = false;
+    try{
+      document.execCommand("styleWithCSS", false, true);
+      ok = document.execCommand(cmd, false, val);
+    }catch(e){
+      ok = false;
+    }
+    saveSelection();
+    refreshState();
+    updateToolbarStates();
+    queueAutosave();
+    return ok;
+  }
+
+  function clearSelectedFormatting(){
+    ensureEditorSelection();
+    const sel = window.getSelection();
+    if(!sel || !sel.rangeCount) return;
+    const range = sel.getRangeAt(0);
+    if(range.collapsed){
+      showToast("Select text to clear formatting");
+      return;
+    }
+    try{
+      document.execCommand("removeFormat", false, null);
+      document.execCommand("unlink", false, null);
+    }catch(e){}
+    saveSelection();
+    refreshState();
+    updateToolbarStates();
+    queueAutosave();
+  }
+
+  function promptColor(cmd){
+    saveSelection();
+    const color = prompt("Enter a CSS color (for example #333333 or darkred):","");
+    if(!color) return;
+    applyCommand(cmd, color);
+  }
+
+  function insertTextAtCursor(text){
+    ensureEditorSelection();
+    try{
+      if(document.queryCommandSupported && document.queryCommandSupported("insertText")){
+        document.execCommand("insertText", false, text);
+      }else{
+        const sel = window.getSelection();
+        const range = sel.getRangeAt(0);
+        range.deleteContents();
+        const node = document.createTextNode(text);
+        range.insertNode(node);
+        range.setStartAfter(node);
+        range.collapse(true);
+        sel.removeAllRanges();
+        sel.addRange(range);
+      }
+    }catch(e){
+      editor.appendChild(document.createTextNode(text));
+    }
+    saveSelection();
+    refreshState();
+    queueAutosave();
+  }
+
+  /* ---------- Word / char counts ---------- */
+  function getCounts(){
+    const text = (editor.innerText || editor.textContent || "").replace(/\s+/g," ").trim();
+    const words = text.length ? text.split(" ").length : 0;
+    const chars = text.replace(/\s/g,"").length;
+    return {words, chars};
+  }
+
+  const STOPWORDS = new Set([
+    "the","and","for","with","that","this","from","have","will","there","here","your",
+    "you","are","was","were","into","about","but","not","just","like","they","them",
+    "their","then","than","what","when","where","who","why","how"
+  ]);
+
+  function updateTopWords(){
+    if(!topWordsEl) return;
+    const text = (editor.innerText || editor.textContent || "").toLowerCase();
+    const words = text.split(/[^a-zA-Z']+/).filter(w=>w && w.length>=4 && !STOPWORDS.has(w));
+    if(!words.length){
+      topWordsEl.textContent = "Top words: —";
+      return;
+    }
+    const freq = {};
+    words.forEach(w=>{ freq[w] = (freq[w]||0)+1; });
+    const sorted = Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,5);
+    const display = sorted.map(([w,c])=> `${w} (${c})`).join(", ");
+    topWordsEl.textContent = "Top words: " + display;
+  }
+
+  function clampScore(x){
+    return Math.max(0, Math.min(100, Math.round(x)));
+  }
+
+  function escapeHtml(str){
+    return (str || "").replace(/[&<>"']/g, function(ch){
+      return ({
+        "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"
+      })[ch];
+    });
+  }
+
+  /* ---------- Outline & TOC ---------- */
+  function rebuildOutline(){
+    const container = $("#prose-outline-list");
+    const toc = $("#prose-toc-list");
+    container.innerHTML = "";
+    toc.innerHTML = "";
+
+    const headings = Array.from(editor.querySelectorAll("h1,h2,h3"));
+    let index = 0;
+    headings.forEach(h=>{
+      index++;
+      if(!h.dataset.proseId){
+        h.dataset.proseId = "h" + index;
+      }
+      const level = h.tagName === "H1" ? 1 : (h.tagName === "H2" ? 2 : 3);
+      const text  = (h.innerText || h.textContent || "").trim() || "(Untitled)";
+      const prefix = level === 1 ? "I" : (level === 2 ? "•" : "–");
+
+      const outlineItem = document.createElement("div");
+      outlineItem.className = "prose-outline-item";
+      outlineItem.style.paddingLeft = (level-1)*10 + "px";
+      outlineItem.innerHTML = "<span>"+prefix+"</span>" + text;
+      outlineItem.onclick = ()=> scrollToHeading(h.dataset.proseId);
+      container.appendChild(outlineItem);
+
+      const tocItem = document.createElement("div");
+      tocItem.className = "prose-panel-list-item";
+      tocItem.style.paddingLeft = (level-1)*10 + "px";
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "prose-link-btn";
+      btn.textContent = text;
+      btn.onclick = ()=> scrollToHeading(h.dataset.proseId);
+      tocItem.appendChild(btn);
+      toc.appendChild(tocItem);
+    });
+
+    if(headings.length === 0){
+      toc.innerHTML = "<small>No headings yet. Use the Block menu in the toolbar.</small>";
+      container.innerHTML = "<small>No headings yet.</small>";
+    }
+  }
+
+  function scrollToHeading(id){
+    const target = editor.querySelector('[data-prose-id="'+id+'"]');
+    if(!target) return;
+    target.scrollIntoView({behavior:"smooth", block:"center"});
+  }
+
+  /* ---------- Docs storage: map + recents ---------- */
+  function loadDocsMap(){
+    try{
+      return JSON.parse(localStorage.getItem(STORAGE_KEY_DOCS_MAP) || "{}");
+    }catch(e){ return {}; }
+  }
+
+  function saveDocsMap(map){
+    try{
+      localStorage.setItem(STORAGE_KEY_DOCS_MAP, JSON.stringify(map));
+    }catch(e){}
+  }
+
+  function loadRecents(){
+    try{
+      return JSON.parse(localStorage.getItem(STORAGE_KEY_RECENTS) || "[]");
+    }catch(e){ return []; }
+  }
+
+  function saveRecents(list){
+    try{
+      localStorage.setItem(STORAGE_KEY_RECENTS, JSON.stringify(list));
+    }catch(e){}
+  }
+
+  function extractExcerpt(html){
+    const tmp = document.createElement("div");
+    tmp.innerHTML = html || "";
+    const text = (tmp.innerText || tmp.textContent || "").replace(/\s+/g," ").trim();
+    if(!text) return "";
+    return text.length > 140 ? text.slice(0,140) + "…" : text;
+  }
+
+  function touchRecents(doc){
+    if(!doc || !doc.docId) return;
+    const list = loadRecents();
+    const entry = {
+      docId: doc.docId,
+      title: doc.title || "Untitled",
+      updatedAt: doc.updatedAt,
+      createdAt: doc.createdAt,
+      excerpt: extractExcerpt(doc.content)
+    };
+    const idx = list.findIndex(x=> x.docId === entry.docId);
+    if(idx >= 0) list.splice(idx,1);
+    list.unshift(entry);
+    if(list.length > 20) list.length = 20;
+    saveRecents(list);
+    renderRecents();
+  }
+
+  function renderRecents(){
+    const listEl = $("#prose-recents-list");
+    if(!listEl) return;
+    const list = loadRecents();
+    listEl.innerHTML = "";
+    if(!list.length){
+      listEl.innerHTML = "<small>No recent documents yet. Save your draft to see it here.</small>";
+      return;
+    }
+    const map = loadDocsMap();
+    list.forEach(entry=>{
+      const item = document.createElement("div");
+      item.className = "prose-panel-list-item";
+
+      const titleBtn = document.createElement("button");
+      titleBtn.type = "button";
+      titleBtn.className = "prose-link-btn";
+      titleBtn.textContent = entry.title || "Untitled";
+      titleBtn.onclick = ()=>{
+        const docsMap = loadDocsMap();
+        const doc = docsMap[entry.docId];
+        if(!doc){
+          alert("This document could not be found in storage.");
+          return;
+        }
+        applyDoc(doc);
+        try{
+          localStorage.setItem(STORAGE_KEY_DOC, JSON.stringify(doc));
+        }catch(e){}
+        showToast("Switched document");
+      };
+
+      const meta = document.createElement("div");
+      meta.style.fontSize = "11px";
+      meta.style.color = "#8d7b63";
+      meta.textContent = "Updated: " + (entry.updatedAt || entry.createdAt || "");
+
+      const excerpt = document.createElement("div");
+      excerpt.style.fontSize = "11px";
+      excerpt.style.opacity = "0.8";
+      excerpt.textContent = entry.excerpt || "";
+
+      const actionRow = document.createElement("div");
+      actionRow.className = "prose-recents-actions";
+      const deleteDocBtn = document.createElement("button");
+      deleteDocBtn.type = "button";
+      deleteDocBtn.className = "prose-small-btn";
+      deleteDocBtn.textContent = "Delete";
+      deleteDocBtn.onclick = ()=>{
+        if(!confirm("Delete this local document?")) return;
+        const docsMap = loadDocsMap();
+        delete docsMap[entry.docId];
+        saveDocsMap(docsMap);
+        saveRecents(loadRecents().filter(x=>x.docId !== entry.docId));
+        renderRecents();
+        showToast("Document deleted");
+      };
+      actionRow.appendChild(deleteDocBtn);
+
+      item.appendChild(titleBtn);
+      item.appendChild(meta);
+      if(entry.excerpt) item.appendChild(excerpt);
+      item.appendChild(actionRow);
+      listEl.appendChild(item);
+    });
+  }
+
+  /* ---------- Quantum Grammar Scan ---------- */
+  function runGrammarScan(){
+    const resultsBox = $("#prose-grammar-results");
+    if(!resultsBox) return;
+
+    const tmp = document.createElement("div");
+    tmp.innerHTML = editor.innerHTML;
+    const text = (tmp.innerText || tmp.textContent || "").replace(/\s+/g," ").trim();
+    if(!text){
+      resultsBox.innerHTML = "<small>No text to analyze yet.</small>";
+      return;
+    }
+
+    const words = text.split(" ").filter(Boolean);
+    const sentences = text.split(/[.!?]+/).map(s=>s.trim()).filter(Boolean);
+    const sentenceLengths = sentences.map(s=>s.split(/\s+/).filter(Boolean).length);
+    const sentenceCount = sentences.length || 1;
+    const totalWords = words.length;
+    const avgSentenceLength = totalWords / sentenceCount;
+
+    const longSnippets = [];
+    sentences.forEach((s,i)=>{
+      const len = sentenceLengths[i];
+      if(len >= 30){
+        const snippet = s.length>120 ? s.slice(0,120)+"…" : s;
+        longSnippets.push({index:i+1,length:len,snippet});
+      }
+    });
+
+    const fillerList = ["very","really","just","like","literally","quite","maybe","sort of","kind of","actually"];
+    const fillerCounts = {};
+    fillerList.forEach(f=> fillerCounts[f]=0);
+    const lower = text.toLowerCase();
+    fillerList.forEach(f=>{
+      const pattern = new RegExp("\\b"+f.replace(" ","\\s+")+"\\b","g");
+      const matches = lower.match(pattern);
+      fillerCounts[f] = matches ? matches.length : 0;
+    });
+
+    const longHeavy = longSnippets.length;
+    const clarityScore = clampScore(100 - Math.max(0, avgSentenceLength-18)*3);
+    const fillerTotal = fillerList.reduce((sum,f)=>sum+fillerCounts[f],0);
+    const precisionScore = clampScore(100 - fillerTotal*4);
+    const shortSentences = sentenceLengths.filter(n=>n>0 && n<=8).length;
+    const rhythmPenalty = Math.abs(shortSentences - longHeavy)*2;
+    const rhythmScore = clampScore(100 - rhythmPenalty - Math.max(0,longHeavy-1)*5);
+
+    const readingMinutes = Math.max(1, Math.round(totalWords / 200));
+
+    let html = "";
+    html += "<div class='prose-panel-list-item'><strong>Quantum Pass Summary</strong><br/>";
+    html += "Sentences: "+sentenceCount+" · Words: "+totalWords+" · Avg length: "+avgSentenceLength.toFixed(1)+" words<br/>";
+    html += "Clarity: "+clarityScore+"/100 · Rhythm: "+rhythmScore+"/100 · Precision: "+precisionScore+"/100<br/>";
+    html += "Estimated reading time: ~"+readingMinutes+" min</div>";
+
+    if(longSnippets.length){
+      html += "<div class='prose-panel-list-item'><strong>Long sentences to review (≥ 30 words)</strong>";
+      longSnippets.slice(0,5).forEach(item=>{
+        html += "<div>Sentence "+item.index+" ("+item.length+" words): "+escapeHtml(item.snippet)+"</div>";
+      });
+      if(longSnippets.length>5){
+        html += "<div>…and "+(longSnippets.length-5)+" more.</div>";
+      }
+      html += "</div>";
+    }
+
+    const usedFillers = fillerList.filter(f=>fillerCounts[f]>0);
+    if(usedFillers.length){
+      html += "<div class='prose-panel-list-item'><strong>Filler words used</strong><br/>";
+      html += usedFillers.map(f=> escapeHtml(f)+" × "+fillerCounts[f]).join(", ");
+      html += "<br/><small>You might trim some of these for sharper sentences.</small></div>";
+    } else {
+      html += "<div class='prose-panel-list-item'><strong>Filler words</strong><br/>None of the tracked fillers were detected. Nice precision.</div>";
+    }
+
+    resultsBox.innerHTML = html;
+  }
+
+  /* ---------- Word bank ---------- */
+  function renderWordBank(){
+    const wrap = $("#prose-wordbank-pills");
+    wrap.innerHTML = "";
+    wordBank.forEach(word=>{
+      const pill = document.createElement("span");
+      pill.className = "prose-wordbank-pill";
+      pill.textContent = word;
+      pill.onclick = ()=> insertTextAtCursor(word + " ");
+      wrap.appendChild(pill);
+    });
+  }
+
+  /* ---------- Comments ---------- */
+  function getSelectionText(){
+    const live = window.getSelection();
+    if(live && live.rangeCount){
+      const range = live.getRangeAt(0);
+      if(selectionIsInsideEditor(range)){
+        const text = live.toString().trim();
+        if(text) return text;
+      }
+    }
+    return getSavedSelectionText();
+  }
+
+  function renderComments(){
+    const list = $("#prose-comments-list");
+    list.innerHTML = "";
+    if(!comments.length){
+      list.innerHTML = "<small>No comments yet.</small>";
+      return;
+    }
+    comments.forEach((c, idx)=>{
+      const item = document.createElement("div");
+      item.className = "prose-panel-list-item";
+      const meta = document.createElement("div");
+      meta.style.fontSize = "11px";
+      meta.style.color = "#8d7b63";
+      meta.textContent = (idx+1)+". "+c.when;
+      const text = document.createElement("div");
+      text.textContent = c.text;
+      if(c.selection){
+        const selDiv = document.createElement("div");
+        selDiv.style.fontSize = "11px";
+        selDiv.style.opacity = "0.8";
+        selDiv.textContent = "“"+c.selection+"”";
+        item.appendChild(selDiv);
+      }
+      item.appendChild(meta);
+      item.appendChild(text);
+      list.appendChild(item);
+    });
+  }
+
+  /* ---------- Mini thesaurus (enriched) ---------- */
+  const MINI_THESAURUS = {
+    "luminous": {
+      def: "Giving off light; bright or radiant.",
+      syn: ["radiant","glowing","incandescent","shining"]
+    },
+    "sovereign": {
+      def: "Independent and self-governing; answerable to no higher authority.",
+      syn: ["autonomous","self-ruling","independent","supreme"]
+    },
+    "gentle": {
+      def: "Mild in temperament or effect; soft and kind.",
+      syn: ["soft","kind","tender","calm"]
+    },
+    "strong": {
+      def: "Able to withstand great force or pressure.",
+      syn: ["resilient","sturdy","powerful","steady"]
+    },
+    "hope": {
+      def: "A feeling of expectation and desire for a certain thing to happen.",
+      syn: ["expectation","faith","confidence","promise"]
+    },
+    "sanctuary": {
+      def: "A place of safety, refuge, or sacred protection.",
+      syn: ["refuge","haven","safe place","shelter"]
+    },
+    "archive": {
+      def: "A collection of historical documents, records, or memories.",
+      syn: ["repository","vault","record","library"]
+    },
+    "codex": {
+      def: "A structured manuscript or ledger; in PLERA, a living record.",
+      syn: ["manuscript","ledger","record","book"]
+    },
+    "whisper": {
+      def: "To speak very softly, using one's breath without the vocal cords.",
+      syn: ["murmur","breathe","hush","speak softly"]
+    },
+    "ember": {
+      def: "A small glowing piece of coal or wood in a dying fire.",
+      syn: ["spark","cinder","coal","glow"]
+    },
+    "threshold": {
+      def: "A point of entry, beginning, or a boundary between states.",
+      syn: ["brink","edge","gateway","doorway"]
+    },
+    "resolve": {
+      def: "Firm determination to do or not do something.",
+      syn: ["determination","commitment","will","purpose"]
+    },
+    "quantum": {
+      def: "A discrete unit or leap; often used to describe a big shift.",
+      syn: ["leap","jump","step change","shift"]
+    },
+    "echo": {
+      def: "A reflected sound or repeated idea.",
+      syn: ["reverberation","reflection","repeat","resonance"]
+    },
+    "stillness": {
+      def: "Absence of movement or sound; deep calm.",
+      syn: ["calm","quiet","silence","rest"]
+    },
+    "radiant": {
+      def: "Sending out light; shining or glowing brightly.",
+      syn: ["shining","glowing","brilliant","bright"]
+    },
+    "fragile": {
+      def: "Easily broken, damaged, or emotionally delicate.",
+      syn: ["delicate","breakable","tender","vulnerable"]
+    },
+    "fierce": {
+      def: "Showing a heartfelt and powerful intensity.",
+      syn: ["intense","strong","bold","passionate"]
+    },
+    "steady": {
+      def: "Firmly fixed or supported; not likely to move or change.",
+      syn: ["stable","reliable","even","constant"]
+    },
+    "haven": {
+      def: "A safe or peaceful place.",
+      syn: ["harbor","refuge","shelter","safe harbor"]
+    },
+    "compassion": {
+      def: "Sympathetic concern for the sufferings or misfortunes of others.",
+      syn: ["kindness","empathy","mercy","care"]
+    },
+    "clarity": {
+      def: "The quality of being clear, understandable, or transparent.",
+      syn: ["clearness","lucidity","precision","focus"]
+    },
+    "intuition": {
+      def: "The ability to understand something instinctively, without conscious reasoning.",
+      syn: ["instinct","gut feeling","insight","hunch"]
+    }
+  };
+
+  function lookupThesaurus(word){
+    word = (word || "").toLowerCase().trim();
+    const res = MINI_THESAURUS[word];
+    const box = $("#prose-thesaurus-result");
+    if(!word){
+      box.innerHTML = "<small>Type a word to look it up.</small>";
+      return;
+    }
+    if(!res){
+      box.innerHTML = "<small>No entry in the mini thesaurus yet. You can extend MINI_THESAURUS in the script.</small>";
+      return;
+    }
+    const synLinks = res.syn.map(s=>{
+      return "<button type='button' class='prose-link-btn' data-syn='"+s+"'>"+s+"</button>";
+    }).join(", ");
+    box.innerHTML =
+      "<div class='prose-panel-list-item'><strong>"+word+"</strong><br/>"+
+      "<em>"+res.def+"</em><br/>Synonyms: "+synLinks+"</div>";
+
+    box.querySelectorAll("button[data-syn]").forEach(btn=>{
+      btn.onclick = ()=> insertTextAtCursor(btn.dataset.syn + " ");
+    });
+  }
+
+  /* ---------- Image insertion + gallery ---------- */
+  function handleImageInput(e){
+    const file = e.target.files && e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = function(ev){
+      insertImageBlock(ev.target.result, file.name);
+      imageInput.value = "";
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function insertImageBlock(src, filename){
+    imageCounter++;
+    const id = "img-" + Date.now() + "-" + imageCounter;
+    ensureEditorSelection();
+
+    const block = document.createElement("div");
+    block.className = "prose-image-block";
+    block.contentEditable = "false";
+
+    const img = document.createElement("img");
+    img.src = src;
+    img.alt = filename || "image";
+    img.dataset.proseImgId = id;
+
+    const cap = document.createElement("div");
+    cap.className = "prose-image-caption";
+    cap.contentEditable = "true";
+    cap.dataset.proseImgId = id;
+    cap.textContent = "Add caption…";
+
+    block.appendChild(img);
+    block.appendChild(cap);
+
+    const sel = window.getSelection();
+    const range = sel && sel.rangeCount ? sel.getRangeAt(0) : document.createRange();
+    if(!sel || !sel.rangeCount){
+      range.selectNodeContents(editor);
+      range.collapse(false);
+    }
+    range.insertNode(block);
+
+    const spacer = document.createElement("p");
+    spacer.innerHTML = "<br>";
+    block.parentNode.insertBefore(spacer, block.nextSibling);
+
+    saveSelection();
+    refreshState();
+    queueAutosave();
+  }
+
+  function refreshImageGallery(){
+    const list = $("#prose-images-list");
+    if(!list) return;
+    list.innerHTML = "";
+    const imgs = editor.querySelectorAll("img");
+    if(!imgs.length){
+      list.innerHTML = "<small>No images inserted yet.</small>";
+      return;
+    }
+    imgs.forEach(img=>{
+      if(!img.dataset.proseImgId){
+        imageCounter++;
+        img.dataset.proseImgId = "img-" + Date.now() + "-" + imageCounter;
+      }
+      const id = img.dataset.proseImgId;
+      const cap = editor.querySelector('.prose-image-caption[data-prose-img-id="'+id+'"]');
+
+      const item = document.createElement("div");
+      item.className = "prose-panel-list-item";
+
+      const row = document.createElement("div");
+      row.style.display = "flex";
+      row.style.alignItems = "center";
+
+      const thumb = document.createElement("img");
+      thumb.src = img.src;
+      thumb.alt = img.alt || "";
+      thumb.style.maxWidth = "60px";
+      thumb.style.maxHeight = "60px";
+      thumb.style.borderRadius = "4px";
+      thumb.style.marginRight = "6px";
+
+      const textWrap = document.createElement("div");
+      textWrap.style.flex = "1";
+
+      const title = document.createElement("div");
+      title.style.fontSize = "11px";
+      title.style.fontWeight = "600";
+      title.textContent = img.alt || "(no alt text)";
+
+      const capLine = document.createElement("div");
+      capLine.style.fontSize = "11px";
+      capLine.style.opacity = "0.8";
+      capLine.textContent = cap ? (cap.innerText || cap.textContent || "") : "";
+
+      textWrap.appendChild(title);
+      if(capLine.textContent) textWrap.appendChild(capLine);
+
+      row.appendChild(thumb);
+      row.appendChild(textWrap);
+
+      const jumpBtn = document.createElement("button");
+      jumpBtn.type = "button";
+      jumpBtn.className = "prose-small-btn";
+      jumpBtn.textContent = "Jump";
+      jumpBtn.style.marginLeft = "4px";
+      jumpBtn.onclick = ()=>{
+        const block = img.closest(".prose-image-block") || img;
+        block.scrollIntoView({behavior:"smooth", block:"center"});
+      };
+      row.appendChild(jumpBtn);
+
+      const altRow = document.createElement("div");
+      altRow.style.marginTop = "4px";
+
+      const altInput = document.createElement("input");
+      altInput.type = "text";
+      altInput.value = img.alt || "";
+      altInput.style.width = "70%";
+      altInput.style.fontSize = "11px";
+      altInput.style.padding = "2px 4px";
+      altInput.style.borderRadius = "5px";
+      altInput.style.border = "1px solid #d7c7aa";
+
+      const altBtn = document.createElement("button");
+      altBtn.type = "button";
+      altBtn.className = "prose-small-btn";
+      altBtn.textContent = "Save Alt";
+      altBtn.style.marginLeft = "4px";
+      altBtn.onclick = ()=>{
+        img.alt = altInput.value;
+        title.textContent = altInput.value || "(no alt text)";
+        queueAutosave();
+      };
+
+      altRow.appendChild(altInput);
+      altRow.appendChild(altBtn);
+
+      item.appendChild(row);
+      item.appendChild(altRow);
+      list.appendChild(item);
+    });
+  }
+
+  function insertTextBox(){
+    ensureEditorSelection();
+    const box = document.createElement("div");
+    box.className = "prose-textbox";
+    box.contentEditable = "true";
+    box.innerHTML = "Text box…";
+
+    const sel = window.getSelection();
+    const range = sel && sel.rangeCount ? sel.getRangeAt(0) : document.createRange();
+    if(!sel || !sel.rangeCount){
+      range.selectNodeContents(editor);
+      range.collapse(false);
+    }
+    range.insertNode(box);
+
+    const spacer = document.createElement("p");
+    spacer.innerHTML = "<br>";
+    box.parentNode.insertBefore(spacer, box.nextSibling);
+
+    saveSelection();
+    refreshState();
+    queueAutosave();
+  }
+
+  /* ---------- Find & Replace ---------- */
+  function clearFindMarks(){
+    const marks = editor.querySelectorAll("mark.prose-mark");
+    marks.forEach(mark=>{
+      const parent = mark.parentNode;
+      while(mark.firstChild){
+        parent.insertBefore(mark.firstChild, mark);
+      }
+      parent.removeChild(mark);
+      parent.normalize();
+    });
+  }
+
+  function walkTextNodes(node, cb){
+    if(node.nodeType === Node.TEXT_NODE){
+      cb(node);
+    }else if(node.nodeType === Node.ELEMENT_NODE && node.tagName !== "SCRIPT" && node.tagName !== "STYLE"){
+      Array.from(node.childNodes).forEach(n=> walkTextNodes(n, cb));
+    }
+  }
+
+  function highlightMatches(term){
+    clearFindMarks();
+    const status = $("#prose-find-status");
+    term = term || "";
+    if(!term.trim()){
+      status.textContent = "Cleared.";
+      return;
+    }
+    const escaped = term.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+    const regex = new RegExp(escaped,"gi");
+    let count = 0;
+    walkTextNodes(editor, node=>{
+      const text = node.nodeValue;
+      regex.lastIndex = 0;
+      if(!regex.test(text)) return;
+      regex.lastIndex = 0;
+      const frag = document.createDocumentFragment();
+      let lastIndex = 0;
+      let m;
+      while((m = regex.exec(text))){
+        const before = text.slice(lastIndex, m.index);
+        if(before) frag.appendChild(document.createTextNode(before));
+        const mark = document.createElement("mark");
+        mark.className = "prose-mark";
+        mark.textContent = m[0];
+        frag.appendChild(mark);
+        lastIndex = m.index + m[0].length;
+        count++;
+      }
+      const after = text.slice(lastIndex);
+      if(after) frag.appendChild(document.createTextNode(after));
+      node.parentNode.replaceChild(frag, node);
+    });
+    status.textContent = count ? ("Found "+count+" matches.") : "No matches.";
+    const first = editor.querySelector("mark.prose-mark");
+    if(first){
+      first.classList.add("prose-find-current");
+      first.scrollIntoView({behavior:"smooth",block:"center"});
+    }
+  }
+
+  function replaceInEditor(term, replacement, firstOnly){
+    clearFindMarks();
+    term = term || "";
+    if(!term.trim()) return 0;
+    const escaped = term.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+    const regex = new RegExp(escaped,"gi");
+    let replaced = 0;
+    let done = false;
+    walkTextNodes(editor, node=>{
+      if(done) return;
+      const text = node.nodeValue;
+      regex.lastIndex = 0;
+      if(!regex.test(text)) return;
+      regex.lastIndex = 0;
+      if(firstOnly){
+        node.nodeValue = text.replace(regex, function(match){
+          if(done) return match;
+          done = true;
+          replaced++;
+          return replacement;
+        });
+      }else{
+        const newText = text.replace(regex, function(){
+          replaced++;
+          return replacement;
+        });
+        node.nodeValue = newText;
+      }
+    });
+    return replaced;
+  }
+
+  /* ---------- Versions ---------- */
+  function loadVersions(){
+    try{
+      return JSON.parse(localStorage.getItem(STORAGE_KEY_VERSIONS) || "[]");
+    }catch(e){ return []; }
+  }
+  function saveVersions(list){
+    try{
+      localStorage.setItem(STORAGE_KEY_VERSIONS, JSON.stringify(list));
+    }catch(e){}
+  }
+  function renderVersions(){
+    const listEl = $("#prose-versions-list");
+    const list = loadVersions();
+    listEl.innerHTML = "";
+    if(!list.length){
+      listEl.innerHTML = "<small>No saved versions yet.</small>";
+      return;
+    }
+    list.forEach((v, idx)=>{
+      const item = document.createElement("div");
+      item.className = "prose-panel-list-item";
+      const title = document.createElement("div");
+      title.textContent = (idx+1)+". "+(v.doc.title || "Untitled Document");
+      const meta = document.createElement("div");
+      meta.style.fontSize = "11px";
+      meta.style.color = "#8d7b63";
+      meta.textContent = v.when;
+      const btnRow = document.createElement("div");
+      btnRow.style.marginTop = "2px";
+      const restoreBtn = document.createElement("button");
+      restoreBtn.type = "button";
+      restoreBtn.className = "prose-small-btn";
+      restoreBtn.textContent = "Restore";
+      restoreBtn.onclick = ()=>{
+        if(!confirm("Replace the current document with this version?")) return;
+        applyDoc(v.doc);
+        showToast("Version restored");
+      };
+      const deleteBtn = document.createElement("button");
+      deleteBtn.type = "button";
+      deleteBtn.className = "prose-small-btn";
+      deleteBtn.style.marginLeft = "6px";
+      deleteBtn.textContent = "Delete";
+      deleteBtn.onclick = ()=>{
+        const updated = loadVersions().filter(x=> x.id !== v.id);
+        saveVersions(updated);
+        renderVersions();
+      };
+      btnRow.appendChild(restoreBtn);
+      btnRow.appendChild(deleteBtn);
+      item.appendChild(title);
+      item.appendChild(meta);
+      item.appendChild(btnRow);
+      listEl.appendChild(item);
+    });
+  }
+
+  /* ---------- Paper theme ---------- */
+  function applyPaperTheme(theme, custom){
+    const select = $("#prose-paper-theme");
+    if(select){
+      select.value = theme || "parchment";
+    }
+    if(theme === "white"){
+      editorWrap.style.background = "#ffffff";
+      editorWrap.style.borderColor = "#d5d8de";
+      editor.style.color = "#111827";
+      delete editorWrap.dataset.customBg;
+    }else if(theme === "night"){
+      editorWrap.style.background = "#0f172a";
+      editorWrap.style.borderColor = "#1f2937";
+      editor.style.color = "#e5e7eb";
+      delete editorWrap.dataset.customBg;
+    }else if(theme === "custom"){
+      const col = custom || "#fffdf7";
+      editorWrap.style.background = col;
+      editorWrap.style.borderColor = "#d5d8de";
+      editor.style.color = "#111827";
+      editorWrap.dataset.customBg = col;
+    }else{ // parchment default
+      editorWrap.style.background = "#fffdf7";
+      editorWrap.style.borderColor = "#e1d4bd";
+      editor.style.color = "#261b10";
+      delete editorWrap.dataset.customBg;
+    }
+  }
+
+  /* ---------- Doc load/save ---------- */
+  function getDoc(){
+    const goalWords = parseInt($("#prose-goal-words").value,10) || 0;
+    if(!currentDocId){
+      currentDocId = Date.now();
+    }
+    if(!currentCreatedAt){
+      currentCreatedAt = new Date().toISOString();
+    }
+    const paperThemeSelect = $("#prose-paper-theme");
+    return {
+      docId: currentDocId,
+      createdAt: currentCreatedAt,
+      updatedAt: new Date().toISOString(),
+      title: (titleInput.value || "").trim() || "Untitled Document",
+      content: (function(){
+        const clone = editor.cloneNode(true);
+        clone.querySelectorAll("mark.prose-mark").forEach(mark=>{
+          const parent = mark.parentNode;
+          while(mark.firstChild) parent.insertBefore(mark.firstChild, mark);
+          parent.removeChild(mark);
+          parent.normalize();
+        });
+        return clone.innerHTML;
+      })(),
+      outlineNotes: $("#prose-outline-notes").value || "",
+      footnotes: $("#prose-footnotes").value || "",
+      aiNotes: $("#prose-ai-notes").value || "",
+      thoughts: thoughtsEl ? (thoughtsEl.value || "") : "",
+      toneTag: toneSelect ? (toneSelect.value || "") : "",
+      paperTheme: paperThemeSelect ? (paperThemeSelect.value || "parchment") : "parchment",
+      paperCustomColor: editorWrap.dataset.customBg || "",
+      goalWords: goalWords,
+      wordBank: wordBank.slice(),
+      comments: comments.slice()
+    };
+  }
+
+  function applyDoc(doc){
+    doc = doc || {};
+    currentDocId = doc.docId || currentDocId || Date.now();
+    currentCreatedAt = doc.createdAt || currentCreatedAt || new Date().toISOString();
+
+    titleInput.value = doc.title || "";
+    editor.innerHTML = doc.content || "";
+    $("#prose-outline-notes").value = doc.outlineNotes || "";
+    $("#prose-footnotes").value = doc.footnotes || "";
+    $("#prose-ai-notes").value = doc.aiNotes || "";
+    if(thoughtsEl){
+      thoughtsEl.value = doc.thoughts || "";
+    }
+    if(toneSelect){
+      toneSelect.value = doc.toneTag || "";
+    }
+    $("#prose-goal-words").value = doc.goalWords || "";
+    wordBank = Array.isArray(doc.wordBank) && doc.wordBank.length ? doc.wordBank : defaultWordBank.slice();
+    comments = Array.isArray(doc.comments) ? doc.comments : [];
+
+    const paperTheme = doc.paperTheme || "parchment";
+    const customBg = doc.paperCustomColor || "";
+    applyPaperTheme(paperTheme, customBg);
+
+    renderWordBank();
+    renderComments();
+    rebuildOutline();
+    refreshState();
+    updateToneStatus();
+  }
+
+  function loadDocFromStorage(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY_DOC);
+      if(!raw) return;
+      const doc = JSON.parse(raw);
+      if(!doc.docId){
+        // Legacy single-doc: assign id + timestamps
+        doc.docId = Date.now();
+        doc.createdAt = new Date().toISOString();
+        doc.updatedAt = doc.createdAt;
+      }
+      const docsMap = loadDocsMap();
+      docsMap[doc.docId] = doc;
+      saveDocsMap(docsMap);
+      touchRecents(doc);
+      localStorage.setItem(STORAGE_KEY_DOC, JSON.stringify(doc));
+      applyDoc(doc);
+      setSaveStatus("Loaded last saved document.");
+    }catch(e){
+      console.warn("Could not load saved doc", e);
+    }
+  }
+
+  function saveDoc(manual){
+    const doc = getDoc();
+    try{
+      localStorage.setItem(STORAGE_KEY_DOC, JSON.stringify(doc));
+      const docsMap = loadDocsMap();
+      docsMap[doc.docId] = doc;
+      saveDocsMap(docsMap);
+      touchRecents(doc);
+      setSaveStatus(manual ? "Saved at "+ new Date().toLocaleTimeString() : "Autosaved.");
+      if(manual) showToast("Document saved");
+    }catch(e){
+      setSaveStatus("Could not save (storage full?).", "error");
+    }
+  }
+
+  function queueAutosave(){
+    if(autosaveTimer) clearTimeout(autosaveTimer);
+    autosaveTimer = setTimeout(()=> saveDoc(false), 800);
+    setSaveStatus("Unsaved changes…", "unsaved");
+  }
+
+  function refreshState(){
+    const counts = getCounts();
+    $("#prose-progress-counts").textContent = "Words: "+counts.words+" — Chars: "+counts.chars;
+    const goal = parseInt($("#prose-goal-words").value,10) || 0;
+    if(goal > 0){
+      const pct = Math.max(0, Math.min(100, Math.round((counts.words/goal)*100)));
+      $("#prose-progress-goal").textContent = "Goal: "+goal+" words ("+pct+"%)";
+      $("#prose-progress-bar-inner").style.width = pct+"%";
+    }else{
+      $("#prose-progress-goal").textContent = "Goal: —";
+      $("#prose-progress-bar-inner").style.width = "0%";
+    }
+    updateTopWords();
+    rebuildOutline();
+    refreshImageGallery();
+  }
+
+  function updateToneStatus(){
+    if(!toneSelect) {
+      statusRight.textContent = "Local-first • Offline-ready";
+      return;
+    }
+    const val = toneSelect.value;
+    let label = "Neutral";
+    if(val === "soft") label = "Soft";
+    else if(val === "playful") label = "Playful";
+    else if(val === "epic") label = "Epic";
+    else if(val === "sacred") label = "Sacred";
+    else if(val === "formal") label = "Formal";
+    statusRight.textContent = "Tone: "+label+" • Local-first • Offline-ready";
+  }
+
+  /* ---------- New document ---------- */
+  function createNewDoc(){
+    const hasContent = (editor.innerText || editor.textContent || "").trim().length ||
+                       (titleInput.value || "").trim().length;
+    if(hasContent){
+      if(!confirm("Start a new document? Your current one will be saved as a recent document.")) return;
+      saveDoc(true);
+    }
+    currentDocId = null;
+    currentCreatedAt = null;
+    const blankDoc = {
+      title: "",
+      content: "",
+      outlineNotes: "",
+      footnotes: "",
+      aiNotes: "",
+      thoughts: "",
+      toneTag: "",
+      paperTheme: "parchment",
+      paperCustomColor: "",
+      goalWords: 0,
+      wordBank: defaultWordBank.slice(),
+      comments: []
+    };
+    applyDoc(blankDoc);
+    saveDoc(false); // allocate id + store in map/recents
+    showToast("New document created");
+  }
+
+  /* ---------- Toast ---------- */
+  let toastTimer = null;
+  function showToast(msg){
+    toastEl.textContent = msg;
+    toastEl.classList.add("show");
+    if(toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(()=>{
+      toastEl.classList.remove("show");
+    }, 1400);
+  }
+
+  /* ---------- Top controls ---------- */
+  $("#prose-focus-toggle").onclick = function(){
+    app.classList.toggle("prose-focus");
+    this.classList.toggle("active");
+  };
+  $("#prose-width-toggle").onclick = function(){
+    app.classList.toggle("prose-wide");
+    this.classList.toggle("active");
+  };
+  let soundEnabled = false;
+  function playSoftClick(){
+    if(!soundEnabled || !window.AudioContext && !window.webkitAudioContext) return;
+    try{
+      const Ctx = window.AudioContext || window.webkitAudioContext;
+      const ctx = new Ctx();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.value = 520;
+      gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.035, ctx.currentTime + 0.006);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.08);
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.start(); osc.stop(ctx.currentTime + 0.09);
+      setTimeout(()=>ctx.close(),150);
+    }catch(e){}
+  }
+  $("#prose-sound-toggle").onclick = function(){
+    soundEnabled = !soundEnabled;
+    this.classList.toggle("active", soundEnabled);
+    this.textContent = soundEnabled ? "Sound On" : "Sound Off";
+    if(soundEnabled) playSoftClick();
+  };
+  root.addEventListener("click", e=>{
+    if(soundEnabled && e.target.closest("button")) playSoftClick();
+  });
+
+  const paperThemeSelect = $("#prose-paper-theme");
+  if(paperThemeSelect){
+    paperThemeSelect.onchange = function(){
+      const val = this.value || "parchment";
+      applyPaperTheme(val, editorWrap.dataset.customBg || "");
+      queueAutosave();
+    };
+  }
+
+  if(toneSelect){
+    toneSelect.addEventListener("change", ()=>{
+      queueAutosave();
+      updateToneStatus();
+    });
+  }
+
+  $("#prose-starter-select").onchange = function(){
+    const val = this.value;
+    if(!val) return;
+    let text = "";
+    if(val === "story"){
+      text = "The night before everything changed, the world still looked ordinary.\n\n";
+    }else if(val === "essay"){
+      text = "In this essay, I will explore how __________________________.\n\n";
+    }else if(val === "letter"){
+      text = "Dear __________,\n\nI hope this message finds you well.\n\n";
+    }
+    insertTextAtCursor("\n" + text);
+    this.value = "";
+  };
+
+  $("#prose-save-button").onclick = ()=> saveDoc(true);
+
+  $("#prose-inspire-button").onclick = function(){
+    const prompt = INSPIRATION_PROMPTS[Math.floor(Math.random()*INSPIRATION_PROMPTS.length)];
+    setSaveStatus("Inspiration: " + prompt);
+    showToast("Inspiration bell");
+    const insert = confirm("Insert this prompt into your draft?\n\n" + prompt);
+    if(insert){
+      insertTextAtCursor("\n\n" + prompt + "\n\n");
+    }
+  };
+
+  const newDocBtn = $("#prose-new-doc");
+  if(newDocBtn) newDocBtn.onclick = createNewDoc;
+  const newDocTopBtn = $("#prose-new-doc-top");
+  if(newDocTopBtn) newDocTopBtn.onclick = createNewDoc;
+
+  const grammarBtn = $("#prose-grammar-scan");
+  if(grammarBtn) grammarBtn.onclick = runGrammarScan;
+
+  /* ---------- Toolbar bindings ---------- */
+  $$(".prose-toolbar-btn").forEach(btn=>{
+    btn.addEventListener("mousedown", e=>e.preventDefault());
+    btn.addEventListener("pointerdown", e=>{
+      if(e.pointerType !== "touch") e.preventDefault();
+    });
+  });
+
+  $$(".prose-toolbar-btn[data-cmd]").forEach(btn=>{
+    btn.addEventListener("click", function(){
+      const cmd = this.dataset.cmd;
+      if(cmd === "removeFormat") clearSelectedFormatting();
+      else applyCommand(cmd);
+    });
+  });
+
+  $$(".prose-toolbar-btn[data-color]").forEach(btn=>{
+    btn.addEventListener("click", function(){
+      promptColor(this.dataset.color);
+    });
+  });
+
+
+  ["#prose-font-family","#prose-font-size","#prose-block-format"].forEach(sel=>{
+    const el = $(sel);
+    if(el){
+      el.addEventListener("mousedown", saveSelection);
+      el.addEventListener("pointerdown", saveSelection);
+    }
+  });
+
+  $("#prose-font-family").onchange = function(){
+    const val = this.value;
+    if(!val){
+      applyCommand("fontName", "Arial");
+    }else{
+      applyCommand("fontName", val);
+    }
+  };
+  $("#prose-font-size").onchange = function(){
+    const val = this.value || "3";
+    applyCommand("fontSize", val);
+  };
+  $("#prose-block-format").onchange = function(){
+    const tag = this.value || "p";
+    applyCommand("formatBlock", "<"+tag+">");
+  };
+
+  const insertImageBtn = $("#prose-insert-image-btn");
+  if(insertImageBtn && imageInput){
+    insertImageBtn.onclick = ()=> imageInput.click();
+    imageInput.addEventListener("change", handleImageInput);
+  }
+
+  const insertLinkBtn = $("#prose-insert-link-btn");
+  if(insertLinkBtn){
+    insertLinkBtn.onclick = ()=>{
+      const url = prompt("Enter URL (e.g. https://example.com):","");
+      if(!url) return;
+      applyCommand("createLink", url);
+    };
+  }
+
+  const insertBoxBtn = $("#prose-insert-box-btn");
+  if(insertBoxBtn){
+    insertBoxBtn.onclick = insertTextBox;
+  }
+
+  const pageColorBtn = $("#prose-page-color-btn");
+  if(pageColorBtn){
+    pageColorBtn.onclick = function(){
+      const current = editorWrap.dataset.customBg || "#fffdf7";
+      const val = prompt("Enter a page background color (CSS value):", current);
+      if(!val) return;
+      editorWrap.dataset.customBg = val;
+      applyPaperTheme("custom", val);
+      if(paperThemeSelect) paperThemeSelect.value = "custom";
+      queueAutosave();
+    };
+  }
+
+  /* ---------- Editor events ---------- */
+
+  document.addEventListener("selectionchange", ()=>{
+    const sel = window.getSelection();
+    if(sel && sel.rangeCount && selectionIsInsideEditor(sel.getRangeAt(0))){
+      saveSelection();
+      updateToolbarStates();
+    }
+  });
+
+  editor.addEventListener("keydown", e=>{
+    const mod = e.ctrlKey || e.metaKey;
+    if(!mod) return;
+    const key = e.key.toLowerCase();
+    if(key === "s"){
+      e.preventDefault();
+      saveDoc(true);
+    }else if(key === "b"){
+      e.preventDefault();
+      applyCommand("bold");
+    }else if(key === "i"){
+      e.preventDefault();
+      applyCommand("italic");
+    }else if(key === "u"){
+      e.preventDefault();
+      applyCommand("underline");
+    }
+  });
+
+  editor.addEventListener("mouseup", ()=>{ saveSelection(); updateToolbarStates(); });
+  editor.addEventListener("keyup", ()=>{ saveSelection(); updateToolbarStates(); });
+  editor.addEventListener("mouseleave", saveSelection);
+  editor.addEventListener("input", function(){
+    saveSelection();
+    refreshState();
+    queueAutosave();
+  });
+
+  titleInput.addEventListener("input", queueAutosave);
+  $("#prose-outline-notes").addEventListener("input", queueAutosave);
+  $("#prose-footnotes").addEventListener("input", queueAutosave);
+  $("#prose-ai-notes").addEventListener("input", queueAutosave);
+  if(thoughtsEl){
+    thoughtsEl.addEventListener("input", queueAutosave);
+  }
+
+  /* ---------- Side column tool clicks map to panels ---------- */
+  $$(".pro-tool-btn").forEach(btn=>{
+    btn.addEventListener("click", function(){
+      const panel = this.dataset.panel;
+      activatePanel(panel);
+    });
+  });
+  $$(".prose-panel-tab").forEach(btn=>{
+    btn.addEventListener("click", function(){
+      const panel = this.dataset.panel;
+      activatePanel(panel);
+    });
+  });
+
+  function activatePanel(name){
+    $$(".prose-panel").forEach(p=>{
+      p.classList.toggle("active", p.id === "prose-panel-"+name);
+    });
+    $$(".prose-panel-tab").forEach(t=>{
+      t.classList.toggle("active", t.dataset.panel === name);
+    });
+  }
+
+  /* ---------- Word bank events ---------- */
+  $("#prose-wordbank-add").onclick = function(){
+    const input = $("#prose-wordbank-input");
+    const val = (input.value || "").trim();
+    if(!val) return;
+    if(!wordBank.includes(val)) wordBank.push(val);
+    input.value = "";
+    renderWordBank();
+    queueAutosave();
+  };
+
+  /* ---------- Comments events ---------- */
+  $("#prose-comment-add").onclick = function(){
+    const txt = ($("#prose-comment-input").value || "").trim();
+    if(!txt) return;
+    const sel = getSelectionText();
+    comments.push({
+      text: txt,
+      selection: sel,
+      when: new Date().toLocaleString()
+    });
+    $("#prose-comment-input").value = "";
+    renderComments();
+    queueAutosave();
+  };
+
+  /* ---------- Thesaurus events ---------- */
+  $("#prose-thesaurus-look").onclick = function(){
+    const word = $("#prose-thesaurus-input").value;
+    lookupThesaurus(word);
+  };
+  $("#prose-thesaurus-from-selection").onclick = function(){
+    const word = getSelectionText();
+    $("#prose-thesaurus-input").value = word;
+    lookupThesaurus(word);
+  };
+
+  /* ---------- Find/replace events ---------- */
+  $("#prose-find-btn").onclick = function(){
+    const term = $("#prose-find-text").value;
+    highlightMatches(term);
+  };
+  $("#prose-find-clear-btn").onclick = function(){
+    clearFindMarks();
+    $("#prose-find-status").textContent = "Highlights cleared.";
+  };
+  $("#prose-replace-first-btn").onclick = function(){
+    const term = $("#prose-find-text").value;
+    const rep  = $("#prose-replace-text").value;
+    const count = replaceInEditor(term, rep, true);
+    $("#prose-find-status").textContent = count ? "Replaced first match." : "No matches to replace.";
+    refreshState();
+    queueAutosave();
+  };
+  $("#prose-replace-all-btn").onclick = function(){
+    const term = $("#prose-find-text").value;
+    const rep  = $("#prose-replace-text").value;
+    const count = replaceInEditor(term, rep, false);
+    $("#prose-find-status").textContent = count ? ("Replaced "+count+" matches.") : "No matches to replace.";
+    refreshState();
+    queueAutosave();
+  };
+
+  /* ---------- Goals ---------- */
+  $("#prose-goal-save").onclick = function(){
+    queueAutosave();
+    refreshState();
+    showToast("Goal saved");
+  };
+
+  /* ---------- Versions events ---------- */
+  $("#prose-version-save").onclick = function(){
+    const doc = getDoc();
+    const list = loadVersions();
+    list.unshift({
+      id: Date.now(),
+      when: new Date().toLocaleString(),
+      doc: doc
+    });
+    if(list.length > 20) list.length = 20;
+    saveVersions(list);
+    renderVersions();
+    showToast("Snapshot saved");
+  };
+
+  /* ---------- Export / restore ---------- */
+
+  function safeFilename(name, fallback="document"){
+    const cleaned = (name || "").replace(/[<>:"/\\|?*\x00-\x1F]/g," ").replace(/\s+/g," ").trim();
+    return (cleaned || fallback).slice(0,100);
+  }
+
+  function escapeTitleText(value){
+    return escapeHtml(value || "document");
+  }
+
+  function exportFile(filename, content, mime){
+    const blob = new Blob([content], {type: mime});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(()=>URL.revokeObjectURL(url), 1000);
+  }
+
+  $("#prose-export-html").onclick = function(){
+    const doc = getDoc();
+    const html = "<!doctype html><html><head><meta charset='utf-8'><title>"+
+      escapeTitleText(doc.title || "prose-document")+
+      "</title></head><body>"+doc.content+"</body></html>";
+    exportFile(safeFilename(doc.title)+".html", html, "text/html");
+  };
+  $("#prose-export-text").onclick = function(){
+    const doc = getDoc();
+    const tmp = document.createElement("div");
+    tmp.innerHTML = doc.content;
+    const text = (tmp.innerText || tmp.textContent || "");
+    exportFile(safeFilename(doc.title)+".txt", text, "text/plain");
+  };
+  $("#prose-restore-latest").onclick = function(){
+    loadDocFromStorage();
+    showToast("Restored last saved");
+  };
+
+  /* ---------- Templates ---------- */
+  $("#prose-template-apply").onclick = function(){
+    const val = $("#prose-template-select").value;
+    let title = "Untitled Document";
+    let body = "<p><br></p>";
+    if(val === "essay5"){
+      title = "Essay Title";
+      body = "<h1>Essay Title</h1><p>Introductory paragraph…</p><h2>Point One</h2><p>Support…</p><h2>Point Two</h2><p>Support…</p><h2>Point Three</h2><p>Support…</p><h2>Conclusion</h2><p>Wrap-up…</p>";
+    }else if(val === "story"){
+      title = "Story Title";
+      body = "<h1>Story Title</h1><p>The night before everything changed, the world still looked ordinary.</p>";
+    }else if(val === "letter"){
+      title = "Letter";
+      body = "<p>Dear __________,</p><p>I hope this message finds you well.</p><p>[Body]</p><p>With care,</p><p>[Your name]</p>";
+    }else if(val === "article"){
+      title = "Article Title";
+      body = "<h1>Article Title</h1><p>Subtitle or hook sentence.</p><h2>Section 1</h2><p>…</p><h2>Section 2</h2><p>…</p>";
+    }
+    if((editor.innerText || editor.textContent || "").trim().length){
+      if(!confirm("Replace current document with the selected template?")) return;
+    }
+    titleInput.value = title;
+    editor.innerHTML = body;
+    refreshState();
+    queueAutosave();
+  };
+
+  /* ---------- INIT ---------- */
+
+  function verifyCoreControls(){
+    const required = [
+      "#prose-editor","#prose-title","#prose-save-button",
+      "#prose-find-btn","#prose-export-html","#prose-new-doc"
+    ];
+    const missing = required.filter(sel=>!$(sel));
+    if(missing.length){
+      console.error("PROSE missing required controls:", missing);
+      setSaveStatus("A required editor control is missing.", "error");
+      return false;
+    }
+    return true;
+  }
+
+  verifyCoreControls();
+  wordBank = defaultWordBank.slice();
+  renderWordBank();
+  renderComments();
+  renderVersions();
+  renderRecents();
+  applyDoc(null);      // ensure defaults
+  loadDocFromStorage(); // then try saved
+  refreshState();
+  updateToneStatus();
+})();
+</script>
+</body>
+</html>
