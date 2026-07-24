@@ -1,148 +1,232 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Color Studio</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Comic Sans MS, sans-serif;
-      background: #fafafa;
-      text-align: center;
-    }
-    h1 {
-      margin: 20px;
-      font-size: 96px; /* Big title */
-      color: #ff4081;
-      text-shadow: 2px 2px #333;
-    }
-    #toolbar {
-      margin: 15px;
-    }
-    button {
-      font-size: 18px;
-      padding: 10px 14px;
-      margin: 5px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      background: #eee;
-    }
-    button:hover { background: #ddd; }
-    .color-btn {
-      width: 32px; height: 32px;
-      border-radius: 50%;
-      border: 2px solid #333;
-      margin: 3px;
-      cursor: pointer;
-      display: inline-block;
-    }
-    #canvas {
-      border: 4px solid #333;
-      border-radius: 12px;
-      margin-top: 10px;
-      background: white;
-      touch-action: none;
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Chromatic Foundry — a sovereign, offline-first digital painting and color exploration studio for middle-school learners through adults.">
+<title>Chromatic Foundry — Digital Color Studio</title>
+<style>
+:root{
+  --bg1:#16152c;--bg2:#263c4f;--panel:#f2eadc;--panel2:#fff8ee;--ink:#2a2230;--muted:#6d6270;
+  --primary:#324b96;--secondary:#c35b3e;--accent:#dda93d;--green:#2f7b68;--border:#c9b48c;
+  --shadow:0 28px 70px rgba(10,10,20,.34)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;min-height:100vh;padding:22px 14px 42px;color:var(--ink);
+  font-family:"Avenir Next","Trebuchet MS","Segoe UI",system-ui,sans-serif;
+  background:
+    radial-gradient(circle at 10% 10%,rgba(231,104,48,.26),transparent 22rem),
+    radial-gradient(circle at 90% 10%,rgba(38,112,163,.26),transparent 25rem),
+    radial-gradient(circle at 12% 88%,rgba(45,123,104,.22),transparent 22rem),
+    linear-gradient(145deg,var(--bg1),var(--bg2))
+}
+button,input,select{font:inherit}button{cursor:pointer;touch-action:manipulation}
+.wrap{width:min(1280px,100%);margin:auto}
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:18px}
+.hero-copy,.hero-art,.studio{background:var(--panel);border:1px solid rgba(255,255,255,.42);border-radius:32px;box-shadow:var(--shadow)}
+.hero-copy{padding:clamp(26px,5vw,56px)}
+.eyebrow{display:inline-flex;padding:8px 13px;border-radius:999px;background:var(--panel2);border:1px solid var(--border);font-size:.75rem;font-weight:900;letter-spacing:.13em;text-transform:uppercase;color:var(--primary)}
+h1{margin:18px 0 11px;font-family:Georgia,"Times New Roman",serif;font-size:clamp(3.1rem,8vw,6.8rem);line-height:.88;letter-spacing:-.05em;color:var(--primary)}
+.lead{margin:0;max-width:720px;color:var(--muted);line-height:1.68;font-size:1.06rem}
+.hero-art{position:relative;overflow:hidden;min-height:390px;background:linear-gradient(145deg,#e9592f,#ec9e2d 30%,#1d6da8 58%,#2f7d69 78%,#5e3f8b)}
+.hero-art:before{content:"";position:absolute;width:250px;height:250px;border:22px solid #ffebaeaa;border-radius:50%;left:31%;top:16%}
+.hero-art:after{content:"";position:absolute;width:180px;height:180px;background:#173e8dcc;border-radius:42% 58% 63% 37%;left:8%;bottom:10%;transform:rotate(28deg)}
+.stroke{position:absolute;border-radius:999px;background:#ffedd2cc}
+.s1{width:420px;height:28px;right:-70px;top:100px;transform:rotate(-22deg)}
+.s2{width:330px;height:24px;left:80px;bottom:90px;transform:rotate(14deg)}
+.art-caption{position:absolute;left:22px;right:22px;bottom:22px;padding:15px 17px;border-radius:18px;background:#fff7e9d9;border:1px solid #fff;backdrop-filter:blur(8px)}
+.art-caption strong{display:block;font-family:Georgia,serif;color:var(--primary);font-size:1.32rem}.art-caption span{display:block;margin-top:6px;color:#5f5561;line-height:1.5}
+.studio{margin-top:18px;padding:16px}
+.toolbar{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px}
+.control{background:var(--panel2);border:1px solid var(--border);border-radius:17px;padding:10px}
+.control label{display:block;margin-bottom:5px;color:var(--muted);font-size:.69rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+.control select,.control input{width:100%}
+.control select{padding:9px;border-radius:11px;border:1px solid var(--border);background:#fff;color:var(--ink)}
+.workspace{display:grid;grid-template-columns:235px 1fr;gap:13px;margin-top:13px}
+.side{background:var(--panel2);border:1px solid var(--border);border-radius:24px;padding:14px}
+.side h2{margin:0 0 10px;font-family:Georgia,serif;color:var(--primary);font-size:1.45rem}
+.tools{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}
+.tool{min-height:66px;border:1px solid var(--border);border-radius:14px;background:#fffaf2;color:var(--ink);font-weight:900}
+.tool.active{color:#fff;background:linear-gradient(135deg,var(--primary),var(--secondary))}
+.palette{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:10px}
+.swatch{aspect-ratio:1;border:3px solid #fff;border-radius:13px;box-shadow:0 0 0 1px #756a6355}
+.swatch.active{box-shadow:0 0 0 4px var(--accent)}
+.custom-color{display:grid;grid-template-columns:1fr auto;gap:7px;margin-top:10px}
+.custom-color input[type=color]{height:44px;border:0;background:transparent}
+.canvas-panel{background:#201d29;border-radius:24px;padding:12px;min-width:0}
+.canvas-stage{position:relative;overflow:auto;display:grid;place-items:center;min-height:590px;border-radius:18px;background:
+linear-gradient(45deg,#d8d8d8 25%,transparent 25%),linear-gradient(-45deg,#d8d8d8 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#d8d8d8 75%),linear-gradient(-45deg,transparent 75%,#d8d8d8 75%);
+background-size:24px 24px;background-position:0 0,0 12px,12px -12px,-12px 0}
+canvas{display:block;max-width:100%;height:auto;background:#fff;box-shadow:0 14px 34px #0005;touch-action:none}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:11px}
+.btn{border:0;border-radius:13px;padding:10px 13px;font-weight:900;background:var(--panel2);color:var(--primary)}
+.btn.primary{color:#fff;background:linear-gradient(135deg,var(--primary),var(--secondary))}
+.btn.sunny{color:#35250e;background:linear-gradient(135deg,var(--accent),#ed7b43)}
+.btn.green{color:#fff;background:linear-gradient(135deg,var(--green),#4d9f86)}
+.btn.danger{color:#893440;background:#f8dfdf}
+.status{margin-top:10px;padding:10px 12px;border-radius:14px;background:#fff6da;border:1px solid var(--border);color:var(--muted);font-size:.88rem}
+.gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-top:10px}
+.thumb{position:relative}.thumb img{display:block;width:100%;aspect-ratio:1.3;object-fit:cover;border-radius:11px;border:1px solid var(--border);background:#fff}.thumb button{position:absolute;right:5px;top:5px;border:0;border-radius:50%;width:27px;height:27px;background:#fff9;color:#8b3341}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:13px}.stat{padding:10px;text-align:center;border-radius:16px;background:var(--panel2);border:1px solid var(--border)}.stat strong{display:block;color:var(--primary);font-size:1.25rem}
+footer{margin-top:15px;text-align:center;color:#f7edf2;line-height:1.55;font-size:.83rem}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+@media(max-width:1050px){.toolbar{grid-template-columns:repeat(3,1fr)}.workspace{grid-template-columns:1fr}.side{order:2}.canvas-panel{order:1}.tools{grid-template-columns:repeat(4,1fr)}.palette{grid-template-columns:repeat(8,1fr)}}
+@media(max-width:760px){.hero{grid-template-columns:1fr}.hero-art{min-height:300px}.canvas-stage{min-height:430px}.tools{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.toolbar{grid-template-columns:1fr 1fr}.palette{grid-template-columns:repeat(4,1fr)}.stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:420px){.toolbar{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
 </head>
 <body>
-  <h1>🎨 Color Studio</h1>
-  <div id="toolbar">
-    <button onclick="setTool('brush')">🖌 Brush</button>
-    <button onclick="setTool('marker')">🖍 Marker</button>
-    <button onclick="setTool('pencil')">✏ Pencil</button>
-    <button onclick="setTool('eraser')">🩹 Eraser</button>
-    <button onclick="clearCanvas()">🧹 Clear</button>
-    <button onclick="downloadCanvas()">💾 Download</button>
-  </div>
-  
-  <div id="colors">
-    <!-- Expanded color palette -->
-    <div class="color-btn" style="background:red" onclick="setColor('red')"></div>
-    <div class="color-btn" style="background:orange" onclick="setColor('orange')"></div>
-    <div class="color-btn" style="background:yellow" onclick="setColor('yellow')"></div>
-    <div class="color-btn" style="background:green" onclick="setColor('green')"></div>
-    <div class="color-btn" style="background:blue" onclick="setColor('blue')"></div>
-    <div class="color-btn" style="background:purple" onclick="setColor('purple')"></div>
-    <div class="color-btn" style="background:pink" onclick="setColor('pink')"></div>
-    <div class="color-btn" style="background:brown" onclick="setColor('brown')"></div>
-    <div class="color-btn" style="background:gray" onclick="setColor('gray')"></div>
-    <div class="color-btn" style="background:cyan" onclick="setColor('cyan')"></div>
-    <div class="color-btn" style="background:lime" onclick="setColor('lime')"></div>
-    <div class="color-btn" style="background:gold" onclick="setColor('gold')"></div>
-    <div class="color-btn" style="background:silver" onclick="setColor('silver')"></div>
-    <div class="color-btn" style="background:black" onclick="setColor('black')"></div>
-    <div class="color-btn" style="background:white" onclick="setColor('white')"></div>
-  </div>
-  
-  <canvas id="canvas" width="1100" height="650"></canvas>
+<main class="wrap">
+<section class="hero">
+<div class="hero-copy">
+<span class="eyebrow">Bazaar Art Digital Studio</span>
+<h1>Chromatic Foundry</h1>
+<p class="lead">A deeper digital color and drawing workspace for middle-school artists through adults. Explore expressive marks, opacity, pressure-like brushes, symmetry, color sampling, composition, and local portfolio saving.</p>
+</div>
+<div class="hero-art" aria-label="Abstract cobalt, orange, green, and plum artwork"><div class="stroke s1"></div><div class="stroke s2"></div><div class="art-caption"><strong>Color is structure, mood, rhythm, and voice.</strong><span>Use the studio as a sketchbook, painting surface, design lab, or place to test visual ideas.</span></div></div>
+</section>
 
-  <script>
-    const canvas = document.getElementById("canvas");
-    const ctx = canvas.getContext("2d");
-    let painting = false;
-    let currentColor = "black";
-    let tool = "brush";
+<section class="studio">
+<div class="toolbar">
+<div class="control"><label for="theme">Studio palette</label><select id="theme"></select></div>
+<div class="control"><label for="size">Brush size</label><input id="size" type="range" min="1" max="80" value="14"></div>
+<div class="control"><label for="opacity">Opacity</label><input id="opacity" type="range" min=".05" max="1" step=".05" value="1"></div>
+<div class="control"><label for="canvasWidth">Canvas width</label><select id="canvasWidth"><option value="900">900</option><option value="1200" selected>1200</option><option value="1600">1600</option></select></div>
+<div class="control"><label for="canvasHeight">Canvas height</label><select id="canvasHeight"><option value="600">600</option><option value="800" selected>800</option><option value="1000">1000</option></select></div>
+<div class="control"><label for="background">Background</label><select id="background"><option value="#ffffff">White</option><option value="#f5ead6">Warm paper</option><option value="#1e1e26">Dark ground</option><option value="transparent">Transparent</option></select></div>
+</div>
 
-    function setTool(t) { tool = t; }
-    function setColor(c) { currentColor = c; }
+<div class="workspace">
+<aside class="side">
+<h2>Tools</h2>
+<div class="tools" id="tools"></div>
+<h2 style="margin-top:16px">Color</h2>
+<div class="palette" id="palette"></div>
+<div class="custom-color"><input id="customColor" type="color" value="#111111"><button class="btn" id="useCustom">Use</button></div>
+<div class="actions">
+<button class="btn" id="undo">↶ Undo</button>
+<button class="btn" id="redo">↷ Redo</button>
+<button class="btn danger" id="clear">Clear</button>
+</div>
+<h2 style="margin-top:16px">Private Gallery</h2>
+<div class="gallery" id="gallery"></div>
+</aside>
 
-    function startPosition(e) {
-      painting = true;
-      draw(e);
-    }
-    function endPosition() {
-      painting = false;
-      ctx.beginPath();
-    }
-    function draw(e) {
-      if (!painting) return;
-      ctx.lineCap = "round";
+<section class="canvas-panel">
+<div class="canvas-stage" id="stage"><canvas id="canvas" width="1200" height="800"></canvas></div>
+<div class="actions">
+<button class="btn primary" id="saveGallery">Save to Gallery</button>
+<button class="btn sunny" id="download">Export PNG</button>
+<button class="btn" id="exportJpg">Export JPG</button>
+<button class="btn green" id="newCanvas">New Canvas</button>
+</div>
+<div class="status" id="status" aria-live="polite">Brush selected. Draw with mouse, touch, or stylus.</div>
+</section>
+</div>
 
-      switch (tool) {
-        case "brush":
-          ctx.lineWidth = 10; ctx.globalAlpha = 1.0; break;
-        case "marker":
-          ctx.lineWidth = 16; ctx.globalAlpha = 0.7; break; /* doubled */
-        case "pencil":
-          ctx.lineWidth = 2; ctx.globalAlpha = 1.0; break;
-        case "eraser":
-          ctx.strokeStyle = "white"; ctx.lineWidth = 20; ctx.globalAlpha = 1.0; break;
-      }
+<div class="stats">
+<div class="stat"><strong id="strokeStat">0</strong>Strokes</div>
+<div class="stat"><strong id="undoStat">0</strong>Undo states</div>
+<div class="stat"><strong id="galleryStat">0</strong>Gallery works</div>
+<div class="stat"><strong id="toolStat">Brush</strong>Current tool</div>
+</div>
+</section>
 
-      if (tool !== "eraser") ctx.strokeStyle = currentColor;
+<footer><strong>© 2026 Bazaar Art · Verve N Veda · Jennifer Kay Pearl</strong><br>All Rights Reserved. · Sovereign · Sandboxed · Vanilla JavaScript · Local-first.</footer>
+</main>
 
-      const rect = canvas.getBoundingClientRect();
-      ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
-      ctx.stroke();
-      ctx.beginPath();
-      ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
-    }
-
-    function clearCanvas() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-    }
-
-    function downloadCanvas() {
-      const link = document.createElement('a');
-      link.download = 'MyColorStudioArt.png';
-      link.href = canvas.toDataURL();
-      link.click();
-    }
-
-    // Mouse events
-    canvas.addEventListener("mousedown", startPosition);
-    canvas.addEventListener("mouseup", endPosition);
-    canvas.addEventListener("mousemove", draw);
-
-    // Touch events
-    canvas.addEventListener("touchstart", (e) => startPosition(e.touches[0]));
-    canvas.addEventListener("touchend", endPosition);
-    canvas.addEventListener("touchmove", (e) => {
-      e.preventDefault();
-      draw(e.touches[0]);
-    });
-  </script>
+<script>
+const THEMES={"foundry": {"name": "Chromatic Foundry", "bg1": "#16152c", "bg2": "#263c4f", "panel": "#f2eadc", "panel2": "#fff8ee", "ink": "#2a2230", "muted": "#6d6270", "primary": "#324b96", "secondary": "#c35b3e", "accent": "#dda93d", "green": "#2f7b68", "border": "#c9b48c"}, "nocturne": {"name": "Nocturne Ink", "bg1": "#111625", "bg2": "#2c2748", "panel": "#ece8f4", "panel2": "#f8f5ff", "ink": "#242132", "muted": "#696477", "primary": "#5650a3", "secondary": "#b04c77", "accent": "#d6ba5a", "green": "#397d70", "border": "#bdb6d1"}, "verdigris": {"name": "Verdigris Studio", "bg1": "#15322f", "bg2": "#2b594c", "panel": "#eee8d8", "panel2": "#fbf7eb", "ink": "#26312d", "muted": "#667069", "primary": "#2e6e62", "secondary": "#b8613e", "accent": "#d5aa49", "green": "#3c806d", "border": "#c3b890"}, "sienna": {"name": "Sienna Workshop", "bg1": "#34232a", "bg2": "#7a3f2e", "panel": "#f3e7da", "panel2": "#fff6ed", "ink": "#32262a", "muted": "#716467", "primary": "#70448c", "secondary": "#c15c3c", "accent": "#dda847", "green": "#407766", "border": "#ccb394"}, "cobalt": {"name": "Cobalt Current", "bg1": "#132442", "bg2": "#245a7b", "panel": "#e9edf1", "panel2": "#f8fbfd", "ink": "#232c35", "muted": "#63707a", "primary": "#175b9f", "secondary": "#d25e3d", "accent": "#e0b244", "green": "#2d806d", "border": "#b7c6d1"}},COLORS=["#111111", "#ffffff", "#6b6b6b", "#c7c7c7", "#b73232", "#e2572f", "#ef8b2c", "#e6b82d", "#4f8b3f", "#2f7b68", "#2387a6", "#2e62b6", "#563d9e", "#8e3d8f", "#c44f7f", "#7e4b2f"],$=id=>document.getElementById(id);
+const KEY='bazaar-chromatic-foundry-v2';
+const tools=[
+  {id:'brush',icon:'🖌',name:'Brush'},
+  {id:'marker',icon:'🖍',name:'Marker'},
+  {id:'pencil',icon:'✏️',name:'Pencil'},
+  {id:'airbrush',icon:'💨',name:'Airbrush'},
+  {id:'line',icon:'╱',name:'Line'},
+  {id:'eraser',icon:'⌫',name:'Eraser'},
+  {id:'eyedropper',icon:'💧',name:'Eyedropper'},
+  {id:'mirror',icon:'↔',name:'Mirror'}
+];
+let state={theme:'foundry',tool:'brush',color:'#111111',strokes:0,gallery:[]};
+try{state=Object.assign(state,JSON.parse(localStorage.getItem(KEY)||'{}'))}catch{}
+let ctx,canvas=$('canvas'),drawing=false,last=null,start=null,undoStack=[],redoStack=[],restoring=false;
+function saveState(){try{localStorage.setItem(KEY,JSON.stringify({theme:state.theme,tool:state.tool,color:state.color,strokes:state.strokes,gallery:state.gallery.slice(0,8)}))}catch{};renderStats()}
+function status(t){$('status').textContent=t}
+function applyTheme(k){const t=THEMES[k]||THEMES.foundry;Object.entries(t).forEach(([n,v])=>{if(n!=='name')document.documentElement.style.setProperty('--'+n,v)});state.theme=k;saveState()}
+function setTool(id){state.tool=id;document.querySelectorAll('.tool').forEach(b=>b.classList.toggle('active',b.dataset.tool===id));$('toolStat').textContent=tools.find(t=>t.id===id).name;status(`${tools.find(t=>t.id===id).name} selected.`);saveState()}
+function renderTools(){$('tools').innerHTML=tools.map(t=>`<button class="tool ${t.id===state.tool?'active':''}" data-tool="${t.id}">${t.icon}<br>${t.name}</button>`).join('');document.querySelectorAll('[data-tool]').forEach(b=>b.onclick=()=>setTool(b.dataset.tool))}
+function setColor(c){state.color=c;$('customColor').value=rgbToHex(c);document.querySelectorAll('.swatch').forEach(b=>b.classList.toggle('active',b.dataset.color.toLowerCase()===c.toLowerCase()));saveState()}
+function renderPalette(){$('palette').innerHTML=COLORS.map(c=>`<button class="swatch ${c===state.color?'active':''}" data-color="${c}" style="background:${c}" aria-label="${c}"></button>`).join('');document.querySelectorAll('.swatch').forEach(b=>b.onclick=()=>setColor(b.dataset.color))}
+function rgbToHex(c){if(c.startsWith('#'))return c;const m=c.match(/\d+/g);return m?'#'+m.slice(0,3).map(x=>(+x).toString(16).padStart(2,'0')).join(''):'#111111'}
+function initCanvas(background=$('background').value){
+  ctx=canvas.getContext('2d',{willReadFrequently:true});
+  ctx.lineCap='round';ctx.lineJoin='round';
+  if(background!=='transparent'){ctx.fillStyle=background;ctx.fillRect(0,0,canvas.width,canvas.height)}
+  undoStack=[];redoStack=[];pushUndo();renderStats()
+}
+function snapshot(){return canvas.toDataURL('image/png')}
+function pushUndo(){if(restoring)return;undoStack.push(snapshot());if(undoStack.length>25)undoStack.shift();redoStack=[];renderStats()}
+function restore(data){restoring=true;const img=new Image();img.onload=()=>{ctx.clearRect(0,0,canvas.width,canvas.height);ctx.drawImage(img,0,0,canvas.width,canvas.height);restoring=false};img.src=data}
+function undo(){if(undoStack.length<=1)return;redoStack.push(undoStack.pop());restore(undoStack[undoStack.length-1]);renderStats()}
+function redo(){if(!redoStack.length)return;const d=redoStack.pop();undoStack.push(d);restore(d);renderStats()}
+function point(e){const r=canvas.getBoundingClientRect();return{x:(e.clientX-r.left)*(canvas.width/r.width),y:(e.clientY-r.top)*(canvas.height/r.height)}}
+function configure(){
+  ctx.globalAlpha=Number($('opacity').value);ctx.globalCompositeOperation=state.tool==='eraser'?'destination-out':'source-over';
+  ctx.strokeStyle=state.color;ctx.fillStyle=state.color;
+  const size=Number($('size').value);
+  if(state.tool==='pencil')ctx.lineWidth=Math.max(1,size*.22);
+  else if(state.tool==='marker')ctx.lineWidth=size*1.4;
+  else if(state.tool==='airbrush')ctx.lineWidth=size*2;
+  else if(state.tool==='eraser')ctx.lineWidth=size*1.8;
+  else ctx.lineWidth=size
+}
+function begin(e){
+  const p=point(e);
+  if(state.tool==='eyedropper'){const data=ctx.getImageData(Math.floor(p.x),Math.floor(p.y),1,1).data;setColor(`rgb(${data[0]},${data[1]},${data[2]})`);status('Color sampled from canvas.');return}
+  drawing=true;last=p;start=p;canvas.setPointerCapture?.(e.pointerId);configure();
+  if(!['line'].includes(state.tool)){ctx.beginPath();ctx.moveTo(p.x,p.y)}
+}
+function move(e){
+  if(!drawing)return;const p=point(e);configure();
+  if(state.tool==='line')return;
+  if(state.tool==='airbrush'){
+    const radius=Number($('size').value);for(let i=0;i<28;i++){const a=Math.random()*Math.PI*2,r=Math.random()*radius;ctx.fillRect(p.x+Math.cos(a)*r,p.y+Math.sin(a)*r,1.5,1.5)}
+  }else{
+    ctx.lineTo(p.x,p.y);ctx.stroke();
+    if(state.tool==='mirror'){ctx.beginPath();ctx.moveTo(canvas.width-last.x,last.y);ctx.lineTo(canvas.width-p.x,p.y);ctx.stroke();ctx.beginPath();ctx.moveTo(p.x,p.y)}
+  }
+  last=p
+}
+function end(e){
+  if(!drawing)return;const p=point(e);configure();
+  if(state.tool==='line'){ctx.beginPath();ctx.moveTo(start.x,start.y);ctx.lineTo(p.x,p.y);ctx.stroke()}
+  drawing=false;ctx.beginPath();state.strokes++;pushUndo();saveState()
+}
+canvas.addEventListener('pointerdown',begin);canvas.addEventListener('pointermove',move);canvas.addEventListener('pointerup',end);canvas.addEventListener('pointercancel',()=>drawing=false);canvas.addEventListener('pointerleave',e=>{if(drawing&&e.buttons===0)end(e)});
+function changeCanvas(){
+  const old=snapshot(),w=Number($('canvasWidth').value),h=Number($('canvasHeight').value);canvas.width=w;canvas.height=h;initCanvas();
+  const img=new Image();img.onload=()=>{ctx.drawImage(img,0,0,w,h);pushUndo()};img.src=old
+}
+function clearCanvas(){if(!confirm('Clear the current artwork?'))return;ctx.clearRect(0,0,canvas.width,canvas.height);const bg=$('background').value;if(bg!=='transparent'){ctx.fillStyle=bg;ctx.fillRect(0,0,canvas.width,canvas.height)}state.strokes=0;pushUndo();saveState();status('Canvas cleared.')}
+function exportImage(type){
+  const out=document.createElement('canvas');out.width=canvas.width;out.height=canvas.height;const o=out.getContext('2d');
+  if(type==='image/jpeg'){o.fillStyle='#fff';o.fillRect(0,0,out.width,out.height)}o.drawImage(canvas,0,0);
+  const a=document.createElement('a');a.download=type==='image/png'?'chromatic_foundry_art.png':'chromatic_foundry_art.jpg';a.href=out.toDataURL(type,.92);a.click()
+}
+function saveGallery(){state.gallery.unshift({data:snapshot(),date:new Date().toISOString()});state.gallery=state.gallery.slice(0,8);saveState();renderGallery();status('Artwork saved to the private gallery.')}
+function renderGallery(){$('gallery').innerHTML=state.gallery.length?state.gallery.map((g,i)=>`<div class="thumb"><img src="${g.data}" alt="Saved artwork ${i+1}"><button data-del="${i}" aria-label="Delete saved artwork">×</button></div>`).join(''):'<div class="status">No saved works yet.</div>';document.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{state.gallery.splice(Number(b.dataset.del),1);saveState();renderGallery()})}
+function renderStats(){$('strokeStat').textContent=state.strokes;$('undoStat').textContent=Math.max(0,undoStack.length-1);$('galleryStat').textContent=state.gallery.length}
+$('theme').innerHTML=Object.entries(THEMES).map(([k,v])=>`<option value="${k}">${v.name}</option>`).join('');$('theme').value=state.theme;$('theme').onchange=e=>applyTheme(e.target.value);
+$('useCustom').onclick=()=>setColor($('customColor').value);$('customColor').oninput=e=>setColor(e.target.value);
+$('undo').onclick=undo;$('redo').onclick=redo;$('clear').onclick=clearCanvas;$('download').onclick=()=>exportImage('image/png');$('exportJpg').onclick=()=>exportImage('image/jpeg');$('saveGallery').onclick=saveGallery;
+$('newCanvas').onclick=()=>{if(confirm('Start a new blank canvas?')){canvas.width=Number($('canvasWidth').value);canvas.height=Number($('canvasHeight').value);state.strokes=0;initCanvas();saveState();status('New canvas ready.')}};
+$('canvasWidth').onchange=changeCanvas;$('canvasHeight').onchange=changeCanvas;$('background').onchange=()=>{const bg=$('background').value;if(bg!=='transparent'){ctx.save();ctx.globalCompositeOperation='destination-over';ctx.fillStyle=bg;ctx.fillRect(0,0,canvas.width,canvas.height);ctx.restore();pushUndo()}};
+applyTheme(state.theme);renderTools();renderPalette();initCanvas();renderGallery();renderStats();
+</script>
 </body>
 </html>
