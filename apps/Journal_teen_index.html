@@ -1,483 +1,172 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Daily Journal</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: linear-gradient(120deg, #3542a6 0%, #2ec4b6 100%);
-      font-family: 'Montserrat', Arial, sans-serif;
-      color: #263040;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-    }
-   header {
-  width: 100%;
-  text-align: center;
-  padding: 30px 0 16px 0; /* a bit more bottom padding */
-  color: #fff;
-  font-size: 2.3rem;
-  letter-spacing: 2px;
-  text-shadow: 0 2px 24px #0004;
-  position: relative;
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Studio Journal — a private, emoji-rich creative journal for reflection, planning, mood tracking, and artistic growth.">
+<title>Studio Journal — Bazaar Art</title>
+<style>
+:root{
+  --bg1:#17213f;--bg2:#224d58;--paper:#f2eadc;--panel:#fff9ef;--ink:#2c2730;--muted:#6d6470;
+  --indigo:#314a93;--teal:#2f7f73;--coral:#c8664b;--gold:#d8aa48;--plum:#80518e;--line:#cbb790;
+  --shadow:0 28px 70px rgba(9,11,25,.35)
 }
-
-/* Pulsating sphere behind header text */
-header::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 125%;                   /* push orb further below title */
-  transform: translateX(-50%); /* no vertical shift, only center horizontally */
-  width: 110px;
-  height: 110px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 30% 20%, #e6fffb 0%, #2ec4b6 45%, #0b5b4e 80%);
-  box-shadow:
-    0 0 0 10px rgba(46,196,182,0.25),
-    0 0 40px rgba(0,0,0,0.35);
-  opacity: 0.9;
-  animation: pulse-orb 3.4s ease-in-out infinite;
-  pointer-events: none;
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;min-height:100vh;padding:22px 14px 42px;color:var(--ink);
+  font-family:"Avenir Next","Trebuchet MS","Segoe UI",system-ui,sans-serif;
+  background:
+    radial-gradient(circle at 10% 10%,rgba(69,117,191,.22),transparent 24rem),
+    radial-gradient(circle at 90% 12%,rgba(200,102,75,.2),transparent 24rem),
+    radial-gradient(circle at 15% 88%,rgba(47,127,115,.18),transparent 22rem),
+    linear-gradient(145deg,var(--bg1),var(--bg2))
 }
-
-@keyframes pulse-orb {
-  0% {
-    transform: translateX(-50%) scale(0.95);
-    opacity: 0.9;
-  }
-  50% {
-    transform: translateX(-50%) scale(1.06);
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(-50%) scale(0.95);
-    opacity: 0.9;
-  }
-}
-
-/* Give the card a little extra space from the orb */
-.journal-box {
-  margin: 70px auto 38px auto; /* was 55px */
-}
-
-    }
-
-    .journal-box {
-      background: rgba(255,255,255,0.87);
-      border-radius: 22px;
-      box-shadow: 0 6px 32px #24385a22;
-      max-width: 800px;
-      width: 98vw;
-      margin: 55px auto 38px auto; /* moved down to make room for orb */
-      padding: 26px 26px 22px 26px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
-      z-index: 1;
-    }
-    .date-mood-row {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-    }
-    select {
-      font-size: 1rem;
-      padding: 7px 12px;
-      border-radius: 8px;
-      border: 1px solid #b2c6d6;
-    }
-    .affirm-card {
-      background: linear-gradient(100deg, #2ec4b6 0%, #fffaf3 100%);
-      color: #263040;
-      border-radius: 17px;
-      box-shadow: 0 2px 16px #2ec4b650;
-      padding: 18px 14px;
-      margin-bottom: 22px;
-      font-size: 1.11rem;
-      min-height: 40px;
-      text-align: center;
-      font-weight: 500;
-      letter-spacing: 0.8px;
-      transition: background 0.22s, color 0.15s;
-      user-select: none;
-    }
-    .card-stack {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      margin-bottom: 16px;
-    }
-    .journal-card {
-      background: rgba(235,245,251,0.88);
-      border-radius: 14px;
-      box-shadow: 0 1.5px 8px #2ec4b620;
-      padding: 14px 13px 9px 13px;
-      display: flex;
-      flex-direction: column;
-      transition: box-shadow 0.13s;
-    }
-    .journal-card label {
-      font-size: 1.01rem;
-      font-weight: 700;
-      margin-bottom: 7px;
-      color: #3542a6;
-    }
-    .journal-card textarea {
-      width: 100%;
-      border: none;
-      border-radius: 8px;
-      min-height: 44px;
-      font-size: 1em;
-      font-family: inherit;
-      background: #f7fafd;
-      color: #2b3242;
-      padding: 10px 7px;
-      margin-bottom: 4px;
-      resize: vertical;
-      outline: none;
-      box-shadow: 0 0.5px 2px #2ec4b608;
-      transition: background 0.15s;
-    }
-    .journal-card textarea:focus { background: #fff8f0; }
-    .save-row {
-      display: flex;
-      gap: 12px;
-      margin-top: 8px;
-      width: 100%;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    .save-btn, .export-btn {
-      background: #2ec4b6;
-      color: #fff;
-      font-weight: 600;
-      font-size: 1rem;
-      padding: 10px 18px;
-      border-radius: 9px;
-      border: none;
-      cursor: pointer;
-      box-shadow: 0 1.5px 6px #3542a633;
-      transition: background 0.14s;
-    }
-    .save-btn:hover { background: #3542a6; }
-    .export-btn { background: #baa05a; }
-    .export-btn:hover { background: #b78103; }
-    .diary-section {
-      margin-top: 16px;
-      padding-top: 10px;
-      border-top: 1.5px solid #b1bace44;
-      width: 100%;
-    }
-    .diary-section label {
-      font-size: 1.13rem;
-      color: #2ec4b6;
-      margin-bottom: 6px;
-      font-weight: 700;
-    }
-    .diary-section textarea {
-      width: 100%;
-      min-height: 90px;
-      font-size: 1.05em;
-      background: #fffbe5;
-      color: #222;
-      border-radius: 10px;
-      border: none;
-      padding: 13px;
-      margin-bottom: 6px;
-    }
-    .footer-note {
-      margin-top: 12px;
-      color: #5d7796;
-      font-size: 0.98em;
-      text-align: center;
-    }
-
-    @media (max-width: 540px) {
-      .journal-box { padding: 7vw 3vw; margin-top: 50px; }
-      header { font-size: 1.18rem; padding: 17px 0 7px 0; }
-      header::before {
-        width: 90px;
-        height: 90px;
-      }
-      .date-mood-row {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-    }
-  </style>
+button,input,select,textarea{font:inherit}
+button{cursor:pointer;touch-action:manipulation}
+.wrap{width:min(1240px,100%);margin:auto}
+.hero{display:grid;grid-template-columns:1.08fr .92fr;gap:18px}
+.hero-copy,.hero-art,.shell{background:var(--paper);border:1px solid rgba(255,255,255,.42);border-radius:32px;box-shadow:var(--shadow)}
+.hero-copy{padding:clamp(26px,5vw,58px)}
+.eyebrow{display:inline-flex;padding:8px 13px;border-radius:999px;background:var(--panel);border:1px solid var(--line);font-size:.75rem;font-weight:900;letter-spacing:.13em;text-transform:uppercase;color:var(--indigo)}
+h1{margin:18px 0 10px;font-family:Georgia,"Times New Roman",serif;font-size:clamp(3.2rem,8vw,6.9rem);line-height:.87;letter-spacing:-.05em;color:var(--indigo)}
+.lead{margin:0;color:var(--muted);line-height:1.68;font-size:1.07rem;max-width:720px}
+.hero-art{position:relative;overflow:hidden;min-height:410px;background:
+radial-gradient(circle at 22% 18%,#f4b83f 0 13%,transparent 13.5%),
+radial-gradient(circle at 80% 18%,#3475ad 0 16%,transparent 16.5%),
+radial-gradient(circle at 22% 80%,#3b9273 0 17%,transparent 17.5%),
+radial-gradient(circle at 80% 80%,#8b5a9d 0 15%,transparent 15.5%),
+linear-gradient(145deg,#e46d42,#e6ad3e 30%,#2d6d9e 57%,#3a6d69)}
+.emoji-cloud{position:absolute;inset:8%;display:grid;grid-template-columns:repeat(4,1fr);place-items:center;font-size:clamp(2.1rem,5vw,4.3rem);filter:drop-shadow(0 6px 2px #0002)}
+.emoji-cloud span:nth-child(odd){transform:rotate(-7deg)}.emoji-cloud span:nth-child(even){transform:rotate(8deg)}
+.art-caption{position:absolute;left:22px;right:22px;bottom:22px;padding:15px 17px;border-radius:18px;background:#fff8efe8;border:1px solid #fff;backdrop-filter:blur(8px)}
+.art-caption strong{display:block;font-family:Georgia,serif;color:var(--indigo);font-size:1.3rem}.art-caption span{display:block;margin-top:6px;color:#5d5561;line-height:1.5}
+.shell{margin-top:18px;padding:16px}
+.toolbar{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:9px}
+.control{padding:10px;border:1px solid var(--line);border-radius:17px;background:var(--panel)}
+.control label{display:block;margin-bottom:5px;color:var(--muted);font-size:.7rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+.control input,.control select{width:100%;padding:9px;border:1px solid var(--line);border-radius:11px;background:#fff;color:var(--ink)}
+.workspace{display:grid;grid-template-columns:1.1fr .9fr;gap:14px;margin-top:14px}
+.main-card,.side-card{padding:18px;border:1px solid var(--line);border-radius:25px;background:var(--panel)}
+.date-line{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.date-line h2{margin:0;font-family:Georgia,serif;color:var(--indigo);font-size:2rem}
+.affirm{margin:14px 0;padding:14px;border-radius:18px;background:linear-gradient(135deg,#dff2ec,#fff3d8);border:1px solid var(--line);text-align:center;font-family:Georgia,serif;font-size:1.15rem;color:#3b4652}
+.mood-title{font-weight:900;color:var(--plum);margin:12px 0 8px}
+.mood-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:7px}
+.mood{display:grid;place-items:center;aspect-ratio:1;border:1px solid var(--line);border-radius:14px;background:#fffaf3;font-size:1.6rem}
+.mood.active{box-shadow:0 0 0 4px var(--gold);transform:translateY(-2px)}
+.mood-label{text-align:center;color:var(--muted);font-size:.8rem;margin-top:7px;min-height:1.2em}
+.prompt-card{margin-top:14px;padding:14px;border:1px solid var(--line);border-radius:18px;background:#fffaf3}
+.prompt-head{display:flex;justify-content:space-between;gap:9px;align-items:center}
+.prompt-head strong{font-family:Georgia,serif;color:var(--indigo);font-size:1.25rem}.prompt-text{margin-top:8px;color:var(--muted);line-height:1.5}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.field-card{padding:13px;border:1px solid var(--line);border-radius:18px;background:#fffaf3}
+.field-card label{display:block;margin-bottom:6px;font-weight:900;color:var(--indigo)}
+.field-card textarea{width:100%;min-height:105px;padding:11px;border:1px solid #d4c39e;border-radius:13px;background:#fff;color:var(--ink);resize:vertical}
+.field-card.full{grid-column:1/-1}
+.actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:13px}
+.btn{border:0;border-radius:13px;padding:10px 14px;font-weight:900;background:#fffaf3;color:var(--indigo);box-shadow:0 5px 13px #21172916}
+.btn.primary{color:#fff;background:linear-gradient(135deg,var(--indigo),var(--plum))}
+.btn.gold{color:#35250e;background:linear-gradient(135deg,var(--gold),#ed8245)}
+.btn.green{color:#fff;background:linear-gradient(135deg,var(--teal),#4ba18a)}
+.btn.danger{color:#8c3443;background:#f8dfdf}
+.side-card h2{margin:0;font-family:Georgia,serif;color:var(--indigo);font-size:1.8rem}
+.tabs{display:flex;flex-wrap:wrap;gap:7px;margin:11px 0}.tab{border:1px solid var(--line);border-radius:999px;padding:8px 11px;background:#fffaf3;font-weight:900;color:var(--ink)}.tab.active{color:#fff;background:linear-gradient(135deg,var(--indigo),var(--plum))}
+.archive{display:grid;gap:8px;max-height:530px;overflow:auto}.entry{padding:12px;border:1px solid var(--line);border-radius:16px;background:#fffaf3}.entry-head{display:flex;justify-content:space-between;gap:9px}.entry strong{color:var(--plum)}.entry small{color:var(--muted)}.entry p{margin:8px 0 0;color:#4b444d;line-height:1.45}.tag{display:inline-flex;padding:5px 7px;border-radius:999px;background:#efe5d5;color:#554b55;font-size:.72rem;font-weight:900;margin:5px 4px 0 0}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:13px}.stat{padding:10px;text-align:center;border:1px solid var(--line);border-radius:16px;background:var(--panel)}.stat strong{display:block;color:var(--indigo);font-size:1.25rem}
+footer{margin-top:15px;text-align:center;color:#eee7f1;line-height:1.55;font-size:.83rem}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+@media(max-width:980px){.hero,.workspace{grid-template-columns:1fr}.mood-grid{grid-template-columns:repeat(6,1fr)}}
+@media(max-width:700px){.toolbar{grid-template-columns:1fr 1fr}.cards{grid-template-columns:1fr}.field-card.full{grid-column:auto}.mood-grid{grid-template-columns:repeat(5,1fr)}}
+@media(max-width:500px){.toolbar{grid-template-columns:1fr}.mood-grid{grid-template-columns:repeat(4,1fr)}.stats{grid-template-columns:repeat(2,1fr)}}
+</style>
 </head>
 <body>
-  <header>Daily Journal</header>
+<main class="wrap">
+<section class="hero">
+<div class="hero-copy"><span class="eyebrow">Bazaar Art Private Reflection Studio</span><h1>Studio Journal</h1><p class="lead">A deeper daily journal for creative people—part mood map, part project notebook, part reflective diary. Use emojis to name your energy, collect ideas, plan one meaningful action, and preserve the story of your work.</p></div>
+<div class="hero-art" aria-label="Abstract colorful emoji collage"><div class="emoji-cloud"><span>🎨</span><span>🪞</span><span>🌙</span><span>✨</span><span>📖</span><span>🦋</span><span>🎵</span><span>🌿</span><span>💡</span><span>📸</span><span>🌀</span><span>🔥</span></div><div class="art-caption"><strong>Your journal does not need to be polished to be valuable.</strong><span>Record enough to remember what you felt, noticed, attempted, and learned.</span></div></div>
+</section>
 
-  <div class="journal-box">
-    <div class="date-mood-row">
-      <select id="entryDate" aria-label="Select journal date"></select>
+<section class="shell">
+<div class="toolbar">
+<div class="control"><label for="entryDate">Journal date</label><input id="entryDate" type="date"></div>
+<div class="control"><label for="search">Search archive</label><input id="search" placeholder="idea, gratitude, project..."></div>
+<div class="control"><label for="tagInput">Entry tags</label><input id="tagInput" placeholder="painting, school, family"></div>
+<button class="btn" id="randomPrompt">New Prompt</button>
+</div>
 
-      <!-- Mood select (wired correctly in JS below) -->
-      <select id="moodPicker" aria-label="Pick your mood for today">
-        <option value="">🌤️ How do you feel today?</option>
+<div class="workspace">
+<section class="main-card">
+<div class="date-line"><h2 id="prettyDate"></h2><span id="saveStatus">Private & local</span></div>
+<div class="affirm" id="affirmation"></div>
+<div class="mood-title">How does today feel?</div>
+<div class="mood-grid" id="moodGrid"></div>
+<div class="mood-label" id="moodLabel">Choose one emoji—or leave it open.</div>
 
-        <!-- 😊 Positive & Joyful -->
-        <option>😃 Happy</option>
-        <option>😁 Excited</option>
-        <option>🤩 Inspired</option>
-        <option>😊 Content</option>
-        <option>🥰 Loved</option>
-        <option>😇 Grateful</option>
+<div class="prompt-card">
+<div class="prompt-head"><strong id="promptTitle"></strong><button class="btn" id="insertPrompt">Add to Diary</button></div>
+<div class="prompt-text" id="promptText"></div>
+</div>
 
-        <!-- 🌿 Calm & Peaceful -->
-        <option>😌 Relaxed</option>
-        <option>🌸 Peaceful</option>
-        <option>😴 Sleepy</option>
-        <option>🧘 Calm</option>
-        <option>🌙 Dreamy</option>
+<div class="cards">
+<div class="field-card"><label for="vision">💡 Vision</label><textarea id="vision" placeholder="What are you trying to make, change, understand, or begin?"></textarea></div>
+<div class="field-card"><label for="energy">🫀 Energy Check</label><textarea id="energy" placeholder="How is your body, attention, and emotional energy today?"></textarea></div>
+<div class="field-card"><label for="snapshot">📸 Today's Snapshot</label><textarea id="snapshot" placeholder="Describe one scene, moment, detail, or image worth keeping."></textarea></div>
+<div class="field-card"><label for="action">🧭 Next Action</label><textarea id="action" placeholder="What is one clear action you can take next?"></textarea></div>
+<div class="field-card"><label for="gratitude">🌿 Gratitude</label><textarea id="gratitude" placeholder="What deserves appreciation today?"></textarea></div>
+<div class="field-card"><label for="learning">🛠️ What I Learned</label><textarea id="learning" placeholder="What did the work, day, or mistake teach you?"></textarea></div>
+<div class="field-card full"><label for="diary">📖 Daily Diary</label><textarea id="diary" style="min-height:190px" placeholder="Write freely about the day, your creative work, relationships, questions, or anything important..."></textarea></div>
+</div>
 
-        <!-- 💭 Thoughtful & Reflective -->
-        <option>🤔 Thoughtful</option>
-        <option>📖 Curious</option>
-        <option>🪞 Reflective</option>
-        <option>🌧️ Quiet</option>
-        <option>😐 Meh</option>
+<div class="actions"><button class="btn primary" id="save">Save Entry</button><button class="btn gold" id="print">Print Entry</button><button class="btn green" id="export">Export Journal</button><button class="btn" id="importBtn">Import</button><input id="importFile" type="file" accept="application/json" hidden></div>
+</section>
 
-        <!-- ⚡ Challenging Emotions -->
-        <option>😕 Stressed</option>
-        <option>😟 Worried</option>
-        <option>😞 Disappointed</option>
-        <option>😡 Upset</option>
-        <option>😭 Sad</option>
+<aside class="side-card">
+<h2>Journal Archive</h2>
+<div class="tabs"><button class="tab active" data-view="recent">Recent</button><button class="tab" data-view="moods">Mood Map</button><button class="tab" data-view="favorites">Favorites</button></div>
+<div class="archive" id="archive"></div>
+<div class="actions"><button class="btn" id="favoriteCurrent">Favorite Entry</button><button class="btn danger" id="deleteCurrent">Delete Entry</button></div>
+</aside>
+</div>
 
-        <!-- 💪 Resilient & Motivated -->
-        <option>💪 Determined</option>
-        <option>🔥 Motivated</option>
-        <option>🦋 Hopeful</option>
-        <option>🌈 Brave</option>
-        <option>✨ Proud</option>
+<div class="stats">
+<div class="stat"><strong id="entryStat">0</strong>Entries</div>
+<div class="stat"><strong id="moodStat">0</strong>Moods recorded</div>
+<div class="stat"><strong id="favoriteStat">0</strong>Favorites</div>
+<div class="stat"><strong id="streakStat">0</strong>Recent writing days</div>
+</div>
+</section>
 
-        <!-- 🎨 Creative & Playful -->
-        <option>🎨 Creative</option>
-        <option>🎵 Musical</option>
-        <option>🌻 Playful</option>
-        <option>🍀 Silly</option>
-        <option>🦄 Imaginative</option>
-      </select>
-    </div>
+<footer><strong>© 2026 Bazaar Art · Verve N Veda · Jennifer Kay Pearl</strong><br>All Rights Reserved. · Local, private, offline-first, and creativity-centered.</footer>
+</main>
 
-    <div class="affirm-card" id="affirmation"></div>
-
-    <div class="card-stack">
-      <div class="journal-card">
-        <label for="vision">Vision</label>
-        <textarea id="vision" placeholder="What's something you want to make happen?"></textarea>
-      </div>
-      <div class="journal-card">
-        <label for="feelings">Energy Check</label>
-        <textarea id="feelings" placeholder="How are you feeling right now?"></textarea>
-      </div>
-      <div class="journal-card">
-        <label for="visuals">Today's Snapshot</label>
-        <textarea id="visuals" placeholder="Describe a moment, scene, or goal for today."></textarea>
-      </div>
-      <div class="journal-card">
-        <label for="actions">Action Step</label>
-        <textarea id="actions" placeholder="What's one thing you’ll do today?"></textarea>
-      </div>
-      <div class="journal-card">
-        <label for="gratitude">Gratitude</label>
-        <textarea id="gratitude" placeholder="List something you’re grateful for."></textarea>
-      </div>
-    </div>
-
-    <div class="diary-section">
-      <label for="diary">Daily Diary</label>
-      <textarea id="diary" placeholder="Write your story, thoughts, or anything important about today..."></textarea>
-      <div style="font-size:.92em;color:#baa05a;margin-top:4px;">
-        “Today is a blank page. Write something worth remembering.”
-      </div>
-    </div>
-
-    <div class="save-row">
-      <button class="save-btn" id="saveBtn">💾 Save</button>
-      <button class="export-btn" id="exportBtn" title="Download all entries as JSON">⬇️ Export</button>
-    </div>
-    <div class="footer-note">Entries are saved privately in your browser. Only you can see them.</div>
-  </div>
-
-  <script>
-  (function(){
-    const hasLS = (()=>{ 
-      try{
-        const k='__ls_test';
-        localStorage.setItem(k,'1');
-        localStorage.removeItem(k);
-        return true;
-      }catch(e){ 
-        return false; 
-      } 
-    })();
-
-    const qs = sel => document.querySelector(sel);
-    function pad2(n){ return String(n).padStart(2,'0'); }
-    function localISO(d){ return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`; }
-    function prettyDate(d){ return d.toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric"}); }
-
-    const affirmations = [
-      "Every day is a new story. Make this one count.",
-      "You are not your mood, but you can shape your day.",
-      "Focus on what matters, let the rest float by.",
-      "Progress, not perfection.",
-      "You get to choose your next step.",
-      "No feeling is final.",
-      "Kindness to yourself is fuel for growth.",
-      "Write your own plot twist today.",
-      "Your best effort is enough.",
-      "You’re stronger than you think.",
-      "You don’t need to do it all at once.",
-      "Mistakes mean you’re learning.",
-      "Today, find one thing to enjoy.",
-      "You are allowed to take up space.",
-      "Small steps count, too.",
-      "Notice the good—it's there, even in hard days.",
-      "You get to decide who you want to be."
-    ];
-
-    const fields = ["vision","feelings","visuals","actions","gratitude","diary","mood"];
-
-    const dateSelect = qs("#entryDate");
-    const moodSelect = qs("#moodPicker");
-
-    function fillDates(){
-      dateSelect.innerHTML = "";
-      const now = new Date();
-      for(let i=-3;i<=3;i++){
-        const d = new Date(now);
-        d.setDate(now.getDate()+i);
-        const opt = document.createElement("option");
-        opt.value = localISO(d);
-        opt.textContent = prettyDate(d);
-        if(i===0) opt.selected = true;
-        dateSelect.appendChild(opt);
-      }
-    }
-
-    function setAffirmation(dateStr){
-      const idx = Math.floor(new Date(dateStr+"T00:00").getDate() % affirmations.length);
-      qs("#affirmation").textContent = affirmations[idx];
-    }
-
-    function selectMood(mood){
-      if(!moodSelect) return;
-      moodSelect.value = mood || "";
-    }
-
-    function getMood(){
-      return moodSelect ? (moodSelect.value || "") : "";
-    }
-
-    function loadEntry(dateStr){
-      setAffirmation(dateStr);
-      fields.forEach(f=>{
-        const key = "adolj_"+dateStr+"_"+f;
-        const stored = hasLS ? (localStorage.getItem(key) || "") : "";
-        if(f === "mood"){
-          if(stored) selectMood(stored);
-          else selectMood("");
-        }else{
-          const el = qs("#"+f);
-          if(el) el.value = stored;
-        }
-      });
-    }
-
-    function saveEntry(dateStr){
-      if(!hasLS){
-        alert("Saving isn't available in this browser.");
-        return;
-      }
-      fields.forEach(f=>{
-        const key = "adolj_"+dateStr+"_"+f;
-        if(f === "mood"){
-          localStorage.setItem(key, getMood());
-        }else{
-          const el = qs("#"+f);
-          if(el) localStorage.setItem(key, el.value);
-        }
-      });
-      showSaved();
-    }
-
-    function exportAll(){
-      if(!hasLS){
-        alert("Export requires localStorage support.");
-        return;
-      }
-      const dump = {};
-      for(let i=0;i<localStorage.length;i++){
-        const key = localStorage.key(i);
-        if(!key || !key.startsWith("adolj_")) continue;
-        const rest = key.slice("adolj_".length);
-        const parts = rest.split("_");
-        const date = parts[0];
-        const field = parts.slice(1).join("_");
-        dump[date] = dump[date] || {};
-        dump[date][field] = localStorage.getItem(key);
-      }
-      const blob = new Blob([JSON.stringify(dump,null,2)], {type:"application/json"});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "adolescent_journal_export.json";
-      document.body.appendChild(a);
-      a.click();
-      setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); }, 0);
-    }
-
-    // Save-on-change for text fields
-    fields.filter(f=>f!=="mood").forEach(f=>{
-      const el = qs("#"+f);
-      if(!el) return;
-      el.addEventListener("input", ()=>{
-        if(!hasLS) return;
-        const key = "adolj_"+dateSelect.value+"_"+f;
-        localStorage.setItem(key, el.value);
-      });
-    });
-
-    // Mood select: save on change
-    if(moodSelect){
-      moodSelect.addEventListener("change", ()=>{
-        if(!hasLS) return;
-        const key = "adolj_"+dateSelect.value+"_mood";
-        localStorage.setItem(key, getMood());
-      });
-    }
-
-    dateSelect.addEventListener("change", ()=> loadEntry(dateSelect.value));
-    qs("#saveBtn").addEventListener("click", ()=> saveEntry(dateSelect.value));
-    qs("#exportBtn").addEventListener("click", exportAll);
-
-    function showSaved(){
-      const btn = qs("#saveBtn");
-      btn.textContent = "✔️ Saved!";
-      setTimeout(()=>{btn.textContent = "💾 Save";},900);
-    }
-
-    // Boot
-    fillDates();
-    loadEntry(dateSelect.value);
-  })();
-  </script>
+<script>
+const MOODS=[{"emoji": "😃", "label": "Happy", "group": "Bright", "color": "#f4b942"}, {"emoji": "😁", "label": "Excited", "group": "Bright", "color": "#ef7a32"}, {"emoji": "🤩", "label": "Inspired", "group": "Creative", "color": "#8f5dd8"}, {"emoji": "😊", "label": "Content", "group": "Calm", "color": "#63a77a"}, {"emoji": "🥰", "label": "Loved", "group": "Connection", "color": "#d95f8d"}, {"emoji": "😇", "label": "Grateful", "group": "Calm", "color": "#c79a38"}, {"emoji": "😌", "label": "Relaxed", "group": "Calm", "color": "#4f9f95"}, {"emoji": "🌸", "label": "Peaceful", "group": "Calm", "color": "#c86fa5"}, {"emoji": "😴", "label": "Sleepy", "group": "Low Energy", "color": "#6676a5"}, {"emoji": "🧘", "label": "Calm", "group": "Calm", "color": "#4a8f7a"}, {"emoji": "🌙", "label": "Dreamy", "group": "Reflective", "color": "#6e5aa8"}, {"emoji": "🤔", "label": "Thoughtful", "group": "Reflective", "color": "#5f6f9c"}, {"emoji": "📖", "label": "Curious", "group": "Creative", "color": "#3f86b5"}, {"emoji": "🪞", "label": "Reflective", "group": "Reflective", "color": "#6f6a86"}, {"emoji": "🌧️", "label": "Quiet", "group": "Low Energy", "color": "#5d7b92"}, {"emoji": "😐", "label": "Meh", "group": "Low Energy", "color": "#8a8a8a"}, {"emoji": "😕", "label": "Stressed", "group": "Challenging", "color": "#b26a43"}, {"emoji": "😟", "label": "Worried", "group": "Challenging", "color": "#b07a52"}, {"emoji": "😞", "label": "Disappointed", "group": "Challenging", "color": "#786f87"}, {"emoji": "😡", "label": "Upset", "group": "Challenging", "color": "#b94343"}, {"emoji": "😭", "label": "Sad", "group": "Challenging", "color": "#4f6f9f"}, {"emoji": "💪", "label": "Determined", "group": "Resilient", "color": "#b15c34"}, {"emoji": "🔥", "label": "Motivated", "group": "Resilient", "color": "#df6b2f"}, {"emoji": "🦋", "label": "Hopeful", "group": "Resilient", "color": "#4b8fc5"}, {"emoji": "🌈", "label": "Brave", "group": "Resilient", "color": "#9254b8"}, {"emoji": "✨", "label": "Proud", "group": "Resilient", "color": "#c89c2f"}, {"emoji": "🎨", "label": "Creative", "group": "Creative", "color": "#7a4cc2"}, {"emoji": "🎵", "label": "Musical", "group": "Creative", "color": "#ce4b67"}, {"emoji": "🌻", "label": "Playful", "group": "Bright", "color": "#d9a52d"}, {"emoji": "🍀", "label": "Silly", "group": "Bright", "color": "#4c9a58"}, {"emoji": "🦄", "label": "Imaginative", "group": "Creative", "color": "#a45fbd"}],PROMPTS=[{"emoji": "👁️", "title": "Notice", "text": "Describe one small detail from today that most people might have missed."}, {"emoji": "🎨", "title": "Color Memory", "text": "What color best represents today, and what made it feel that way?"}, {"emoji": "🧭", "title": "Direction", "text": "What is one choice that would move you closer to the life you want?"}, {"emoji": "🌿", "title": "Grounding", "text": "What helped you feel steady today?"}, {"emoji": "💡", "title": "Idea Spark", "text": "Write down an idea before deciding whether it is practical."}, {"emoji": "🪞", "title": "Reflection", "text": "What did you learn about yourself today?"}, {"emoji": "🛠️", "title": "Make It Real", "text": "What is the smallest next action you can complete tomorrow?"}, {"emoji": "💬", "title": "Unsaid", "text": "What thought or feeling deserves more honest words?"}, {"emoji": "📸", "title": "Snapshot", "text": "Describe one moment as though you were framing a photograph."}, {"emoji": "🌙", "title": "Release", "text": "What can you set down before tomorrow begins?"}, {"emoji": "✨", "title": "Pride", "text": "What effort are you proud of, even if the result is unfinished?"}, {"emoji": "🤝", "title": "Connection", "text": "Who helped you today, and how might you acknowledge them?"}, {"emoji": "🌀", "title": "Pattern", "text": "What pattern keeps repeating in your thoughts, work, or relationships?"}, {"emoji": "🎭", "title": "Perspective", "text": "How might someone else describe this day differently?"}, {"emoji": "📚", "title": "Story Seed", "text": "Turn one ordinary moment from today into the opening of a story."}],AFFIRMATIONS=["Every day is a new story. Make this one count.", "You are not your mood, but you can listen to what it is telling you.", "Focus on what matters and let the rest wait.", "Progress does not need to be dramatic to be real.", "You get to choose your next step.", "No feeling is final.", "Kindness toward yourself is useful fuel.", "Write your own plot twist today.", "Your honest effort is worth recording.", "You are stronger than this one difficult moment.", "You do not need to do everything at once.", "Mistakes are evidence that you entered the work.", "Find one thing worth noticing today.", "You are allowed to take up thoughtful space.", "Small steps still change direction.", "Notice what is good without denying what is hard.", "You get to decide what you practice becoming."],$=id=>document.getElementById(id),KEY='bazaar-studio-journal-v2';
+const fields=['vision','energy','snapshot','action','gratitude','learning','diary'];
+let state={entries:{},view:'recent',prompt:0};try{state=Object.assign(state,JSON.parse(localStorage.getItem(KEY)||'{}'))}catch{}
+let currentMood='';
+function today(){const d=new Date(),off=d.getTimezoneOffset();return new Date(d.getTime()-off*60000).toISOString().slice(0,10)}
+function saveState(){localStorage.setItem(KEY,JSON.stringify(state));renderArchive();renderStats()}
+function emptyEntry(){return{mood:'',tags:[],favorite:false,updated:null,vision:'',energy:'',snapshot:'',action:'',gratitude:'',learning:'',diary:''}}
+function getEntry(date){return Object.assign(emptyEntry(),state.entries[date]||{})}
+function setAffirm(date){const day=Math.floor(new Date(date+'T00:00').getTime()/86400000);$('affirmation').textContent=AFFIRMATIONS[Math.abs(day)%AFFIRMATIONS.length]}
+function pretty(date){return new Date(date+'T12:00').toLocaleDateString(undefined,{weekday:'long',year:'numeric',month:'long',day:'numeric'})}
+function renderMood(){const e=getEntry($('entryDate').value);currentMood=e.mood||'';$('moodGrid').innerHTML=MOODS.map(m=>`<button class="mood ${currentMood===m.label?'active':''}" data-mood="${m.label}" title="${m.label}" style="--mood:${m.color}">${m.emoji}</button>`).join('');document.querySelectorAll('[data-mood]').forEach(b=>b.onclick=()=>{currentMood=currentMood===b.dataset.mood?'':b.dataset.mood;renderMood();autoSave()});const m=MOODS.find(x=>x.label===currentMood);$('moodLabel').textContent=m?`${m.emoji} ${m.label} · ${m.group}`:'Choose one emoji—or leave it open.'}
+function loadDate(date){$('prettyDate').textContent=pretty(date);setAffirm(date);const e=getEntry(date);fields.forEach(f=>$(f).value=e[f]||'');$('tagInput').value=(e.tags||[]).join(', ');renderMood();$('saveStatus').textContent=e.updated?'Saved '+new Date(e.updated).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}):'Private & local'}
+function collect(){const old=getEntry($('entryDate').value);const e={...old,mood:currentMood,tags:$('tagInput').value.split(',').map(x=>x.trim()).filter(Boolean),updated:new Date().toISOString()};fields.forEach(f=>e[f]=$(f).value);return e}
+let timer=null;function autoSave(){clearTimeout(timer);timer=setTimeout(()=>{const date=$('entryDate').value;state.entries[date]=collect();localStorage.setItem(KEY,JSON.stringify(state));$('saveStatus').textContent='Autosaved';renderStats()},300)}
+function manualSave(){const date=$('entryDate').value;state.entries[date]=collect();saveState();$('saveStatus').textContent='Saved locally ✓'}
+function renderPrompt(){const p=PROMPTS[state.prompt%PROMPTS.length];$('promptTitle').textContent=`${p.emoji} ${p.title}`;$('promptText').textContent=p.text}
+function renderArchive(){const q=$('search').value.trim().toLowerCase();let list=Object.entries(state.entries).map(([date,e])=>({date,...getEntry(date)})).filter(e=>Object.values(e).join(' ').toLowerCase().includes(q));if(state.view==='favorites')list=list.filter(e=>e.favorite);list.sort((a,b)=>b.date.localeCompare(a.date));if(state.view==='moods'){const counts={};list.forEach(e=>{if(e.mood)counts[e.mood]=(counts[e.mood]||0)+1});$('archive').innerHTML=Object.entries(counts).sort((a,b)=>b[1]-a[1]).map(([m,n])=>{const x=MOODS.find(z=>z.label===m);return `<article class="entry"><div class="entry-head"><strong>${x?x.emoji:'•'} ${m}</strong><small>${n} entr${n===1?'y':'ies'}</small></div></article>`}).join('')||'<article class="entry">No mood history yet.</article>';return}$('archive').innerHTML=list.map(e=>`<article class="entry" data-date="${e.date}"><div class="entry-head"><strong>${e.favorite?'★ ':''}${e.mood?(MOODS.find(x=>x.label===e.mood)?.emoji||'')+' ':''}${pretty(e.date)}</strong><small>${e.updated?new Date(e.updated).toLocaleDateString():''}</small></div>${e.vision?`<p>${e.vision.slice(0,140)}</p>`:''}${(e.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}</article>`).join('')||'<article class="entry">No saved entries match this view.</article>';document.querySelectorAll('[data-date]').forEach(el=>el.onclick=()=>{$('entryDate').value=el.dataset.date;loadDate(el.dataset.date);window.scrollTo({top:document.querySelector('.shell').offsetTop,behavior:'smooth'})})}
+function renderStats(){const es=Object.entries(state.entries).map(([date,e])=>({date,...e})).filter(x=>fields.some(f=>x[f])||x.mood);$('entryStat').textContent=es.length;$('moodStat').textContent=es.filter(x=>x.mood).length;$('favoriteStat').textContent=es.filter(x=>x.favorite).length;const dates=es.map(x=>x.date).sort().reverse();let streak=0,cur=new Date();for(let i=0;i<7;i++){const d=new Date(cur);d.setDate(cur.getDate()-i);const key=d.toLocaleDateString('en-CA');if(dates.includes(key))streak++;else if(i>0)break}$('streakStat').textContent=streak}
+$('entryDate').value=today();$('entryDate').onchange=e=>loadDate(e.target.value);fields.forEach(f=>$(f).oninput=autoSave);$('tagInput').oninput=autoSave;$('save').onclick=manualSave;$('randomPrompt').onclick=()=>{state.prompt=Math.floor(Math.random()*PROMPTS.length);saveState();renderPrompt()};$('insertPrompt').onclick=()=>{$('diary').value+=($('diary').value?'\n\n':'')+PROMPTS[state.prompt].text+'\n';autoSave()};$('search').oninput=renderArchive;
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{state.view=b.dataset.view;saveState();document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b))});
+$('favoriteCurrent').onclick=()=>{const date=$('entryDate').value,stateEntry=collect();stateEntry.favorite=!stateEntry.favorite;state.entries[date]=stateEntry;saveState()};
+$('deleteCurrent').onclick=()=>{const date=$('entryDate').value;if(confirm('Delete this journal entry from this device?')){delete state.entries[date];saveState();loadDate(date)}};
+$('print').onclick=()=>window.print();$('export').onclick=()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='bazaar_art_studio_journal.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
+$('importBtn').onclick=()=>$('importFile').click();$('importFile').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{state=Object.assign(state,JSON.parse(r.result));saveState();loadDate($('entryDate').value)}catch{alert('That file could not be imported.')}};r.readAsText(f)};
+renderPrompt();loadDate($('entryDate').value);renderArchive();renderStats();
+</script>
 </body>
 </html>
