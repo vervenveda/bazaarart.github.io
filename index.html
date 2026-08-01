@@ -6,6 +6,8 @@
 <meta name="description" content="Bazaar Art — a clean, artistic, local-first creative resource atlas for artists, students, educators, families, and communities.">
 <meta name="theme-color" content="#f7f1e6">
 <meta name="color-scheme" content="light">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=()">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'none'; media-src 'self'; object-src 'none'; frame-src 'none'; worker-src 'none'; base-uri 'none'; form-action 'none';">
 <title>Bazaar Art | The Creative Resource Atlas</title>
 <style>
@@ -186,6 +188,17 @@ main{overflow:hidden}
 .drawer-group{margin:17px 0 7px;color:var(--rose);font-family:var(--ceremonial);font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
 .drawer-link small{line-height:1.35}
 .audit-note{font-size:.76rem;color:var(--muted);text-align:center;margin-top:14px}
+.app-card.repair{border-style:dashed;background:#fffaf5;box-shadow:none}
+.app-card.repair:hover{transform:none;border-color:var(--coral);box-shadow:none}
+.app-card.repair .app-icon{background:var(--coral)}
+.repair-badge{display:inline-flex;width:max-content;margin:13px auto 0;padding:5px 8px;border:1px solid rgba(228,110,75,.35);background:#fff2ec;color:#9b3e25;font-size:.66rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase}
+.repair-note{color:#7c5549!important}
+.app-meta.repair-status{color:#9b3e25;border-top:1px dashed rgba(228,110,75,.35);cursor:not-allowed}
+.app-meta.repair-status:hover{transform:none}
+.network-card.setup,.connected-card.blocked{cursor:not-allowed}
+.connected-card.blocked{border-style:dashed;background:#fffaf5}
+.link-policy-note{margin:16px 0 0;color:var(--muted);font-size:.76rem;text-align:center}
+
 @media(max-width:980px){
   .connected-grid,.future-grid{grid-template-columns:repeat(2,1fr)}
   .hero-notes{grid-template-columns:repeat(2,1fr)}
@@ -207,11 +220,12 @@ main{overflow:hidden}
 <div class="color-rule"></div>
 <header class="site-header">
   <div class="header-inner">
-    <a class="brand" href="#top" aria-label="Bazaar Art home">
+    <a class="brand" href="https://vervenveda.github.io/bazaarart.github.io/" aria-label="Bazaar Art GitHub Pages home">
       <span class="brand-mark" aria-hidden="true"><span class="m1"></span><span class="m2"></span><span class="m3"></span><span class="m4"></span></span>
       <span class="brand-copy"><span class="brand-name">Bazaar Art</span><span class="brand-sub">The Creative Resource Atlas</span></span>
     </a>
     <div class="header-actions">
+      <a class="header-link" href="https://vervenveda.github.io/" target="_blank" rel="noopener noreferrer">Matrix Home</a>
       <a class="header-link" href="#pathways">Pathways</a>
       <a class="header-link" href="#directory">Creative Apps</a>
       <a class="header-link" href="#connected">Connected Studios</a>
@@ -233,17 +247,17 @@ main{overflow:hidden}
       <button class="button button-secondary" id="randomHero" type="button">Surprise Me ✦</button>
     </div>
     <div class="hero-notes">
-      <div class="hero-note"><strong id="appCount">43</strong><span>Bazaar Art applications</span></div>
+      <div class="hero-note"><strong id="appCount">39</strong><span>verified Bazaar Art applications</span></div>
       <div class="hero-note"><strong id="connectedCount">18</strong><span>verified connected studios</span></div>
-      <div class="hero-note"><strong id="collectionCount">7</strong><span>organized local collections</span></div>
-      <div class="hero-note"><strong>Local</strong><span>private, tracker-free creative work</span></div>
+      <div class="hero-note"><strong id="repairCount">4</strong><span>pages held safely for repair</span></div>
+      <div class="hero-note"><strong>GitHub</strong><span>repository-verified public links only</span></div>
     </div>
   </div>
 </section>
 
 <section class="section" id="pathways">
   <div class="section-inner">
-    <div class="section-heading"><p class="kicker">Choose a direction</p><h2>Creative pathways</h2><p class="section-intro">Begin with the kind of room you need. Each doorway filters the complete verified application directory below.</p></div>
+    <div class="section-heading"><p class="kicker">Choose a direction</p><h2>Creative pathways</h2><p class="section-intro">Begin with the kind of room you need. Each doorway filters the audited application directory below. Repair records remain visible for planning but cannot be opened, featured, or randomly selected.</p></div>
     <div class="pathway-grid" id="pathwayGrid"></div>
   </div>
 </section>
@@ -257,7 +271,7 @@ main{overflow:hidden}
 
 <section class="section" id="directory">
   <div class="section-inner">
-    <div class="section-heading"><p class="kicker">Verified repository directory</p><h2>Creative apps & studios</h2><p class="section-intro">The first directory contains the 43 applications housed in Bazaar Art. A separate connected-studios registry below identifies creative tools that live in other Verve N Veda repositories.</p></div>
+    <div class="section-heading"><p class="kicker">Verified repository directory</p><h2>Creative apps & studios</h2><p class="section-intro">The directory contains 39 verified live applications housed in Bazaar Art, with four incomplete files retained as clearly marked repair records. A separate connected-studios registry below identifies verified creative tools in other Verve N Veda repositories.</p></div>
     <div class="directory-shell">
       <div class="directory-tools">
         <label class="search-wrap"><span style="position:absolute;left:-9999px">Search creative apps</span><input id="search" type="search" placeholder="Search sketching, color, journals, music, prompts…" autocomplete="off"></label>
@@ -289,7 +303,7 @@ main{overflow:hidden}
     <div class="section-heading"><p class="kicker">A changing studio spotlight</p><h2>Studio of the day</h2><p class="section-intro">A different verified creative application is featured each day without requiring a manual homepage update.</p></div>
     <div class="featured-grid">
       <article class="featured-card"><p class="kicker" style="color:#fff">Today’s creative doorway</p><h3 id="featuredTitle"></h3><p id="featuredDescription"></p><a class="button" id="featuredLink" href="apps/Art_simple_color_studio_index.html">Open the Studio</a></article>
-      <aside class="archive-note"><p class="kicker">Music has a new home</p><h3>The Refrain carries the music world forward.</h3><p>Bazaar Art preserves its original music tools as an archive while The Refrain provides the dedicated public conservatory for current workshops, composition, performance, and music research.</p><a class="button button-secondary" href="https://vervenveda.github.io/the_refrain.github.io/">Open The Refrain ↗</a></aside>
+      <aside class="archive-note"><p class="kicker">Music has a new home</p><h3>The Refrain carries the music world forward.</h3><p>Bazaar Art preserves its original music tools as an archive while The Refrain provides the dedicated public conservatory for current workshops, composition, performance, and music research.</p><a class="button button-secondary verified-external" href="https://vervenveda.github.io/the_refrain.github.io/" target="_blank" rel="noopener noreferrer">Open The Refrain ↗</a></aside>
     </div>
   </div>
 </section>
@@ -309,6 +323,7 @@ main{overflow:hidden}
     </div>
     <div class="connected-filters" id="connectedFilters"></div>
     <div class="connected-grid" id="connectedGrid"></div>
+    <p class="link-policy-note"><strong>Link policy:</strong> Connected-studio buttons are restricted to verified <code>vervenveda.github.io</code> repository pages. Custom campaign and personal domains are not used.</p>
     <div class="empty-state" id="connectedEmpty" hidden><strong>No connected studios match that search.</strong><div>Try another word or repository.</div></div>
   </div>
 </section>
@@ -328,10 +343,11 @@ main{overflow:hidden}
   <div class="section-inner">
     <div class="section-heading"><p class="kicker">Connected creative world</p><h2>Explore the wider network</h2><p class="section-intro">Public and developing destinations connect artists with learning, music, professional tools, archives, play, science, civic life, health, and environmental stewardship.</p></div>
     <div class="network-grid" id="networkGrid"></div>
+    <p class="link-policy-note"><strong>Home-page policy:</strong> Every live home card opens its verified GitHub Pages landing page. Unpublished repositories remain non-clickable.</p>
   </div>
 </section>
 
-<section class="section alt"><div class="section-inner"><div class="privacy"><strong>Sovereign by design.</strong><span>No accounts, advertising, analytics, remote fonts, or required external scripts. Studio Shelf selections remain in this browser.</span></div></div></section>
+<section class="section alt"><div class="section-inner"><div class="privacy"><strong>Sovereign by design.</strong><span>No accounts, advertising, analytics, remote fonts, or required external scripts. Public buttons are restricted to verified Verve N Veda GitHub Pages destinations; Studio Shelf selections remain in this browser.</span></div></div></section>
 </main>
 
 <footer class="site-footer"><div class="footer-inner"><div><div class="footer-title">Bazaar Art</div><div class="footer-meta">Creative Community · Learning · Studios · Artist Resources · Verve N Veda</div></div><div class="footer-meta">© <span id="year"></span> · <a href="#top">Top</a> · <a href="#directory">Directory</a> · <a href="#connected">Connected Studios</a></div></div></footer>
@@ -348,6 +364,19 @@ main{overflow:hidden}
 "use strict";
 
 const apps=[{"id":"simple-color","title":"Simple Color Studio","path":"apps/Art_simple_color_studio_index.html","category":"Art Studios & Tools","level":"Discover","icon":"◐","description":"An approachable studio for exploring color, relationships, and visual play."},{"id":"sagaen","title":"Sagaen™ Art Studio","path":"apps/art_tool_Sagaen™_art_studio_index.html","category":"Art Studios & Tools","level":"Create","icon":"✦","description":"A signature sovereign studio for expressive digital artmaking."},{"id":"advanced-sketch","title":"Advanced Sketch","path":"apps/art_tool_advanced_sketch_index.html","category":"Art Studios & Tools","level":"Create","icon":"✒","description":"An expanded sketching workspace for refined drawing, studies, and observation."},{"id":"color-studio","title":"Color Studio","path":"apps/art_tool_color_studio_index.html","category":"Art Studios & Tools","level":"Build","icon":"◉","description":"Mix, compare, save, and develop intentional color palettes."},{"id":"sketch-lab","title":"Sketch Lab","path":"apps/art_tool_sketch_lab_index.html","category":"Art Studios & Tools","level":"Build","icon":"✎","description":"Practice line, form, value, mark-making, and visual experiments."},{"id":"trace-draw","title":"Trace & Draw","path":"apps/art_tool_trace_draw_index.html","category":"Art Studios & Tools","level":"Discover","icon":"△","description":"Build confidence through tracing, observation, and guided drawing."},{"id":"art-resources","title":"Art Resources","path":"apps/Art_resources_index.html","category":"Art Classes & Learning","level":"All Levels","icon":"▤","description":"A broad doorway into practical art references, materials, and creative support."},{"id":"art-101","title":"Art 101","path":"apps/Class_art_101_index.html","category":"Art Classes & Learning","level":"Discover","icon":"101","description":"Foundational art instruction for beginning learners."},{"id":"art-201","title":"Art 201","path":"apps/Class_art_201_index.html","category":"Art Classes & Learning","level":"Build","icon":"201","description":"Intermediate study for strengthening technique, composition, and visual language."},{"id":"art-301","title":"Art 301","path":"apps/Class_art_301_index.html","category":"Art Classes & Learning","level":"Create","icon":"301","description":"Advanced study focused on original work, artistic voice, and presentation."},{"id":"art-education","title":"Art Education Portal","path":"apps/Class_art_education_portal_index.html","category":"Art Classes & Learning","level":"All Levels","icon":"⌂","description":"A structured gateway into courses, curriculum, and creative development."},{"id":"art-hall","title":"Art Hall","path":"apps/Class_art_hall_index.html","category":"Art Classes & Learning","level":"All Levels","icon":"▥","description":"A comprehensive hall for art history, study, and discovery."},{"id":"elementary-atlas","title":"Elementary Art Atlas","path":"apps/Elementary_Art_Atlas_index.html","category":"Art Classes & Learning","level":"Discover","icon":"✿","description":"A clear, child-friendly atlas of art foundations and creative exploration."},{"id":"mirror-me","title":"Mirror Me","path":"apps/Game_kids_mirror_me_index.html","category":"Creative Games & Prompts","level":"Discover","icon":"◇","description":"A playful creativity, movement, and symmetry experience for younger artists."},{"id":"palette-forge","title":"Palette Forge","path":"apps/Game_palette_forge_index.html","category":"Creative Games & Prompts","level":"Discover","icon":"◒","description":"A color-focused creative game for forging new palettes."},{"id":"geometry-sanctuary","title":"Geometry Sanctuary","path":"apps/Geometry_sancturay_index.html","category":"Creative Games & Prompts","level":"All Levels","icon":"△","description":"Explore geometry, pattern, balance, and visual harmony."},{"id":"creator-quiz","title":"What Kind of Creator?","path":"apps/Inspiration_Kind_of_Creator_index.html","category":"Creative Games & Prompts","level":"Discover","icon":"⌖","description":"Discover creative tendencies, strengths, and possible pathways."},{"id":"inspiration-wheel","title":"Inspiration Wheel","path":"apps/Inspiration_wheel_index.html","category":"Creative Games & Prompts","level":"All Levels","icon":"✺","description":"Spin for a fresh prompt, subject, mood, or creative direction."},{"id":"spinspire","title":"SpinSpire Art Prompt Generator","path":"apps/SpinSpire_Art_Prompt_Generator_index.html","category":"Creative Games & Prompts","level":"All Levels","icon":"◎","description":"Generate layered prompts for drawing, painting, writing, and mixed media."},{"id":"sixbitbun","title":"SixBitBun","path":"apps/SixBitBun_index.html","category":"Creative Games & Prompts","level":"Discover","icon":"6","description":"A compact creative mini-game for playful experimentation."},{"id":"word-alchemy","title":"Word Alchemy","path":"apps/Word_alchemy_game_index.html","category":"Creative Games & Prompts","level":"All Levels","icon":"Aa","description":"Transform words into unexpected combinations, prompts, and story sparks."},{"id":"prose-journal","title":"PROSE Journal & Editing Suite","path":"apps/Journal_prose_editing_suite_index.html","category":"Writing & Journals","level":"Professional","icon":"¶","description":"A private writing and editing environment for stories, statements, and creative prose."},{"id":"teen-boys","title":"Teen Journal — Boys","path":"apps/Journal_teen_boys_index.html","category":"Writing & Journals","level":"Discover","icon":"J","description":"A private reflective journal designed for teen voices and personal growth."},{"id":"teen-girls","title":"Teen Journal — Girls","path":"apps/Journal_teen_girls_index.html","category":"Writing & Journals","level":"Discover","icon":"J","description":"A private reflective journal designed for teen voices and personal growth."},{"id":"kindness","title":"Act of Kindness","path":"apps/Act_of_Kindness_index.html","category":"Inspiration & Wellbeing","level":"All Levels","icon":"♡","description":"A gentle creative kindness activity and reflection space."},{"id":"affirmations","title":"Affirmations","path":"apps/Affirmations_index.html","category":"Inspiration & Wellbeing","level":"Discover","icon":"☀","description":"Positive affirmations for confidence, calm, and creative momentum."},{"id":"affirmations-dark","title":"Forge Affirmations — Dark","path":"apps/Forge_affirmations_dark_index.html","category":"Inspiration & Wellbeing","level":"Build","icon":"◆","description":"A darker, focused affirmation forge for strength and reflection."},{"id":"affirmations-zen","title":"Forge Affirmations — Zen","path":"apps/Forge_affirmations_zen_index.html","category":"Inspiration & Wellbeing","level":"Discover","icon":"○","description":"A quiet affirmation forge for calm, presence, and clarity."},{"id":"photo-album","title":"Photo Album Studio","path":"apps/Photo_Album_Studio/index.html","category":"Media & Memory","level":"All Levels","icon":"▣","description":"Collect, arrange, caption, preserve, and present images locally."},{"id":"music-hall","title":"Music Hall Archive","path":"apps/Class_music_hall_index.html","category":"Music Archive","level":"All Levels","icon":"♫","description":"A preserved Bazaar Art doorway into music learning and exploration."},{"id":"music-reading","title":"Music Reading 101 Archive","path":"apps/Class_music_reading_101_index.html","category":"Music Archive","level":"Discover","icon":"♪","description":"Beginning music reading, notes, rhythm, and notation."},{"id":"music-staff-class","title":"Music Staff Class Archive","path":"apps/Class_music_staff_index.html","category":"Music Archive","level":"Build","icon":"𝄞","description":"Practice note placement and fluency on the musical staff."},{"id":"music-theory","title":"Music Theory 201 Archive","path":"apps/Class_music_theory_201_index.html","category":"Music Archive","level":"Build","icon":"♬","description":"Intermediate music theory, structure, intervals, and harmony."},{"id":"staff-studio","title":"Staff Studio","path":"apps/composition/staff-studio_index.html","category":"Music Archive","level":"Build","icon":"𝄚","description":"Compose and practice directly on a musical staff."},{"id":"vivoser","title":"Vivoser Composer","path":"apps/composition/vivoser-composer_index.html","category":"Music Archive","level":"Create","icon":"𝄢","description":"Compose and shape original musical ideas in a focused workspace."},{"id":"mini-keyboard","title":"Mini Keyboard","path":"apps/instruments/mini-keyboard_index.html","category":"Music Archive","level":"Discover","icon":"▦","description":"A simple keyboard for notes, melodies, and play."},{"id":"mini-spinet","title":"Mini Spinet","path":"apps/instruments/mini-spinet_index.html","category":"Music Archive","level":"Discover","icon":"▧","description":"A compact spinet for quick musical experimentation."},{"id":"modern-spinet","title":"Modern Spinet","path":"apps/instruments/modern-spinet_index.html","category":"Music Archive","level":"Create","icon":"▥","description":"A modern digital spinet with contemporary creative controls."},{"id":"pro-keyboard","title":"Pro Keyboard","path":"apps/instruments/pro-keyboard_index.html","category":"Music Archive","level":"Professional","icon":"▦","description":"An expanded keyboard environment for advanced music creation."},{"id":"vintage-spinet","title":"Vintage Spinet","path":"apps/instruments/vintage-spinet_index.html","category":"Music Archive","level":"Create","icon":"▤","description":"A vintage-inspired digital keyboard and music-making space."},{"id":"song-embedder","title":"Song Embedder","path":"apps/publishing/song-embedder_index.html","category":"Music Archive","level":"Professional","icon":"◖","description":"Prepare and present songs within a sovereign local page."},{"id":"dual-frequency","title":"Dual Frequency","path":"apps/sound-labs/dual-frequency_index.html","category":"Music Archive","level":"Create","icon":"≈","description":"Explore two frequencies together through sound and comparison."},{"id":"frequency-tuner","title":"Frequency Tuner","path":"apps/sound-labs/frequency-tuner_index.html","category":"Music Archive","level":"Build","icon":"∿","description":"Explore tuning, pitch, and musical frequency relationships."}];
+const REPAIR_NOTES={
+  "art-101":"The repository file is only a short text placeholder and needs a complete HTML page.",
+  "art-201":"The repository file contains course notes rather than a standalone HTML page.",
+  "art-301":"The repository file contains course notes rather than a standalone HTML page.",
+  "vivoser":"The repository file begins as an embedded game fragment and needs a complete document shell."
+};
+apps.forEach(app=>{
+  app.status=REPAIR_NOTES[app.id]?"repair":"live";
+  if(REPAIR_NOTES[app.id])app.repairNote=REPAIR_NOTES[app.id];
+});
+const liveApplications=()=>apps.filter(app=>app.status==="live");
+const repairApplications=()=>apps.filter(app=>app.status==="repair");
+
 const connectedStudios=[{"id":"preschool-color-studio","title":"Color Studio Garden","url":"https://vervenveda.github.io/Khaemenes_Preschool.github.io/apps/Art_color_studio/index.html","source":"Khaemenes Preschool","discipline":"Young Artists","level":"Discover","icon":"✿","description":"A private preschool art studio with drawing tools, stamps, shapes, symmetry, prompts, local gallery storage, and PNG export."},{"id":"preschool-color-match","title":"Color Match Game","url":"https://vervenveda.github.io/Khaemenes_Preschool.github.io/apps/Art_match_colors_index.html","source":"Khaemenes Preschool","discipline":"Young Artists","level":"Discover","icon":"◉","description":"A simple early-learning game for recognizing and matching colors."},{"id":"preschool-color-mixing","title":"Rainbow Mixing Laboratory","url":"https://vervenveda.github.io/Khaemenes_Preschool.github.io/apps/Art_color_mixing_index.html","source":"Khaemenes Preschool","discipline":"Young Artists","level":"Discover","icon":"◐","description":"Explore primary and secondary colors, tints, shades, challenges, free play, speech, and local progress."},{"id":"preschool-little-museum","title":"Little Tykes World Art Museum","url":"https://vervenveda.github.io/Khaemenes_Preschool.github.io/apps/Art_little_museum_index.html","source":"Khaemenes Preschool","discipline":"Museums & Culture","level":"Discover","icon":"▥","description":"A child-friendly doorway to free online museum and art resources from around the world."},{"id":"preschool-drawing-lab","title":"PEL™ Personal Editing Lab — Pre-K","url":"https://vervenveda.github.io/Khaemenes_Preschool.github.io/apps/art_drawing_tool_index.html","source":"Khaemenes Preschool","discipline":"Young Artists","level":"Discover","icon":"✎","description":"A younger-learner drawing and personal editing workspace."},{"id":"academy-sagaen","title":"Sagaen™ Studio — Academy Edition","url":"https://vervenveda.github.io/Khaemenes_Academy.github.io/Parent_resources/Art_studio_index.html","source":"Khaemenes Academy","discipline":"Digital Studio","level":"Create","icon":"✦","description":"A full canvas studio with brushes, image adjustments, undo and redo, zoom, titles, and image export."},{"id":"aurora-color-alchemist","title":"Studio Quest — The Color Alchemist","url":"https://vervenveda.github.io/aurora.github.io/apps/color_alchemy_index.html","source":"Aurora Sanctuary","discipline":"Color & Reflection","level":"Build","icon":"◎","description":"Match RGB hues through a reflective color-harmony challenge with local progress."},{"id":"arcade-color-clash","title":"Color Clash","url":"https://vervenveda.github.io/arcade.github.io/a_color_clash_game_index.html","source":"Arcade","discipline":"Creative Games","level":"Build","icon":"◆","description":"A responsive color-and-reaction duel with selectable rules, adaptive play, and local records."},{"id":"arcade-colorshift","title":"ColorShift Cascades","url":"https://vervenveda.github.io/arcade.github.io/a_colorshift_cascade_game_index.html","source":"Arcade","discipline":"Creative Games","level":"Discover","icon":"◈","description":"A shifting visual color challenge built around attention, matching, and cascading patterns."},{"id":"arcade-critter-crafter","title":"Critter Crafter Creature Laboratory","url":"https://vervenveda.github.io/arcade.github.io/a_critter_crafter_game_index.html","source":"Arcade","discipline":"Character Design","level":"Create","icon":"◇","description":"Fuse, evolve, care for, and catalog original creatures in a local-first visual bestiary."},{"id":"arcade-mandala-rings","title":"Mandala Rings","url":"https://vervenveda.github.io/arcade.github.io/a_mandala_rings_game_index.html","source":"Arcade","discipline":"Pattern & Geometry","level":"Build","icon":"◌","description":"A strategic pattern studio with symmetry scoring, local favorites, and multiple play phases."},{"id":"arcade-sacred-geometry","title":"Sacred Geometry Sanctuary","url":"https://vervenveda.github.io/arcade.github.io/a_sacred_geometry_game_index.html","source":"Arcade","discipline":"Pattern & Geometry","level":"Create","icon":"△","description":"An intention-driven radial mandala studio and tactical geometry experience with editable layers and exports."},{"id":"arcade-geometry-guide","title":"Geometry Sanctuary Player Guide","url":"https://vervenveda.github.io/arcade.github.io/a_geometry_sanctuary_game_index.html","source":"Arcade","discipline":"Pattern & Geometry","level":"All Levels","icon":"▤","description":"A companion guide to the geometry sanctuary, its visual language, and player pathways."},{"id":"arcade-palette-quest","title":"Palette Quest","url":"https://vervenveda.github.io/arcade.github.io/games/kids/Palette_Quest_index.html","source":"Arcade","discipline":"Young Artists","level":"Discover","icon":"◒","description":"A bright color-learning quest for younger creators."},{"id":"arcade-pattern-pirates","title":"Pattern Pirates","url":"https://vervenveda.github.io/arcade.github.io/games/kids/Pattern_Pirates_index.html","source":"Arcade","discipline":"Pattern & Geometry","level":"Discover","icon":"✣","description":"Find, extend, and understand visual sequences through a playful pirate challenge."},{"id":"pro-bazaar-live","title":"Bazaar Art Live 333 Social Feed","url":"https://vervenveda.github.io/proresource_hub.github.io/Protools/Bazaar%20Art%20Live%20333%20Social%20Feedindex.html","source":"ProReSources","discipline":"Creative Community","level":"Professional","icon":"333","description":"A creative social-feed prototype for artist posts, conversation, community, and live cultural activity."},{"id":"pro-fleapit","title":"FleaPit™ Media Hub","url":"https://vervenveda.github.io/proresource_hub.github.io/Protools/FleaPit%E2%84%A2_media_hub_Index.html","source":"ProReSources","discipline":"Film & Media","level":"All Levels","icon":"▶","description":"A gateway to free films, documentaries, lectures, music, archives, family media, and public-domain sources."},{"id":"pro-prose","title":"PROSE™ Sovereign Editorial Suite","url":"https://vervenveda.github.io/proresource_hub.github.io/Protools/PROSE%E2%84%A2%20editingsuite_index.html","source":"ProReSources","discipline":"Writing & Publishing","level":"Professional","icon":"¶","description":"A local-first professional environment for drafting, formatting, organizing, reviewing, preserving, and exporting writing."}];
 const networks=[{"title":"Verve N Veda","url":"https://vervenveda.github.io/","description":"The public gateway to the complete Verve N Veda network.","mark":"V","status":"Live"},{"title":"My Art Gallery","url":"","description":"Portfolio and gallery repository awaiting a published landing page.","mark":"▣","status":"Setup"},{"title":"The Refrain","url":"https://vervenveda.github.io/the_refrain.github.io/","description":"Music learning, composition, instruments, performance, and recording.","mark":"𝄞","status":"Live"},{"title":"Khaemenes Academy","url":"https://vervenveda.github.io/Khaemenes_Academy.github.io/","description":"Learning pathways and creative education across ages.","mark":"K","status":"Live"},{"title":"Khaemenes Preschool","url":"https://vervenveda.github.io/Khaemenes_Preschool.github.io/","description":"Bright early-learning art, literacy, music, and discovery rooms.","mark":"P","status":"Live"},{"title":"Arcade","url":"https://vervenveda.github.io/arcade.github.io/","description":"Games, puzzles, visual laboratories, creativity, and learning through play.","mark":"◆","status":"Live"},{"title":"ProReSources","url":"https://vervenveda.github.io/proresource_hub.github.io/","description":"Professional media, editorial, communication, and production tools.","mark":"PR","status":"Live"},{"title":"ARSHIF Archives","url":"https://vervenveda.github.io/Arshif.github.io/","description":"Research, history, culture, art, human memory, and deep-study collections.","mark":"A","status":"Live"},{"title":"Aurora Sanctuary","url":"https://vervenveda.github.io/aurora.github.io/","description":"Reflection, restoration, color, creativity, and personal renewal.","mark":"○","status":"Live"},{"title":"Solanar Observatory","url":"https://vervenveda.github.io/solanar.github.io/","description":"Weather, Earth systems, lunar study, environment, and visual science.","mark":"S","status":"Live"},{"title":"The Verifier","url":"https://vervenveda.github.io/theverifier.github.io/","description":"Research, information literacy, news, and source verification.","mark":"✓","status":"Live"},{"title":"River to Road","url":"https://vervenveda.github.io/river_to_road.github.io/","description":"Environmental stewardship, cleanup, community action, and public inspiration.","mark":"R","status":"Live"},{"title":"One Nation For All","url":"https://vervenveda.github.io/onenationforall.github.io/","description":"Civic learning, public ideas, campaigns, and community participation.","mark":"1","status":"Live"},{"title":"Medicament Hub","url":"https://vervenveda.github.io/medicament-hub.github.io/","description":"Health literacy and whole-person medical education resources.","mark":"+","status":"Live"}];
 const futureCollections=[{"title":"Photography Laboratory","mark":"◉","description":"Camera literacy, composition, lighting, portraiture, documentary work, editing, and ethical image practice."},{"title":"Animation & Motion Studio","mark":"▶","description":"Storyboards, frame-by-frame animation, motion graphics, stop motion, and visual timing."},{"title":"Sculpture & 3D Workshop","mark":"◇","description":"Clay, carving, assemblage, found objects, model making, and spatial design."},{"title":"Textile & Fashion Atelier","mark":"✦","description":"Fiber arts, sewing, pattern design, wearable art, costume, and sustainable fashion."},{"title":"Printmaking House","mark":"▦","description":"Relief, monotype, screen printing, stamps, editions, and safe studio methods."},{"title":"Ceramics Hall","mark":"○","description":"Hand building, wheel work, glazing, firing literacy, surface design, and vessel traditions."},{"title":"Architecture & Interiors","mark":"⌂","description":"Space planning, architectural drawing, models, materials, interiors, and human-centered design."},{"title":"Public Art & Murals","mark":"▥","description":"Community murals, permissions, site plans, materials, budgeting, stewardship, and public storytelling."},{"title":"Exhibition Builder","mark":"▣","description":"Curatorial themes, wall plans, labels, accessible interpretation, installation, and virtual exhibitions."},{"title":"Art Business Studio","mark":"$","description":"Portfolios, pricing, commissions, contracts, licensing, grants, calls for art, and professional records."},{"title":"Accessible Art Experience","mark":"∞","description":"Alt text, tactile interpretation, audio description, inclusive exhibitions, and multisensory access."},{"title":"Community Art Exchange","mark":"↔","description":"Collaborative projects, artist circles, critique, shared prompts, public challenges, and cultural exchange."}];
@@ -387,12 +416,25 @@ let lastFocused=null;
 const $=id=>document.getElementById(id);
 const escapeHtml=value=>String(value).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
 const localHref=path=>path.split("/").map((part,index)=>index===0?part:encodeURIComponent(part)).join("/");
-const safeExternal=url=>{try{const parsed=new URL(url);return parsed.protocol==="https:"?parsed.href:"#";}catch{return "#";}};
+const APPROVED_GITHUB_PAGES_REPOS=new Set([
+  "bazaarart.github.io","the_refrain.github.io","Khaemenes_Academy.github.io",
+  "Khaemenes_Preschool.github.io","arcade.github.io","proresource_hub.github.io",
+  "Arshif.github.io","aurora.github.io","solanar.github.io","theverifier.github.io",
+  "river_to_road.github.io","onenationforall.github.io","medicament-hub.github.io"
+]);
+const safeExternal=url=>{
+  try{
+    const parsed=new URL(url,location.href);
+    if(parsed.protocol!=="https:"||parsed.hostname!=="vervenveda.github.io")return "#";
+    const first=parsed.pathname.split("/").filter(Boolean)[0]||"";
+    return parsed.pathname==="/"||APPROVED_GITHUB_PAGES_REPOS.has(first)?parsed.href:"#";
+  }catch{return "#";}
+};
 
 function readSaved(){
   try{
     const parsed=JSON.parse(localStorage.getItem("bazaarArtStudioShelfV3")||"[]");
-    return new Set(Array.isArray(parsed)?parsed.filter(id=>apps.some(app=>app.id===id)):[]);
+    return new Set(Array.isArray(parsed)?parsed.filter(id=>apps.some(app=>app.id===id&&app.status==="live")):[]);
   }catch{return new Set();}
 }
 const saved=readSaved();
@@ -412,15 +454,15 @@ function filteredApps(query=$("search").value){
   return sortApps(apps.filter(app=>{
     const categoryOK=activeCategory==="All"||app.category===activeCategory;
     const levelOK=activeLevel==="All Levels"||app.level===activeLevel||app.level==="All Levels";
-    const savedOK=!savedOnly||saved.has(app.id);
+    const savedOK=!savedOnly||(app.status==="live"&&saved.has(app.id));
     const text=`${app.title} ${app.category} ${app.level} ${app.description}`.toLowerCase();
     return categoryOK&&levelOK&&savedOK&&(!q||text.includes(q));
   }));
 }
 function renderPathways(){
   $("pathwayGrid").innerHTML=categoryOrder.map(category=>{
-    const meta=categoryMeta[category],count=apps.filter(a=>a.category===category).length;
-    return `<article class="pathway" style="--accent:${meta.accent}"><span class="pathway-mark">${meta.mark}</span><h3>${escapeHtml(meta.label)}</h3><p>${escapeHtml(category)} · ${count} Bazaar Art doorway${count===1?"":"s"}</p><button type="button" data-path-category="${escapeHtml(category)}">Enter this pathway →</button></article>`;
+    const meta=categoryMeta[category],count=apps.filter(a=>a.category===category&&a.status==="live").length;
+    return `<article class="pathway" style="--accent:${meta.accent}"><span class="pathway-mark">${meta.mark}</span><h3>${escapeHtml(meta.label)}</h3><p>${escapeHtml(category)} · ${count} verified live doorway${count===1?"":"s"}</p><button type="button" data-path-category="${escapeHtml(category)}">Enter this pathway →</button></article>`;
   }).join("");
 }
 function renderLevels(){
@@ -432,15 +474,23 @@ function renderFilters(){
 }
 function renderDirectory(){
   const items=filteredApps(),groups=categoryOrder.filter(cat=>items.some(app=>app.category===cat));
-  $("resultCount").textContent=`${items.length} of ${apps.length} Bazaar Art applications`;
+  const liveShown=items.filter(app=>app.status==="live").length;
+  const repairShown=items.filter(app=>app.status==="repair").length;
+  $("resultCount").textContent=`${liveShown} verified live${repairShown?` · ${repairShown} repair record${repairShown===1?"":"s"}`:""}`;
   $("savedCount").textContent=saved.size;
   $("savedOnly").setAttribute("aria-pressed",String(savedOnly));
   $("emptyState").hidden=items.length>0;
   $("categoryContainer").innerHTML=groups.map(cat=>{
     const meta=categoryMeta[cat],group=items.filter(app=>app.category===cat);
-    return `<section class="category-section" style="--accent:${meta.accent};--pale:${meta.pale}"><div class="category-head"><div><h3>${escapeHtml(cat)}</h3><p>${escapeHtml(meta.label)} within the Bazaar Art repository.</p></div><span class="category-count">${group.length} doorway${group.length===1?"":"s"}</span></div><div class="app-grid">${group.map(app=>`<article class="app-card"><div class="app-card-top"><span class="app-icon">${escapeHtml(app.icon)}</span><button class="favorite${saved.has(app.id)?" saved":""}" type="button" data-favorite="${escapeHtml(app.id)}" aria-label="${saved.has(app.id)?"Remove from":"Save to"} Studio Shelf">♡</button></div><h4>${escapeHtml(app.title)}</h4><p>${escapeHtml(app.description)}</p><a class="app-meta" href="${localHref(app.path)}" aria-label="Open ${escapeHtml(app.title)}"><span>Bazaar Art · ${escapeHtml(app.level)}</span><span>Open →</span></a></article>`).join("")}</div></section>`;
+    const liveCount=group.filter(app=>app.status==="live").length;
+    const repairCount=group.filter(app=>app.status==="repair").length;
+    return `<section class="category-section" style="--accent:${meta.accent};--pale:${meta.pale}"><div class="category-head"><div><h3>${escapeHtml(cat)}</h3><p>${escapeHtml(meta.label)} within the Bazaar Art repository.</p></div><span class="category-count">${liveCount} live${repairCount?` · ${repairCount} repair`:""}</span></div><div class="app-grid">${group.map(app=>{
+      if(app.status==="repair")return `<article class="app-card repair" aria-label="${escapeHtml(app.title)} needs page repair"><div class="app-card-top"><span class="app-icon">${escapeHtml(app.icon)}</span><span class="repair-badge">Needs Page Repair</span></div><h4>${escapeHtml(app.title)}</h4><p>${escapeHtml(app.description)}</p><p class="repair-note">${escapeHtml(app.repairNote)}</p><span class="app-meta repair-status"><span>Bazaar Art · ${escapeHtml(app.level)}</span><span>Not Launchable</span></span></article>`;
+      return `<article class="app-card"><div class="app-card-top"><span class="app-icon">${escapeHtml(app.icon)}</span><button class="favorite${saved.has(app.id)?" saved":""}" type="button" data-favorite="${escapeHtml(app.id)}" aria-label="${saved.has(app.id)?"Remove from":"Save to"} Studio Shelf">♡</button></div><h4>${escapeHtml(app.title)}</h4><p>${escapeHtml(app.description)}</p><a class="app-meta" href="${localHref(app.path)}" aria-label="Open ${escapeHtml(app.title)}"><span>Bazaar Art · ${escapeHtml(app.level)}</span><span>Open →</span></a></article>`;
+    }).join("")}</div></section>`;
   }).join("");
 }
+
 function connectedItems(){
   const q=$("connectedSearch").value.trim().toLowerCase();
   return connectedStudios.filter(item=>{
@@ -455,40 +505,51 @@ function renderConnectedFilters(){
 }
 function renderConnected(){
   const items=connectedItems();
-  $("connectedResultCount").textContent=`${items.length} of ${connectedStudios.length} connected studios`;
+  $("connectedResultCount").textContent=`${items.length} of ${connectedStudios.length} verified connected studios`;
   $("connectedEmpty").hidden=items.length>0;
   $("connectedGrid").innerHTML=items.map(item=>{
-    const accent=sourceAccents[item.source]||"#0c8791";
-    return `<a class="connected-card" style="--accent:${accent}" href="${safeExternal(item.url)}" target="_blank" rel="noopener noreferrer"><div class="connected-card-top"><span class="connected-mark">${escapeHtml(item.icon)}</span><span class="connected-source">${escapeHtml(item.source)}</span></div><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.description)}</p><div class="connected-meta"><span>${escapeHtml(item.discipline)} · ${escapeHtml(item.level)}</span><span>Open ↗</span></div></a>`;
+    const accent=sourceAccents[item.source]||"#0c8791",href=safeExternal(item.url);
+    const inner=`<div class="connected-card-top"><span class="connected-mark">${escapeHtml(item.icon)}</span><span class="connected-source">${escapeHtml(item.source)}</span></div><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.description)}</p><div class="connected-meta"><span>${escapeHtml(item.discipline)} · ${escapeHtml(item.level)}</span><span>${href==="#"?"Blocked":"Open ↗"}</span></div>`;
+    return href==="#"
+      ? `<article class="connected-card blocked" style="--accent:${accent}" aria-label="${escapeHtml(item.title)} has a blocked destination">${inner}</article>`
+      : `<a class="connected-card" style="--accent:${accent}" href="${href}" target="_blank" rel="noopener noreferrer">${inner}</a>`;
   }).join("");
 }
+
 function renderFuture(){
   $("futureGrid").innerHTML=futureCollections.map(item=>`<article class="future-card"><span class="future-mark">${escapeHtml(item.mark)}</span><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.description)}</p><span class="future-status">Reserved future house</span></article>`).join("");
 }
 function renderNetworks(){
   $("networkGrid").innerHTML=networks.map(item=>{
-    const inner=`<span class="network-mark">${escapeHtml(item.mark)}</span><strong>${escapeHtml(item.title)}</strong><span>${escapeHtml(item.description)}</span><small class="network-status">${escapeHtml(item.status)}</small>`;
-    return item.url
-      ? `<a class="network-card" href="${safeExternal(item.url)}" target="_blank" rel="noopener noreferrer">${inner}</a>`
-      : `<article class="network-card setup" aria-label="${escapeHtml(item.title)} is in repository setup">${inner}</article>`;
+    const href=item.url?safeExternal(item.url):"#";
+    const live=href!=="#";
+    const status=live?"Verified GitHub Pages":"In Development";
+    const inner=`<span class="network-mark">${escapeHtml(item.mark)}</span><strong>${escapeHtml(item.title)}</strong><span>${escapeHtml(item.description)}</span><small class="network-status">${status}</small>`;
+    return live
+      ? `<a class="network-card" href="${href}" target="_blank" rel="noopener noreferrer">${inner}</a>`
+      : `<article class="network-card setup" aria-label="${escapeHtml(item.title)} is not yet published">${inner}</article>`;
   }).join("");
 }
+
 function renderDrawer(query=""){
   const q=query.trim().toLowerCase();
   const local=apps.filter(a=>!q||`${a.title} ${a.category} ${a.level} ${a.description}`.toLowerCase().includes(q));
   const external=connectedStudios.filter(a=>!q||`${a.title} ${a.source} ${a.discipline} ${a.description}`.toLowerCase().includes(q));
-  const localHtml=local.length?`<p class="drawer-group">Bazaar Art repository</p>${local.map(app=>`<a class="drawer-link" href="${localHref(app.path)}"><i>${escapeHtml(app.icon)}</i><span><strong>${escapeHtml(app.title)}</strong><small>${escapeHtml(app.category)} · ${escapeHtml(app.level)}</small></span><span>→</span></a>`).join("")}`:"";
-  const externalHtml=external.length?`<p class="drawer-group">Connected studios</p>${external.map(item=>`<a class="drawer-link" href="${safeExternal(item.url)}" target="_blank" rel="noopener noreferrer"><i>${escapeHtml(item.icon)}</i><span><strong>${escapeHtml(item.title)}</strong><small>${escapeHtml(item.source)} · ${escapeHtml(item.discipline)}</small></span><span>↗</span></a>`).join("")}`:"";
+  const localHtml=local.length?`<p class="drawer-group">Bazaar Art repository</p>${local.map(app=>app.status==="live"
+    ? `<a class="drawer-link" href="${localHref(app.path)}"><i>${escapeHtml(app.icon)}</i><span><strong>${escapeHtml(app.title)}</strong><small>${escapeHtml(app.category)} · ${escapeHtml(app.level)}</small></span><span>→</span></a>`
+    : `<article class="drawer-link" aria-label="${escapeHtml(app.title)} needs repair"><i>${escapeHtml(app.icon)}</i><span><strong>${escapeHtml(app.title)}</strong><small>Needs Page Repair · Not launchable</small></span><span>—</span></article>`).join("")}`:"";
+  const externalHtml=external.length?`<p class="drawer-group">Connected studios</p>${external.map(item=>{const href=safeExternal(item.url);return href==="#"?"":`<a class="drawer-link" href="${href}" target="_blank" rel="noopener noreferrer"><i>${escapeHtml(item.icon)}</i><span><strong>${escapeHtml(item.title)}</strong><small>${escapeHtml(item.source)} · ${escapeHtml(item.discipline)}</small></span><span>↗</span></a>`}).join("")}`:"";
   $("drawerNav").innerHTML=localHtml+externalHtml||`<p class="empty-state">No creative resources match that search.</p>`;
 }
+
 function setFeatured(){
-  const now=new Date(),day=Math.floor(Date.UTC(now.getFullYear(),now.getMonth(),now.getDate())/86400000),app=apps[day%apps.length];
+  const pool=liveApplications(),now=new Date(),day=Math.floor(Date.UTC(now.getFullYear(),now.getMonth(),now.getDate())/86400000),app=pool[day%pool.length];
   $("featuredTitle").textContent=app.title;
   $("featuredDescription").textContent=app.description;
   $("featuredLink").href=localHref(app.path);
 }
 function randomLaunch(){
-  const pool=filteredApps();if(!pool.length)return;
+  const pool=filteredApps().filter(app=>app.status==="live");if(!pool.length)return;
   const app=pool[Math.floor(Math.random()*pool.length)];
   location.href=localHref(app.path);
 }
@@ -536,32 +597,45 @@ function auditBazaarArt(){
     items.forEach(item=>seen.has(item[key])?dupes.add(item[key]):seen.add(item[key]));
     return [...dupes];
   };
+  const absoluteLinks=[...document.querySelectorAll('a[href^="http"]')].map(a=>a.href);
+  const customDomainLinks=absoluteLinks.filter(url=>safeExternal(url)==="#");
+  const blockedTerms=["casino","gambling","sportsbook","roulette","blackjack","poker","jackpot","slots","affiliate"];
+  const auditSurface=[
+    ...apps.flatMap(app=>[app.title,app.path,app.description]),
+    ...connectedStudios.flatMap(item=>[item.title,item.url,item.description]),
+    ...networks.flatMap(item=>[item.title,item.url,item.description]),
+    ...absoluteLinks
+  ].join(" ").toLowerCase();
+  const suspiciousText=blockedTerms.filter(term=>auditSurface.includes(term));
   const report={
-    localApplications:apps.length,
+    verifiedLocalApplications:liveApplications().length,
+    repairApplications:repairApplications().map(app=>app.title),
     localCollections:categoryOrder.length,
-    connectedStudios:connectedStudios.length,
+    verifiedConnectedStudios:connectedStudios.filter(item=>safeExternal(item.url)!=="#").length,
     connectedSources:new Set(connectedStudios.map(item=>item.source)).size,
     futureCollections:futureCollections.length,
-    networkDestinations:networks.length,
-    setupDestinations:networks.filter(item=>!item.url).length,
+    verifiedNetworkHomes:networks.filter(item=>item.url&&safeExternal(item.url)!=="#").length,
+    unpublishedNetworkHomes:networks.filter(item=>!item.url||safeExternal(item.url)==="#").map(item=>item.title),
     duplicateLocalIds:duplicateValues(apps,"id"),
     duplicateLocalPaths:duplicateValues(apps,"path"),
     duplicateConnectedIds:duplicateValues(connectedStudios,"id"),
     duplicateConnectedUrls:duplicateValues(connectedStudios,"url"),
-    invalidExternalUrls:connectedStudios.filter(item=>safeExternal(item.url)==="#").map(item=>item.url)
+    customDomainLinks,
+    suspiciousText
   };
-  report.passed=!report.duplicateLocalIds.length&&!report.duplicateLocalPaths.length&&!report.duplicateConnectedIds.length&&!report.duplicateConnectedUrls.length&&!report.invalidExternalUrls.length;
+  report.passed=!report.duplicateLocalIds.length&&!report.duplicateLocalPaths.length&&!report.duplicateConnectedIds.length&&!report.duplicateConnectedUrls.length&&!report.customDomainLinks.length&&!report.suspiciousText.length;
   console.table(report);
-  console.info(`Bazaar Art audit ${report.passed?"passed":"needs review"}: ${apps.length} local applications, ${connectedStudios.length} connected studios, ${futureCollections.length} future houses, and ${networks.length} network destinations.`);
+  console.info(`Bazaar Art audit ${report.passed?"passed":"needs review"}: ${report.verifiedLocalApplications} verified local applications, ${report.repairApplications.length} repair records, ${report.verifiedConnectedStudios} connected studios, and ${report.verifiedNetworkHomes} verified network homes.`);
   return report;
 }
+
 window.auditBazaarArt=auditBazaarArt;
 
 renderPathways();renderLevels();renderFilters();renderDirectory();
 renderConnectedFilters();renderConnected();renderFuture();renderNetworks();renderDrawer();setFeatured();
-$("appCount").textContent=apps.length;
-$("connectedCount").textContent=connectedStudios.length;
-$("collectionCount").textContent=categoryOrder.length;
+$("appCount").textContent=liveApplications().length;
+$("connectedCount").textContent=connectedStudios.filter(item=>safeExternal(item.url)!=="#").length;
+$("repairCount").textContent=repairApplications().length;
 $("year").textContent=new Date().getFullYear();
 
 $("search").addEventListener("input",renderDirectory);
@@ -593,6 +667,14 @@ document.addEventListener("keydown",e=>{
   }
 });
 window.addEventListener("resize",()=>{if(innerWidth>730)closeDrawer(false);});
+document.addEventListener("click",event=>{
+  const link=event.target.closest('a[href^="http"]');
+  if(!link)return;
+  if(safeExternal(link.href)==="#"){
+    event.preventDefault();
+    console.warn("Blocked non-Verve-N-Veda destination:",link.href);
+  }
+});
 auditBazaarArt();
 </script>
 </body>
