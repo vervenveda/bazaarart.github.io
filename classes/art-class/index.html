@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Art Class Portal — Verve N Veda</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    body { background: #faf8f4; color: #2e251a; font-family: 'EB Garamond', serif; margin: 0; }
+    .portal-wrap { max-width: 950px; margin: 0 auto; padding: 40px 12px 24px; }
+    h1 { font-size: 2.4em; color: #ad7c28; text-align: center; letter-spacing: 1.8px; margin-bottom: 10px; }
+    .subtitle { text-align: center; font-size: 1.14em; color: #70522d; margin-bottom: 26px; }
+    .calendar-section { background: #fffbe9; border-radius: 12px; padding: 16px 18px 12px; margin-bottom: 26px; box-shadow: 0 1px 7px #e8d5b122;}
+    .calendar-section h2 { font-size: 1.14em; color: #a18638; margin: 0 0 9px; letter-spacing: 0.8px;}
+    .calendar-list { list-style: none; padding: 0; margin: 0; font-size: 1.02em;}
+    .calendar-list li { margin-bottom: 6px; }
+    .layout { display: flex; gap: 34px; }
+    @media (max-width: 800px) { .layout { flex-direction: column; gap: 14px; } }
+    .sidebar { width: 235px; min-width: 160px; }
+    .lesson-list { margin: 0; padding: 0; list-style: none; background: #f6efe3; border-radius: 13px; padding: 13px 11px 9px;}
+    .lesson-list li { padding: 10px 8px; font-weight: bold; color: #836d32; font-size: 1.08em; cursor: pointer; border-radius: 7px; margin-bottom: 6px; transition: background .13s;}
+    .lesson-list li:hover, .lesson-list li.active { background: #e9dab6; color: #ad7c28; }
+    .main-content { flex: 1; }
+    .gallery-section { background: #fffdf6; border-radius: 15px; box-shadow: 0 1px 10px #e8d5b124; padding: 24px 18px 15px; margin-top: 38px;}
+    .gallery-section h2 { font-size: 1.18em; color: #ad7c28; letter-spacing: 1px; margin-top: 0;}
+    .gallery { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit,minmax(120px,1fr)); margin-top: 10px; }
+    .art-thumb { border-radius: 7px; background: #f2eadf; border: 1.7px solid #d4b182; height: 110px; object-fit: cover; box-shadow: 0 1px 7px #e6cfa242; }
+    .add-btn { margin-top: 7px; padding: 6px 15px; border-radius: 7px; border: none; background: #ad7c28; color: #fff; font-weight: 600; cursor: pointer; }
+    .add-btn:hover { background: #c7a153; }
+    .modal-bg {display:none;position:fixed;inset:0;background:rgba(40,32,15,0.38);z-index: 98;align-items:center;justify-content:center;}
+    .modal {background:#fffdf7;border-radius:17px;box-shadow:0 8px 32px #b89c4c30;max-width:510px;width:92vw;padding:30px 28px 18px;position:relative;}
+    .modal-close {position:absolute;top:18px;right:22px;font-size:1.37em;color:#ad7c28;background:none;border:none;cursor:pointer;}
+    .lesson-detail-title {font-size:1.25em;color:#836d32;font-weight:bold;margin-bottom:4px;}
+    .lesson-meta {font-size:.99em;color:#8a7b52;margin-bottom:7px;}
+    .lesson-desc {font-size:1.10em;}
+    .kindness-card {background: #f4ecd8; color: #876626; border-radius: 9px; padding: 11px 16px; font-size: 1em; box-shadow: 0 0.5px 4px #dbc69925; margin-top: 15px;}
+    @media (max-width: 600px) {.sidebar{width:100%; min-width:0;}.gallery-section{padding:16px 2vw;}}
+  </style>
+</head>
+<body>
+<div class="portal-wrap">
+  <h1>Art Class Portal</h1>
+  <div class="subtitle">Welcome to your creative classroom — a sanctuary for art, learning, and inspiration at Verve N Veda.</div>
+  
+  <!-- Calendar/Events (top of page) -->
+  <div class="calendar-section">
+    <h2>Class Calendar & Events</h2>
+    <ul class="calendar-list">
+      <li>Nov 18: Observational Drawing (Live Demo)</li>
+      <li>Nov 21: Gallery Upload — Still Life</li>
+      <li>Nov 25: Value Study Showcase</li>
+      <li>Dec 2: Nature Color Walk</li>
+      <li>Dec 9: Color Harmony Challenge</li>
+      <!-- Add more events here -->
+    </ul>
+  </div>
+  
+  <div class="layout">
+    <!-- Sidebar: Lesson Titles -->
+    <aside class="sidebar">
+      <ul class="lesson-list" id="lessonList"></ul>
+    </aside>
+    <section class="main-content"></section>
+  </div>
+  
+  <!-- Student Gallery always visible at bottom -->
+  <div class="gallery-section">
+    <h2>Student Gallery</h2>
+    <div class="gallery" id="gallery">
+      <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=400&q=80" class="art-thumb" alt="Student Art Example"/>
+      <img src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80" class="art-thumb" alt="Student Art Example"/>
+      <!-- Add more student art uploads here -->
+    </div>
+    <button class="add-btn" onclick="alert('Upload coming soon!')">+ Upload Artwork</button>
+  </div>
+  
+  <div class="kindness-card">
+    <b>Class Code of Kindness:</b>
+    Be supportive, respect each artist’s journey, celebrate progress, and keep our creative space positive and welcoming.
+  </div>
+</div>
+
+<!-- Modal/Popup (hidden by default) -->
+<div class="modal-bg" id="modal-bg">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div class="lesson-detail-title" id="modal-title"></div>
+    <div class="lesson-meta" id="modal-meta"></div>
+    <div class="lesson-desc" id="modal-desc"></div>
+  </div>
+</div>
+<script>
+  // Five complete lessons
+  const lessons = [
+    {
+      title: "Exploring Color Harmony",
+      meta: "Medium: Chalk Pastels · Instructor: Jenny Pearl",
+      desc: `<b>Lesson Focus:</b> Use color harmonies to evoke feeling, balance, and mood.<br>
+<b>Objectives:</b>
+<ul>
+  <li>Basics of the color wheel (primary, secondary, tertiary)</li>
+  <li>Try analogous, complementary, and triadic schemes</li>
+  <li>Blend/layer pastels for smooth transitions and bold contrast</li>
+</ul>
+<b>Materials:</b> Chalk pastels (8–12 colors), blending stumps/cotton swabs, heavy paper.<br>
+<b>Step-by-Step:</b>
+<ol>
+  <li>Warm-Up: Sketch a simple flower, cup, or shapes.</li>
+  <li>Pick a color harmony (analogous, complementary, triad).</li>
+  <li>Layer colors with gentle pressure, blend edges.</li>
+  <li>Add highlights/shadows using light and complementary colors.</li>
+  <li>Finish: Step back, check balance, blend harsh edges, fixative if needed.</li>
+</ol>
+<b>Reflect:</b> How did your color choices affect mood?<br>
+<b>Share:</b> Upload a photo to the gallery and share your color process!
+      `
+    },
+    {
+      title: "Observational Drawing — Still Life",
+      meta: "Medium: Charcoal · Instructor: Hope AI",
+      desc: `<b>Lesson Focus:</b> Capture the quiet poetry of everyday objects.<br>
+<b>Objectives:</b>
+<ul>
+  <li>Use shadow, light, and line to define form</li>
+  <li>Practice careful looking and sketching</li>
+</ul>
+<b>Materials:</b> Charcoal, sketchbook, mug, apple, or small objects.<br>
+<b>Step-by-Step:</b>
+<ol>
+  <li>Arrange objects with interesting shadows.</li>
+  <li>Lightly sketch outlines, map shadow areas.</li>
+  <li>Build value by shading light-to-dark.</li>
+  <li>Use eraser to lift highlights, cotton swab to blend.</li>
+  <li>Add detail—refine edges and texture.</li>
+</ol>
+<b>Reflect:</b> Where do your eyes linger most in the setup?<br>
+<b>Share:</b> Upload a photo of your still life drawing!
+      `
+    },
+    {
+      title: "Light & Shadow: Mastering Value and Shading",
+      meta: "Medium: Chalk Pastels · Instructor: Jenny Pearl",
+      desc: `<b>Lesson Focus:</b> Understand how value creates depth and form.<br>
+<b>Objectives:</b>
+<ul>
+  <li>Identify value scales and their role in art</li>
+  <li>Practice shading from light to dark</li>
+  <li>Create 3D effect with simple forms</li>
+</ul>
+<b>Materials:</b> Chalk pastels (white, black, mid-tones), heavy paper.<br>
+<b>Step-by-Step:</b>
+<ol>
+  <li>Draw a 7-step value scale (white to black).</li>
+  <li>Sketch a circle, cube, or apple.</li>
+  <li>Shade: Start light, layer shadows away from the light.</li>
+  <li>Blend transitions, keep highlights crisp.</li>
+  <li>Final: Reinforce darkest/lights, use eraser to pull highlights.</li>
+</ol>
+<b>Reflect:</b> Where did you find challenge in blending?<br>
+<b>Share:</b> Take a picture of your value study, upload, and note your light source.
+      `
+    },
+    {
+      title: "Nature Color Walk",
+      meta: "Medium: Any (Pastel/Watercolor/Markers) · Instructor: Jenny Pearl",
+      desc: `<b>Lesson Focus:</b> Discover natural color palettes from the outdoors.<br>
+<b>Objectives:</b>
+<ul>
+  <li>Observe colors in nature closely</li>
+  <li>Match natural colors using your art medium</li>
+</ul>
+<b>Materials:</b> Paper, pastels/watercolors/markers, phone/camera.<br>
+<b>Step-by-Step:</b>
+<ol>
+  <li>Take a walk, collect photos or leaves/flowers for color reference.</li>
+  <li>List or swatch the main colors you see.</li>
+  <li>Try to mix or match each in your sketchbook.</li>
+  <li>Arrange swatches into a pleasing pattern or nature-inspired design.</li>
+  <li>Label each color with where you found it.</li>
+</ol>
+<b>Reflect:</b> Which colors were hardest to match? Did anything surprise you?<br>
+<b>Share:</b> Snap your color page and post to the gallery!
+      `
+    },
+    {
+      title: "Expressive Self-Portrait",
+      meta: "Medium: Any (Chalk, Charcoal, Mixed Media) · Instructor: Jenny Pearl",
+      desc: `<b>Lesson Focus:</b> Create a self-portrait expressing mood or personality.<br>
+<b>Objectives:</b>
+<ul>
+  <li>Experiment with line, color, and expression</li>
+  <li>Focus on capturing feeling over accuracy</li>
+</ul>
+<b>Materials:</b> Drawing paper, your choice of media, mirror or selfie.<br>
+<b>Step-by-Step:</b>
+<ol>
+  <li>Study your face in a mirror or photo. What emotion do you want to show?</li>
+  <li>Lightly sketch the main shapes, exaggerate for expression if you wish.</li>
+  <li>Choose colors/marks that show mood (bold, soft, dark, bright, etc).</li>
+  <li>Layer, blend, and add texture—use fingers, eraser, or tools creatively.</li>
+  <li>Sign your piece and write a note about your chosen feeling.</li>
+</ol>
+<b>Reflect:</b> What part of your portrait feels most expressive?<br>
+<b>Share:</b> Upload to the gallery with your mood note!
+      `
+    }
+  ];
+
+  function populateLessonList() {
+    const list = document.getElementById('lessonList');
+    list.innerHTML = "";
+    lessons.forEach((lesson, idx) => {
+      const li = document.createElement('li');
+      li.textContent = lesson.title;
+      li.onclick = () => showLesson(idx);
+      list.appendChild(li);
+    });
+  }
+
+  function showLesson(idx) {
+    document.getElementById('modal-title').textContent = lessons[idx].title;
+    document.getElementById('modal-meta').textContent = lessons[idx].meta;
+    document.getElementById('modal-desc').innerHTML = lessons[idx].desc;
+    document.getElementById('modal-bg').style.display = 'flex';
+  }
+  function closeModal() {
+    document.getElementById('modal-bg').style.display = 'none';
+  }
+  // Init
+  populateLessonList();
+</script>
+</body>
+</html>
