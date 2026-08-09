@@ -427,6 +427,30 @@ body[data-theme^="kids-"] .hero{background:radial-gradient(circle at 50% -12%,va
 .zelle-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:21px}.zelle-action{min-height:42px;padding:9px 12px;border:1px solid var(--line-strong);background:var(--panel-soft);color:var(--ink);font-size:.72rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase}.zelle-action:hover{border-color:var(--rose)}
 .zelle-response{min-height:142px;margin-top:18px;padding:18px;border-left:4px solid var(--gold);background:var(--panel-soft);color:var(--muted)}
 .zelle-response strong{display:block;color:var(--ink);font-family:var(--display);font-size:1.35rem;font-weight:600}.zelle-response p{margin:7px 0 0}.zelle-response a{color:var(--teal);font-weight:800}
+
+.zelle-talk-button{margin-top:23px;min-height:46px;padding:10px 16px;border:1px solid rgba(255,255,255,.34);background:rgba(255,255,255,.11);color:#fff;font-size:.73rem;font-weight:900;letter-spacing:.075em;text-transform:uppercase;transition:.17s}
+.zelle-talk-button:hover{background:#fff;color:var(--plum);transform:translateY(-2px)}
+body.zelle-modal-open{overflow:hidden}
+.zelle-modal{position:fixed;inset:0;z-index:3200;display:none;place-items:center;padding:20px}
+.zelle-modal.open{display:grid}
+.zelle-modal-backdrop{position:absolute;inset:0;border:0;background:rgba(27,18,28,.64);backdrop-filter:blur(8px);cursor:default}
+.zelle-dialog{position:relative;z-index:1;width:min(760px,calc(100vw - 28px));max-height:min(760px,calc(100vh - 32px));overflow:auto;border:1px solid rgba(255,255,255,.5);background:var(--paper-bright);box-shadow:0 28px 90px rgba(24,16,25,.32)}
+.zelle-dialog-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:20px 21px 16px;border-bottom:1px solid var(--line);background:linear-gradient(135deg,#fff,var(--panel-soft))}
+.zelle-dialog-title{margin:3px 0 0;font-family:var(--display);font-size:2.15rem;font-weight:600;line-height:1}.zelle-dialog-sub{margin:6px 0 0;color:var(--muted);font-size:.78rem}
+.zelle-dialog-controls{display:flex;align-items:center;gap:8px;flex:0 0 auto}
+.zelle-voice-toggle,.zelle-dialog-close{min-height:39px;border:1px solid var(--line-strong);background:#fff;color:var(--ink);font-weight:850}
+.zelle-voice-toggle{padding:7px 11px;font-size:.68rem;letter-spacing:.045em;text-transform:uppercase}.zelle-voice-toggle[aria-pressed="true"]{border-color:var(--teal);background:#e9f6f5;color:#075e65}.zelle-voice-toggle:disabled{opacity:.55;cursor:not-allowed}
+.zelle-dialog-close{width:39px;display:grid;place-items:center;padding:0;font-size:1.2rem}
+.zelle-dialog-body{display:grid;grid-template-columns:190px 1fr;gap:20px;padding:21px}
+.zelle-avatar-card{align-self:start;padding:8px;border:1px solid var(--line);background:#fff;box-shadow:var(--shadow-small)}
+.zelle-avatar-card img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;object-position:center 27%;background:var(--panel-soft)}
+.zelle-avatar-card small{display:block;padding:9px 4px 3px;color:var(--muted);font-size:.67rem;line-height:1.45;text-align:center}
+.zelle-dialog-copy>p{margin:0;color:var(--muted)}
+.zelle-modal-actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:15px}.zelle-modal-action{min-height:38px;padding:8px 10px;border:1px solid var(--line-strong);background:var(--panel-soft);font-size:.66rem;font-weight:850;letter-spacing:.045em;text-transform:uppercase}.zelle-modal-action:hover{border-color:var(--rose);background:#fff}
+.zelle-modal-response{min-height:112px;margin-top:15px;padding:15px;border-left:4px solid var(--gold);background:var(--panel-soft);color:var(--muted)}
+.zelle-modal-response strong{display:block;color:var(--ink);font-family:var(--display);font-size:1.24rem;font-weight:600}.zelle-modal-response p{margin:6px 0 0}.zelle-modal-response a{color:var(--teal);font-weight:800}
+.zelle-voice-note{margin-top:10px!important;color:var(--muted)!important;font-size:.68rem!important}.zelle-voice-note.speaking{color:var(--teal)!important;font-weight:800}
+@media(max-width:620px){.zelle-dialog{max-height:calc(100vh - 18px)}.zelle-dialog-head{padding:16px}.zelle-dialog-body{grid-template-columns:1fr;padding:16px}.zelle-avatar-card{width:145px;margin:0 auto}.zelle-dialog-controls{flex-direction:column-reverse;align-items:flex-end}.zelle-voice-toggle{white-space:nowrap}.zelle-dialog-title{font-size:1.85rem}}
 .breath-box{display:grid;grid-template-columns:auto 1fr auto;gap:13px;align-items:center;margin-top:17px;padding:14px;border:1px solid var(--line);background:var(--panel-soft)}
 .breath-orb-hub{width:58px;height:58px;border-radius:50%;background:radial-gradient(circle at 32% 28%,#fff,var(--teal));box-shadow:0 0 0 8px rgba(12,135,145,.09);transition:transform 3.5s ease,box-shadow 3.5s ease}.breath-orb-hub.inhale{transform:scale(1.23);box-shadow:0 0 0 15px rgba(12,135,145,.10)}.breath-orb-hub.exhale{transform:scale(.82)}
 .breath-copy-hub strong,.breath-copy-hub span{display:block}.breath-copy-hub strong{font-family:var(--display);font-size:1.2rem}.breath-copy-hub span{color:var(--muted);font-size:.77rem}.breath-button{min-height:38px;padding:7px 10px;border:1px solid var(--line-strong);background:var(--plum);color:#fff;font-weight:800;font-size:.7rem}
@@ -608,6 +632,7 @@ body[data-theme^="kids-"] .hub-card .hub-icon{border-radius:14px}
         <p>Explore an idea. Study a tradition. Learn a technique. Find a creative tool. Build something that is yours.</p>
         <p>Zelle is Bazaar Art’s designated NAIB art mentor: creative guidance and navigation for adults, with choice-based prompts, encouragement, gentle resets, and age-appropriate directions for younger artists.</p>
         <div class="llc-marks"><span class="llc-mark">Create</span><span class="llc-mark">Study</span><span class="llc-mark">Technique</span><span class="llc-mark">Reset</span><span class="llc-mark">Portfolio</span></div>
+        <button class="zelle-talk-button" id="zelleTalkButton" type="button" aria-haspopup="dialog" aria-controls="zelleConversationModal">Talk with Zelle · Open Mentor</button>
       </article>
       <article class="zelle-panel">
         <p class="kicker">Ask with a choice</p>
@@ -630,6 +655,41 @@ body[data-theme^="kids-"] .hub-card .hub-icon{border-radius:14px}
     </div>
   </div>
 </section>
+
+<div class="zelle-modal" id="zelleConversationModal" aria-hidden="true">
+  <button class="zelle-modal-backdrop" type="button" data-zelle-close aria-label="Close Zelle conversation"></button>
+  <section class="zelle-dialog" role="dialog" aria-modal="true" aria-labelledby="zelleDialogTitle">
+    <header class="zelle-dialog-head">
+      <div>
+        <p class="kicker">NAIB designated art mentor</p>
+        <h2 class="zelle-dialog-title" id="zelleDialogTitle">Zelle</h2>
+        <p class="zelle-dialog-sub">A small studio conversation · creative guidance, never judgment</p>
+      </div>
+      <div class="zelle-dialog-controls">
+        <button class="zelle-voice-toggle" id="zelleVoiceToggle" type="button" aria-pressed="false" title="Turn Zelle's optional voice on or off">🔇 Voice Off</button>
+        <button class="zelle-dialog-close" type="button" data-zelle-close aria-label="Close Zelle conversation">×</button>
+      </div>
+    </header>
+    <div class="zelle-dialog-body">
+      <figure class="zelle-avatar-card">
+        <img src="assets/zelle-art-mentor.png" width="420" height="525" alt="Illustrated portrait of Zelle, Bazaar Art's friendly art mentor, wearing large glasses and a paint-splattered apron with a paintbrush tucked into her messy bun.">
+        <small>Zelle · Bazaar Art studio mentor</small>
+      </figure>
+      <div class="zelle-dialog-copy">
+        <p>Hi, I’m Zelle. Tell me what kind of nudge you need and we’ll keep it simple. You can create, study, find a spark, reset with Aurora, or think about your portfolio.</p>
+        <div class="zelle-modal-actions" role="group" aria-label="Conversation choices with Zelle">
+          <button class="zelle-modal-action" type="button" data-zelle-modal-action="create">Create</button>
+          <button class="zelle-modal-action" type="button" data-zelle-modal-action="study">Study</button>
+          <button class="zelle-modal-action" type="button" data-zelle-modal-action="spark">Creative Spark</button>
+          <button class="zelle-modal-action" type="button" data-zelle-modal-action="ground">Ground & Return</button>
+          <button class="zelle-modal-action" type="button" data-zelle-modal-action="portfolio">Portfolio</button>
+        </div>
+        <div class="zelle-modal-response" id="zelleModalResponse" aria-live="polite"><strong>Welcome to the studio.</strong><p>Pick one direction. We only need the next useful step.</p></div>
+        <p class="zelle-voice-note" id="zelleVoiceNote">Voice is off by default. Turn it on whenever you want Zelle to read her replies aloud.</p>
+      </div>
+    </div>
+  </section>
+</div>
 
 <section class="section alt" id="arshif-studies">
   <div class="section-inner">
@@ -1059,6 +1119,11 @@ themeChoices.forEach(btn=>btn.addEventListener("click",()=>applyBazaarTheme(btn.
 
 /* ---- Zelle · NAIB Art Mentor: bounded landing-page conversation ---- */
 const zelleResponse=$("zelleResponse");
+const zelleModalResponse=$("zelleModalResponse");
+const zelleModal=$("zelleConversationModal");
+const zelleTalkButton=$("zelleTalkButton");
+const zelleVoiceToggle=$("zelleVoiceToggle");
+const zelleVoiceNote=$("zelleVoiceNote");
 const zellePrompts=[
   "Choose one color you keep noticing today. Make three marks with it before deciding what the piece needs.",
   "Draw the same subject once from memory and once from observation. Keep both versions.",
@@ -1073,16 +1138,106 @@ const zelleReplies={
   ground:{title:"Return to the room you are in.",html:'Notice five things you can see, four things you can feel, and one color that feels steady. Then make one mark only. If you want more space, open <a href="https://vervenveda.github.io/aurora.github.io/" target="_blank" rel="noopener noreferrer">Aurora</a>.'},
   portfolio:{title:"Keep evidence of becoming.",html:'Save finished pieces, studies, experiments, and notes about what changed. When you are ready to think about presentation, visit <a href="apps/Class_art_301_index.html">Art 301</a> and the developing <a href="https://vervenveda.github.io/myartgallery.github.io/" target="_blank" rel="noopener noreferrer">My Art Gallery</a> pathway.'}
 };
-document.querySelectorAll("[data-zelle-action]").forEach(btn=>btn.addEventListener("click",()=>{
-  const action=btn.dataset.zelleAction;
+
+let zelleVoiceEnabled=false;
+let zellePreferredVoice=null;
+let zellePreviousFocus=null;
+const speechAvailable=("speechSynthesis" in window)&&("SpeechSynthesisUtterance" in window);
+
+function chooseZelleVoice(){
+  if(!speechAvailable)return null;
+  const voices=window.speechSynthesis.getVoices();
+  if(!voices.length)return null;
+  const preferred=[/Samantha/i,/Ava/i,/Allison/i,/Karen/i,/Moira/i,/Jenny/i,/Aria/i,/Zira/i,/Google US English/i,/English.*United States/i];
+  for(const pattern of preferred){
+    const match=voices.find(v=>pattern.test(v.name)&&/^en/i.test(v.lang));
+    if(match)return match;
+  }
+  return voices.find(v=>/^en-US/i.test(v.lang))||voices.find(v=>/^en/i.test(v.lang))||voices[0];
+}
+function refreshZelleVoice(){zellePreferredVoice=chooseZelleVoice();}
+if(speechAvailable){
+  refreshZelleVoice();
+  window.speechSynthesis.addEventListener?.("voiceschanged",refreshZelleVoice);
+}else if(zelleVoiceToggle){
+  zelleVoiceToggle.disabled=true;
+  zelleVoiceToggle.textContent="Voice Unavailable";
+  zelleVoiceNote.textContent="This browser does not provide speech playback. Zelle’s written conversation still works normally.";
+}
+function plainTextFromHtml(html){
+  const box=document.createElement("div");box.innerHTML=html;return box.textContent.replace(/\s+/g," ").trim();
+}
+function stopZelleVoice(){
+  if(speechAvailable)window.speechSynthesis.cancel();
+  zelleVoiceNote?.classList.remove("speaking");
+}
+function speakZelle(text){
+  if(!speechAvailable||!zelleVoiceEnabled||!text)return;
+  window.speechSynthesis.cancel();
+  const utterance=new SpeechSynthesisUtterance(text);
+  if(!zellePreferredVoice)refreshZelleVoice();
+  if(zellePreferredVoice)utterance.voice=zellePreferredVoice;
+  utterance.rate=.91;
+  utterance.pitch=1.06;
+  utterance.volume=.72;
+  utterance.onstart=()=>{if(zelleVoiceNote){zelleVoiceNote.textContent="Zelle is speaking softly…";zelleVoiceNote.classList.add("speaking");}};
+  utterance.onend=utterance.onerror=()=>{if(zelleVoiceNote){zelleVoiceNote.textContent="Voice is on. Tap Voice On anytime to turn it off.";zelleVoiceNote.classList.remove("speaking");}};
+  window.speechSynthesis.speak(utterance);
+}
+function setZelleVoice(on){
+  if(!speechAvailable)return;
+  zelleVoiceEnabled=Boolean(on);
+  zelleVoiceToggle.setAttribute("aria-pressed",String(zelleVoiceEnabled));
+  zelleVoiceToggle.textContent=zelleVoiceEnabled?"🔊 Voice On":"🔇 Voice Off";
+  if(!zelleVoiceEnabled){
+    stopZelleVoice();
+    zelleVoiceNote.textContent="Voice is off. Zelle will keep the conversation on screen only.";
+  }else{
+    zelleVoiceNote.textContent="Voice is on. Zelle will read new mentor replies aloud.";
+    speakZelle("Hi, I’m Zelle. I’m glad you’re here. What would help right now?");
+  }
+}
+zelleVoiceToggle?.addEventListener("click",()=>setZelleVoice(!zelleVoiceEnabled));
+
+function setZelleResponse(title,html,spokenText=""){
+  const markup=`<strong>${title}</strong><p>${html}</p>`;
+  if(zelleResponse)zelleResponse.innerHTML=markup;
+  if(zelleModalResponse)zelleModalResponse.innerHTML=markup;
+  speakZelle(spokenText||`${title} ${plainTextFromHtml(html)}`);
+}
+function respondAsZelle(action){
   if(action==="spark"){
     const prompt=zellePrompts[Math.floor(Math.random()*zellePrompts.length)];
-    zelleResponse.innerHTML=`<strong>Creative Spark</strong><p>${escapeHtml(prompt)}</p>`;
+    setZelleResponse("Creative Spark",escapeHtml(prompt),`Creative spark. ${prompt}`);
     return;
   }
   const reply=zelleReplies[action];
-  if(reply)zelleResponse.innerHTML=`<strong>${reply.title}</strong><p>${reply.html}</p>`;
-}));
+  if(reply)setZelleResponse(reply.title,reply.html);
+}
+document.querySelectorAll("[data-zelle-action]").forEach(btn=>btn.addEventListener("click",()=>respondAsZelle(btn.dataset.zelleAction)));
+document.querySelectorAll("[data-zelle-modal-action]").forEach(btn=>btn.addEventListener("click",()=>respondAsZelle(btn.dataset.zelleModalAction)));
+
+function openZelleModal(){
+  if(!zelleModal)return;
+  zellePreviousFocus=document.activeElement;
+  zelleModal.classList.add("open");
+  zelleModal.setAttribute("aria-hidden","false");
+  document.body.classList.add("zelle-modal-open");
+  zelleModal.querySelector("[data-zelle-modal-action]")?.focus();
+}
+function closeZelleModal(){
+  if(!zelleModal)return;
+  zelleModal.classList.remove("open");
+  zelleModal.setAttribute("aria-hidden","true");
+  document.body.classList.remove("zelle-modal-open");
+  stopZelleVoice();
+  zellePreviousFocus?.focus?.();
+}
+zelleTalkButton?.addEventListener("click",openZelleModal);
+zelleModal?.querySelectorAll("[data-zelle-close]").forEach(btn=>btn.addEventListener("click",closeZelleModal));
+document.addEventListener("keydown",event=>{
+  if(event.key==="Escape"&&zelleModal?.classList.contains("open"))closeZelleModal();
+});
 
 /* Aurora-inspired 4 / 3 / 5 / 3 creative reset. */
 const breathOrb=$("zelleBreathOrb"),breathPhase=$("zelleBreathPhase"),breathNote=$("zelleBreathNote"),breathButton=$("zelleBreathButton");
