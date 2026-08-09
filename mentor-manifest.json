@@ -1,0 +1,72 @@
+{
+  "version": 1,
+  "sourceId": "verve.bazaar-art",
+  "name": "Bazaar Art LLC Creative Hub",
+  "classification": "creative-cultural",
+  "mentorSearchable": true,
+  "audiences": [
+    "preschool",
+    "elementary",
+    "middle",
+    "high",
+    "higher-learning",
+    "adult",
+    "parent"
+  ],
+  "roles": [
+    "student",
+    "parent",
+    "educator"
+  ],
+  "homepage": "https://vervenveda.com/bazaarart.github.io/",
+  "repository": "vervenveda/bazaarart.github.io",
+  "inventoryAuthority": "provisional-root-anchor",
+  "resources": [
+    {
+      "id": "bazaar-art-home",
+      "title": "Bazaar Art LLC Creative Hub",
+      "description": "Creative hub for art studios, courses, age-based pathways, cultural study, artist resources, and connected creative spaces.",
+      "url": "https://vervenveda.com/bazaarart.github.io/",
+      "audiences": [
+        "preschool",
+        "elementary",
+        "middle",
+        "high",
+        "higher-learning",
+        "adult",
+        "parent"
+      ],
+      "roles": [
+        "student",
+        "parent",
+        "educator"
+      ],
+      "domains": [
+        "arts",
+        "creative-learning",
+        "design",
+        "culture"
+      ],
+      "skills": [
+        "creative-expression",
+        "visual-literacy",
+        "art-making"
+      ],
+      "tags": [
+        "bazaar-art",
+        "art",
+        "creative",
+        "studios",
+        "active-expansion"
+      ],
+      "mentorEligible": true,
+      "featured": false,
+      "resourceType": "hub",
+      "learningValue": "supplemental",
+      "curricularWeight": "supplemental",
+      "requiresFreshnessCheck": false,
+      "dynamicContent": false
+    }
+  ],
+  "mentorNotes": "PROVISIONAL FEDERATION ANCHOR. This repository is under active expansion. The root landing page is the only inventory authority exposed by this manifest at this stage. Do not infer that unlisted child apps, courses, tools, or directories are absent, obsolete, or non-recommendable. Replace this provisional inventory with a verified deep manifest after the repository upgrade pass is complete."
+}
