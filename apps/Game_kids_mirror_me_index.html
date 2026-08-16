@@ -72,5 +72,6 @@ function stats(){$("strokeStat").textContent=state.strokes;$("modeStat").textCon
 $("theme").value=state.theme;$("theme").onchange=e=>applyTheme(e.target.value);$("useColor").onclick=()=>{state.color=$("customColor").value;state.eraser=false;renderPalette();save()};$("customColor").oninput=e=>{state.color=e.target.value;state.eraser=false;renderPalette();save()};$("undo").onclick=()=>{if(undoStack.length<=1)return;redoStack.push(undoStack.pop());restore(undoStack.at(-1));stats()};$("redo").onclick=()=>{if(!redoStack.length)return;const d=redoStack.pop();undoStack.push(d);restore(d);stats()};$("eraser").onclick=()=>{state.eraser=!state.eraser;$("status").textContent=state.eraser?"Eraser active.":"Drawing color restored.";save()};$("clear").onclick=()=>clearCanvas(true);$("saveGallery").onclick=gallery;$("download").onclick=()=>{const a=document.createElement("a");a.download="mirror_me_symmetry_art.png";a.href=snap();a.click()};$("newCanvas").onclick=()=>clearCanvas(true);$("template").onchange=()=>clearCanvas(false);$("guideOpacity").oninput=()=>clearCanvas(false);$("background").onchange=()=>clearCanvas(false);
 applyTheme(state.theme);renderModes();renderPalette();clearCanvas(false);renderGallery();stats();
 </script>
+<script src="/assets/vnv-beta-link.js" defer></script>
 </body>
 </html>

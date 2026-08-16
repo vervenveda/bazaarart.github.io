@@ -224,5 +224,6 @@ document.querySelectorAll('[data-scroll]').forEach(b=>b.onclick=()=>{if(b.datase
 $('close').onclick=()=>$('modal').classList.remove('open');$('modal').onclick=e=>{if(e.target===$('modal'))$('modal').classList.remove('open')};document.addEventListener('keydown',e=>{if(e.key==='Escape')$('modal').classList.remove('open')});
 $('plannerText').value=state.plan;$('savedOnly').textContent=state.savedOnly?'♥ Showing Saved':'♡ Saved';$('teacherMode').textContent=state.teacherMode?'👩‍🏫 Teacher Notes On':'👩‍🏫 Teacher Mode';renderResources();renderChallenge();renderSaved();renderStats();
 </script>
+<script src="/assets/vnv-beta-link.js" defer></script>
 </body>
 </html>

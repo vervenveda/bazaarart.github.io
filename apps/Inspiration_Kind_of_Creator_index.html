@@ -78,5 +78,6 @@ function makeChallenge(a,b){const A=ARCH[a],B=ARCH[b],tasks=[`Create one small w
 $('start').onclick=()=>start(false);$('resume').onclick=()=>state.started?start(true):start(false);$('back').onclick=()=>{if(state.i>0){state.i--;save();render()}};$('next').onclick=next;$('restart').onclick=()=>{if(confirm('Clear this assessment and begin again?'))start(false)};$('print').onclick=()=>window.print();$('export').onclick=()=>{const blob=new Blob([JSON.stringify({completed:new Date().toISOString(),results:state.result,archetypes:ARCH},null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='catalyst_creative_dna_profile.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
 if(state.result)showResult();else if(state.started)$('resume').style.display='inline-block';
 </script>
+<script src="/assets/vnv-beta-link.js" defer></script>
 </body>
 </html>

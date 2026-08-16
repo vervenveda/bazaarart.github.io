@@ -162,5 +162,6 @@ $('clearHistory').onclick=()=>{if(confirm('Clear recent spin history?')){state.h
 $('exportBtn').onclick=()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='spinspire_creative_log.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
 buildWheel();renderCurrent();renderLists();renderStats();
 </script>
+<script src="/assets/vnv-beta-link.js" defer></script>
 </body>
 </html>

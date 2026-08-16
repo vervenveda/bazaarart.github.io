@@ -147,5 +147,6 @@ $('export').onclick=()=>{const blob=new Blob([JSON.stringify(state,null,2)],{typ
 $('clear').onclick=()=>{if(confirm('Clear ritual history, journal entries, and favorites?')){state.today=[];state.favorites=[];state.journal=[];state.categories=[];state.spins=0;state.current=null;save();$('result').innerHTML='<span class="category">Ready</span><h2>Spin the wheel to begin.</h2><p>Your next small creative ritual will appear here.</p>'}};
 draw();renderLog();renderStats();
 </script>
+<script src="/assets/vnv-beta-link.js" defer></script>
 </body>
 </html>

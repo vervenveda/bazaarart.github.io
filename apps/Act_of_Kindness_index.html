@@ -161,5 +161,6 @@ $('importBtn').onclick=()=>$('importFile').click();$('importFile').onchange=e=>{
 $('clearBtn').onclick=()=>{if(confirm('Clear completed practices and saved prompts?')){state.completed=[];state.saved=[];state.dates=[];state.explored=[];save();renderHistory()}};
 applyTheme(state.theme);renderHistory();choose();renderStats();
 </script>
+<script src="/assets/vnv-beta-link.js" defer></script>
 </body>
 </html>

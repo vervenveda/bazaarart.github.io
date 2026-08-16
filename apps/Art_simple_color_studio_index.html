@@ -285,5 +285,6 @@ $('newCanvas').onclick=()=>{if(confirm('Start a new blank canvas?')){canvas.widt
 $('canvasWidth').onchange=changeCanvas;$('canvasHeight').onchange=changeCanvas;$('background').onchange=()=>{const bg=$('background').value;if(bg!=='transparent'){ctx.save();ctx.globalCompositeOperation='destination-over';ctx.fillStyle=bg;ctx.fillRect(0,0,canvas.width,canvas.height);ctx.restore();pushUndo()}};
 applyTheme(state.theme);renderTools();renderPalette();initCanvas();renderGallery();renderStats();
 </script>
+<script src="/assets/vnv-beta-link.js" defer></script>
 </body>
 </html>
