@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sovereign Art Education Portal</title>
+<style>
+:root {
+  --bg:#f7f2e9;
+  --ink:#211b16;
+  --muted:#6f6155;
+  --card:#fffaf1;
+  --card2:#f0e3d0;
+  --line:#d8c6ad;
+  --accent:#7a3e1d;
+  --accent2:#b77936;
+  --green:#466b4c;
+  --blue:#2f4f66;
+  --shadow:0 18px 50px rgba(52,35,20,.13);
+  --radius:22px;
+}
+[data-theme="night"] {
+  --bg:#111019; --ink:#f8efe3; --muted:#c4b8aa; --card:#1b1a28; --card2:#242236; --line:#403b50; --accent:#d9a24c; --accent2:#f2c178; --green:#9bbf93; --blue:#9bc2df; --shadow:0 18px 50px rgba(0,0,0,.35);
+}
+[data-theme="whitecube"] {
+  --bg:#f7f7f6; --ink:#161616; --muted:#686868; --card:#ffffff; --card2:#eeeeec; --line:#d8d8d4; --accent:#222; --accent2:#777; --green:#4d6954; --blue:#355b76;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(circle at top left, rgba(183,121,54,.18), transparent 28%), var(--bg);color:var(--ink);font-family:Georgia, 'Times New Roman', serif;}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.app{display:grid;grid-template-columns:300px 1fr;min-height:100vh}
+aside{position:sticky;top:0;height:100vh;overflow:auto;padding:22px;background:linear-gradient(180deg,var(--card),var(--card2));border-right:1px solid var(--line);box-shadow:var(--shadow);z-index:5}
+.brand{display:flex;gap:12px;align-items:center;margin-bottom:22px}
+.logo{width:54px;height:54px;border-radius:18px;background:conic-gradient(from 180deg,var(--accent),var(--accent2),var(--green),var(--blue),var(--accent));box-shadow:inset 0 0 0 5px rgba(255,255,255,.25)}
+h1{font-size:1.35rem;line-height:1.05;margin:0}
+.tag{color:var(--muted);font-size:.9rem;margin-top:4px}
+.nav{display:grid;gap:8px;margin:18px 0}
+.nav button{border:1px solid var(--line);background:rgba(255,255,255,.45);color:var(--ink);border-radius:14px;padding:11px 12px;text-align:left}
+.nav button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.sidebox{border:1px solid var(--line);border-radius:18px;padding:14px;background:rgba(255,255,255,.35);margin:14px 0}
+.statrow{display:grid;grid-template-columns:1fr auto;gap:8px;margin:8px 0;color:var(--muted)}
+.progressbar{height:12px;background:rgba(0,0,0,.08);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.progressbar span{display:block;height:100%;background:linear-gradient(90deg,var(--green),var(--accent2));width:0%}
+main{padding:30px;max-width:1500px;width:100%;margin:0 auto}
+.hero{display:grid;grid-template-columns:1.3fr .7fr;gap:20px;align-items:stretch;margin-bottom:22px}
+.panel{background:rgba(255,250,241,.82);background:color-mix(in srgb,var(--card) 88%,transparent);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px}
+.hero h2{font-size:clamp(2rem,4vw,4.2rem);line-height:.95;margin:0 0 12px}
+.lead{font-size:1.08rem;line-height:1.65;color:var(--muted);max-width:900px}
+.pills{display:flex;flex-wrap:wrap;gap:9px;margin-top:14px}
+.pill{display:inline-flex;gap:6px;align-items:center;border:1px solid var(--line);border-radius:999px;padding:7px 10px;background:rgba(255,255,255,.45);font-size:.9rem;color:var(--muted)}
+.controls{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:10px;margin:16px 0}
+input,select,textarea{width:100%;border:1px solid var(--line);border-radius:14px;padding:11px 12px;background:rgba(255,255,255,.7);color:var(--ink)}
+textarea{min-height:120px;resize:vertical}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.btn{border:1px solid var(--line);border-radius:14px;padding:10px 13px;background:var(--card);color:var(--ink)}
+.btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.btn.good{background:var(--green);color:#fff;border-color:var(--green)}
+.btn.warn{background:var(--accent2);color:#1a1008;border-color:var(--accent2)}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.medium-card{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:0 10px 24px rgba(0,0,0,.06);padding:16px;display:flex;flex-direction:column;gap:10px;min-height:260px}
+.medium-card:before{content:"";position:absolute;right:-40px;top:-40px;width:110px;height:110px;border-radius:50%;background:color-mix(in srgb,var(--accent2) 22%,transparent)}
+.medium-card h3{margin:0;font-size:1.28rem;position:relative}
+.meta{display:flex;flex-wrap:wrap;gap:7px;position:relative}
+.badge{font-size:.78rem;border:1px solid var(--line);border-radius:999px;padding:5px 8px;background:rgba(255,255,255,.45);color:var(--muted)}
+.small{font-size:.93rem;color:var(--muted);line-height:1.45}
+.course{display:grid;gap:12px}
+.week{border:1px solid var(--line);border-radius:18px;padding:14px;background:rgba(255,255,255,.42)}
+.week h4{margin:0 0 7px;font-size:1.05rem}
+.checkline{display:flex;gap:8px;align-items:flex-start;margin-top:8px;color:var(--muted)}
+.checkline input{width:auto;margin-top:2px}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.tab{border:1px solid var(--line);background:rgba(255,255,255,.5);border-radius:999px;padding:8px 12px;color:var(--ink)}
+.tab.active{background:var(--accent);color:#fff}
+.hidden{display:none!important}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card-list{display:grid;gap:12px}
+.callout{border-left:5px solid var(--accent2);padding:14px;background:rgba(255,255,255,.42);border-radius:16px;color:var(--muted);line-height:1.5}
+.promptbox{font-size:1.45rem;line-height:1.35;padding:26px;border-radius:22px;background:linear-gradient(135deg,color-mix(in srgb,var(--accent2) 24%,var(--card)),var(--card));border:1px solid var(--line)}
+.portfolio-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:12px}
+.artcard{border:1px solid var(--line);border-radius:18px;background:var(--card);overflow:hidden}
+.artcard img{width:100%;height:170px;object-fit:cover;background:var(--card2);display:block}
+.artcard div{padding:10px}
+.cert{max-width:940px;margin:20px auto;padding:50px;border:8px double var(--accent);border-radius:28px;background:linear-gradient(135deg,var(--card),color-mix(in srgb,var(--accent2) 10%,var(--card)));text-align:center;box-shadow:var(--shadow)}
+.cert h2{font-size:3rem;margin:0 0 8px}
+.cert .name{font-size:2.2rem;border-bottom:2px solid var(--line);display:inline-block;padding:8px 50px;margin:18px 0}
+.cert p{font-size:1.05rem;color:var(--muted);line-height:1.55}
+.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:18px}
+table{border-collapse:collapse;width:100%;min-width:720px;background:var(--card)}
+th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--card2)}
+.footer{margin-top:24px;color:var(--muted);font-size:.9rem;text-align:center}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;padding:20px;z-index:20}
+.modal.open{display:flex}
+.modalbox{max-width:1000px;max-height:90vh;overflow:auto;width:100%;background:var(--card);border-radius:24px;padding:20px;border:1px solid var(--line)}
+.close{float:right}
+@media(max-width:1100px){.app{grid-template-columns:1fr}aside{position:relative;height:auto}.hero,.two,.three{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}.controls{grid-template-columns:1fr 1fr}main{padding:18px}}
+@media(max-width:680px){.grid,.portfolio-grid{grid-template-columns:1fr}.controls{grid-template-columns:1fr}.cert h2{font-size:2rem}.cert .name{font-size:1.4rem;padding:8px 15px}}
+@media print{aside,.nav,.btns,.controls,.tabs,.no-print{display:none!important}.app{display:block}main{padding:0}body{background:#fff;color:#111}.panel,.cert{box-shadow:none}}
+</style>
+</head>
+<body data-theme="parchment">
+<div class="app">
+<aside>
+  <div class="brand"><div class="logo" aria-hidden="true"></div><div><h1>Sovereign Art Education Portal</h1><div class="tag">50 mediums • career courses • portfolio • certificate</div></div></div>
+  <div class="nav" id="nav"></div>
+  <div class="sidebox">
+    <strong>Learning Progress</strong>
+    <div class="statrow"><span>Medium lessons complete</span><b id="lessonStat">0/300</b></div>
+    <div class="progressbar"><span id="lessonBar"></span></div>
+    <div class="statrow"><span>Career tasks complete</span><b id="careerStat">0/0</b></div>
+    <div class="progressbar"><span id="careerBar"></span></div>
+  </div>
+  <div class="sidebox">
+    <label for="themeSelect"><strong>Portal Mood</strong></label>
+    <select id="themeSelect">
+      <option value="parchment">Parchment Studio</option>
+      <option value="whitecube">White Cube</option>
+      <option value="night">Velvet Night</option>
+    </select>
+    <div class="btns"><button class="btn" id="exportProgressBtn">Export Progress</button><button class="btn" id="resetBtn">Reset</button></div>
+  </div>
+  <div class="sidebox small">Everything here is self-contained: no logins, no external libraries, no trackers. Your progress and portfolio stay in this browser unless you export them.</div>
+</aside>
+<main>
+  <section class="view" id="dashboardView">
+    <div class="hero">
+      <div class="panel">
+        <h2>Build the artist, not just the artwork.</h2>
+        <p class="lead">A complete studio-learning portal for artists, teachers, homeschool families, community programs, and independent creators. Explore 50 mediums, follow six-week course plans, build a portfolio, prepare for calls to art, track progress, and print a completion certificate.</p>
+        <div class="pills"><span class="pill">Create</span><span class="pill">Present</span><span class="pill">Respond</span><span class="pill">Connect</span><span class="pill">Portfolio-ready</span><span class="pill">Offline-first</span></div>
+      </div>
+      <div class="panel">
+        <h3>Today’s Studio Prompt</h3>
+        <div id="dailyPrompt" class="promptbox"></div>
+        <div class="btns"><button class="btn primary" id="newPromptBtn">New Prompt</button><button class="btn" id="copyPromptBtn">Copy Prompt</button></div>
+      </div>
+    </div>
+    <div class="three">
+      <div class="panel"><h3>1. Learn Mediums</h3><p class="small">Each medium includes materials, safety, outcomes, and a 6-week plan with practice, critique, presentation, and reflection.</p></div>
+      <div class="panel"><h3>2. Become Professional</h3><p class="small">Career modules cover studio discipline, inventory, pricing, artist statements, resumes, copyright, collectors, and long-term planning.</p></div>
+      <div class="panel"><h3>3. Share & Certify</h3><p class="small">Build a portfolio, download a public mini-gallery, export your learning record, and print a completion certificate.</p></div>
+    </div>
+  </section>
+
+  <section class="view hidden" id="mediumsView">
+    <div class="panel">
+      <h2>50 Mediums Library</h2>
+      <p class="lead">Search or filter the studio library. Open any medium to view the full six-week plan and mark lessons complete.</p>
+      <div class="controls">
+        <input id="searchInput" placeholder="Search mediums, tools, outcomes..." />
+        <select id="catFilter"><option value="all">All Categories</option></select>
+        <select id="levelFilter"><option value="all">All Levels</option><option>Foundational</option><option>Intermediate</option><option>Advanced</option></select>
+        <button class="btn primary" id="printMediumsBtn">Print Mediums</button>
+      </div>
+    </div>
+    <div id="mediumGrid" class="grid"></div>
+  </section>
+
+  <section class="view hidden" id="careerView">
+    <div class="panel">
+      <h2>How to Be a Professional Artist</h2>
+      <p class="lead">A practical career course for turning studio practice into a sustainable professional life while protecting your voice, documentation, and rights.</p>
+      <div id="professionalCourse" class="card-list"></div>
+    </div>
+  </section>
+
+  <section class="view hidden" id="portfolioView">
+    <div class="panel">
+      <h2>Portfolio Builder Course</h2>
+      <p class="lead">Learn how to select, photograph, write about, sequence, publish, and maintain a professional portfolio.</p>
+      <div id="portfolioCourse" class="course"></div>
+    </div>
+    <div class="panel" style="margin-top:16px">
+      <h2>Portfolio Studio</h2>
+      <p class="small">Upload artwork images, add details, then download a simple public portfolio HTML page. Images are stored locally in this browser and may use storage space; export a backup often.</p>
+      <input id="artUpload" type="file" accept="image/*" multiple />
+      <div class="two" style="margin-top:12px">
+        <input id="artistName" placeholder="Artist name" />
+        <input id="portfolioTitle" placeholder="Portfolio title" value="Selected Works" />
+      </div>
+      <div class="btns"><button class="btn primary" id="downloadPortfolioBtn">Download Portfolio HTML</button><button class="btn" id="exportPortfolioBtn">Export Portfolio JSON</button><button class="btn" id="clearPortfolioBtn">Clear Portfolio</button></div>
+      <div id="portfolioGrid" class="portfolio-grid"></div>
+    </div>
+  </section>
+
+  <section class="view hidden" id="callsView">
+    <div class="panel">
+      <h2>Calls to Art Application Course</h2>
+      <p class="lead">A six-week path for finding, reading, preparing, submitting, tracking, and learning from calls for artists, exhibitions, grants, public art, and juried opportunities.</p>
+      <div id="callsCourse" class="course"></div>
+    </div>
+    <div class="panel" style="margin-top:16px">
+      <h2>Call Tracker</h2>
+      <p class="small">Track opportunities and keep all requirements visible before you submit.</p>
+      <div class="two"><input id="callName" placeholder="Call name" /><input id="callDue" type="date" /></div>
+      <div class="two" style="margin-top:10px"><input id="callFee" placeholder="Fee / commission / budget" /><input id="callLink" placeholder="Link or source" /></div>
+      <textarea id="callReq" placeholder="Requirements, artwork limit, image specs, statement, resume, shipping, rights..."></textarea>
+      <div class="btns"><button class="btn primary" id="addCallBtn">Add Call</button><button class="btn" id="downloadCallsBtn">Download Call Tracker CSV</button></div>
+      <div class="tablewrap" style="margin-top:12px"><table><thead><tr><th>Call</th><th>Due</th><th>Fee/Budget</th><th>Requirements</th><th>Fit</th><th></th></tr></thead><tbody id="callsTable"></tbody></table></div>
+    </div>
+  </section>
+
+  <section class="view hidden" id="activitiesView">
+    <div class="panel">
+      <h2>Creative Activities & Inspirational Prompts</h2>
+      <p class="lead">Use these for warmups, journaling, class assignments, studio days, critique groups, or community workshops.</p>
+      <div class="btns"><button class="btn primary" id="randomActivityBtn">Random Activity</button><button class="btn" id="sharePromptBtn">Share Prompt</button></div>
+      <div id="activitySpot" class="callout" style="margin-top:12px"></div>
+      <div id="activitiesList" class="grid" style="margin-top:16px"></div>
+    </div>
+  </section>
+
+  <section class="view hidden" id="certificateView">
+    <div class="panel no-print">
+      <h2>Completion Certificate</h2>
+      <p class="lead">Enter a learner name, choose a certificate focus, and print or download a standalone certificate. Progress statistics are included automatically.</p>
+      <div class="two"><input id="certName" placeholder="Learner / Artist name" /><select id="certFocus"><option>Comprehensive Art Education Portal</option><option>50 Mediums Studio Exploration</option><option>Professional Artist Course</option><option>Portfolio Builder Course</option><option>Calls to Art Application Course</option></select></div>
+      <div class="btns"><button class="btn primary" id="makeCertBtn">Generate Certificate</button><button class="btn" onclick="window.print()">Print Certificate</button><button class="btn" id="downloadCertBtn">Download Certificate HTML</button></div>
+    </div>
+    <div id="certificateOutput" class="cert">
+      <h2>Certificate of Completion</h2>
+      <p>This certifies that</p>
+      <div class="name">Artist Name</div>
+      <p>has completed a course of study in the Sovereign Art Education Portal.</p>
+      <p id="certStats">Progress will appear here.</p>
+      <p><strong>Date:</strong> <span id="certDate"></span></p>
+    </div>
+  </section>
+
+  <section class="view hidden" id="resourcesView">
+    <div class="panel">
+      <h2>Resource Notes & Teaching Framework</h2>
+      <div class="callout">This portal is built around a studio cycle: <strong>Create</strong> work, <strong>Present</strong> work, <strong>Respond</strong> through critique, and <strong>Connect</strong> art to culture, history, community, and personal meaning.</div>
+      <div id="sourcesList" class="card-list" style="margin-top:16px"></div>
+      <h3>Suggested Completion Policy</h3>
+      <p class="small">For a formal classroom or homeschool course, consider completion as: 80% of selected lessons complete, one finished artwork per selected medium, one critique reflection, one portfolio export, and one certificate conference with a parent, teacher, mentor, or peer group.</p>
+    </div>
+  </section>
+
+  <div class="footer">Sovereign Art Education Portal • Vanilla JS • Offline-first • Exportable • Artist-owned</div>
+</main>
+</div>
+<div id="modal" class="modal"><div class="modalbox"><button class="btn close" id="closeModal">Close</button><div id="modalContent"></div></div></div>
+<script>
+const MEDIUMS = [{"name": "Graphite Drawing", "cat": "Drawing", "level": "Foundational", "tools": "Pencils HB-8B, erasers, blending stump, sketchbook", "safety": "Use good posture and breaks for hand strain.", "outcome": "a tonal drawing study and a finished observational piece"}, {"name": "Charcoal", "cat": "Drawing", "level": "Foundational", "tools": "Vine/compressed charcoal, kneaded eraser, toned paper, fixative", "safety": "Use spray fixative outdoors or with ventilation.", "outcome": "a dramatic value drawing with expressive mark-making"}, {"name": "Colored Pencil", "cat": "Drawing", "level": "Foundational", "tools": "Artist colored pencils, burnisher, paper, sharpener", "safety": "Keep blades/sharpeners stored safely.", "outcome": "a layered color study and polished illustration"}, {"name": "Pen & Ink", "cat": "Drawing", "level": "Foundational", "tools": "Fine liners, dip pens, India ink, brush, paper", "safety": "Protect surfaces; cap inks and pens after use.", "outcome": "a line, hatch, and wash illustration"}, {"name": "Marker Illustration", "cat": "Drawing", "level": "Foundational", "tools": "Alcohol/water markers, marker paper, fineliners", "safety": "Ventilate alcohol-marker use.", "outcome": "a bold color rendering with clean edges"}, {"name": "Soft Pastel", "cat": "Drawing", "level": "Foundational", "tools": "Soft pastels, pastel paper, fixative, tape", "safety": "Avoid blowing dust; wipe surfaces with damp cloth.", "outcome": "a luminous pastel landscape or portrait study"}, {"name": "Oil Pastel", "cat": "Drawing", "level": "Foundational", "tools": "Oil pastels, heavy paper, scraping tool, mineral-free blending options", "safety": "Avoid solvent blending unless supervised and ventilated.", "outcome": "a textured resist or sgraffito artwork"}, {"name": "Watercolor", "cat": "Painting", "level": "Foundational", "tools": "Watercolor set, round brushes, watercolor paper, masking tape", "safety": "Use non-toxic pigments for student settings.", "outcome": "a transparent layered painting using washes and edges"}, {"name": "Gouache", "cat": "Painting", "level": "Foundational", "tools": "Gouache, palette, watercolor brushes, mixed-media paper", "safety": "Keep food/drinks away from paint water.", "outcome": "an opaque color study and poster-like composition"}, {"name": "Acrylic Painting", "cat": "Painting", "level": "Foundational", "tools": "Acrylic paint, brushes, palette, canvas or board", "safety": "Do not rinse large paint loads into drains; wipe first.", "outcome": "a completed acrylic painting using layers and texture"}, {"name": "Oil Painting", "cat": "Painting", "level": "Intermediate", "tools": "Oil paint, brushes, canvas, palette, solvent-free medium", "safety": "Use ventilation; store oily rags safely to prevent combustion.", "outcome": "a slow-layered oil study with glazing or alla prima technique"}, {"name": "Tempera Painting", "cat": "Painting", "level": "Foundational", "tools": "Tempera paint, brushes, paper, palette cups", "safety": "Use washable/non-toxic tempera for classroom work.", "outcome": "a flat-color design with pattern and shape"}, {"name": "Egg Tempera", "cat": "Painting", "level": "Intermediate", "tools": "Dry pigment or watercolor, egg yolk binder, panel", "safety": "Avoid inhaling dry pigments; use only safe pigments.", "outcome": "a small icon-inspired layered panel"}, {"name": "Encaustic", "cat": "Painting", "level": "Advanced", "tools": "Beeswax medium, pigment, heated palette, wood panel", "safety": "Requires adult studio; control heat and ventilation.", "outcome": "a wax-layered mixed media panel"}, {"name": "Mural Painting", "cat": "Painting", "level": "Intermediate", "tools": "Exterior/interior paints, rollers, brushes, projection/grid tools", "safety": "Use ladder safety and site permissions.", "outcome": "a scaled mural plan and painted collaborative panel"}, {"name": "Collage", "cat": "Mixed Media", "level": "Foundational", "tools": "Papers, magazines, glue, scissors, matte medium", "safety": "Cut away from hands; credit found imagery when needed.", "outcome": "a layered composition using contrast and meaning"}, {"name": "Mixed Media", "cat": "Mixed Media", "level": "Foundational", "tools": "Paint, drawing tools, papers, textiles, adhesives", "safety": "Test materials for compatibility and ventilation needs.", "outcome": "a process-rich artwork combining at least three materials"}, {"name": "Assemblage", "cat": "Mixed Media", "level": "Intermediate", "tools": "Found objects, wood base, wire, adhesive, fasteners", "safety": "Inspect found objects; avoid sharp/rusty materials.", "outcome": "a relief or sculptural object with symbolic structure"}, {"name": "Relief Printmaking", "cat": "Printmaking", "level": "Foundational", "tools": "Linoleum/foam block, carving tools, brayer, ink, paper", "safety": "Carve away from the body; use bench hooks.", "outcome": "a small edition of relief prints"}, {"name": "Intaglio / Etching", "cat": "Printmaking", "level": "Advanced", "tools": "Etching plate, needle, ink, press or hand-print method", "safety": "Avoid acids unless in equipped supervised studios.", "outcome": "an etched-line print or drypoint plate"}, {"name": "Lithography", "cat": "Printmaking", "level": "Advanced", "tools": "Stone/plate, grease crayon, processing materials, press", "safety": "Requires specialized studio training.", "outcome": "a tonal print using lithographic drawing principles"}, {"name": "Screen Printing", "cat": "Printmaking", "level": "Intermediate", "tools": "Screen, squeegee, emulsion or stencil, ink, paper/fabric", "safety": "Ventilate emulsions/cleaners and protect drains.", "outcome": "a small poster or textile edition"}, {"name": "Monotype", "cat": "Printmaking", "level": "Foundational", "tools": "Gel plate or plexiglass, ink/paint, brayer, paper", "safety": "Use water-based inks for easy cleanup.", "outcome": "a one-of-one expressive print series"}, {"name": "Cyanotype", "cat": "Photography", "level": "Foundational", "tools": "Cyanotype chemicals/paper, objects/negatives, sunlight, water", "safety": "Wear gloves; follow chemical instructions.", "outcome": "a blue photographic print from objects or negatives"}, {"name": "Photography", "cat": "Photography", "level": "Foundational", "tools": "Camera or phone, light source, editing app optional", "safety": "Respect privacy, permissions, and location safety.", "outcome": "a curated photographic series"}, {"name": "Digital Illustration", "cat": "Digital", "level": "Foundational", "tools": "Tablet or mouse, drawing software, stylus optional", "safety": "Take screen and wrist breaks.", "outcome": "a layered digital illustration with exported files"}, {"name": "Vector Art", "cat": "Digital", "level": "Foundational", "tools": "Vector software, mouse/tablet, shape/pen tools", "safety": "Keep file backups and export formats organized.", "outcome": "a scalable logo, icon, or poster design"}, {"name": "Pixel Art", "cat": "Digital", "level": "Foundational", "tools": "Pixel editor, grid, limited palette", "safety": "Use screen breaks and ergonomic posture.", "outcome": "a sprite sheet or pixel scene"}, {"name": "3D Modeling", "cat": "Digital", "level": "Intermediate", "tools": "3D software, mouse/tablet, reference images", "safety": "Use backups; check model licensing for assets.", "outcome": "a simple modeled object or gallery mockup"}, {"name": "Animation", "cat": "Digital", "level": "Intermediate", "tools": "Animation software, storyboard, drawing tools", "safety": "Plan work in short sessions to avoid strain.", "outcome": "a short looping animation"}, {"name": "Video Art", "cat": "Digital", "level": "Intermediate", "tools": "Camera/phone, editing software, audio source", "safety": "Secure filming permissions and model releases.", "outcome": "a 30-90 second experimental video"}, {"name": "Sound Art", "cat": "Digital", "level": "Intermediate", "tools": "Recorder, microphone, audio editor, found sounds", "safety": "Protect hearing; get consent for recorded voices.", "outcome": "a short soundscape connected to visual concept"}, {"name": "AI-Assisted Art Ethics", "cat": "Digital", "level": "Intermediate", "tools": "Prompt journal, editing software, original sketches/assets", "safety": "Document authorship, sources, permissions, and disclosure.", "outcome": "an ethically documented AI-assisted concept study"}, {"name": "Weaving", "cat": "Fiber", "level": "Foundational", "tools": "Loom/cardboard loom, yarn, shuttle, needle", "safety": "Store needles safely; avoid repetitive strain.", "outcome": "a woven sampler with pattern and texture"}, {"name": "Embroidery", "cat": "Fiber", "level": "Foundational", "tools": "Hoop, fabric, embroidery floss, needles", "safety": "Needle safety; good lighting for eye strain.", "outcome": "a stitched design using several stitches"}, {"name": "Quilting", "cat": "Fiber", "level": "Intermediate", "tools": "Fabric, batting, sewing machine or hand needles", "safety": "Use rotary cutters and irons carefully.", "outcome": "a small quilt block or wall hanging"}, {"name": "Fashion / Textile Design", "cat": "Fiber", "level": "Intermediate", "tools": "Sketchbook, fabric swatches, sewing tools, dress form optional", "safety": "Machine/iron/scissor safety.", "outcome": "a wearable concept board or small sewn prototype"}, {"name": "Ceramic Handbuilding", "cat": "Sculpture", "level": "Foundational", "tools": "Clay, score/slip tools, sponge, kiln access or air-dry clay", "safety": "Do not inhale clay dust; clean with water, not sweeping.", "outcome": "a coil, slab, or pinch-built ceramic form"}, {"name": "Pottery Wheel", "cat": "Sculpture", "level": "Intermediate", "tools": "Wheel, clay, water, trimming tools, kiln access", "safety": "Tie hair back; avoid dry clay dust.", "outcome": "a thrown vessel and trimmed foot"}, {"name": "Clay Sculpture", "cat": "Sculpture", "level": "Foundational", "tools": "Clay, armature optional, modeling tools", "safety": "Use stable armatures and dust-safe cleanup.", "outcome": "a modeled figure, animal, or abstract form"}, {"name": "Wood Sculpture", "cat": "Sculpture", "level": "Advanced", "tools": "Wood, carving tools, clamps, sandpaper", "safety": "Eye protection; sharp tool and dust safety required.", "outcome": "a carved relief or small freestanding form"}, {"name": "Stone Sculpture", "cat": "Sculpture", "level": "Advanced", "tools": "Soapstone/soft stone, rasps, files, sandpaper", "safety": "Respirator/eye protection; wet sand to reduce dust.", "outcome": "a polished stone form"}, {"name": "Metalwork / Jewelry", "cat": "Sculpture", "level": "Advanced", "tools": "Wire/sheet metal, pliers, saw, torch optional", "safety": "Use eye protection; torch work requires supervision.", "outcome": "a wearable metal piece or small constructed object"}, {"name": "Glass Art", "cat": "Sculpture", "level": "Advanced", "tools": "Stained/fused glass supplies, cutter, grinder, kiln optional", "safety": "Eye protection; handle shards and heat safely.", "outcome": "a small stained, mosaic, or fused glass work"}, {"name": "Mosaic", "cat": "Sculpture", "level": "Foundational", "tools": "Tiles, tesserae, adhesive, grout, base board", "safety": "Wear gloves/eye protection for cutting and grouting.", "outcome": "a patterned mosaic panel"}, {"name": "Installation Art", "cat": "Contemporary", "level": "Intermediate", "tools": "Space plan, objects, lighting, labels, documentation camera", "safety": "Plan traffic flow, stability, and permissions.", "outcome": "a site-aware installation proposal or room-scale study"}, {"name": "Performance Art", "cat": "Contemporary", "level": "Intermediate", "tools": "Score/script, space, props, documentation device", "safety": "Set boundaries, consent, and audience safety.", "outcome": "a documented performance score"}, {"name": "Land / Environmental Art", "cat": "Contemporary", "level": "Intermediate", "tools": "Natural materials, site journal, camera, permissions", "safety": "Leave no harm; avoid protected habitats and trespass.", "outcome": "a temporary site-responsive artwork"}, {"name": "Book Arts / Zines", "cat": "Design", "level": "Foundational", "tools": "Paper, thread/staples, printer optional, drawing tools", "safety": "Blade/scissor safety; credit text/images.", "outcome": "a handmade artist book or zine edition"}, {"name": "Calligraphy / Hand Lettering", "cat": "Design", "level": "Foundational", "tools": "Brush pens, dip pens, ink, guidelines, smooth paper", "safety": "Protect surfaces and store nibs safely.", "outcome": "a lettered quote, title page, or certificate design"}];
+const PROFESSIONAL = [{"title": "Artist Identity & Voice", "focus": "Define your themes, influences, values, audience, and studio promise.", "tasks": ["Write a 100-word artist identity paragraph.", "Create a visual map of recurring symbols, colors, and questions.", "Choose 3 words you want viewers to feel."]}, {"title": "Studio Systems & Creative Discipline", "focus": "Build a weekly rhythm for making, documenting, archiving, and reflecting.", "tasks": ["Design a 3-day studio schedule.", "Create a setup/cleanup checklist.", "Track one week of studio time and energy."]}, {"title": "Documentation & Inventory", "focus": "Photograph, title, measure, price, tag, and archive each artwork.", "tasks": ["Create an inventory code system.", "Document five works with title/medium/date/size/status.", "Write condition notes for one artwork."]}, {"title": "Pricing, Editions & Sales Ethics", "focus": "Create transparent pricing based on size, time, material, market, and consistency.", "tasks": ["Build a basic price chart.", "Write edition terms if you sell prints.", "Draft a buyer receipt template."]}, {"title": "Artist Statement, Bio & Resume", "focus": "Prepare written materials that are clear, honest, and opportunity-specific.", "tasks": ["Write a 150-word artist statement.", "Write a 75-word bio.", "Build a one-page artist resume."]}, {"title": "Exhibitions, Collectors & Relationships", "focus": "Understand presentation, labels, communication, follow-up, and long-term trust.", "tasks": ["Write a gallery label for one artwork.", "Draft a collector thank-you note.", "Create a contacts list for galleries and arts groups."]}, {"title": "Copyright, Contracts & Permissions", "focus": "Learn basic rights, licensing, image permissions, and written agreements.", "tasks": ["Add copyright language to your portfolio.", "Create a permission checklist for models, locations, and collaborators.", "Write questions to ask before signing a contract."]}, {"title": "Sustainable Artist Career Plan", "focus": "Plan income streams, deadlines, learning, rest, and legacy documentation.", "tasks": ["Choose 3 income streams to test.", "Create a 90-day artist action plan.", "Write a preservation note for future stewards of your work."]}];
+const PORTFOLIO = [{"week": 1, "title": "Clarify the Portfolio Purpose", "lesson": "Decide whether this portfolio is for school, galleries, grants, commissions, public art, sales, or a general website.", "activity": "Write one sentence: “This portfolio is for…” and choose the 3 strongest themes."}, {"week": 2, "title": "Select and Edit the Body of Work", "lesson": "Choose your best 10-20 pieces. Favor consistency, clarity, and recent work over showing everything.", "activity": "Make Yes / Maybe / Archive piles and explain why each Yes belongs."}, {"week": 3, "title": "Photograph and Prepare Images", "lesson": "Use clean lighting, straight edges, color accuracy, cropped borders, and useful file names.", "activity": "Photograph 5 works and name files: Lastname_Title_Year_Size_Medium.jpg."}, {"week": 4, "title": "Write the Story Around the Work", "lesson": "Prepare a short bio, artist statement, artwork captions, and process notes that invite viewers in.", "activity": "Write labels for 5 works and one 150-word artist statement."}, {"week": 5, "title": "Sequence the Portfolio", "lesson": "Open strong, group related works, vary visual rhythm, and close with a memorable piece.", "activity": "Arrange the works in 3 possible orders: chronological, theme-based, and strongest-flow."}, {"week": 6, "title": "Publish, Share, and Maintain", "lesson": "Export a PDF, build a web gallery, create a backup, and schedule quarterly updates.", "activity": "Create a portfolio checklist and export your first portfolio pack."}];
+const CALLS = [{"week": 1, "title": "Find the Right Opportunities", "lesson": "Match your medium, location, career stage, theme, eligibility, budget, and timeline before applying.", "activity": "Collect 5 calls and score each one 1-5 for fit."}, {"week": 2, "title": "Read the Prospectus Like a Contract", "lesson": "Highlight deadlines, fees, eligibility, artwork limits, image rules, insurance, commission, shipping, and rights.", "activity": "Turn one call into a checklist of every required item."}, {"week": 3, "title": "Prepare Images and Artwork Data", "lesson": "Follow file naming, size, format, resolution, and caption requirements exactly.", "activity": "Prepare 3 sample entries with title, medium, size, price, year, and image file name."}, {"week": 4, "title": "Write Strong Application Materials", "lesson": "Use direct language. Connect your work to the call without forcing it. Avoid vague claims and over-explaining.", "activity": "Write a 250-word proposal and a 100-word artist bio."}, {"week": 5, "title": "Budget, Logistics, and Public Art Readiness", "lesson": "Plan materials, installation, travel, insurance, fabrication, maintenance, timeline, and documentation.", "activity": "Create a simple project budget with 6 categories."}, {"week": 6, "title": "Submit, Track, Follow Up, and Learn", "lesson": "Save confirmations, track dates, prepare for acceptance, and learn from rejection without losing momentum.", "activity": "Create a call tracker and write a graceful acceptance and decline response."}];
+const PROMPTS = ["Create a work using only three values: light, middle, and dark.", "Make a piece about a place that shaped you without drawing the place literally.", "Use one ordinary household object as the hero of a composition.", "Create a self-portrait using symbols instead of a face.", "Choose a color you rarely use and build a whole artwork around it.", "Make a series of five thumbnail sketches before choosing a final composition.", "Create an artwork that shows movement without using motion lines.", "Make a visual response to the word shelter.", "Combine two unrelated textures into one believable surface.", "Create an artwork inspired by a sound, smell, or memory.", "Design a small artwork that could become a public mural.", "Create a piece with negative space as the main subject.", "Make a work that documents a daily ritual.", "Use repetition to create calm, tension, or rhythm.", "Create a work that can be viewed from more than one direction.", "Make a piece about water, weather, or atmosphere.", "Create a visual map of your creative influences.", "Turn a mistake into the central design feature.", "Make a work using only circles, lines, and one texture.", "Create a tiny artwork that still feels monumental.", "Build an artwork from a question you do not know how to answer.", "Create an image that feels like a window, doorway, or threshold.", "Make a piece that honors a person, place, or community.", "Create a study of hands, tools, or traces of labor.", "Make an artwork using contrast between natural and constructed forms.", "Create a work that looks quiet from far away and complex up close.", "Make a series based on the same subject in three different moods.", "Create a visual prayer, blessing, protest, or promise.", "Make a piece using found text or invented lettering.", "Create a work that explains a memory to a stranger."];
+const ACTIVITIES = [{"title": "Studio Warm-Up: 10 Lines", "desc": "Draw ten different lines: nervous, calm, heavy, floating, broken, fast, old, soft, sharp, and joyful."}, {"title": "Material Interview", "desc": "Write five sentences beginning with: This material wants to… Then make a test swatch proving it."}, {"title": "Critique Ladder", "desc": "Describe, analyze, interpret, and evaluate one artwork without using the words good, bad, pretty, or ugly."}, {"title": "Museum at Home", "desc": "Choose three objects in your home and arrange them as an exhibition with labels."}, {"title": "Process Photograph", "desc": "Photograph your artwork at three stages and write what changed between each stage."}, {"title": "One-Hour Edition", "desc": "Make three related small works in one hour. Keep them together as a mini-series."}, {"title": "Portfolio Caption Drill", "desc": "Write a 35-word caption for one artwork that includes title, materials, process, and meaning."}, {"title": "Call Fit Score", "desc": "Score a real or imaginary call from 1-5 for eligibility, theme fit, budget, timeline, and rights."}, {"title": "Artist Statement Seed", "desc": "Answer: What do I make? Why do I make it? What do I want viewers to notice?"}, {"title": "Curator’s Wall", "desc": "Select six works and arrange them in an order that tells a visual story."}];
+const SOURCES = [{"name": "National Core Arts Standards", "note": "Framework used for Create, Present, Respond, Connect learning cycle.", "url": "https://www.nationalartsstandards.org/"}, {"name": "CaFÉ / CallForEntry Checklist", "note": "Application workflow inspiration: portfolio, call requirements, checkout/submission.", "url": "https://www.callforentry.org/applying-to-a-call-for-entry-on-cafe-a-checklist/"}, {"name": "NYFA Artist Statement Guidance", "note": "Plain-language application writing guidance for artist statements.", "url": "https://www.nyfa.org/knowledge-base/the-art-of-the-application/the-artist-statement-5-dos-and-donts/"}, {"name": "NYFA Artist Resume Guidance", "note": "Artist resume should be adaptable and tailored to opportunities.", "url": "https://www.nyfa.org/knowledge-base/the-art-of-the-application/how-to-create-an-artist-resume/"}, {"name": "Artwork Archive Artist Tools", "note": "Professional practice inspiration: inventory, reports, public profiles, and career organization.", "url": "https://www.artworkarchive.com/artists"}];
+
+const $ = sel => document.querySelector(sel);
+const $$ = sel => Array.from(document.querySelectorAll(sel));
+const storeKey = 'sovereignArtEducationPortal.v1';
+let state = loadState();
+let portfolio = loadPortfolio();
+let callRows = loadCalls();
+
+const views = [
+  ['dashboard','Home Studio'], ['mediums','50 Mediums'], ['career','Professional Artist'], ['portfolio','Portfolio Builder'], ['calls','Calls to Art'], ['activities','Activities + Prompts'], ['certificate','Certificate'], ['resources','Resources']
+];
+
+function loadState(){
+  try{ return JSON.parse(localStorage.getItem(storeKey)) || {checks:{}, careerChecks:{}, theme:'parchment'}; }catch(e){ return {checks:{}, careerChecks:{}, theme:'parchment'}; }
+}
+function saveState(){ localStorage.setItem(storeKey, JSON.stringify(state)); updateStats(); }
+function loadPortfolio(){ try{ return JSON.parse(localStorage.getItem(storeKey+'.portfolio')) || []; }catch(e){ return []; } }
+function savePortfolio(){ localStorage.setItem(storeKey+'.portfolio', JSON.stringify(portfolio)); renderPortfolio(); }
+function loadCalls(){ try{ return JSON.parse(localStorage.getItem(storeKey+'.calls')) || []; }catch(e){ return []; } }
+function saveCalls(){ localStorage.setItem(storeKey+'.calls', JSON.stringify(callRows)); renderCallsTable(); }
+function escapeHTML(s=''){ return String(s).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])); }
+function download(filename, content, type='text/plain'){
+  const blob = new Blob([content], {type});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = filename; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
+}
+function csv(rows){
+  return rows.map(row => row.map(v => '"'+String(v ?? '').replace(/"/g,'""')+'"').join(',')).join('\n');
+}
+function today(){ return new Date().toLocaleDateString(undefined, {year:'numeric',month:'long',day:'numeric'}); }
+
+function initNav(){
+  $('#nav').innerHTML = views.map(([id,label],i)=>`<button class="${i===0?'active':''}" data-view="${id}">${label}</button>`).join('');
+  $('#nav').addEventListener('click', e => { if(e.target.matches('button')) showView(e.target.dataset.view); });
+}
+function showView(id){
+  $$('.view').forEach(v => v.classList.add('hidden'));
+  $('#'+id+'View').classList.remove('hidden');
+  $$('#nav button').forEach(b => b.classList.toggle('active', b.dataset.view===id));
+  if(id==='certificate') generateCert();
+}
+
+function makePlan(m){
+  const isDigital = m.cat==='Digital';
+  const isSculpt = m.cat==='Sculpture';
+  const isPrint = m.cat==='Printmaking';
+  const isPhoto = m.cat==='Photography';
+  const substrate = isDigital ? 'file layers and exports' : isSculpt ? 'form, structure, and surface' : isPrint ? 'matrix, impression, and edition' : isPhoto ? 'light, composition, and sequence' : 'surface, composition, and material behavior';
+  return [
+    {title:'Foundations + Material Respect', lesson:`Learn the basic vocabulary of ${m.name}. Set up tools, safety practices, workspace, and a material test page focused on ${substrate}.`, activity:`Create a labeled sampler showing at least 8 marks, textures, effects, or construction tests in ${m.name}.`},
+    {title:'Observation + Control', lesson:`Practice control through value, proportion, rhythm, edges, contrast, and intentional composition.`, activity:`Make three 20-minute studies using the same subject but different composition choices.`},
+    {title:'Experiment + Personal Voice', lesson:`Push beyond copying. Connect ${m.name} to memory, symbol, place, story, pattern, or personal meaning.`, activity:`Create a small expressive piece using one limitation: limited palette, limited tools, or limited time.`},
+    {title:'Art History + Contemporary Connection', lesson:`Research one historic artist and one living/contemporary artist or maker connected to this medium. Notice technique, context, and presentation.`, activity:`Create a respectful study that borrows a technique but changes the subject and meaning.`},
+    {title:'Finished Work + Critique', lesson:`Develop one finished artwork with planning, revision, craftsmanship, and critique vocabulary: describe, analyze, interpret, evaluate.`, activity:`Write a 4-part critique reflection and revise one part of the work after feedback.`},
+    {title:'Presentation + Portfolio Documentation', lesson:`Title, photograph or export, write a caption, document materials, dimensions, date, and learning reflection.`, activity:`Add the finished work to your portfolio and write a 50-100 word statement.`}
+  ];
+}
+
+function renderMediums(){
+  const cats = [...new Set(MEDIUMS.map(m=>m.cat))].sort();
+  $('#catFilter').innerHTML = '<option value="all">All Categories</option>'+cats.map(c=>`<option>${c}</option>`).join('');
+  function draw(){
+    const q = $('#searchInput').value.toLowerCase();
+    const cat = $('#catFilter').value;
+    const level = $('#levelFilter').value;
+    const filtered = MEDIUMS.filter(m => (cat==='all'||m.cat===cat) && (level==='all'||m.level===level) && JSON.stringify(m).toLowerCase().includes(q));
+    $('#mediumGrid').innerHTML = filtered.map((m,idx)=>`
+      <article class="medium-card">
+        <h3>${escapeHTML(m.name)}</h3>
+        <div class="meta"><span class="badge">${m.cat}</span><span class="badge">${m.level}</span><span class="badge">6 weeks</span></div>
+        <p class="small"><strong>Tools:</strong> ${escapeHTML(m.tools)}</p>
+        <p class="small"><strong>Safety:</strong> ${escapeHTML(m.safety)}</p>
+        <p class="small"><strong>Outcome:</strong> ${escapeHTML(m.outcome)}.</p>
+        <div class="btns" style="margin-top:auto"><button class="btn primary" onclick="openMedium(${MEDIUMS.indexOf(m)})">Open Course</button><button class="btn" onclick="markMediumComplete(${MEDIUMS.indexOf(m)})">Mark 6 Weeks</button></div>
+      </article>`).join('') || '<div class="panel">No matching mediums found.</div>';
+  }
+  ['searchInput','catFilter','levelFilter'].forEach(id => $('#'+id).addEventListener('input', draw));
+  draw();
+}
+window.openMedium = function(i){
+  const m = MEDIUMS[i]; const plan = makePlan(m);
+  const html = `<h2>${escapeHTML(m.name)} — 6 Week Course</h2>
+    <p class="lead">${escapeHTML(m.outcome)}. Category: ${m.cat}. Level: ${m.level}.</p>
+    <div class="callout"><strong>Materials:</strong> ${escapeHTML(m.tools)}<br><strong>Safety:</strong> ${escapeHTML(m.safety)}</div>
+    <div class="course" style="margin-top:14px">${plan.map((w,wi)=>`<div class="week"><h4>Week ${wi+1}: ${escapeHTML(w.title)}</h4><p class="small">${escapeHTML(w.lesson)}</p><p><strong>Studio Activity:</strong> ${escapeHTML(w.activity)}</p><label class="checkline"><input type="checkbox" data-check="m.${i}.${wi}" ${state.checks['m.'+i+'.'+wi]?'checked':''}> Complete this week</label></div>`).join('')}</div>`;
+  $('#modalContent').innerHTML = html;
+  $('#modal').classList.add('open');
+  $('#modalContent').querySelectorAll('[data-check]').forEach(cb => cb.addEventListener('change', e=>{ state.checks[e.target.dataset.check]=e.target.checked; saveState(); }));
+}
+window.markMediumComplete = function(i){ for(let w=0; w<6; w++) state.checks['m.'+i+'.'+w] = true; saveState(); }
+
+function renderProfessional(){
+  $('#professionalCourse').innerHTML = PROFESSIONAL.map((m,mi)=>`<div class="week"><h3>${mi+1}. ${escapeHTML(m.title)}</h3><p class="small">${escapeHTML(m.focus)}</p>${m.tasks.map((t,ti)=>`<label class="checkline"><input type="checkbox" data-career="p.${mi}.${ti}" ${state.careerChecks['p.'+mi+'.'+ti]?'checked':''}> ${escapeHTML(t)}</label>`).join('')}</div>`).join('');
+  $('#professionalCourse').querySelectorAll('[data-career]').forEach(cb => cb.addEventListener('change', e=>{ state.careerChecks[e.target.dataset.career]=e.target.checked; saveState(); }));
+}
+function renderCourse(container, arr, prefix){
+  $(container).innerHTML = arr.map((w,wi)=>`<div class="week"><h4>Week ${w.week}: ${escapeHTML(w.title)}</h4><p class="small">${escapeHTML(w.lesson)}</p><p><strong>Activity:</strong> ${escapeHTML(w.activity)}</p><label class="checkline"><input type="checkbox" data-career="${prefix}.${wi}" ${state.careerChecks[prefix+'.'+wi]?'checked':''}> Complete week ${w.week}</label></div>`).join('');
+  $(container).querySelectorAll('[data-career]').forEach(cb => cb.addEventListener('change', e=>{ state.careerChecks[e.target.dataset.career]=e.target.checked; saveState(); }));
+}
+function renderActivities(){
+  $('#activitiesList').innerHTML = ACTIVITIES.map(a=>`<article class="medium-card"><h3>${escapeHTML(a.title)}</h3><p class="small">${escapeHTML(a.desc)}</p></article>`).join('');
+  randomActivity();
+}
+function randomPrompt(){ $('#dailyPrompt').textContent = PROMPTS[Math.floor(Math.random()*PROMPTS.length)]; }
+function randomActivity(){ const a = ACTIVITIES[Math.floor(Math.random()*ACTIVITIES.length)]; $('#activitySpot').innerHTML = `<strong>${escapeHTML(a.title)}</strong><br>${escapeHTML(a.desc)}`; }
+
+function updateStats(){
+  const total = MEDIUMS.length*6;
+  const done = Object.values(state.checks).filter(Boolean).length;
+  $('#lessonStat').textContent = done+'/'+total;
+  $('#lessonBar').style.width = Math.min(100, done/total*100)+'%';
+  const careerTotal = PROFESSIONAL.reduce((n,m)=>n+m.tasks.length,0) + PORTFOLIO.length + CALLS.length;
+  const careerDone = Object.values(state.careerChecks).filter(Boolean).length;
+  $('#careerStat').textContent = careerDone+'/'+careerTotal;
+  $('#careerBar').style.width = Math.min(100, careerDone/careerTotal*100)+'%';
+}
+
+function renderPortfolio(){
+  $('#portfolioGrid').innerHTML = portfolio.map((a,i)=>`<article class="artcard"><img src="${a.src}" alt="${escapeHTML(a.title||'Artwork')}"><div><input value="${escapeHTML(a.title||'Untitled')}" data-art-title="${i}" placeholder="Title"><input value="${escapeHTML(a.medium||'')}" data-art-medium="${i}" placeholder="Medium" style="margin-top:6px"><input value="${escapeHTML(a.year||'')}" data-art-year="${i}" placeholder="Year" style="margin-top:6px"><textarea data-art-note="${i}" placeholder="Statement / story" style="margin-top:6px">${escapeHTML(a.note||'')}</textarea><button class="btn" onclick="removeArt(${i})">Remove</button></div></article>`).join('');
+  $('#portfolioGrid').querySelectorAll('[data-art-title]').forEach(inp => inp.addEventListener('input', e=>{ portfolio[e.target.dataset.artTitle].title=e.target.value; savePortfolioSilent(); }));
+  $('#portfolioGrid').querySelectorAll('[data-art-medium]').forEach(inp => inp.addEventListener('input', e=>{ portfolio[e.target.dataset.artMedium].medium=e.target.value; savePortfolioSilent(); }));
+  $('#portfolioGrid').querySelectorAll('[data-art-year]').forEach(inp => inp.addEventListener('input', e=>{ portfolio[e.target.dataset.artYear].year=e.target.value; savePortfolioSilent(); }));
+  $('#portfolioGrid').querySelectorAll('[data-art-note]').forEach(inp => inp.addEventListener('input', e=>{ portfolio[e.target.dataset.artNote].note=e.target.value; savePortfolioSilent(); }));
+}
+function savePortfolioSilent(){ localStorage.setItem(storeKey+'.portfolio', JSON.stringify(portfolio)); }
+window.removeArt = function(i){ portfolio.splice(i,1); savePortfolio(); }
+function handleArtFiles(files){
+  [...files].filter(f=>f.type.startsWith('image/')).forEach(file=>{
+    const reader = new FileReader();
+    reader.onload = e => { portfolio.push({src:e.target.result,title:file.name.replace(/\.[^.]+$/,''),medium:'',year:'',note:''}); savePortfolio(); };
+    reader.readAsDataURL(file);
+  });
+}
+function portfolioHTML(){
+  const artist = $('#artistName').value || 'Artist'; const title = $('#portfolioTitle').value || 'Selected Works';
+  return `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHTML(title)}</title><style>body{margin:0;background:#f7f2e9;color:#211b16;font-family:Georgia,serif}header{padding:42px;text-align:center}h1{font-size:3rem;margin:0}.grid{columns:3 260px;gap:18px;padding:20px;max-width:1200px;margin:auto}article{break-inside:avoid;border:1px solid #d8c6ad;background:#fffaf1;border-radius:18px;margin:0 0 18px;overflow:hidden}img{width:100%;display:block}div{padding:14px}p{color:#6f6155;line-height:1.5}</style></head><body><header><h1>${escapeHTML(title)}</h1><p>Portfolio by ${escapeHTML(artist)}</p></header><main class="grid">${portfolio.map(a=>`<article><img src="${a.src}"><div><h2>${escapeHTML(a.title)}</h2><p>${escapeHTML([a.medium,a.year].filter(Boolean).join(' • '))}</p><p>${escapeHTML(a.note||'')}</p></div></article>`).join('')}</main></body></html>`;
+}
+
+function renderCallsTable(){
+  $('#callsTable').innerHTML = callRows.map((r,i)=>`<tr><td>${escapeHTML(r.name)}</td><td>${escapeHTML(r.due)}</td><td>${escapeHTML(r.fee)}</td><td>${escapeHTML(r.req)}</td><td><select onchange="callRows[${i}].fit=this.value;saveCalls()"><option ${r.fit==='Review'?'selected':''}>Review</option><option ${r.fit==='Strong Fit'?'selected':''}>Strong Fit</option><option ${r.fit==='Maybe'?'selected':''}>Maybe</option><option ${r.fit==='Pass'?'selected':''}>Pass</option><option ${r.fit==='Submitted'?'selected':''}>Submitted</option></select></td><td><button class="btn" onclick="callRows.splice(${i},1);saveCalls()">Remove</button></td></tr>`).join('');
+}
+
+function generateCert(){
+  const name = $('#certName').value || 'Artist Name'; const focus = $('#certFocus').value;
+  const lessonDone = Object.values(state.checks).filter(Boolean).length; const careerDone = Object.values(state.careerChecks).filter(Boolean).length;
+  $('#certificateOutput .name').textContent = name;
+  $('#certificateOutput p:nth-of-type(2)').innerHTML = `has completed a course of study in <strong>${escapeHTML(focus)}</strong>.`;
+  $('#certStats').textContent = `Recorded progress: ${lessonDone} medium lessons and ${careerDone} career/portfolio/application tasks completed.`;
+  $('#certDate').textContent = today();
+}
+function certificateHTML(){
+  generateCert();
+  return `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Certificate</title><style>body{font-family:Georgia,serif;background:#f7f2e9;color:#211b16;padding:30px}.cert{max-width:940px;margin:auto;padding:50px;border:8px double #7a3e1d;border-radius:28px;background:#fffaf1;text-align:center}h2{font-size:3rem;margin:0}.name{font-size:2.2rem;border-bottom:2px solid #d8c6ad;display:inline-block;padding:8px 50px;margin:18px 0}p{font-size:1.05rem;color:#6f6155;line-height:1.55}@media print{body{background:#fff}}</style></head><body>${$('#certificateOutput').outerHTML}</body></html>`;
+}
+function renderSources(){
+  $('#sourcesList').innerHTML = SOURCES.map(s=>`<div class="week"><h3>${escapeHTML(s.name)}</h3><p class="small">${escapeHTML(s.note)}</p><p><a href="${escapeHTML(s.url)}" target="_blank" rel="noopener">Open resource</a></p></div>`).join('');
+}
+
+function bindEvents(){
+  $('#closeModal').onclick = ()=>$('#modal').classList.remove('open');
+  $('#modal').addEventListener('click', e=>{ if(e.target.id==='modal') $('#modal').classList.remove('open'); });
+  $('#newPromptBtn').onclick = randomPrompt;
+  $('#copyPromptBtn').onclick = ()=>navigator.clipboard?.writeText($('#dailyPrompt').textContent);
+  $('#randomActivityBtn').onclick = randomActivity;
+  $('#sharePromptBtn').onclick = async()=>{ const text=$('#dailyPrompt').textContent; if(navigator.share) await navigator.share({title:'Studio prompt',text}); else { await navigator.clipboard?.writeText(text); alert('Prompt copied.'); } };
+  $('#themeSelect').value = state.theme || 'parchment'; document.body.dataset.theme = state.theme || 'parchment';
+  $('#themeSelect').onchange = e=>{ state.theme=e.target.value; document.body.dataset.theme=e.target.value; saveState(); };
+  $('#printMediumsBtn').onclick = ()=>window.print();
+  $('#exportProgressBtn').onclick = ()=>download('art-education-progress.json', JSON.stringify(state,null,2), 'application/json');
+  $('#resetBtn').onclick = ()=>{ if(confirm('Reset all lesson and career progress?')) { state={checks:{},careerChecks:{},theme:state.theme||'parchment'}; saveState(); renderProfessional(); renderCourse('#portfolioCourse', PORTFOLIO, 'portfolio'); renderCourse('#callsCourse', CALLS, 'calls'); } };
+  $('#artUpload').addEventListener('change', e=>handleArtFiles(e.target.files));
+  document.addEventListener('paste', e=>{ if(!$('#portfolioView').classList.contains('hidden')) handleArtFiles(e.clipboardData.files); });
+  $('#downloadPortfolioBtn').onclick = ()=>download('artist-portfolio-gallery.html', portfolioHTML(), 'text/html');
+  $('#exportPortfolioBtn').onclick = ()=>download('artist-portfolio-backup.json', JSON.stringify(portfolio,null,2), 'application/json');
+  $('#clearPortfolioBtn').onclick = ()=>{ if(confirm('Clear local portfolio images?')) { portfolio=[]; savePortfolio(); } };
+  $('#addCallBtn').onclick = ()=>{ const row={name:$('#callName').value,due:$('#callDue').value,fee:$('#callFee').value,link:$('#callLink').value,req:$('#callReq').value,fit:'Review'}; if(!row.name) return alert('Add a call name first.'); callRows.push(row); ['callName','callDue','callFee','callLink','callReq'].forEach(id=>$('#'+id).value=''); saveCalls(); };
+  $('#downloadCallsBtn').onclick = ()=>download('calls-to-art-tracker.csv', csv([['Call','Due','Fee/Budget','Link','Requirements','Fit'], ...callRows.map(r=>[r.name,r.due,r.fee,r.link,r.req,r.fit])]), 'text/csv');
+  $('#makeCertBtn').onclick = generateCert;
+  $('#downloadCertBtn').onclick = ()=>download('art-education-certificate.html', certificateHTML(), 'text/html');
+  ['certName','certFocus'].forEach(id=>$('#'+id).addEventListener('input', generateCert));
+}
+
+initNav(); bindEvents(); renderMediums(); renderProfessional(); renderCourse('#portfolioCourse', PORTFOLIO, 'portfolio'); renderCourse('#callsCourse', CALLS, 'calls'); renderActivities(); renderSources(); renderPortfolio(); renderCallsTable(); randomPrompt(); updateStats(); generateCert();
+</script>
+</body>
+</html>
