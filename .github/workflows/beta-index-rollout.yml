@@ -2,13 +2,16 @@ name: Beta Program index rollout
 
 on:
   push:
-    paths: ['.github/workflows/beta-index-rollout.yml']
+    paths:
+      - '**/index.html'
+      - '.github/workflows/beta-index-rollout.yml'
 
 permissions:
   contents: write
 
 jobs:
   rollout:
+    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -48,5 +51,5 @@ jobs:
           git config user.name 'Verve N Veda Automation'
           git config user.email 'actions@users.noreply.github.com'
           git add -- '*.html'
-          git commit -m 'Repair Beta Program access on all index pages'
+          git commit -m 'Enforce Beta Program access on index pages'
           git push
