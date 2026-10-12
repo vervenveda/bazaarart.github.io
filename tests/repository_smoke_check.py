@@ -39,14 +39,15 @@ class AuditParser(HTMLParser):
         if tag == "meta" and a.get("http-equiv", "").lower() == "content-security-policy":
             self.csp = a.get("content", "")
 
-def local_target(ref):
+def local_target(ref, source_file):
     parsed = urlparse(ref)
     if parsed.scheme or parsed.netloc or ref.startswith(("#", "data:", "blob:", "mailto:", "tel:", "javascript:")):
         return None
     path = parsed.path
     if not path:
         return None
-    target = (ROOT / path.lstrip("/")) if path.startswith("/") else (ROOT / path)  # Root-relative and simple relative paths are checked conservatively.
+    target = (ROOT / path.lstrip("/")) if path.startswith("/") else (path_obj.parent / path)
+    target = target.resolve()
     if target.is_dir():
         target = target / "index.html"
     return target
@@ -63,7 +64,7 @@ def audit_html(path):
     if duplicates:
         errors.append(f"{path.relative_to(ROOT)}: duplicate id(s): {', '.join(duplicates)}")
     for ref in parser.refs:
-        target = local_target(ref)
+        target = local_target(ref, path)
         if target and not target.exists():
             errors.append(f"{path.relative_to(ROOT)}: missing local asset: {ref}")
     if path == ROOT / "index.html":
