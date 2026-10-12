@@ -46,7 +46,7 @@ def local_target(ref, source_file):
     path = parsed.path
     if not path:
         return None
-    target = (ROOT / path.lstrip("/")) if path.startswith("/") else (path_obj.parent / path)
+    source_path = Path(source_file)\n    target = (ROOT / path.lstrip("/")) if path.startswith("/") else (ROOT / source_path.parent / path_obj)
     target = target.resolve()
     if target.is_dir():
         target = target / "index.html"
