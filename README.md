@@ -183,3 +183,8 @@ Share your work. Cheer others on. Soak in the creative energy. It all starts her
 path = Path("/mnt/data/README.md")
 path.write_text(readme, encoding="utf-8")
 print(path)/scaled according to a zoom factor, and lets the user paint directly on top of it using mouse or touch events.
+
+
+## Maintenance and future migration
+
+See [MAINTENANCE.md](MAINTENANCE.md) for repository ownership, security review practices, automated smoke checks, and the STOS preservation policy.

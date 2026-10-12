@@ -1,0 +1,27 @@
+/* Shared typography scale: maintained centrally for all standalone pages. */
+:root { --vnv-eyebrow-size: 55px; --vnv-h1-size: 33px; --vnv-descriptor-size: 24px; }
+.eyebrow, .eyebrow-title, .page-eyebrow, .kicker {
+  font-size: var(--vnv-eyebrow-size) !important;
+  line-height: 1.08;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+h1 {
+  font-size: var(--vnv-h1-size) !important;
+  line-height: 1.15;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+h2, h2.descriptor, h2.descriptor-title, .descriptor, .descriptor-title,
+.page-descriptor, .descriptor h2, .descriptor-title h2 {
+  font-size: var(--vnv-descriptor-size) !important;
+  line-height: 1.3;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 600px) {
+  .eyebrow, .eyebrow-title, .page-eyebrow, .kicker { font-size: 55px !important; }
+  h1 { font-size: 33px !important; }
+  h2, h2.descriptor, h2.descriptor-title, .descriptor, .descriptor-title,
+  .page-descriptor, .descriptor h2, .descriptor-title h2 { font-size: 24px !important; }
+}
