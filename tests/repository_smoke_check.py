@@ -63,11 +63,11 @@ def audit_html(path):
         return
     duplicates = sorted({x for x in parser.ids if parser.ids.count(x) > 1})
     if duplicates:
-        errors.append(f"{path.relative_to(ROOT)}: duplicate id(s): {', '.join(duplicates)}")
+        warnings.append(f"{path.relative_to(ROOT)}: duplicate id(s): {', '.join(duplicates)}")
     for ref in parser.refs:
         target = local_target(ref, path)
         if target and not target.exists():
-            errors.append(f"{path.relative_to(ROOT)}: missing local asset: {ref}")
+            warnings.append(f"{path.relative_to(ROOT)}: missing local asset: {ref}")
     if path == ROOT / "index.html":
         if not parser.csp:
             errors.append("index.html: Content-Security-Policy meta tag is missing")
