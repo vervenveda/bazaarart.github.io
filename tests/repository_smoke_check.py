@@ -72,7 +72,7 @@ def audit_html(path):
             errors.append("index.html: Content-Security-Policy meta tag is missing")
         else:
             for directive in ("default-src", "object-src", "base-uri", "form-action"):
-                if not re.search(r"(?:^|;)\\s*" + re.escape(directive) + r"\\b", parser.csp):
+                if not re.search(r"(?:^|;)\s*" + re.escape(directive) + r"\b", parser.csp):
                     errors.append(f"index.html: CSP directive {directive} is missing")
             if "'unsafe-eval'" in parser.csp:
                 errors.append("index.html: CSP contains unsafe-eval")
