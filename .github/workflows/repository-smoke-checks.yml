@@ -1,0 +1,23 @@
+name: Repository smoke checks
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '**/*.html'
+      - 'assets/**'
+      - 'mentor-manifest.json'
+      - 'tests/**'
+      - '.github/workflows/repository-smoke-checks.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: repository-smoke-checks-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  smoke-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate repository HTML, local assets, IDs, CSP, and manifest
+        run: python3 tests/repository_smoke_check.py
