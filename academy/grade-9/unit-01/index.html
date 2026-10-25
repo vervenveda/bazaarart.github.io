@@ -55,4 +55,6 @@ const stems=[
 $('newQuiz').onclick=newQuiz;$('gradeQuiz').onclick=()=>{if(graded)return;let chosen=attempt.map((q,i)=>$('quiz').querySelector('input[name="q'+i+'"]:checked'));if(chosen.some(x=>!x)){$('score').textContent='Answer all ten questions before submitting.';return}let correct=chosen.reduce((sum,x,i)=>sum+(attempt[i].opts[+x.value].correct?1:0),0);graded=true;$('quiz').querySelectorAll('input').forEach(x=>x.disabled=true);$('score').textContent=correct+'/10 · '+(correct>=8?'Practice target reached.':'Practice target not reached; review and generate a fresh attempt.')+' This is not an Academy mastery grade.'};
 week=-1;setWeek(0);
 })();
-</script></body></html>
+</script>
+<script src="/assets/vnv-beta-link.js" defer></script>
+</body></html>
