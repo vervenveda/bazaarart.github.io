@@ -147,7 +147,9 @@ bazaarart.github.io/
 
 The current page can run with only index.html, but the additional files help document the project and protect the work.
 
-Suggested Future Sections
+```
+
+## Suggested Future Sections
 
 Future Bazaar Art Zone pages may include:
 
@@ -178,8 +180,3 @@ Bazaar Art Zone exists to help creativity find community.
 It is a space for sharing, encouragement, artistic exploration, public connection, and meaningful cultural participation.
 
 Share your work. Cheer others on. Soak in the creative energy. It all starts here.
-"""
-
-path = Path("/mnt/data/README.md")
-path.write_text(readme, encoding="utf-8")
-print(path)/scaled according to a zoom factor, and lets the user paint directly on top of it using mouse or touch events.
