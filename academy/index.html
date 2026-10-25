@@ -42,4 +42,6 @@ $('printEvidence').addEventListener('click',()=>{save();window.print()});
 $('clearEvidence').addEventListener('click',()=>{if(confirm('Clear saved notes for the current course and week?')){delete evidence[currentKey()];try{localStorage.setItem(key,JSON.stringify(evidence))}catch{}renderLesson();$('saveStatus').textContent='Current lesson evidence cleared.'}});
 renderLesson();
 })();
-</script></body></html>
+</script>
+<script src="/assets/vnv-beta-link.js" defer></script>
+</body></html>
