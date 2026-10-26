@@ -8,4 +8,4 @@ Rule: visible HTML filenames ending in `index.html` (including `_index.html` and
 
 ## Added
 
-- `academy/grade-9/unit-01/week-01/index.html`
+- `academy/grade-9/unit-02/week-02/index.html`
