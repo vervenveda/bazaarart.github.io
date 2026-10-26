@@ -1,6 +1,6 @@
 # Beta Index Coverage
 
-- Added in this run: **2**
+- Added in this run: **3**
 - Already covered: **71**
 - Skipped: **0**
 
@@ -8,5 +8,6 @@ Rule: visible HTML filenames ending in `index.html` (including `_index.html` and
 
 ## Added
 
+- `academy/grade-9/unit-06/week-15/index.html`
 - `apps/Photo_Album_Studio/index.html`
 - `index.html`
