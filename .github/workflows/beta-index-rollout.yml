@@ -26,6 +26,7 @@ jobs:
           changed=[]
           for p in sorted(Path('.').rglob('index.html')):
               if '.github' in p.parts or '.git' in p.parts: continue
+              if p.parts[:2] == ('academy', 'grade-9'): continue  # Art 101 course pages use their own navigation
               try: original=p.read_text(encoding='utf-8')
               except UnicodeDecodeError: continue
               t=original
