@@ -36,6 +36,18 @@ const api=Object.freeze({version:POLICY.version,policy:POLICY,registerAuthority(
 },refresh,status:()=>({state:box.dataset.gateState||"hold",providerConnected:!!provider})});
 Object.defineProperty(window,"BazaarArtProgressionGate",{value:api,configurable:false});
 box.querySelector("[data-gate-check]")?.addEventListener("click",refresh);
+ // Guard every Week 02 link on the Week 01 page, not just the new gate button.
+ document.addEventListener("click",event=>{
+   const anchor=event.target?.closest?.("a[href]");
+   if(!anchor||box.dataset.gateState==="allow")return;
+   try{
+     const destination=new URL(anchor.href,location.href);
+     if(destination.origin!==location.origin)return;
+     if(!/\/academy\/grade-9\/unit-02\/week-02\/(?:index\.html)?$/.test(destination.pathname))return;
+   }catch{return;}
+   event.preventDefault();event.stopImmediatePropagation();
+   render("hold","Week 02 navigation is pending official Academy authorization. Your Week 01 practice and artwork evidence remain available.");
+ },true);
 link?.addEventListener("click",event=>{
  if(box.dataset.gateState==="allow")return;
  event.preventDefault();
