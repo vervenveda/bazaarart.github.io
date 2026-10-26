@@ -26,6 +26,7 @@ jobs:
           for p in sorted(Path('.').rglob('*.html')):
             if not re.search(r'in+dex\.html$',p.name.lower()): continue
             if {x.lower() for x in p.parts}&excluded: skipped.append((str(p),'excluded-path'));continue
+            if p.parts[:2] == ('academy','grade-9'): skipped.append((str(p),'art101-course-navigation'));continue
             try:t=p.read_text(encoding='utf-8')
             except UnicodeDecodeError: skipped.append((str(p),'non-utf8'));continue
             if 'vnv-beta-link.js' in t: already.append(str(p));continue
