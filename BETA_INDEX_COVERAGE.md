@@ -1,10 +1,15 @@
 # Beta Index Coverage
 
-- Added in this run: **0**
-- Already covered: **53**
-- Skipped: **37**
+- Added in this run: **2**
+- Already covered: **51**
+- Skipped: **38**
 
 Rule: visible HTML filenames ending in `index.html` (including `_index.html` and common `inndex.html` typos) receive `/assets/vnv-beta-link.js`. Legacy markup without a closing `body` falls back before `html` or safely at EOF. The widget reports only public hostname + pathname; never learner/family IDs, answers, form values, query/hash, storage, or credentials.
+
+## Added
+
+- `apps/Photo_Album_Studio/index.html`
+- `index.html`
 
 ## Skipped
 
@@ -45,3 +50,4 @@ Rule: visible HTML filenames ending in `index.html` (including `_index.html` and
 - `academy/grade-9/unit-10/index.html` — art101-course-navigation
 - `academy/grade-9/unit-10/week-26/index.html` — art101-course-navigation
 - `academy/grade-9/unit-10/week-27/index.html` — art101-course-navigation
+- `academy/grade-9/unit-10/week-28/index.html` — art101-course-navigation
