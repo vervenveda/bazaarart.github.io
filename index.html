@@ -470,6 +470,80 @@ body[data-theme^="kids-"] .hub-card .hub-icon{border-radius:14px}
 @media(max-width:1050px){.hub-grid,.study-grid{grid-template-columns:repeat(2,1fr)}.llc-layout,.zelle-layout,.support-layout{grid-template-columns:1fr}.course-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:700px){.hub-grid,.study-grid,.course-grid,.continuum-grid{grid-template-columns:1fr}.theme-bar-inner{justify-content:flex-start}.theme-group{justify-content:flex-start}.llc-card,.zelle-panel,.support-panel{padding:24px}.breath-box{grid-template-columns:auto 1fr}.breath-button{grid-column:1/-1}.header-link[href="#zelle"],.header-link[href="#age-routes"]{display:none}}
 
+
+/* Bazaar Art landing-page symmetry pass · 2026-10-27
+   Presentation only: preserves all lesson links, artwork, menus and application logic. */
+:root{--bazaar-action:#4a2944;--bazaar-action-hover:#352037}
+.section-inner{width:min(100%,var(--max));margin-inline:auto}
+.pathway-grid,.hub-grid,.course-grid,.study-grid,.app-grid,
+.connected-grid,.future-grid,.network-grid,.continuum-grid{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;align-items:stretch
+}
+.featured-grid,.llc-layout,.zelle-layout,.support-layout{
+  grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:stretch
+}
+.pathway-grid>*,.hub-grid>*,.course-grid>*,.study-grid>*,
+.app-grid>*,.connected-grid>*,.future-grid>*,.network-grid>*,
+.continuum-grid>*,.featured-grid>*,.llc-layout>*,.zelle-layout>*,.support-layout>*{
+  min-width:0;width:100%;height:100%;box-sizing:border-box
+}
+.pathway,.hub-card,.course-card,.study-card,.app-card,.connected-card,
+.future-card,.network-card,.continuum-card{
+  display:flex;flex-direction:column;min-width:0;height:100%;text-align:center
+}
+.pathway h3,.hub-card h3,.course-card h3,.study-card h3,.app-card h4,
+.connected-card h3,.future-card h3,.network-card strong,.continuum-card h3{
+  overflow-wrap:anywhere;line-height:1.22
+}
+.pathway p,.hub-card p,.course-card p,.study-card p,.app-card p,
+.connected-card p,.future-card p,.network-card p,.continuum-card p{
+  overflow-wrap:anywhere
+}
+.app-card-top,.connected-card-top{width:100%}
+.app-card .app-meta,.connected-card .connected-meta,.course-card span:last-child,
+.study-card span:last-child,.future-card .future-status,.network-card .network-status{
+  margin-top:auto
+}
+.button,.button-primary,.button-secondary,.button-live,
+.featured-card .button,.archive-note .button,.filter-button,.source-filter,
+.utility-button,.zelle-action,.zelle-talk-button,.zelle-modal-action,
+.breath-button,.theme-toggle,.ticker-toggle{
+  background:var(--bazaar-action);background-image:none;
+  color:#fff;border:1px solid var(--bazaar-action);
+  border-radius:7px;box-shadow:none
+}
+.button:hover,.button-primary:hover,.button-secondary:hover,.button-live:hover,
+.featured-card .button:hover,.archive-note .button:hover,.filter-button:hover,
+.source-filter:hover,.utility-button:hover,.zelle-action:hover,
+.zelle-talk-button:hover,.zelle-modal-action:hover,.breath-button:hover,
+.ticker-toggle:hover{
+  background:var(--bazaar-action-hover);background-image:none;
+  color:#fff;border-color:var(--bazaar-action-hover)
+}
+.filter-button.active,.source-filter.active,.utility-button[aria-pressed="true"]{
+  color:#fff;background:var(--bazaar-action);border-color:var(--bazaar-action)
+}
+.button{min-height:44px;padding:10px 16px;align-items:center;justify-content:center}
+.hero-actions,.zelle-actions,.directory-actions,.zelle-modal-actions{
+  align-items:stretch;justify-content:center
+}
+.hero-actions .button{min-width:165px}
+.pathway button{color:var(--bazaar-action)}
+@media(max-width:980px){
+  .pathway-grid,.hub-grid,.course-grid,.study-grid,.app-grid,
+  .connected-grid,.future-grid,.network-grid,.continuum-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr))
+  }
+}
+@media(max-width:730px){
+  .pathway-grid,.hub-grid,.course-grid,.study-grid,.app-grid,
+  .connected-grid,.future-grid,.network-grid,.continuum-grid,
+  .featured-grid,.llc-layout,.zelle-layout,.support-layout{
+    grid-template-columns:minmax(0,1fr)
+  }
+}
+
 </style>
 <style id="vnv-global-ecosystem-shell">
 .vnv-global-strip{position:relative;z-index:2147482000;min-height:38px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:12px;padding:5px 12px;border-bottom:1px solid rgba(160,140,100,.28);background:#121918;color:#eee8dc;font:400 12px/1.2 "Avenir Next",Avenir,"Segoe UI",Arial,sans-serif}
