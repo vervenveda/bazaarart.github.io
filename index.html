@@ -551,54 +551,70 @@ html body,html body *:not(svg):not(svg *),html body *::before,html body *::after
   font-weight:400!important;
 }
 html body b,html body strong{font-weight:400!important}
+/* Bazaar Art header: independent brand/menu row + navigation row. */
 .site-header .header-inner{
-  display:grid;
-  grid-template-columns:minmax(0,1fr) auto;
-  align-items:center;gap:18px;
-  width:min(calc(100% - 32px),var(--max));
-  min-height:66px
+  width:calc(100% - 24px);max-width:none;margin:0 12px;
+  display:grid;grid-template-columns:minmax(0,1fr) 42px;
+  grid-template-rows:minmax(55px,auto) minmax(40px,auto);
+  gap:0 10px;align-items:center
 }
 .site-header .brand{
-  justify-self:start;min-width:0;max-width:100%;
-  display:inline-flex;align-items:center;gap:11px
+  grid-column:1;grid-row:1;justify-self:start;
+  display:inline-flex;align-items:center;gap:10px;min-width:0;
+  text-decoration:none
 }
-.site-header .brand-mark{flex:0 0 40px;width:40px;height:40px}
-.site-header .brand-copy{min-width:0;line-height:1.3}
+.site-header .brand-mark{flex:0 0 38px;width:38px;height:38px}
+.site-header .brand-copy{min-width:0;display:grid;line-height:1.3}
 .site-header .brand-name{
-  display:block;font-family:var(--ceremonial);
-  font-size:clamp(1rem,1.5vw,1.2rem);
-  font-weight:400!important;letter-spacing:.055em;
-  white-space:nowrap
+  font-family:var(--ceremonial);font-size:1.1rem;
+  font-weight:400!important;letter-spacing:.055em;line-height:1.25;white-space:nowrap
 }
 .site-header .brand-sub{
-  display:block;margin-top:2px;font-size:.63rem;
-  font-weight:400!important;line-height:1.4;letter-spacing:.04em;
+  display:block;margin-top:2px;font-size:.66rem;
+  font-weight:400!important;line-height:1.3;letter-spacing:.03em;
   text-transform:none;white-space:nowrap
 }
+.site-header #menuButton{
+  grid-column:2;grid-row:1;justify-self:end;
+  display:grid;place-items:center;width:40px;height:40px;
+  margin:0;border-radius:7px;
+  border:1px solid var(--line-strong);
+  background:var(--paper-bright);color:var(--ink)
+}
 .site-header .header-actions{
-  justify-self:end;display:flex;align-items:center;justify-content:flex-end;
-  flex-wrap:nowrap;gap:5px;min-width:0
+  grid-column:1/-1;grid-row:2;justify-self:stretch;
+  display:flex;align-items:center;justify-content:center;
+  flex-wrap:nowrap;gap:clamp(5px,1.2vw,18px);
+  width:100%;min-width:0;padding:3px 6px 7px;
+  border-top:1px solid var(--line);
+  overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;
+  -webkit-overflow-scrolling:touch
 }
 .site-header .header-link{
-  display:inline-flex;align-items:center;justify-content:center;
-  min-height:38px;padding:7px 6px;flex:0 0 auto;
-  font-size:.65rem;font-weight:400!important;
-  letter-spacing:.015em;white-space:nowrap;
-  overflow-wrap:normal;line-height:1.25
+  display:inline-flex;flex:0 0 auto;align-items:center;justify-content:center;
+  min-height:32px;padding:5px 6px;color:var(--muted);
+  font-size:clamp(.66rem,.85vw,.79rem);font-weight:400!important;
+  letter-spacing:.025em;line-height:1.25;
+  white-space:nowrap;text-transform:uppercase;overflow-wrap:normal;
+  text-decoration:none
 }
-.site-header .menu-button{
-  flex:0 0 40px;width:40px;height:40px;display:grid;
-  place-items:center;margin-left:4px;border-radius:7px
+.site-header .header-link:hover,.site-header .header-link:focus-visible{
+  color:var(--plum);text-decoration:underline;text-underline-offset:4px
 }
-@media(max-width:1240px){
-  .site-header .header-link{display:none}
-  .site-header .header-inner{grid-template-columns:minmax(0,1fr) auto}
+@media(max-width:900px){
+  .site-header .header-actions{justify-content:flex-start}
+  .site-header .header-link{display:inline-flex;font-size:.7rem}
 }
 @media(max-width:520px){
-  .site-header .header-inner{min-height:58px;gap:8px}
-  .site-header .brand-mark{flex-basis:33px;width:33px;height:33px}
+  .site-header .header-inner{
+    width:calc(100% - 18px);margin:0 9px;
+    grid-template-columns:minmax(0,1fr) 40px;
+    grid-template-rows:minmax(52px,auto) minmax(38px,auto);column-gap:8px
+  }
+  .site-header .brand-mark{flex-basis:32px;width:32px;height:32px}
   .site-header .brand-name{font-size:1rem}
-  .site-header .brand-sub{font-size:.55rem;white-space:normal}
+  .site-header .brand-sub{font-size:.56rem;white-space:normal}
+  .site-header .header-actions{padding-inline:2px}
 }
 
 </style>
@@ -695,8 +711,8 @@ html body b,html body strong{font-weight:400!important}
       <a class="header-link" href="#connected">Connected Studios</a>
       <a class="header-link" href="#continuum">Continuum</a>
       <a class="header-link" href="#network">Network</a>
-      <button class="menu-button" id="menuButton" type="button" aria-label="Open complete creative directory" aria-controls="drawer" aria-expanded="false"><span class="menu-lines"></span></button>
     </div>
+    <button class="menu-button" id="menuButton" type="button" aria-label="Open complete creative directory" aria-controls="drawer" aria-expanded="false"><span class="menu-lines"></span></button>
   </div>
 </header>
 <section class="theme-bar" aria-label="Bazaar Art view themes">
