@@ -544,6 +544,63 @@ body[data-theme^="kids-"] .hub-card .hub-icon{border-radius:14px}
   }
 }
 
+
+/* Bazaar Art typography + balanced header · 2026-10-27
+   No markup, course, art asset, route, or application logic is altered. */
+html body,html body *:not(svg):not(svg *),html body *::before,html body *::after{
+  font-weight:400!important;
+}
+html body b,html body strong{font-weight:400!important}
+.site-header .header-inner{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:center;gap:18px;
+  width:min(calc(100% - 32px),var(--max));
+  min-height:66px
+}
+.site-header .brand{
+  justify-self:start;min-width:0;max-width:100%;
+  display:inline-flex;align-items:center;gap:11px
+}
+.site-header .brand-mark{flex:0 0 40px;width:40px;height:40px}
+.site-header .brand-copy{min-width:0;line-height:1.3}
+.site-header .brand-name{
+  display:block;font-family:var(--ceremonial);
+  font-size:clamp(1rem,1.5vw,1.2rem);
+  font-weight:400!important;letter-spacing:.055em;
+  white-space:nowrap
+}
+.site-header .brand-sub{
+  display:block;margin-top:2px;font-size:.63rem;
+  font-weight:400!important;line-height:1.4;letter-spacing:.04em;
+  text-transform:none;white-space:nowrap
+}
+.site-header .header-actions{
+  justify-self:end;display:flex;align-items:center;justify-content:flex-end;
+  flex-wrap:nowrap;gap:5px;min-width:0
+}
+.site-header .header-link{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-height:38px;padding:7px 6px;flex:0 0 auto;
+  font-size:.65rem;font-weight:400!important;
+  letter-spacing:.015em;white-space:nowrap;
+  overflow-wrap:normal;line-height:1.25
+}
+.site-header .menu-button{
+  flex:0 0 40px;width:40px;height:40px;display:grid;
+  place-items:center;margin-left:4px;border-radius:7px
+}
+@media(max-width:1240px){
+  .site-header .header-link{display:none}
+  .site-header .header-inner{grid-template-columns:minmax(0,1fr) auto}
+}
+@media(max-width:520px){
+  .site-header .header-inner{min-height:58px;gap:8px}
+  .site-header .brand-mark{flex-basis:33px;width:33px;height:33px}
+  .site-header .brand-name{font-size:1rem}
+  .site-header .brand-sub{font-size:.55rem;white-space:normal}
+}
+
 </style>
 <style id="vnv-global-ecosystem-shell">
 .vnv-global-strip{position:relative;z-index:2147482000;min-height:38px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:12px;padding:5px 12px;border-bottom:1px solid rgba(160,140,100,.28);background:#121918;color:#eee8dc;font:400 12px/1.2 "Avenir Next",Avenir,"Segoe UI",Arial,sans-serif}
