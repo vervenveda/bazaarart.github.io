@@ -27,3 +27,15 @@ Source snapshot SHA: f6016995cb99656831d81132173372d6787a70de
 - Cross-tab storage handlers consolidated into one listener, preserving HOLLO handoff and counting new posts by ID.
 - Source review passed for both changes; browser-based integration tests are still required.
 - The 333 production app, Bazaar homepage, and STOS terminal were not changed.
+
+## Verification pass — 2026-10-29
+
+**Scope:** Static source-level inspection of staging HTML against the original 333 Network HTML. This is not an executed browser integration suite.
+
+**Source-level passes:** Existing HOLLO keys, same-origin HOLLO route, localStorage/IndexedDB identifiers, one storage listener, ID-based cross-tab new-post detection, single IndexedDB media replacement transaction, backup media validation, unchanged 333 production source.
+
+**Not executed:** Browser enrollment, cross-tab dispatch, IndexedDB quota/abort, browser crash, reload persistence, offline service worker, media import recovery, full navigation parity. Staging branch is not deployed by GitHub Pages automatically.
+
+**Critical unresolved risk:** Cross-store import is not fully transactional: the media transaction commits before localStorage. Best-effort media rollback may itself fail, and a crash between commits can leave a mixed workspace. Do not use staging import with irreplaceable data. Keep an external export.
+
+**Next gate:** Isolated preview deployment (not production), disposable browser profiles, and scripted browser tests with synthetic media and HOLLO identity fixtures. Do not merge PR #2 until runtime tests pass.
