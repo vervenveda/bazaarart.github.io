@@ -2866,30 +2866,23 @@ renderRightRail = function(){
 };
 
 
-/* Detect new posts arriving from another active Bazaar tab. */
+/* One coordinated listener for cross-tab feed updates and HOLLO handoffs. */
 window.addEventListener('storage', event => {
-
-  if(event.key !== STATE_KEY || !event.newValue) return;
-
-  try{
-    const incoming = normalizeState(
-      JSON.parse(event.newValue)
-    );
-
-    const latestCurrent = latestPostTimestamp(state);
-
-    const freshPosts = incoming.posts.filter(post =>
-      Number(post.createdAt) > latestCurrent
-    );
-
-    if(freshPosts.length){
-      pendingFeedUpdates += freshPosts.length;
-      lastFeedRefreshAt = now();
-    }
-
-  }catch{}
+  if(event.key===STATE_KEY && event.newValue){
+    try{
+      const incoming=normalizeState(JSON.parse(event.newValue));
+      const previousIds=new Set(state.posts.map(post=>post.id));
+      const freshPosts=incoming.posts.filter(post=>!previousIds.has(post.id));
+      if(freshPosts.length){pendingFeedUpdates+=freshPosts.length;lastFeedRefreshAt=now()}
+      state=incoming;
+      applySettings();updateProfileChip();updateBadges();renderView();renderRightRail();
+    }catch(error){console.warn('[Bazaar] Ignored invalid cross-tab workspace update',error)}
+    return;
+  }
+  if(event.key===HOLLO_STORAGE_KEY||event.key===IDENTITY_HANDOFF_KEY){
+    if(importHolloProfile({silent:true})){updateProfileChip();updateBadges();renderView();renderRightRail()}
+  }
 });
-
 
 /* Keep network state visually accurate. */
 window.addEventListener('online', () => {
@@ -2942,10 +2935,6 @@ setInterval(() => {
   }
 
 }, 60000);
-window.addEventListener("storage",event=>{
-  if(event.key===STATE_KEY&&event.newValue){try{state=normalizeState(JSON.parse(event.newValue));applySettings();updateProfileChip();updateBadges();renderView();renderRightRail();toast("Bazaar Art refreshed changes from another tab.","success")}catch{}return}
-  if(event.key===HOLLO_STORAGE_KEY||event.key===IDENTITY_HANDOFF_KEY){if(importHolloProfile({silent:true})){updateProfileChip();updateBadges();renderView();renderRightRail();toast("Bazaar Art refreshed the shared HOLLO profile.","success")}}
-});
 document.addEventListener("333-hollo-profile-created",()=>{if(importHolloProfile({silent:true})){updateProfileChip();renderView();renderRightRail()}});
 adoptHolloIdentityOnLoad();applySettings();bind();updateProfileChip();updateBadges();setView(state.activeView||"home");pruneExpiredStories();cleanOrphanMedia({silent:true}).catch(()=>{});if(!hasMember())setTimeout(openFirstRunProfile,120);
 
