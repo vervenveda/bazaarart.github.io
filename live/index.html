@@ -2267,11 +2267,45 @@ async function exportWorkspaceFile(){
 }
 
 async function importWorkspaceFile(file){
+  // Validate the complete replacement before touching the active workspace.
   try{
-    if(file.size>150*1024*1024)throw new Error("Backup is larger than 150 MB");const parsed=JSON.parse(await file.text());const raw=parsed?.schema==="bazaar-art-live-workspace"?parsed.state:parsed;
-    if(!raw||!Array.isArray(raw.users)||!Array.isArray(raw.posts))throw new Error("Invalid Bazaar workspace");if(!confirm("Replace this device’s current Bazaar Art workspace with the imported file? Export the current workspace first when needed."))return;
-    const incoming=normalizeState(raw);await MediaDB.clear();for(const item of Array.isArray(parsed.media)?parsed.media:[]){if(item?.id&&typeof item.dataUrl==="string"&&safeText(item.type).match(/^(image|video)\//))await MediaDB.put(item)}state=incoming;persist();applySettings();updateProfileChip();updateBadges();closeModal();setView(state.activeView||"home");toast("Bazaar workspace imported.","success");
-  }catch(error){console.warn(error);toast("This is not a valid Bazaar Art Live workspace file.","error")}
+    if(file.size>150*1024*1024)throw new Error('Backup exceeds 150 MB');
+    const parsed=JSON.parse(await file.text());
+    const raw=parsed?.schema==='bazaar-art-live-workspace'?parsed.state:parsed;
+    if(!raw||!Array.isArray(raw.users)||!Array.isArray(raw.posts))throw new Error('Invalid workspace structure');
+    if(parsed?.schema==='bazaar-art-live-workspace'&&!Array.isArray(parsed.media))throw new Error('Missing media array');
+    const incoming=normalizeState(raw);
+    const media=Array.isArray(parsed.media)?parsed.media:[];
+    const ids=new Set();
+    for(const item of media){
+      if(!item||typeof item.id!=='string'||!item.id||ids.has(item.id)||typeof item.dataUrl!=='string'||!/^data:(image|video)\//.test(item.dataUrl)||!/^image\/|^video\//.test(String(item.type||'')))throw new Error('Invalid or duplicate media');
+      ids.add(item.id);
+    }
+    if(!confirm('Replace this device’s Bazaar Art workspace? Export a backup first. The import will be staged before replacing existing media.'))return;
+    const db=await MediaDB.open();
+    const previousMedia=await MediaDB.all();
+    // IndexedDB transaction commits all media changes together or aborts them together.
+    await new Promise((resolve,reject)=>{
+      const tx=db.transaction('media','readwrite');
+      const store=tx.objectStore('media');
+      store.clear();
+      for(const item of media)store.put(item);
+      tx.oncomplete=resolve;
+      tx.onabort=()=>reject(tx.error||new Error('Media replacement aborted'));
+      tx.onerror=()=>reject(tx.error||new Error('Media replacement failed'));
+    });
+    // Keep existing state in memory if localStorage cannot persist the new workspace.
+    const previous=state;
+    if(!storage.set(STATE_KEY,incoming)){
+      // Media has committed, so attempt best-effort rollback from a captured snapshot.
+      state=previous;
+      try{await new Promise((resolve,reject)=>{const tx=db.transaction('media','readwrite');const store=tx.objectStore('media');store.clear();for(const item of previousMedia)store.put(item);tx.oncomplete=resolve;tx.onabort=()=>reject(tx.error);tx.onerror=()=>reject(tx.error)})}catch(rollbackError){console.error('[Bazaar import] Media rollback failed',rollbackError)}
+      throw new Error('Workspace storage is unavailable; import was not activated');
+    }
+    state=incoming;
+    applySettings();updateProfileChip();updateBadges();closeModal();setView(state.activeView||'home');
+    toast('Bazaar workspace imported.','success');
+  }catch(error){console.warn('[Bazaar import]',error);toast('Import failed. Check the backup and available device storage.','error')}
 }
 
 function resetWorkspace(){
