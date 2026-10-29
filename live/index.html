@@ -1280,6 +1280,16 @@ button{overflow-wrap:anywhere}
   }
 }
 
+
+/* Bazaar welcome navigation: additive, mobile-first, no storage changes. */
+.welcome-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px;margin:15px 0 10px}
+.welcome-action{min-width:0;min-height:106px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;padding:14px 10px;border:1px solid var(--line);border-radius:7px;background:var(--card);color:var(--text);cursor:pointer;text-align:center;font:inherit}
+.welcome-action>span{font-size:23px}.welcome-action strong{font-weight:500}.welcome-action small{color:var(--muted);font-size:12px}
+.welcome-action:hover,.welcome-action:focus-visible,.welcome-community-links button:hover,.discover-guides button:hover{outline:2px solid var(--accent);outline-offset:2px}
+.welcome-community-links,.discover-guides{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin:0 0 15px}
+.welcome-community-links button,.discover-guides button{border:1px solid var(--line);border-radius:7px;padding:9px 12px;background:var(--card);color:var(--text);font:inherit;cursor:pointer}
+.welcome-community-links span{font-size:12px;color:var(--muted)}
+@media(max-width:680px){.welcome-actions{grid-template-columns:1fr;gap:7px}.welcome-action{min-height:66px;flex-direction:row;justify-content:flex-start;text-align:left}.welcome-action small{margin-left:auto;text-align:right}}
 </style>
 <style id="vnv-global-ecosystem-shell">
 .vnv-global-strip{position:relative;z-index:2147482000;min-height:38px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:12px;padding:5px 12px;border-bottom:1px solid rgba(160,140,100,.28);background:#121918;color:#eee8dc;font:400 12px/1.2 "Avenir Next",Avenir,"Segoe UI",Arial,sans-serif}
@@ -1876,6 +1886,11 @@ function renderHome(){
   if(state.feedFilter==='following'&&u)posts=posts.filter(p=>u.following.includes(p.authorId)||p.authorId===u.id);
   if(state.feedFilter==='art')posts=posts.filter(p=>p.tags?.some(t=>/art|studio|color|photo|poetry|motion/i.test(t)));
   return `<section class="feed-welcome"><div><span class="feed-eyebrow">Art · Ideas · Events · Community</span><h1>Bazaar Art Live</h1><p>Share creative work, discover artists, join groups, and gather around events in the 333 Network. This edition begins as a private, local-first studio.</p></div><span class="status-pill"><span class="status-dot ${state.settings.backendStatus==='online'?'online':''}"></span>${state.settings.backendStatus==='online'?'Connected service':'Saved on this device'}</span></section><div class="stories"><button type="button" class="story add-story" data-action="create-story"><span class="story-ring">＋</span><span>Your story</span></button>${stories.map(s=>{const a=userById(s.userId);return `<button type="button" class="story" data-action="open-story" data-id="${esc(s.id)}"><span class="story-ring ${s.viewedBy?.includes(u.id)?'viewed':''}">${avatarHTML(a)}</span><span>${esc(a.name.split(' ')[0])}</span></button>`}).join('')}</div>
+  <section class="welcome-actions" aria-label="Explore Bazaar Art">
+    <button type="button" class="welcome-action" data-action="welcome-explore"><span aria-hidden="true">✦</span><strong>Explore Artwork</strong><small>Discover creative work</small></button>
+    <button type="button" class="welcome-action" data-action="welcome-artists"><span aria-hidden="true">◉</span><strong>Meet Artists</strong><small>Find creative people</small></button>
+    <button type="button" class="welcome-action" data-action="welcome-join"><span aria-hidden="true">＋</span><strong>${hasMember()?'Share Your Work':'Join the Community'}</strong><small>${hasMember()?'Create a new post':'Connect or create a profile'}</small></button>
+  </section><div class="welcome-community-links"><button type="button" data-action="welcome-groups">Explore Groups</button><button type="button" data-action="welcome-events">Upcoming Events</button><span>${hasMember()?'Your studio is saved on this device.':'Guest browsing is available without enrollment.'}</span></div>
   <section class="composer-card"><div class="composer-row">${u?avatarHTML(u):'<span class="avatar">✨</span>'}<button class="composer-launch" data-action="create-post">Share artwork, an idea, an event, or an announcement…</button></div><div class="composer-tools"><button class="tool-btn" data-action="create-post" data-kind="post">▧ Photo / Post</button><button class="tool-btn" data-action="create-post" data-kind="reel">▶ Reel</button><button class="tool-btn" data-action="create-event">□ Event</button><button class="tool-btn" data-action="create-story">◉ Story</button></div></section>
   <div class="feed-filter">${[['all','Community'],['following','Following'],['art','Art & Ideas']].map(([k,l])=>`<button type="button" class="filter-chip ${state.feedFilter===k?'active':''}" data-action="feed-filter" data-filter="${k}">${l}</button>`).join('')}</div>
   <div id="feedList">${posts.length?posts.map(renderPostCard).join(''):`<div class="empty">Your feed is quiet. Follow artists, join groups, or create the first post.</div>`}</div>`;
@@ -1902,9 +1917,10 @@ function renderDiscover(){
   const groups=visibleGroups().filter(group=>!query||`${group.name} ${group.description}`.toLowerCase().includes(query));
   const events=visibleEvents().filter(event=>!query||`${event.title} ${event.description} ${event.location}`.toLowerCase().includes(query));
   return `<div class="section-head"><div><span class="section-kicker">Creative discovery</span><h2>Explore Bazaar Art</h2></div><button class="soft-btn" data-action="search-focus">${rawQuery?"Refine search":"Search"}</button></div>
-    ${people.length?`<section class="section-card" style="margin-bottom:14px"><h3 style="margin-top:0">Artists</h3><div class="grid-2">${people.slice(0,6).map(renderPersonCard).join("")}</div></section>`:""}
+    ${people.length?`<section class="section-card discover-artists" style="margin-bottom:14px"><h3 style="margin-top:0">Artists</h3><div class="grid-2">${people.slice(0,6).map(renderPersonCard).join("")}</div></section>`:""}
     ${groups.length?`<section class="section-card" style="margin-bottom:14px"><h3 style="margin-top:0">Groups</h3><div class="grid-2">${groups.slice(0,4).map(group=>`<button class="soft-btn" data-action="group-feed" data-id="${esc(group.id)}">${esc(group.name)} · ${group.memberIds.length} members</button>`).join("")}</div></section>`:""}
     ${events.length?`<section class="section-card" style="margin-bottom:14px"><h3 style="margin-top:0">Events</h3><div class="management-list">${events.slice(0,4).map(event=>`<button class="soft-btn" data-action="open-event" data-id="${esc(event.id)}">${esc(event.title)} · ${formatDate(event.startAt)}</button>`).join("")}</div></section>`:""}
+    <div class="discover-guides" aria-label="Discovery shortcuts"><button type="button" data-action="welcome-artists">Artists</button><button type="button" data-action="welcome-artwork">Artwork</button><button type="button" data-action="welcome-groups">Groups</button><button type="button" data-action="welcome-events">Events</button><button type="button" data-action="welcome-clear-search">Clear Search</button></div>
     <div class="discover-grid">${posts.length?posts.map(renderDiscoverTile).join(""):`<div class="empty">No discoveries match your search.</div>`}</div>`;
 }
 function renderPersonCard(user){
@@ -2324,7 +2340,7 @@ function deleteNotification(id){state.notifications=state.notifications.filter(i
 function handleAction(action,element){
   const id=element.dataset.id;
   const actions={
-    "close-modal":()=>closeModal(),"create-profile":()=>openFirstRunProfile(),"create-post":()=>openComposer(element.dataset.kind||"post"),"create-story":()=>openCreateStory(),"open-story":()=>openStory(id),"delete-story":()=>deleteStory(id),
+    "close-modal":()=>closeModal(),"welcome-explore":()=>setView("discover"),"welcome-artists":()=>{setView("discover");document.querySelector(".discover-artists")?.scrollIntoView({block:"start",behavior:"smooth"})},"welcome-artwork":()=>{setView("discover");document.querySelector(".discover-grid")?.scrollIntoView({block:"start",behavior:"smooth"})},"welcome-join":()=>hasMember()?openComposer("post"):openFirstRunProfile(),"welcome-groups":()=>setView("groups"),"welcome-events":()=>setView("events"),"welcome-clear-search":()=>{document.querySelector("#globalSearch").value="";updateSearchClear();setView("discover")},"create-profile":()=>openFirstRunProfile(),"create-post":()=>openComposer(element.dataset.kind||"post"),"create-story":()=>openCreateStory(),"open-story":()=>openStory(id),"delete-story":()=>deleteStory(id),
     "feed-filter":()=>{state.feedFilter=element.dataset.filter||"all";persist();renderView()},"quick-like":()=>{const post=postById(id);const active=(post?.reactions?.like||[]).includes(me().id);react(id,active?"":"like")},"reaction":()=>react(id,element.dataset.reaction),"comments":()=>{if(requireMe())openComments(id)},"share":()=>sharePost(id),"save-post":()=>toggleSave(id),"open-media":()=>openMedia(element.dataset.mediaId),"open-profile":()=>openPublicProfile(element.dataset.userId),"follow":()=>toggleFollow(element.dataset.userId),
     "post-menu":()=>openPostMenu(id),"edit-post":()=>openEditPost(id),"hide-post":()=>hidePost(id),"mute-user":()=>muteUser(element.dataset.userId),"block-user":()=>blockUser(element.dataset.userId),"report-post":()=>openReportPost(id),"delete-post":()=>deletePost(id),"delete-comment":()=>deleteComment(element.dataset.postId,id),
     "search-focus":()=>matchMedia("(max-width: 680px)").matches?openSearchDialog():$("#globalSearch").focus(),"search-tag":()=>{$("#globalSearch").value="#"+element.dataset.tag;updateSearchClear();setView("discover")},
@@ -2936,7 +2952,7 @@ setInterval(() => {
 
 }, 60000);
 document.addEventListener("333-hollo-profile-created",()=>{if(importHolloProfile({silent:true})){updateProfileChip();renderView();renderRightRail()}});
-adoptHolloIdentityOnLoad();applySettings();bind();updateProfileChip();updateBadges();setView(state.activeView||"home");pruneExpiredStories();cleanOrphanMedia({silent:true}).catch(()=>{});if(!hasMember())setTimeout(openFirstRunProfile,120);
+adoptHolloIdentityOnLoad();applySettings();bind();updateProfileChip();updateBadges();setView(state.activeView||"home");pruneExpiredStories();cleanOrphanMedia({silent:true}).catch(()=>{});/* Guests may explore immediately; participation actions still invoke profile setup. */
 
 })();
 </script>
