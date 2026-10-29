@@ -2972,6 +2972,13 @@ setInterval(() => {
 
 }, 60000);
 document.addEventListener("333-hollo-profile-created",()=>{if(importHolloProfile({silent:true})){updateProfileChip();renderView();renderRightRail()}});
+/* Register only the Bazaar Live worker; never request root or 333 Network scope. */
+if('serviceWorker' in navigator&&window.isSecureContext){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('./sw.js',{scope:'./',updateViaCache:'none'})
+      .catch(error=>console.warn('[Bazaar offline shell] Registration unavailable',error));
+  },{once:true});
+}
 adoptHolloIdentityOnLoad();applySettings();bind();updateProfileChip();updateBadges();setView(state.activeView||"home");pruneExpiredStories();cleanOrphanMedia({silent:true}).catch(()=>{});/* Guests may explore immediately; participation actions still invoke profile setup. */
 
 })();
