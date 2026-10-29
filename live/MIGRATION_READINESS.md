@@ -21,3 +21,9 @@ Source snapshot SHA: f6016995cb99656831d81132173372d6787a70de
 - Consolidation of duplicate storage event handlers.
 - Dedicated Bazaar PWA/manifest and offline cache strategy.
 - Formal STOS/OHMIC identity and data adapter.
+
+## Staging repair receipts
+- Workspace import validates the payload and uses an atomic IndexedDB media replacement transaction; full crash-safe cross-store recovery remains unverified.
+- Cross-tab storage handlers consolidated into one listener, preserving HOLLO handoff and counting new posts by ID.
+- Source review passed for both changes; browser-based integration tests are still required.
+- The 333 production app, Bazaar homepage, and STOS terminal were not changed.
