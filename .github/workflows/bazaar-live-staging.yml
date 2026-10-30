@@ -1,0 +1,26 @@
+name: Bazaar Art Live isolated migration checks
+on:
+  pull_request:
+    paths:
+      - 'live/**'
+      - '.github/workflows/bazaar-live-staging.yml'
+  workflow_dispatch:
+jobs:
+  static-contract:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run dependency-free contract tests
+        run: node live/test-migration.cjs
+      - name: Package isolated preview as artifact (not deployed)
+        run: |
+          mkdir -p preview
+          cp live/index.html preview/index.html
+          cp live/MIGRATION_READINESS.md preview/MIGRATION_READINESS.md
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bazaar-live-isolated-preview
+          path: preview/
+          retention-days: 7
