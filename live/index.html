@@ -1346,11 +1346,11 @@ button{overflow-wrap:anywhere}
 </div>
 <div class="app-shell" id="appShell">
   <aside class="left-rail" aria-label="Primary navigation">
-    <a class="brand" href="/333.github.io/" aria-label="Open the 333 Network gateway">
+    <a class="brand" href="/bazaarart.github.io/" aria-label="Return to Bazaar Art creative hub">
       <span class="brand-mark">🎨</span><span class="brand-copy"><strong>Bazaar Art Live</strong><span>Creative Community Feed</span></span>
     </a>
     <div class="network-context" aria-label="Location">
-      <a href="/333.github.io/">333 Network</a>
+      <a href="/bazaarart.github.io/">Bazaar Art · Creative Hub</a> · <a href="/333.github.io/">333 Network</a>
     </div>
     <nav class="nav-list" id="desktopNav" aria-label="Bazaar Art Live sections">
       <div class="nav-heading">Feed</div>
@@ -1367,6 +1367,7 @@ button{overflow-wrap:anywhere}
     </nav>
     <button type="button" class="create-main" id="desktopCreateBtn">✨ Create Post</button>
     <div class="network-links">
+      <a class="network-link" href="/bazaarart.github.io/">Bazaar Art · Studio, Courses, Tools & Games</a>
       <a class="network-link" href="/333.github.io/">333 Network Gateway</a>
       <a class="network-link" href="/333.github.io/app/HOLLO_333_direct_connect_index.html">HOLLO · Enrollment & Direct Connect</a>
       <a class="network-link" href="/333.github.io/app/KANSEE_333_meeting_rooms_index.html">KANSEE · Meeting Rooms</a>
@@ -2273,7 +2274,7 @@ function openSearchDialog(){
   const input=$("#mobileSearchInput"),results=$("#mobileSearchResults");const preview=()=>{const query=input.value.trim().toLowerCase(),tag=query.replace(/^#/,"");const postCount=visiblePosts().filter(post=>!query||post.text.toLowerCase().includes(query)||post.tags.some(item=>item.toLowerCase().includes(tag))).length,peopleCount=visibleUsers().filter(user=>!query||`${user.name} ${user.handle} ${user.bio}`.toLowerCase().includes(query)).length;results.innerHTML=`<div class="section-card"><strong>${postCount}</strong> posts · <strong>${peopleCount}</strong> artists may match.</div>`};input.oninput=preview;preview();$("#clearMobileSearchBtn").onclick=()=>{input.value="";preview()};$("#applyMobileSearchBtn").onclick=()=>{$("#globalSearch").value=input.value;updateSearchClear();closeModal();setView("discover")};
 }
 function openMobileMore(){
-  modal("More Bazaar Art",`<div class="mobile-more-grid"><button class="soft-btn" data-action="mobile-view" data-view-target="groups">Groups</button><button class="soft-btn" data-action="mobile-view" data-view-target="events">Events</button><button class="soft-btn" data-action="mobile-view" data-view-target="saved">Saved Posts</button><button class="soft-btn" data-action="mobile-view" data-view-target="notifications">Notifications</button><button class="soft-btn" data-action="profile-menu">Settings & Backup</button><button class="soft-btn" data-action="open-moderation">Moderation</button><a class="soft-btn" href="/333.github.io/">333 Network</a><a class="soft-btn" href="/333.github.io/app/HOLLO_333_direct_connect_index.html">HOLLO</a><a class="soft-btn" href="/333.github.io/app/KANSEE_333_meeting_rooms_index.html">KANSEE</a><a class="soft-btn" href="/333.github.io/app/EVen_mail_index.html">E=Ven Mail</a><a class="soft-btn" href="/333.github.io/app/SIte_builder_index.html">SIte</a><a class="soft-btn" href="/333.github.io/app/Bunya_digital_infrastructure_index.html">Bunya</a><a class="primary-btn" href="https://buy.stripe.com/7sY9AU9Nv6G02jj3En4AU0r" target="_blank" rel="noopener noreferrer">Support 333</a></div>`,"",true);
+  modal("More Bazaar Art",`<div class="mobile-more-grid"><a class="soft-btn" href="/bazaarart.github.io/">Bazaar Art Creative Hub</a><button class="soft-btn" data-action="mobile-view" data-view-target="groups">Groups</button><button class="soft-btn" data-action="mobile-view" data-view-target="events">Events</button><button class="soft-btn" data-action="mobile-view" data-view-target="saved">Saved Posts</button><button class="soft-btn" data-action="mobile-view" data-view-target="notifications">Notifications</button><button class="soft-btn" data-action="profile-menu">Settings & Backup</button><button class="soft-btn" data-action="open-moderation">Moderation</button><a class="soft-btn" href="/333.github.io/">333 Network</a><a class="soft-btn" href="/333.github.io/app/HOLLO_333_direct_connect_index.html">HOLLO</a><a class="soft-btn" href="/333.github.io/app/KANSEE_333_meeting_rooms_index.html">KANSEE</a><a class="soft-btn" href="/333.github.io/app/EVen_mail_index.html">E=Ven Mail</a><a class="soft-btn" href="/333.github.io/app/SIte_builder_index.html">SIte</a><a class="soft-btn" href="/333.github.io/app/Bunya_digital_infrastructure_index.html">Bunya</a><a class="primary-btn" href="https://buy.stripe.com/7sY9AU9Nv6G02jj3En4AU0r" target="_blank" rel="noopener noreferrer">Support 333</a></div>`,"",true);
 }
 function updateSearchClear(){const clear=$("#clearSearchBtn");if(clear)clear.hidden=!$("#globalSearch").value}
 function openModerationCenter(){
