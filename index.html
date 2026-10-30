@@ -665,14 +665,6 @@ body[data-theme="adult-dark"] .app-card a:focus-visible,
 body[data-theme="adult-dark"] .pathway button:hover,
 body[data-theme="adult-dark"] .pathway button:focus-visible{color:#fff;text-decoration:underline;text-underline-offset:3px}
 
-/* Bazaar Art · compact ecosystem utilities (independent of legacy beta rail) */
-.site-footer .footer-inner{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:9px}
-.site-footer .footer-meta{text-align:center;line-height:1.65}
-.bazaar-ecosystem-toolbar{position:fixed;right:max(12px,env(safe-area-inset-right));bottom:max(12px,env(safe-area-inset-bottom));z-index:1900;display:flex;flex-wrap:wrap;justify-content:flex-end;gap:5px;max-width:min(95vw,460px);padding:7px;border:1px solid rgba(255,255,255,.22);border-radius:7px;background:#252a28;box-shadow:0 5px 20px rgba(0,0,0,.25)}
-.bazaar-ecosystem-toolbar a,.bazaar-ecosystem-toolbar button{display:inline-flex;align-items:center;justify-content:center;min-height:32px;padding:7px 10px;border:1px solid rgba(255,255,255,.25);border-radius:7px;background:#333a36;color:#f6f1e7;font:400 11px/1.25 Nunito,system-ui,sans-serif;letter-spacing:.015em;text-decoration:none;white-space:nowrap;cursor:pointer}
-.bazaar-ecosystem-toolbar a:hover,.bazaar-ecosystem-toolbar button:hover,.bazaar-ecosystem-toolbar a:focus-visible,.bazaar-ecosystem-toolbar button:focus-visible{background:#46564c;color:#fff;outline:2px solid #e4bc58;outline-offset:1px}
-@media(max-width:520px){.bazaar-ecosystem-toolbar{left:12px;right:12px;max-width:none;justify-content:center}.bazaar-ecosystem-toolbar a,.bazaar-ecosystem-toolbar button{flex:1 1 auto;padding:7px 6px;font-size:10px}}
-@media print{.bazaar-ecosystem-toolbar{display:none!important}}
 
 /* Bazaar typography authority — main creative hub, 2026-10-30. */
 :root{--display:"Cinzel",Georgia,serif;--ceremonial:"Cinzel",Georgia,serif;--sans:"Brandon Grotesque","Nunito","Avenir Next",Arial,sans-serif}
@@ -691,10 +683,6 @@ body :is(h1,h2,h3,h4,h5,h6){font-weight:444!important}
 .bazaar-support-band-note{font:400 10px/1.4 "Brandon Grotesque","Nunito",Arial,sans-serif;color:inherit;opacity:.7;flex:0 1 auto}
 @media(max-width:600px){#vnv-global-support.bazaar-support-band{width:calc(100% - 20px)!important;padding:12px!important;gap:9px!important;text-align:center!important}.bazaar-support-band-copy{justify-content:center;flex-basis:100%}.bazaar-support-band-note{flex-basis:100%;text-align:center}}
 
-/* Unified six-doorway ecosystem toolbar: two rows, three equal columns. */
-.bazaar-ecosystem-toolbar{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;grid-template-rows:repeat(2,minmax(32px,auto))!important;gap:5px!important;width:min(340px,calc(100vw - 24px))!important;max-width:calc(100vw - 24px)!important;left:auto!important;right:max(12px,env(safe-area-inset-right))!important;bottom:max(12px,env(safe-area-inset-bottom))!important;justify-content:stretch!important;box-sizing:border-box!important}
-.bazaar-ecosystem-toolbar>a,.bazaar-ecosystem-toolbar>button{width:100%!important;min-width:0!important;min-height:32px!important;padding:6px 4px!important;box-sizing:border-box!important;flex:none!important;white-space:normal!important;text-align:center!important;font:400 11px/1.25 "Brandon Grotesque",Nunito,Arial,sans-serif!important}
-@media(max-width:520px){.bazaar-ecosystem-toolbar{left:auto!important;right:8px!important;bottom:max(8px,env(safe-area-inset-bottom))!important;width:min(310px,calc(100vw - 16px))!important}}
 
 /* Bazaar landing hero density — spacing/alignment only; retain theme and assets. */
 .hero{padding-top:clamp(22px,4vw,42px);padding-bottom:clamp(26px,4vw,46px)}
@@ -1507,26 +1495,6 @@ breathButton.addEventListener("click",()=>{
 auditBazaarArt();
 </script>
 <script src="https://vervenveda.com/assets/vnv-support.js" defer></script>
-<nav class="bazaar-ecosystem-toolbar" aria-label="Verve N Veda ecosystem utilities">
-  <a href="https://vervenveda.com/">Home</a>
-  <a href="https://vervenveda.com/Khaemenes_Academy.github.io/">Academy</a>
-  <button type="button" id="bazaarEcosystemOpen">Ecosystem</button>
-  <a href="https://vervenveda.com/beta/">Beta</a>
-  <a href="#support">Support</a>
-  <a href="https://vervenveda.com/PLERASearch.github.io/">Search</a>
-</nav>
-<script>
-(function(){
-  const button=document.getElementById("bazaarEcosystemOpen");
-  button?.addEventListener("click",function(){
-    if(window.VNVEcosystemMenu?.open){window.VNVEcosystemMenu.open();return;}
-    const shared=document.getElementById("vnvEcosystemMenuButton");
-    if(shared){shared.click();return;}
-    window.location.href="https://vervenveda.com/#directory";
-  });
-})();
-</script>
-<a href="https://vervenveda.com/beta/" aria-label="Open the Verve N Veda Beta Program" style="position:fixed;right:14px;bottom:14px;z-index:2147483647;padding:9px 12px;border:1px solid currentColor;border-radius:7px;background:#fff;color:#111;text-decoration:none;font:600 13px/1.2 system-ui,sans-serif">β Beta Program</a>
 <script src="https://vervenveda.com/assets/vnv-ecosystem-toolbar.js"></script>
 </body>
 </html>
