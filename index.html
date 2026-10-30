@@ -690,6 +690,11 @@ body :is(h1,h2,h3,h4,h5,h6){font-weight:444!important}
 #vnv-global-support .bazaar-support-band-link:hover,#vnv-global-support .bazaar-support-band-link:focus-visible{outline:2px solid var(--accent,#bd9851);outline-offset:2px}
 .bazaar-support-band-note{font:400 10px/1.4 "Brandon Grotesque","Nunito",Arial,sans-serif;color:inherit;opacity:.7;flex:0 1 auto}
 @media(max-width:600px){#vnv-global-support.bazaar-support-band{width:calc(100% - 20px)!important;padding:12px!important;gap:9px!important;text-align:center!important}.bazaar-support-band-copy{justify-content:center;flex-basis:100%}.bazaar-support-band-note{flex-basis:100%;text-align:center}}
+
+/* Unified six-doorway ecosystem toolbar: two rows, three equal columns. */
+.bazaar-ecosystem-toolbar{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;grid-template-rows:repeat(2,minmax(32px,auto))!important;gap:5px!important;width:min(340px,calc(100vw - 24px))!important;max-width:calc(100vw - 24px)!important;left:auto!important;right:max(12px,env(safe-area-inset-right))!important;bottom:max(12px,env(safe-area-inset-bottom))!important;justify-content:stretch!important;box-sizing:border-box!important}
+.bazaar-ecosystem-toolbar>a,.bazaar-ecosystem-toolbar>button{width:100%!important;min-width:0!important;min-height:32px!important;padding:6px 4px!important;box-sizing:border-box!important;flex:none!important;white-space:normal!important;text-align:center!important;font:400 11px/1.25 "Brandon Grotesque",Nunito,Arial,sans-serif!important}
+@media(max-width:520px){.bazaar-ecosystem-toolbar{left:auto!important;right:8px!important;bottom:max(8px,env(safe-area-inset-bottom))!important;width:min(310px,calc(100vw - 16px))!important}}
 </style>
 </head>
 <body data-theme="adult-light">
@@ -1488,6 +1493,7 @@ auditBazaarArt();
   <button type="button" id="bazaarEcosystemOpen">Ecosystem</button>
   <a href="https://vervenveda.com/beta/">Beta</a>
   <a href="#support">Support</a>
+  <a href="https://vervenveda.com/PLERASearch.github.io/">Search</a>
 </nav>
 <script>
 (function(){
@@ -1502,8 +1508,5 @@ auditBazaarArt();
 </script>
 
 
-<!-- Verve N Veda Beta Program -->
-<a href="https://vervenveda.com/beta/" aria-label="Open the Verve N Veda Beta Program" style="position:fixed;right:14px;bottom:14px;z-index:2147483647;padding:9px 12px;border:1px solid currentColor;border-radius:7px;background:#fff;color:#111;text-decoration:none;font:600 13px/1.2 system-ui,sans-serif">β Beta Program</a>
-<a href="https://vervenveda.com/beta/" aria-label="Open the Verve N Veda Beta Program" style="position:fixed;right:14px;bottom:14px;z-index:2147483647;padding:9px 12px;border:1px solid currentColor;border-radius:7px;background:#fff;color:#111;text-decoration:none;font:600 13px/1.2 system-ui,sans-serif">β Beta Program</a>
 </body>
 </html>
