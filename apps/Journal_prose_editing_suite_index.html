@@ -2565,7 +2565,8 @@
     const doc = getDoc();
     const html = "<!doctype html><html><head><meta charset='utf-8'><title>"+
       escapeTitleText(doc.title || "prose-document")+
-      "</title></head><body>"+doc.content+"</body></html>";
+      "</title></head><body>"+doc.content+"<script src="https://vervenveda.com/assets/vnv-ecosystem-toolbar.js"></script>
+</body></html>";
     exportFile(safeFilename(doc.title)+".html", html, "text/html");
   };
   $("#prose-export-text").onclick = function(){
@@ -2635,6 +2636,6 @@
   updateToneStatus();
 })();
 </script>
-<script src="/assets/vnv-beta-link.js" defer></script>
+
 </body>
 </html>

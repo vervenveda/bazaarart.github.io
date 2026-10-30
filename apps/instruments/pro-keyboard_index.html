@@ -1279,7 +1279,8 @@ printStaffBtn.onclick = ()=>{
     <h3>${currentTrack ? currentTrack.name : "Staff"}</h3>
     ${staffMain.innerHTML}
     <script>setTimeout(()=>window.print(),150);<\/script>
-  </body></html>`;
+  <script src="https://vervenveda.com/assets/vnv-ecosystem-toolbar.js"></script>
+</body></html>`;
   win.document.write(html);
   win.document.close();
 };
@@ -1375,6 +1376,6 @@ function renderTracksList(){
 }
 renderTracksList();
 </script>
-<script src="/assets/vnv-beta-link.js" defer></script>
+
 </body>
 </html>
