@@ -1069,7 +1069,7 @@ function renderPathways(){
   $("pathwayGrid").innerHTML=categoryOrder.map(category=>{
     const meta=categoryMeta[category],count=apps.filter(a=>a.category===category).length;
     return `<article class="pathway" style="--accent:${meta.accent}"><span class="pathway-mark">${meta.mark}</span><h3>${escapeHtml(meta.label)}</h3><p>${escapeHtml(category)} · ${count} Bazaar Art doorway${count===1?"":"s"}</p><button type="button" data-path-category="${escapeHtml(category)}">Enter this pathway →</button></article>`;
-  }).join("");
+  }).concat(`<article class="pathway" style="--accent:#b68a32"><span class="pathway-mark">✧</span><h3>Explore All</h3><p>Complete Creative Atlas · ${apps.length} Bazaar Art doorways across all seven pathways</p><button type="button" data-path-category="All">Browse every doorway →</button></article>`).join("");
 }
 function renderLevels(){
   $("levelRow").innerHTML=levels.map(level=>`<button class="level-card${level.name===activeLevel?" active":""}" style="--accent:${level.accent};--pale:${level.pale}" type="button" data-level="${escapeHtml(level.name)}"><span class="level-number">${level.number}</span><strong>${escapeHtml(level.name)}</strong><span>${escapeHtml(level.copy)}</span></button>`).join("");
