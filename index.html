@@ -361,6 +361,15 @@ body[data-theme="kids-girls"]{
   --ink:#4d2949;--muted:#80627a;--plum:#7b3f72;--rose:#df4f8b;--coral:#ee7d72;--gold:#d6a12e;
   --teal:#36a7a8;--green:#58a878;--blue:#617ec3;--violet:#9b6dcc;--line:rgba(121,62,113,.16);--line-strong:rgba(121,62,113,.29);--theme-glow:rgba(223,79,139,.13)
 }
+/* Dark-mode-only contrast repairs: continuum and footer. */
+body[data-theme="adult-dark"] .continuum-card{background:var(--panel);color:var(--ink)}
+body[data-theme="adult-dark"] .continuum-card.current{background:linear-gradient(145deg,#30212d,#211e28);color:var(--ink);border-color:rgba(239,111,155,.42)}
+body[data-theme="adult-dark"] .continuum-card>p:not(.continuum-step){color:var(--muted)}
+body[data-theme="adult-dark"] .continuum-card .continuum-action{color:#e4bc58}
+body[data-theme="adult-dark"] .continuum-card.current .continuum-action{color:var(--muted)}
+body[data-theme="adult-dark"] .site-footer{background:#111019;color:#f4edf4}
+body[data-theme="adult-dark"] .site-footer .footer-meta{color:#d4cbd6}
+body[data-theme="adult-dark"] .site-footer a{color:#f4edf4}
 body[data-theme="adult-dark"] .site-header{background:rgba(16,16,23,.94)}
 body[data-theme="kids-boys"] .site-header{background:rgba(234,248,251,.95)}
 body[data-theme="kids-girls"] .site-header{background:rgba(255,240,246,.95)}
