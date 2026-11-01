@@ -577,25 +577,6 @@ body :is(h1,h2,h3,h4,h5,h6){font-weight:444!important}
 <a class="skip-link" href="#directory">Skip to creative directory</a>
 <div class="color-rule"></div>
 
-<header class="site-header">
-  <div class="header-inner">
-    <a class="brand" href="#top" aria-label="Bazaar Art home">
-      <span class="brand-mark" aria-hidden="true"><span class="m1"></span><span class="m2"></span><span class="m3"></span><span class="m4"></span></span>
-      <span class="brand-copy"><span class="brand-name">Bazaar Art</span><span class="brand-sub">Bazaar Art LLC · Creative Hub</span></span>
-    </a>
-    <div class="header-actions">
-      <a class="header-link" href="https://vervenveda.github.io/333.github.io/app/Bazaar_Art_Live_index.html" data-ticker data-ticker-label="Bazaar Art Live">Live Feed</a>
-      <a class="header-link" href="#age-routes">Age Paths</a>
-      <a class="header-link" href="#zelle" data-ticker data-ticker-label="Art Mentor">Zelle</a>
-      <a class="header-link" href="#pathways">Pathways</a>
-      <a class="header-link" href="#directory">Creative Apps</a>
-      <a class="header-link" href="#connected">Connected Studios</a>
-      <a class="header-link" href="#continuum">Continuum</a>
-      <a class="header-link" href="#network">Network</a>
-    </div>
-    <button class="menu-button" id="menuButton" type="button" aria-label="Open complete creative directory" aria-controls="drawer" aria-expanded="false"><span class="menu-lines"></span></button>
-  </div>
-</header>
 <section class="theme-bar" aria-label="Bazaar Art view themes">
   <div class="theme-bar-inner">
     <div class="theme-group" role="group" aria-label="Adult themes">
@@ -1067,7 +1048,7 @@ function openDrawer(){
   lastFocused=document.activeElement;
   $("drawer").classList.add("open");
   $("drawer").setAttribute("aria-hidden","false");
-  $("menuButton").setAttribute("aria-expanded","true");
+  $("menuButton")?.setAttribute("aria-expanded","true");
   document.body.classList.add("drawer-open");
   setTimeout(()=>$("drawerSearch").focus(),60);
 }
@@ -1075,7 +1056,7 @@ function closeDrawer(restore=true){
   const wasOpen=$("drawer").classList.contains("open");
   $("drawer").classList.remove("open");
   $("drawer").setAttribute("aria-hidden","true");
-  $("menuButton").setAttribute("aria-expanded","false");
+  $("menuButton")?.setAttribute("aria-expanded","false");
   document.body.classList.remove("drawer-open");
   if(wasOpen&&restore&&lastFocused&&typeof lastFocused.focus==="function")lastFocused.focus();
 }
@@ -1143,7 +1124,13 @@ $("exportIndex").addEventListener("click",exportAtlas);
 $("connectedSearch").addEventListener("input",renderConnected);
 $("connectedFilters").addEventListener("click",e=>{const btn=e.target.closest("[data-source]");if(!btn)return;connectedSource=btn.dataset.source;renderConnectedFilters();renderConnected();});
 
-$("menuButton").addEventListener("click",()=>$("drawer").classList.contains("open")?closeDrawer():openDrawer());
+$("menuButton")?.addEventListener("click",()=>$("drawer").classList.contains("open")?closeDrawer():openDrawer());
+document.addEventListener("click",e=>{
+  const link=e.target.closest?.('a[href="#creative-directory"]');
+  if(!link)return;
+  e.preventDefault();
+  $("drawer").classList.contains("open")?closeDrawer():openDrawer();
+});
 $("closeDrawer").addEventListener("click",()=>closeDrawer());
 $("drawer").addEventListener("click",e=>{if(e.target===$("drawer"))closeDrawer();});
 $("drawerSearch").addEventListener("input",e=>renderDrawer(e.target.value));
@@ -1322,12 +1309,12 @@ auditBazaarArt();
 </script>
 <script src="https://vervenveda.com/assets/vnv-support.js" defer></script>
 
+<script src="https://vervenveda.com/assets/vnv-header-autopopulate.js"></script>
+<script>VNV_HEADER.mount({"title":"Bazaar Art","subtitle":"Bazaar Art LLC · Creative Hub","icon":"BA","home":"#top","actions":[{"label":"Live Feed","href":"https://vervenveda.github.io/333.github.io/app/Bazaar_Art_Live_index.html"},{"label":"Age Paths","href":"#age-routes"},{"label":"Zelle","href":"#zelle"},{"label":"Creative Apps","href":"#directory"},{"label":"Directory","href":"#creative-directory"}]});</script>
 <script src="https://vervenveda.com/assets/vnv-333-ticker.js"></script>
 <script src="https://vervenveda.com/assets/vnv-ticker-autopopulate.js" data-vnv-ticker-autopopulate></script>
 <script>VNV_TICKER.autoPopulate({label:"Bazaar Art Quick Links",max:12});</script>
-
-<script src="https://vervenveda.com/assets/vnv-header-autopopulate.js"></script>
-<script>VNV_HEADER.mount({replaceLegacy:true});</script>
+<script>VNV_HEADER.mount({"title":"Bazaar Art","subtitle":"Bazaar Art LLC · Creative Hub","icon":"BA","home":"#top","actions":[{"label":"Live Feed","href":"https://vervenveda.github.io/333.github.io/app/Bazaar_Art_Live_index.html"},{"label":"Age Paths","href":"#age-routes"},{"label":"Zelle","href":"#zelle"},{"label":"Creative Apps","href":"#directory"},{"label":"Directory","href":"#creative-directory"}]});</script>
 <script src="https://vervenveda.com/assets/vnv-ecosystem-toolbar.js"></script>
 </body>
 </html>
