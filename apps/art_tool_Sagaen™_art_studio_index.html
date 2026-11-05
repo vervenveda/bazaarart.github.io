@@ -98,6 +98,31 @@ input[type="text"]{
   .wrap{grid-template-columns:1fr;}
   .sidebar{border-left:none;border-top:1px solid #eae4da;}
 }
+
+/* Sagaen viewport breathing room: presentation only; do not alter canvas logic. */
+html,body{box-sizing:border-box}
+body{
+  height:100vh;height:100dvh;min-height:0;
+  padding:clamp(9px,1.2vw,18px);
+  display:flex;flex-direction:column;overflow:hidden;
+}
+body>header,body>footer{flex:0 0 auto}
+body>.wrap{
+  flex:1 1 auto;min-height:0;height:auto;
+  width:100%;min-width:0;
+}
+body>.wrap>main{
+  min-width:0;min-height:0;overflow-y:auto;overflow-x:hidden;
+  padding:12px;
+}
+body>.wrap>.sidebar{min-width:0;min-height:0}
+body>.wrap>main>.panel{max-width:100%}
+body>.wrap>main canvas{display:block;max-width:100%;height:auto}
+@media(max-width:900px){
+  body>.wrap{grid-template-columns:minmax(0,1fr);overflow-y:auto}
+  body>.wrap>main{overflow:visible}
+  body>.wrap>.sidebar{overflow:visible}
+}
 </style>
 </head>
 
