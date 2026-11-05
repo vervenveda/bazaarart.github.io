@@ -99,6 +99,21 @@ input[type="text"]{
   .sidebar{border-left:none;border-top:1px solid #eae4da;}
 }
 
+/* Sagaen editable text layer, scoped away from drawing and page controls. */
+.sagaen-canvas-stage{position:relative;width:100%;line-height:0}
+.sagaen-canvas-stage #canvas{display:block;width:100%;height:auto}
+.sagaen-canvas-stage #textOverlay{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;touch-action:none;background:transparent;cursor:grab}
+.sagaen-canvas-stage #textOverlay.active{pointer-events:auto}
+.sagaen-history-controls,.sagaen-tools{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin-bottom:9px}
+.sagaen-history-controls button{flex:1 1 80px;min-height:40px}
+.sagaen-text-panel textarea{display:block;width:100%;box-sizing:border-box;min-height:70px;resize:vertical;border:1px solid #c2bcb1;border-radius:7px;padding:8px;font:400 16px/1.4 Nunito,Arial,sans-serif}
+.sagaen-text-fields{display:grid;grid-template-columns:minmax(0,2fr) minmax(65px,1fr);gap:9px;margin:9px 0}
+.sagaen-text-fields label{display:flex;flex-direction:column;gap:4px}
+.sagaen-text-fields select,.sagaen-text-fields input{min-width:0;min-height:36px}
+.sagaen-text-hint{font-size:16px;line-height:1.45;color:#444}
+.sagaen-text-panel>label{display:block;margin:8px 0 4px}
+.sagaen-text-panel button{min-height:40px}
+@media(max-width:900px){.sagaen-text-fields{grid-template-columns:minmax(0,2fr) 78px}}
 /* Sagaen viewport breathing room: presentation only; do not alter canvas logic. */
 html,body{box-sizing:border-box}
 body{
@@ -146,7 +161,10 @@ body>.wrap>main canvas{display:block;max-width:100%;height:auto}
   <main>
     <input id="artTitle" type="text" placeholder="Title your artwork …" />
     <div class="panel" style="position:relative;">
-      <canvas id="canvas" width="900" height="600"></canvas>
+      <div class="sagaen-canvas-stage">
+        <canvas id="canvas" width="900" height="600"></canvas>
+        <canvas id="textOverlay" width="900" height="600" aria-label="Drag and resize text on artwork"></canvas>
+      </div>
       <span class="fullscreen" onclick="toggleFull()">⤢</span>
     </div>
 
@@ -160,12 +178,39 @@ body>.wrap>main canvas{display:block;max-width:100%;height:auto}
     <h3>Controls 🎨</h3>
 
     <div class="section">
-      <button onclick="setTool('brush')">Brush</button>
-      <button onclick="setTool('eraser')">Eraser</button>
-      <button class="ghost" onclick="undo()">Undo</button>
-      <button class="ghost" onclick="redo()">Redo</button>
+      <div class="sagaen-tools">
+        <button type="button" onclick="setTool('brush')">Brush</button>
+        <button type="button" onclick="setTool('eraser')">Eraser</button>
+        <button type="button" onclick="setTool('text')">Text</button>
+      </div>
+      <div class="sagaen-history-controls" role="group" aria-label="Edit history">
+        <button class="ghost" type="button" onclick="undo()">Undo</button>
+        <button class="ghost" type="button" onclick="redo()">Redo</button>
+      </div>
     </div>
 
+    <div class="section sagaen-text-panel">
+      <h3>Insert and Edit Text</h3>
+      <label for="textContent">Text</label>
+      <textarea id="textContent" rows="2" placeholder="Write your title or caption"></textarea>
+      <div class="sagaen-text-fields">
+        <label for="textFont">Font
+          <select id="textFont">
+            <option value="Cinzel">Cinzel</option><option value="Nunito">Nunito</option>
+            <option value="Georgia">Georgia</option><option value="Arial">Arial</option>
+            <option value="Courier New">Courier New</option>
+          </select>
+        </label>
+        <label for="textColor">Font color<input type="color" id="textColor" value="#222222"></label>
+      </div>
+      <label for="textSize">Text size <output id="textSizeValue">48px</output></label>
+      <input id="textSize" type="range" min="16" max="180" value="48" step="1">
+      <div class="sagaen-tools">
+        <button id="addText" type="button">Insert Text</button>
+        <button id="deleteText" type="button" class="ghost">Delete Selected</button>
+      </div>
+      <p class="sagaen-text-hint">Choose Text, then drag a caption to reposition it. Drag its square corner to resize. Click empty artwork to place new text. Font changes apply to the selected caption.</p>
+    </div>
     <div class="section">
       <label>Brush Size</label>
       <input id="brushSize" type="range" min="1" max="50" value="10">
@@ -233,11 +278,32 @@ let brushSize = 10;
 let history = [];
 let redoStack = [];
 
-// Save canvas state
-function saveState() {
-  history.push(canvas.toDataURL());
-  if (history.length > 50) history.shift();
-  redoStack = [];
+// Unified history records the artwork pixels and live text objects together.
+const textOverlay=document.getElementById("textOverlay");
+const textCtx=textOverlay.getContext("2d");
+let textItems=[],selectedTextId=null,textDrag=null;
+let restoringHistory=false;
+function snapshot(){
+ return {pixels:canvas.toDataURL("image/png"),texts:JSON.parse(JSON.stringify(textItems))};
+}
+function saveState(){
+ if(restoringHistory)return;
+ const state=snapshot();
+ const last=history[history.length-1];
+ if(last && last.pixels===state.pixels && JSON.stringify(last.texts)===JSON.stringify(state.texts))return;
+ history.push(state);
+ if(history.length>50)history.shift();
+ redoStack=[];
+}
+function restoreState(state){
+ if(!state)return;
+ restoringHistory=true;
+ textItems=JSON.parse(JSON.stringify(state.texts||[]));
+ selectedTextId=null;renderTextLayer();
+ const image=new Image();
+ image.onload=()=>{ctx.save();ctx.setTransform(1,0,0,1,0,0);ctx.filter="none";ctx.clearRect(0,0,canvas.width,canvas.height);ctx.drawImage(image,0,0,canvas.width,canvas.height);ctx.restore();restoringHistory=false;};
+ image.onerror=()=>{restoringHistory=false;};
+ image.src=state.pixels;
 }
 
 // Redraw image if present
@@ -255,11 +321,10 @@ function drawImage() {
 
 // Drawing functions
 function startDraw(e) {
-  drawing = true;
-  saveState();
-  draw(e);
+  if(tool==="text")return;
+  drawing=true;draw(e);
 }
-function endDraw() { drawing = false; ctx.beginPath(); }
+function endDraw(){if(drawing){drawing=false;ctx.beginPath();saveState();}}
 function draw(e) {
   if (!drawing) return;
   const rect = canvas.getBoundingClientRect();
@@ -275,27 +340,116 @@ function draw(e) {
   ctx.moveTo(x, y);
 }
 
-// Undo / Redo
-function undo() {
-  if (history.length > 1) {
-    redoStack.push(history.pop());
-    const imgData = new Image();
-    imgData.src = history[history.length - 1];
-    imgData.onload = () => ctx.drawImage(imgData, 0, 0, canvas.width, canvas.height);
-  }
+// Undo / Redo — one history for brush, imported image and live text.
+function undo(){if(history.length<2||restoringHistory)return;redoStack.push(history.pop());restoreState(history[history.length-1]);}
+function redo(){if(!redoStack.length||restoringHistory)return;const state=redoStack.pop();history.push(state);restoreState(state);}
+
+
+/* Editable canvas text: live objects are flattened only for export. */
+function textFontString(t){return Math.round(t.size)+'px "'+t.font+'"';}
+function textLines(t){return String(t.text||"").split("\n");}
+function textBounds(t){
+ textCtx.font=textFontString(t);
+ const lines=textLines(t),width=Math.max(20,...lines.map(line=>textCtx.measureText(line||" ").width));
+ const height=t.size*1.3*lines.length;
+ return {x:t.x,y:t.y-t.size,width,height};
 }
-function redo() {
-  if (redoStack.length > 0) {
-    const data = redoStack.pop();
-    history.push(data);
-    const imgData = new Image();
-    imgData.src = data;
-    imgData.onload = () => ctx.drawImage(imgData, 0, 0, canvas.width, canvas.height);
-  }
+function paintText(context,t){
+ context.save();context.fillStyle=t.color;context.font=textFontString(t);
+ context.textBaseline="alphabetic";
+ textLines(t).forEach((line,i)=>context.fillText(line,t.x,t.y+i*t.size*1.3));
+ context.restore();
 }
+function renderTextLayer(){
+ textCtx.clearRect(0,0,textOverlay.width,textOverlay.height);
+ textItems.forEach(t=>paintText(textCtx,t));
+ if(tool!=="text")return;
+ const selected=textItems.find(t=>t.id===selectedTextId);
+ if(!selected)return;
+ const b=textBounds(selected);
+ textCtx.save();textCtx.lineWidth=2;textCtx.strokeStyle="#1f5ba8";
+ textCtx.setLineDash([7,4]);textCtx.strokeRect(b.x-6,b.y-6,b.width+12,b.height+12);
+ textCtx.setLineDash([]);textCtx.fillStyle="#fff8e9";textCtx.fillRect(b.x+b.width+1,b.y+b.height+1,15,15);
+ textCtx.strokeRect(b.x+b.width+1,b.y+b.height+1,15,15);textCtx.restore();
+}
+function selectedText(){return textItems.find(t=>t.id===selectedTextId);}
+function syncTextControls(){
+ const t=selectedText();if(!t)return;
+ document.getElementById("textContent").value=t.text;
+ document.getElementById("textFont").value=t.font;
+ document.getElementById("textColor").value=t.color;
+ document.getElementById("textSize").value=t.size;
+ document.getElementById("textSizeValue").textContent=t.size+"px";
+}
+let nextTextId=1;
+function newText(x=canvas.width*.2,y=canvas.height*.4){
+ const content=document.getElementById("textContent").value.trim()||"Your text";
+ const t={id:nextTextId++,text:content,font:document.getElementById("textFont").value,
+  color:document.getElementById("textColor").value,size:Number(document.getElementById("textSize").value),x,y};
+ textItems.push(t);selectedTextId=t.id;syncTextControls();renderTextLayer();saveState();
+}
+function canvasTextPoint(e){
+ const rect=textOverlay.getBoundingClientRect();
+ return {x:(e.clientX-rect.left)*textOverlay.width/rect.width,y:(e.clientY-rect.top)*textOverlay.height/rect.height};
+}
+function hitText(point){
+ for(let i=textItems.length-1;i>=0;i--){
+  const t=textItems[i],b=textBounds(t),handle={x:b.x+b.width+1,y:b.y+b.height+1};
+  if(Math.abs(point.x-handle.x-7)<=14&&Math.abs(point.y-handle.y-7)<=14)return {t,mode:"resize"};
+  if(point.x>=b.x-9&&point.x<=b.x+b.width+9&&point.y>=b.y-9&&point.y<=b.y+b.height+9)return {t,mode:"move"};
+ }
+ return null;
+}
+textOverlay.addEventListener("pointerdown",e=>{
+ if(tool!=="text")return;
+ e.preventDefault();
+ const p=canvasTextPoint(e),hit=hitText(p);
+ if(!hit){newText(p.x,p.y);return;}
+ selectedTextId=hit.t.id;syncTextControls();renderTextLayer();
+ textDrag={id:hit.t.id,mode:hit.mode,start:p,x:hit.t.x,y:hit.t.y,size:hit.t.size};
+ textOverlay.setPointerCapture(e.pointerId);
+});
+textOverlay.addEventListener("pointermove",e=>{
+ if(!textDrag)return;
+ const t=selectedText(),p=canvasTextPoint(e);if(!t)return;
+ if(textDrag.mode==="move"){
+  t.x=Math.max(0,Math.min(canvas.width-1,textDrag.x+p.x-textDrag.start.x));
+  t.y=Math.max(16,Math.min(canvas.height-1,textDrag.y+p.y-textDrag.start.y));
+ }else{
+  const delta=(p.x-textDrag.start.x+p.y-textDrag.start.y)/2;
+  t.size=Math.max(16,Math.min(180,Math.round(textDrag.size+delta*.45)));
+  document.getElementById("textSize").value=t.size;
+  document.getElementById("textSizeValue").textContent=t.size+"px";
+ }
+ renderTextLayer();
+});
+function finishTextDrag(){if(!textDrag)return;textDrag=null;saveState();}
+textOverlay.addEventListener("pointerup",finishTextDrag);
+textOverlay.addEventListener("pointercancel",finishTextDrag);
+document.getElementById("addText").addEventListener("click",()=>{setTool("text");newText();});
+document.getElementById("deleteText").addEventListener("click",()=>{
+ if(selectedTextId===null)return;textItems=textItems.filter(t=>t.id!==selectedTextId);
+ selectedTextId=null;renderTextLayer();saveState();
+});
+const textContent=document.getElementById("textContent");
+textContent.addEventListener("input",()=>{const t=selectedText();if(t){t.text=textContent.value;renderTextLayer();}});
+textContent.addEventListener("change",saveState);
+["textFont","textColor","textSize"].forEach(id=>{
+ const el=document.getElementById(id);
+ el.addEventListener("input",()=>{
+  const t=selectedText();
+  if(id==="textSize")document.getElementById("textSizeValue").textContent=el.value+"px";
+  if(!t)return;
+  if(id==="textFont")t.font=el.value;
+  if(id==="textColor")t.color=el.value;
+  if(id==="textSize")t.size=Number(el.value);
+  renderTextLayer();
+ });
+ el.addEventListener("change",saveState);
+});
 
 // Tool + color + size
-function setTool(t) { tool = t; }
+function setTool(t) {tool=t;textOverlay.classList.toggle("active",t==="text");renderTextLayer();}
 document.getElementById("colorPicker").oninput = e => brushColor = e.target.value;
 document.getElementById("brushSize").oninput = e => brushSize = parseInt(e.target.value);
 
@@ -361,7 +515,10 @@ canvas.addEventListener("touchmove", e=>{ e.preventDefault(); draw(e.touches[0])
 // Export
 function exportImage(fmt){
   const title = document.getElementById("artTitle").value.trim() || "Sagaen_Artwork";
-  const dataURL = canvas.toDataURL(`image/${fmt}`,0.92);
+  const output=document.createElement("canvas");output.width=canvas.width;output.height=canvas.height;
+  const out=output.getContext("2d");out.drawImage(canvas,0,0);
+  textItems.forEach(t=>paintText(out,t));
+  const dataURL=output.toDataURL(`image/${fmt}`,0.92);
   const a = document.createElement("a");
   a.href = dataURL;
   a.download = `${title.replace(/\s+/g,'_')}.${fmt}`;
@@ -373,6 +530,7 @@ function resetCanvas(){
   ctx.filter="none";
   ctx.clearRect(0,0,canvas.width,canvas.height);
   if (img) drawImage();
+  textItems=[];selectedTextId=null;renderTextLayer();
   saveState();
 }
 
