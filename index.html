@@ -572,6 +572,22 @@ body :is(h1,h2,h3,h4,h5,h6){font-weight:444!important}
 }
 
 </style>
+<style id="bazaar-creative-start-style">
+/* CREATIVE START HERE */
+.creative-start{background:#fbf9f4}
+.creative-start-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.creative-start-card{min-height:260px;display:flex;flex-direction:column;padding:24px;border:3px solid #243d33;border-radius:7px;background:#fff;color:#202724;text-decoration:none;box-shadow:0 10px 24px rgba(20,30,25,.07);transition:transform .17s ease,background .17s ease,color .17s ease}
+.creative-start-card:hover,.creative-start-card:focus-visible{transform:translateY(-3px);background:#243d33;color:#fff}
+.creative-start-card>span{font-family:Cinzel,Georgia,serif;font-size:16px;color:#b48b45}
+.creative-start-card h3{margin:18px 0 0;font-family:Cinzel,Georgia,serif;font-size:33px;font-weight:444;line-height:1.12;color:inherit}
+.creative-start-card p{margin:14px 0 0;font-size:18px;line-height:1.6;color:#5c6762}.creative-start-card:hover p,.creative-start-card:focus-visible p{color:#eef1ed}
+.creative-start-card strong{margin-top:auto;padding-top:18px;font-size:16px;font-weight:444;color:#8a5f2d}.creative-start-card:hover strong,.creative-start-card:focus-visible strong{color:#f4d77a}
+.creative-start-explore{background:#243d33;color:#fff}.creative-start-explore p,.creative-start-explore strong{color:#fff}
+.creative-continuum-five{grid-template-columns:repeat(5,minmax(0,1fr))!important}
+@media(max-width:1100px){.creative-continuum-five{grid-template-columns:repeat(2,minmax(0,1fr))!important}.creative-continuum-five .continuum-card:last-child{grid-column:1/-1}}
+@media(max-width:900px){.creative-start-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){.creative-start-grid,.creative-continuum-five{grid-template-columns:1fr!important}.creative-continuum-five .continuum-card:last-child{grid-column:auto}}
+</style>
 </head>
 <body data-theme="adult-light">
 <a class="skip-link" href="#directory">Skip to creative directory</a>
@@ -631,6 +647,27 @@ body :is(h1,h2,h3,h4,h5,h6){font-weight:444!important}
         <p>This landing page brings Bazaar Art’s original studios and courses together with age-based Khaemenes pathways, ARSHIF study halls, creative play in the Arcade, professional resources, The Refrain, Bazaar Art Live through the 333 Network, and the developing My Art Gallery exhibition pathway.</p>
         <div class="llc-marks"><span class="llc-mark">Learn</span><span class="llc-mark">Study</span><span class="llc-mark">Make</span><span class="llc-mark">Experiment</span><span class="llc-mark">Share</span><span class="llc-mark">Exhibit</span></div>
       </article>
+    </div>
+  </div>
+</section>
+
+<section class="section creative-start" id="creative-start" aria-labelledby="creativeStartTitle">
+  <div class="section-inner">
+    <div class="section-heading">
+      <p class="kicker">Start Here</p>
+      <h2 id="creativeStartTitle">What would you like to create?</h2>
+      <p class="section-intro">Choose what you want to do. You do not need to know which Verve N Veda department holds the resource first.</p>
+    </div>
+    <div class="creative-start-grid" aria-label="Creative start pathways">
+      <a class="creative-start-card" href="./apps/Class_art_hall_index.html"><span>01</span><h3>I want to draw or make art</h3><p>Open visual art lessons, studios, techniques, and creative practice.</p><strong>Enter Art Hall →</strong></a>
+      <a class="creative-start-card" href="https://vervenveda.com/the_refrain.github.io/"><span>02</span><h3>I want to make music</h3><p>Explore composition, lyrics, performance, workshops, and the music conservatory.</p><strong>Open The Refrain →</strong></a>
+      <a class="creative-start-card" href="#arshif-studies"><span>03</span><h3>I want to write or tell stories</h3><p>Explore poetry, theatre, literature, oral traditions, and creative reading rooms.</p><strong>Explore writing & stories ↓</strong></a>
+      <a class="creative-start-card" href="./apps/Photo_Album_Studio/"><span>04</span><h3>I want to work with photos</h3><p>Build albums, organize images, and explore visual storytelling.</p><strong>Open Photo Album Studio →</strong></a>
+      <a class="creative-start-card" href="https://vervenveda.com/arcade.github.io/"><span>05</span><h3>I want to play and experiment</h3><p>Explore games, geometry, puzzles, patterns, and creative discovery.</p><strong>Open Arcade →</strong></a>
+      <a class="creative-start-card" href="https://vervenveda.com/aurora.github.io/"><span>06</span><h3>I need inspiration</h3><p>Reset, reflect, rest, and return to creative work with a clearer mind.</p><strong>Open Aurora →</strong></a>
+      <a class="creative-start-card" href="https://vervenveda.com/333.github.io/app/Bazaar_Art_Live_index.html"><span>07</span><h3>I want to share or meet other creators</h3><p>Enter Bazaar Art Live for community, collaboration, and creative connection.</p><strong>Open Bazaar Art Live →</strong></a>
+      <a class="creative-start-card" href="https://vervenveda.com/proresource_hub.github.io/"><span>08</span><h3>I need professional creative tools</h3><p>Find design, media, writing, production, publishing, and project tools.</p><strong>Open ProReSources →</strong></a>
+      <a class="creative-start-card creative-start-explore" href="#pathways"><span>09</span><h3>I’m just exploring</h3><p>Browse creative pathways and discover the wider Bazaar Art ecosystem.</p><strong>Explore the Creative Center ↓</strong></a>
     </div>
   </div>
 </section>
@@ -822,11 +859,13 @@ body :is(h1,h2,h3,h4,h5,h6){font-weight:444!important}
 
 <section class="section alt" id="continuum" aria-labelledby="continuum-title">
   <div class="section-inner">
-    <div class="section-heading"><p class="kicker">One creative continuum</p><h2 id="continuum-title">Settle. Make. Listen.</h2><p class="section-intro">Three neighboring Verve N Veda studios support one creative rhythm—from quiet attention, through visual making, into music.</p></div>
-    <div class="continuum-grid" aria-label="Connected Verve N Veda creative studios">
-      <a class="continuum-card" href="https://vervenveda.com/aurora.github.io/"><span class="continuum-mark" aria-hidden="true">◌</span><p class="continuum-step">01 · Settle</p><h3>Aurora</h3><p>Return to breath, reflection, rest, and creative readiness before beginning the work.</p><span class="continuum-action">Enter the sanctuary →</span></a>
-      <article class="continuum-card current" aria-current="page"><span class="continuum-mark" aria-hidden="true">✦</span><p class="continuum-step">02 · Make</p><h3>Bazaar Art</h3><p>Develop the visual idea through studios, creative education, artist resources, and exhibition pathways.</p><span class="continuum-action">You are here</span></article>
-      <a class="continuum-card" href="https://vervenveda.com/the_refrain.github.io/"><span class="continuum-mark" aria-hidden="true">♪</span><p class="continuum-step">03 · Listen</p><h3>The Refrain</h3><p>Follow rhythm, sound, lyrics, composition, instruments, and musical learning into the music house.</p><span class="continuum-action">Enter the music house →</span></a>
+    <div class="section-heading"><p class="kicker">One creative continuum</p><h2 id="continuum-title">Inspire. Learn. Create. Showcase. Connect.</h2><p class="section-intro">Move through the creative ecosystem in the order that fits your project. Each stage has a clear home.</p></div>
+    <div class="continuum-grid creative-continuum-five" aria-label="Creative journey across Verve N Veda">
+      <a class="continuum-card" href="https://vervenveda.com/aurora.github.io/"><span class="continuum-mark" aria-hidden="true">◌</span><p class="continuum-step">01 · Inspire</p><h3>Aurora</h3><p>Reset, reflect, and prepare for focused creative work.</p><span class="continuum-action">Find inspiration →</span></a>
+      <article class="continuum-card current" aria-current="page"><span class="continuum-mark" aria-hidden="true">✦</span><p class="continuum-step">02 · Learn</p><h3>Bazaar Art</h3><p>Build technique, vocabulary, confidence, and creative practice.</p><span class="continuum-action">You are here</span></article>
+      <a class="continuum-card" href="https://vervenveda.com/the_refrain.github.io/"><span class="continuum-mark" aria-hidden="true">♪</span><p class="continuum-step">03 · Create</p><h3>The Refrain & Studios</h3><p>Compose, write, draw, design, record, and develop original work.</p><span class="continuum-action">Open creative studios →</span></a>
+      <a class="continuum-card" href="https://vervenveda.com/myartgallery.github.io/"><span class="continuum-mark" aria-hidden="true">▣</span><p class="continuum-step">04 · Showcase</p><h3>My Art Gallery</h3><p>See finished work, exhibitions, portfolios, and professional creative practice.</p><span class="continuum-action">Visit the gallery →</span></a>
+      <a class="continuum-card" href="https://vervenveda.com/333.github.io/app/Bazaar_Art_Live_index.html"><span class="continuum-mark" aria-hidden="true">◎</span><p class="continuum-step">05 · Connect</p><h3>Bazaar Art Live</h3><p>Share, collaborate, participate, and connect with the wider creative community.</p><span class="continuum-action">Enter the community →</span></a>
     </div>
   </div>
 </section>
@@ -1314,7 +1353,7 @@ auditBazaarArt();
 <script src="https://vervenveda.com/assets/vnv-333-ticker.js"></script>
 <script src="https://vervenveda.com/assets/vnv-ticker-autopopulate.js" data-vnv-ticker-autopopulate></script>
 <script>VNV_TICKER.autoPopulate({label:"Bazaar Art Quick Links",max:12});</script>
-<script>VNV_HEADER.mount({"title":"Bazaar Art","subtitle":"Bazaar Art LLC · Creative Hub","icon":"BA","home":"#top","actions":[{"label":"Live Feed","href":"https://vervenveda.github.io/333.github.io/app/Bazaar_Art_Live_index.html"},{"label":"Age Paths","href":"#age-routes"},{"label":"Zelle","href":"#zelle"},{"label":"Creative Apps","href":"#directory"},{"label":"Directory","href":"#creative-directory"}]});</script>
+
 <script src="https://vervenveda.com/assets/vnv-ecosystem-toolbar.js"></script>
 </body>
 </html>
