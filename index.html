@@ -327,7 +327,8 @@ body.zelle-modal-open{overflow:hidden}
 .zelle-modal-actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:15px}.zelle-modal-action{min-height:38px;padding:8px 10px;border:1px solid var(--line-strong);background:var(--panel-soft);font-size:.66rem;font-weight:850;letter-spacing:.045em;text-transform:uppercase}.zelle-modal-action:hover{border-color:var(--rose);background:#fff}
 .zelle-modal-response{min-height:112px;margin-top:15px;padding:15px;border-left:4px solid var(--gold);background:var(--panel-soft);color:var(--muted)}
 .zelle-modal-response strong{display:block;color:var(--ink);font-family:var(--display);font-size:1.24rem;font-weight:600}.zelle-modal-response p{margin:6px 0 0}.zelle-modal-response a{color:var(--teal);font-weight:800}
-.zelle-voice-note{margin-top:10px!important;color:var(--muted)!important;font-size:.68rem!important}.zelle-voice-note.speaking{color:var(--teal)!important;font-weight:800}
+.zelle-voice-note{margin-top:10px!important;color:var(--muted)!important;font-size:.68rem!important}
+.zelle-studio-door{margin:14px 0 0!important}.zelle-studio-door a{display:inline-block;text-decoration:none;line-height:1.45;font-size:16px!important;font-weight:400!important;color:var(--ink);background:var(--panel-soft);border:1px solid var(--line-strong);border-radius:7px;padding:11px 14px}.zelle-studio-door a:hover,.zelle-studio-door a:focus-visible{outline:2px solid var(--gold);outline-offset:2px}.zelle-voice-note.speaking{color:var(--teal)!important;font-weight:800}
 @media(max-width:620px){.zelle-dialog{max-height:calc(100vh - 18px)}.zelle-dialog-head{padding:16px}.zelle-dialog-body{padding:16px}.zelle-dialog-controls{flex-direction:column-reverse;align-items:flex-end}.zelle-voice-toggle{white-space:nowrap}.zelle-dialog-title{font-size:1.85rem}}
 .breath-box{display:grid;grid-template-columns:auto 1fr auto;gap:13px;align-items:center;margin-top:17px;padding:14px;border:1px solid var(--line);background:var(--panel-soft)}
 .breath-orb-hub{width:58px;height:58px;border-radius:50%;background:radial-gradient(circle at 32% 28%,#fff,var(--teal));box-shadow:0 0 0 8px rgba(12,135,145,.09);transition:transform 3.5s ease,box-shadow 3.5s ease}.breath-orb-hub.inhale{transform:scale(1.23);box-shadow:0 0 0 15px rgba(12,135,145,.10)}.breath-orb-hub.exhale{transform:scale(.82)}
@@ -762,6 +763,7 @@ body :is(h1,h2,h3,h4,h5,h6){font-weight:444!important}
           <button class="zelle-modal-action" type="button" data-zelle-modal-action="portfolio">Portfolio</button>
         </div>
         <div class="zelle-modal-response" id="zelleModalResponse" aria-live="polite"><strong>Welcome to the studio.</strong><p>Pick one direction. We only need the next useful step.</p></div>
+        <p class="zelle-studio-door"><a class="zelle-modal-action" href="https://artist1970.github.io/Zelle.github.io/#zelle-chat-title" rel="noopener noreferrer">Open Zelle’s complete art mentor chat · 500 approved questions</a></p>
         <p class="zelle-voice-note" id="zelleVoiceNote">Voice is off by default. Turn it on whenever you want Zelle to read her replies aloud.</p>
       </div>
     </div>
