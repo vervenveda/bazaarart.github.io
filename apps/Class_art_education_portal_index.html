@@ -98,6 +98,12 @@ th{background:var(--card2)}
 .close{float:right}
 @media(max-width:1100px){.app{grid-template-columns:1fr}aside{position:relative;height:auto}.hero,.two,.three{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}.controls{grid-template-columns:1fr 1fr}main{padding:18px}}
 @media(max-width:680px){.grid,.portfolio-grid{grid-template-columns:1fr}.controls{grid-template-columns:1fr}.cert h2{font-size:2rem}.cert .name{font-size:1.4rem;padding:8px 15px}}
+.cert-field-label{display:block;font-size:16px;margin-top:16px;line-height:1.6}
+.cert-eligibility{font-size:16px;line-height:1.5;border:1px solid var(--line);border-radius:7px;padding:14px;background:var(--card2)}
+.cert-disclosure{border-top:1px solid var(--line);padding-top:15px;font-size:16px!important;line-height:1.5}
+.cert p{overflow-wrap:anywhere}
+#certReflectionPreview{white-space:pre-wrap;overflow-wrap:anywhere}
+#certificateView button:disabled{cursor:not-allowed;opacity:.55}
 @media print{aside,.nav,.btns,.controls,.tabs,.no-print{display:none!important}.app{display:block}main{padding:0}body{background:#fff;color:#111}.panel,.cert{box-shadow:none}}
 </style>
 </head>
@@ -215,18 +221,45 @@ th{background:var(--card2)}
 
   <section class="view hidden" id="certificateView">
     <div class="panel no-print">
-      <h2>Completion Certificate</h2>
-      <p class="lead">Enter a learner name, choose a certificate focus, and print or download a standalone certificate. Progress statistics are included automatically.</p>
-      <div class="two"><input id="certName" placeholder="Learner / Artist name" /><select id="certFocus"><option>Comprehensive Art Education Portal</option><option>50 Mediums Studio Exploration</option><option>Professional Artist Course</option><option>Portfolio Builder Course</option><option>Calls to Art Application Course</option></select></div>
-      <div class="btns"><button class="btn primary" id="makeCertBtn">Generate Certificate</button><button class="btn" onclick="window.print()">Print Certificate</button><button class="btn" id="downloadCertBtn">Download Certificate HTML</button></div>
+      <h2>Personal Studio Learning Certificate</h2>
+      <p class="lead">Document completed independent study. This personal certificate reflects self-reported course checklists; it is not an Academy-issued credential, verified transcript, or professional accreditation.</p>
+      <div class="two">
+        <label for="certName">Artist or learner name
+          <input id="certName" placeholder="Artist or learner name" maxlength="120" autocomplete="off" />
+        </label>
+        <label for="certFocus">Course focus
+          <select id="certFocus">
+            <option value="comprehensive">Comprehensive Art Education Portal</option>
+            <option value="mediums">50 Mediums Studio Exploration</option>
+            <option value="professional">Professional Artist Course</option>
+            <option value="portfolio">Portfolio Builder Course</option>
+            <option value="calls">Calls to Art Application Course</option>
+          </select>
+        </label>
+      </div>
+      <label for="certReflection" class="cert-field-label">Studio reflection (at least 40 characters)
+        <textarea id="certReflection" maxlength="1200" placeholder="Describe the work completed, techniques practiced, and what you learned. Do not enter private student information."></textarea>
+      </label>
+      <label class="checkline" for="certHonesty">
+        <input id="certHonesty" type="checkbox" />
+        I affirm that I completed the listed activities. I understand this personal record is self-reported and not Academy-verified.
+      </label>
+      <p id="certEligibility" class="cert-eligibility" role="status" aria-live="polite">Checking recorded progress…</p>
+      <div class="btns">
+        <button class="btn primary" type="button" id="makeCertBtn">Update Preview</button>
+        <button class="btn" type="button" id="certPrintBtn" disabled>Print Personal Certificate</button>
+        <button class="btn" type="button" id="downloadCertBtn" disabled>Download Personal Certificate</button>
+      </div>
     </div>
-    <div id="certificateOutput" class="cert">
-      <h2>Certificate of Completion</h2>
-      <p>This certifies that</p>
-      <div class="name">Artist Name</div>
-      <p>has completed a course of study in the Sovereign Art Education Portal.</p>
-      <p id="certStats">Progress will appear here.</p>
-      <p><strong>Date:</strong> <span id="certDate"></span></p>
+    <div id="certificateOutput" class="cert" data-record-status="incomplete">
+      <h2 id="certTitle">Studio Progress Summary</h2>
+      <p id="certLead">Current self-reported learning progress</p>
+      <div class="name" id="certDisplayName">Artist / Learner</div>
+      <p id="certFocusName">Course focus</p>
+      <p id="certStats">Recorded course progress appears here.</p>
+      <p id="certReflectionPreview"></p>
+      <p><strong>Record date:</strong> <span id="certDate"></span></p>
+      <p id="certRecordDisclosure" class="cert-disclosure">SELF-REPORTED STUDIO RECORD — NOT AN ACADEMY-ISSUED CREDENTIAL. No identity, artwork review, mastery assessment, or educator authorization has been verified.</p>
     </div>
   </section>
 
@@ -286,6 +319,7 @@ function saveState(){
   try{localStorage.setItem(storeKey, JSON.stringify(state));}
   catch(e){storageMessage('Progress could not be saved. Download a complete backup now.',true);}
   updateStats();
+  generateCert();
 }
 function loadPortfolio(){
   try{const data=JSON.parse(localStorage.getItem(storeKey+'.portfolio')||'[]');return Array.isArray(data)?data:[];}
@@ -299,6 +333,7 @@ function saveCalls(){
   try{localStorage.setItem(storeKey+'.calls',JSON.stringify(callRows));}
   catch(e){storageMessage('Call tracker save failed. Download a complete backup now.',true);}
   renderCallsTable();
+  generateCert();
 }
 
 /* Artwork persistence is additive. Existing localStorage remains untouched after
@@ -353,7 +388,7 @@ async function initializePortfolioStorage(){
   try{
     const record=await readPortfolioDb(portfolioDb);
     if(record&&Array.isArray(record.artworks)){
-      if(portfolioTouched===0){portfolio=record.artworks;renderPortfolio();}
+      if(portfolioTouched===0){portfolio=record.artworks;renderPortfolio();generateCert();}
       storageMessage('Artwork stored in IndexedDB. Your earlier browser records are preserved.');
     }else if(portfolio.length){
       // Copy the legacy data first; do not remove or rewrite the original record.
@@ -385,7 +420,7 @@ function savePortfolioSilent(){
   clearTimeout(portfolioSaveTimer);
   portfolioSaveTimer=setTimeout(()=>{enqueuePortfolioSave(portfolio).catch(()=>{});},350);
 }
-function savePortfolio(){savePortfolioSilent();renderPortfolio();}
+function savePortfolio(){savePortfolioSilent();renderPortfolio();generateCert();}
 function escapeHTML(s=''){ return String(s).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])); }
 function download(filename, content, type='text/plain'){
   const blob = new Blob([content], {type});
@@ -634,17 +669,83 @@ function renderCallsTable(){
   $('#callsTable').innerHTML = callRows.map((r,i)=>`<tr><td>${escapeHTML(r.name)}</td><td>${escapeHTML(r.due)}</td><td>${escapeHTML(r.fee)}</td><td>${escapeHTML(r.req)}</td><td><select onchange="callRows[${i}].fit=this.value;saveCalls()"><option ${r.fit==='Review'?'selected':''}>Review</option><option ${r.fit==='Strong Fit'?'selected':''}>Strong Fit</option><option ${r.fit==='Maybe'?'selected':''}>Maybe</option><option ${r.fit==='Pass'?'selected':''}>Pass</option><option ${r.fit==='Submitted'?'selected':''}>Submitted</option></select></td><td><button class="btn" onclick="callRows.splice(${i},1);saveCalls()">Remove</button></td></tr>`).join('');
 }
 
+/* Personal studio records never claim authenticated Academy authority.
+ * Eligibility below is based only on user-managed, browser-local checkboxes. */
+function certificateCourse(focus){
+  const mediumKeys=Array.from({length:MEDIUMS.length},(_,i)=>Array.from({length:6},(_,w)=>'m.'+i+'.'+w)).flat();
+  const profKeys=PROFESSIONAL.flatMap((section,i)=>section.tasks.map((_,j)=>'p.'+i+'.'+j));
+  const portfolioKeys=PORTFOLIO.map((_,i)=>'portfolio.'+i);
+  const callKeys=CALLS.map((_,i)=>'calls.'+i);
+  const catalog={
+    comprehensive:{label:'Comprehensive Art Education Portal',keys:[...mediumKeys,...profKeys,...portfolioKeys,...callKeys],artwork:true,call:true},
+    mediums:{label:'50 Mediums Studio Exploration',keys:mediumKeys,artwork:true,call:false},
+    professional:{label:'Professional Artist Course',keys:profKeys,artwork:false,call:false},
+    portfolio:{label:'Portfolio Builder Course',keys:portfolioKeys,artwork:true,call:false},
+    calls:{label:'Calls to Art Application Course',keys:callKeys,artwork:false,call:true}
+  };
+  if(/^medium:\d+$/.test(focus)){
+    const i=Number(focus.slice(7));
+    if(i<MEDIUMS.length){
+      return {label:MEDIUMS[i].name+' — Six-Week Studio',keys:mediumKeys.slice(i*6,i*6+6),artwork:false,call:false};
+    }
+  }
+  return catalog[focus]||null;
+}
+function certificateEligibility(){
+  const course=certificateCourse($('#certFocus').value);
+  if(!course)return {ready:false,label:'Unknown course',done:0,total:0,reasons:['Select a valid course focus.']};
+  const mediumChecks=state&&state.checks&&typeof state.checks==='object'?state.checks:{};
+  const careerChecks=state&&state.careerChecks&&typeof state.careerChecks==='object'?state.careerChecks:{};
+  const done=course.keys.filter(key=>(key.startsWith('m.')?mediumChecks[key]:careerChecks[key])===true).length;
+  const name=$('#certName').value.trim(),reflection=$('#certReflection').value.trim();
+  const reasons=[];
+  if(done<course.keys.length)reasons.push('Finish '+(course.keys.length-done)+' remaining course activities.');
+  if(course.artwork&&portfolio.length===0)reasons.push('Document at least one artwork in your portfolio.');
+  if(course.call&&callRows.length===0)reasons.push('Record at least one opportunity in the call tracker.');
+  if(name.length<2)reasons.push('Enter your artist or learner name.');
+  if(reflection.length<40)reasons.push('Write a studio reflection of at least 40 characters.');
+  if(!$('#certHonesty').checked)reasons.push('Confirm the independent-study declaration.');
+  return {ready:reasons.length===0,label:course.label,done,total:course.keys.length,reasons};
+}
+function renderCertificateFocusOptions(){
+  const group=document.createElement('optgroup');
+  group.label='Individual six-week medium courses';
+  MEDIUMS.forEach((medium,i)=>{
+    const option=document.createElement('option');
+    option.value='medium:'+i;option.textContent=medium.name+' — Six Weeks';
+    group.appendChild(option);
+  });
+  $('#certFocus').appendChild(group);
+}
 function generateCert(){
-  const name = $('#certName').value || 'Artist Name'; const focus = $('#certFocus').value;
-  const lessonDone = Object.values(state.checks).filter(Boolean).length; const careerDone = Object.values(state.careerChecks).filter(Boolean).length;
-  $('#certificateOutput .name').textContent = name;
-  $('#certificateOutput p:nth-of-type(2)').innerHTML = `has completed a course of study in <strong>${escapeHTML(focus)}</strong>.`;
-  $('#certStats').textContent = `Recorded progress: ${lessonDone} medium lessons and ${careerDone} career/portfolio/application tasks completed.`;
-  $('#certDate').textContent = today();
+  const status=certificateEligibility();
+  const completed=status.ready;
+  const name=$('#certName').value.trim();
+  $('#certificateOutput').dataset.recordStatus=completed?'self-reported-complete':'incomplete';
+  $('#certTitle').textContent=completed?'Personal Certificate of Studio Learning':'Studio Progress Summary';
+  $('#certLead').textContent=completed?'Personal acknowledgment of independently reported course completion':'Current self-reported progress; no completion certificate is available yet';
+  $('#certDisplayName').textContent=name||'Artist / Learner';
+  $('#certFocusName').textContent=status.label;
+  $('#certStats').textContent=status.done+' of '+status.total+' course activities marked complete in this browser.';
+  $('#certReflectionPreview').textContent=completed?'Studio reflection: '+$('#certReflection').value.trim():'';
+  $('#certDate').textContent=today();
+  $('#certRecordDisclosure').textContent='SELF-REPORTED STUDIO RECORD — NOT AN ACADEMY-ISSUED CREDENTIAL. No identity, artwork review, mastery assessment, or educator authorization has been verified.';
+  $('#certEligibility').textContent=completed
+    ?'Personal completion record available. All '+status.total+' course activities are marked complete, and the declaration is affirmed.'
+    :status.done+' of '+status.total+' course activities complete. '+status.reasons.join(' ');
+  $('#certPrintBtn').disabled=!completed;
+  $('#downloadCertBtn').disabled=!completed;
+  return status;
 }
 function certificateHTML(){
-  generateCert();
-  return `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Certificate</title><style>body{font-family:Georgia,serif;background:#f7f2e9;color:#211b16;padding:30px}.cert{max-width:940px;margin:auto;padding:50px;border:8px double #7a3e1d;border-radius:28px;background:#fffaf1;text-align:center}h2{font-size:3rem;margin:0}.name{font-size:2.2rem;border-bottom:2px solid #d8c6ad;display:inline-block;padding:8px 50px;margin:18px 0}p{font-size:1.05rem;color:#6f6155;line-height:1.55}@media print{body{background:#fff}}</style></head><body>${$('#certificateOutput').outerHTML}</body></html>`;
+  if(!generateCert().ready)return null;
+  return '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
+    +'<title>Personal Studio Learning Record</title><style>body{font:16px/1.55 Georgia,serif;background:#f7f2e9;color:#211b16;margin:0;padding:24px}'
+    +'.cert{max-width:940px;margin:0 auto;padding:40px;border:6px double #7a3e1d;border-radius:7px;background:#fffaf1;text-align:center}'
+    +'.cert h2{font-size:clamp(25px,5vw,42px)}.cert .name{font-size:30px;border-bottom:2px solid #d8c6ad;padding:12px;overflow-wrap:anywhere}'
+    +'.cert p{font-size:16px;line-height:1.55;overflow-wrap:anywhere}.cert-disclosure{font-size:16px;border-top:1px solid #d8c6ad;padding-top:15px}'
+    +'@media print{body{background:white;padding:0}.cert{box-shadow:none;break-inside:avoid}}</style></head><body>'
+    +$('#certificateOutput').outerHTML+'</body></html>';
 }
 function renderSources(){
   $('#sourcesList').innerHTML = SOURCES.map(s=>`<div class="week"><h3>${escapeHTML(s.name)}</h3><p class="small">${escapeHTML(s.note)}</p><p><a href="${escapeHTML(s.url)}" target="_blank" rel="noopener">Open resource</a></p></div>`).join('');
@@ -676,12 +777,18 @@ function bindEvents(){
   $('#clearPortfolioBtn').onclick = ()=>{ if(confirm('Clear local portfolio images?')) { portfolio=[]; savePortfolio(); } };
   $('#addCallBtn').onclick = ()=>{ const row={name:$('#callName').value,due:$('#callDue').value,fee:$('#callFee').value,link:$('#callLink').value,req:$('#callReq').value,fit:'Review'}; if(!row.name) return alert('Add a call name first.'); callRows.push(row); ['callName','callDue','callFee','callLink','callReq'].forEach(id=>$('#'+id).value=''); saveCalls(); };
   $('#downloadCallsBtn').onclick = ()=>download('calls-to-art-tracker.csv', csv([['Call','Due','Fee/Budget','Link','Requirements','Fit'], ...callRows.map(r=>[r.name,r.due,r.fee,r.link,r.req,r.fit])]), 'text/csv');
-  $('#makeCertBtn').onclick = generateCert;
-  $('#downloadCertBtn').onclick = ()=>download('art-education-certificate.html', certificateHTML(), 'text/html');
-  ['certName','certFocus'].forEach(id=>$('#'+id).addEventListener('input', generateCert));
+  $('#makeCertBtn').onclick=generateCert;
+  $('#certPrintBtn').onclick=()=>{if(generateCert().ready)window.print();};
+  $('#downloadCertBtn').onclick=()=>{
+    const html=certificateHTML();
+    if(html)download('personal-studio-learning-record.html',html,'text/html');
+  };
+  ['certName','certReflection'].forEach(id=>$('#'+id).addEventListener('input',generateCert));
+  $('#certFocus').addEventListener('change',generateCert);
+  $('#certHonesty').addEventListener('change',generateCert);
 }
 
-initNav(); bindEvents(); renderMediums(); renderProfessional(); renderCourse('#portfolioCourse', PORTFOLIO, 'portfolio'); renderCourse('#callsCourse', CALLS, 'calls'); renderActivities(); renderSources(); renderPortfolio(); renderCallsTable(); randomPrompt(); updateStats(); generateCert();
+renderCertificateFocusOptions(); initNav(); bindEvents(); renderMediums(); renderProfessional(); renderCourse('#portfolioCourse', PORTFOLIO, 'portfolio'); renderCourse('#callsCourse', CALLS, 'calls'); renderActivities(); renderSources(); renderPortfolio(); renderCallsTable(); randomPrompt(); updateStats(); generateCert();
 portfolioInitPromise=initializePortfolioStorage();
 </script>
 </body>
