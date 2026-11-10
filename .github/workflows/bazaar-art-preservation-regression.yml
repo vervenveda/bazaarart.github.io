@@ -11,6 +11,10 @@ on:
       - main
   workflow_dispatch:
 
+concurrency:
+  group: bazaar-preservation-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
@@ -28,8 +32,8 @@ jobs:
         run: node --test tests/bazaar-art-baseline.test.cjs
       - name: ART101 Weeks 27–36 source and route audit
         run: node --test tests/art101-grade9-weeks27-36.test.cjs
-      - name: Synthetic Chrome storage and backup smoke
-        run: node tests/bazaar-art-browser-smoke.cjs
       - name: Synthetic Art 101 browser evidence and quiz smoke
         run: |
           BAZAAR_TEST_PAGE=tests/art101-grade9-browser-smoke.html BAZAAR_TEST_PASS='ART101_BROWSER_PASS:' node tests/bazaar-art-browser-smoke.cjs
+      - name: Synthetic Chrome storage and backup smoke
+        run: node tests/bazaar-art-browser-smoke.cjs
