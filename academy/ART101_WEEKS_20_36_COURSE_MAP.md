@@ -1,6 +1,6 @@
 # Art 101 — Weeks 20–36 instructional continuation
 
-Status: authored course map; lessons and assessments for Weeks 20–36 are **not yet implemented**. Keep existing Weeks 01–19 and their legacy evidence keys intact. Art 101 is proficiency-based; legacy grade-9 paths are compatibility routes, not age restrictions.
+Status as of November 10, 2026: Weeks 20–26 already have instructional pages; Weeks 27–36 are now authored on the **repair/art101-grade9-weeks27-36-2026-11-10** review branch. The new pages include original instruction, 15-question formative banks with five randomized practice items, and per-week browser-local evidence. These are **not certified Academy mastery or production release**. Keep Weeks 01–26 and all legacy evidence keys intact. Art 101 is proficiency-based; grade-9 paths are compatibility routes, not age restrictions.
 
 ## Unit 08 — Materials, Surface and Texture (Weeks 20–22)
 - **Week 20 — Material Marks and Texture.** Compare graphite, ink, charcoal and found mark-making tools; produce a controlled texture atlas, three media tests, and a researched visual analysis.
@@ -34,5 +34,7 @@ Status: authored course map; lessons and assessments for Weeks 20–36 are **not
 ## Lesson implementation contract
 Each new week should include: essential question; accurate vocabulary; original worked example (text/SVG first, images later); five-stage inquiry/studio sequence; substantial independent assignment; accessible no-special-equipment alternative; research citations and attribution; revision and limitations; centered printable academic evidence; browser-local save/export/import with validation; separate parent/teacher review; 15-item original formative bank with five randomized questions and locked retake via the existing shared formative engine. Formative 80% is **not** certified mastery. Preserve student privacy and do not represent localStorage as authenticated identity or gradebook. Keep lesson paths, links, accessibility, offline-friendly behavior, and existing pages stable. Images are deferred until the instructional pass is complete.
 
-## Certification boundary
-This map is a plan, not 17 completed lessons. New pages require source validation, actual browser save/reload/import/print/quiz testing and educator review before certification.
+## Implementation and certification boundary
+The original map remains the course design contract. Weeks 27–36 are now present as **ten static instructional lessons**, with authored JSON source under `academy/authoring/` and new week pages under `academy/grade-9/unit-10` through `unit-13`. Source validation, synthetic browser tests, accessibility, print, full device compatibility, and educator review are distinct milestones; publishing these routes does not by itself establish those outcomes.
+
+Official Academy credit requires identity-bound authority, durable storage, studio-evidence review, and the approved midterm/final policy. The local five-question formative checks remain a study tool only. No learner accounts were created, migrated or awarded completion through this change.
