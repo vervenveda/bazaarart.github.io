@@ -65,7 +65,46 @@
     await reload();
     await until(()=>count()===3,'merged artwork reload');
     if(doc().querySelectorAll('#callsTable tr').length!==1)throw Error('Call was not retained');
-    result.textContent='BAZAAR_BROWSER_PASS: legacy migration, upload, reload, bundle, import/merge, progress and calls';
+    // Certificates must stay unavailable until the selected course is complete.
+    const cert=doc();
+    const select=cert.getElementById('certFocus');
+    const certName=cert.getElementById('certName');
+    const reflection=cert.getElementById('certReflection');
+    const affirmation=cert.getElementById('certHonesty');
+    const printBtn=cert.getElementById('certPrintBtn');
+    const downloadBtn=cert.getElementById('downloadCertBtn');
+    const winCert=frame.contentWindow;
+    if(!downloadBtn.disabled||!printBtn.disabled)throw Error('Incomplete courses were printable on load');
+    if(cert.getElementById('certTitle').textContent!=='Studio Progress Summary')throw Error('Premature completion title');
+    if(winCert.certificateHTML()!==null)throw Error('Incomplete record exported as certificate');
+    if(select.querySelectorAll('option[value^="medium:"]').length!==50)throw Error('Individual medium selection missing');
+    select.value='medium:0';select.dispatchEvent(new Event('change',{bubbles:true}));
+    certName.value='Artist <Example>';certName.dispatchEvent(new Event('input',{bubbles:true}));
+    reflection.value='I explored value, practiced controlled marks, revised the drawing, and documented my studio learning.';
+    reflection.dispatchEvent(new Event('input',{bubbles:true}));
+    affirmation.checked=true;affirmation.dispatchEvent(new Event('change',{bubbles:true}));
+    if(!downloadBtn.disabled)throw Error('Certificate permitted before all six weeks');
+    // A fully checked personal course is eligible only as self-reported studio learning.
+    winCert.markMediumComplete(0);
+    await until(()=>!downloadBtn.disabled,'self-reported six-week certificate eligibility');
+    if(cert.getElementById('certTitle').textContent!=='Personal Certificate of Studio Learning')throw Error('Wrong personal certificate title');
+    let certificateCapture=null;
+    winCert.download=(name,body,type)=>{certificateCapture={name,body,type};};
+    downloadBtn.click();
+    if(!certificateCapture||certificateCapture.name!=='personal-studio-learning-record.html')throw Error('Download not produced');
+    if(!certificateCapture.body.includes('NOT AN ACADEMY-ISSUED CREDENTIAL'))throw Error('Standalone record lacks disclosure');
+    if(!certificateCapture.body.includes('Artist &lt;Example&gt;'))throw Error('Artist name was not HTML-escaped');
+    if(certificateCapture.body.includes('<script')||certificateCapture.body.includes('https://'))throw Error('Standalone certificate must be offline-only');
+    // A completed different course cannot inherit the individual medium's checks.
+    select.value='professional';select.dispatchEvent(new Event('change',{bubbles:true}));
+    if(!downloadBtn.disabled||cert.getElementById('certTitle').textContent!=='Studio Progress Summary')throw Error('Unrelated professional course auto-certified');
+    select.value='medium:0';select.dispatchEvent(new Event('change',{bubbles:true}));
+    winCert.openMedium(0);
+    const firstWeek=cert.querySelector('input[data-check="m.0.0"]');
+    if(!firstWeek||!firstWeek.checked)throw Error('Completed week was not checked');
+    firstWeek.click();
+    if(!downloadBtn.disabled||winCert.certificateHTML()!==null)throw Error('Certificate remained available after unchecking a week');
+    result.textContent='BAZAAR_BROWSER_PASS: legacy migration, backup/merge, certificate completion guard, self-reported disclosure and revocation';
   }catch(error){
     result.textContent='BAZAAR_BROWSER_FAIL: '+(error&&error.stack||String(error));
   }
