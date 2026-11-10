@@ -5,6 +5,7 @@ on:
     branches:
       - 'audit/bazaar-regression-*'
       - 'repair/bazaar-art-*'
+      - 'repair/art101-*'
   pull_request:
     branches:
       - main
@@ -27,3 +28,5 @@ jobs:
         run: node --test tests/bazaar-art-baseline.test.cjs
       - name: Synthetic Chrome storage and backup smoke
         run: node tests/bazaar-art-browser-smoke.cjs
+      - name: ART101 Weeks 27–36 source and route audit
+        run: node --test tests/art101-grade9-weeks27-36.test.cjs
