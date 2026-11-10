@@ -1,0 +1,447 @@
+{
+  "schema": "bazaar-art101-authored-v1",
+  "unit": 11,
+  "lessons": [
+    {
+      "unit": 11,
+      "week": 29,
+      "title": "Letterform and Readability",
+      "essential": "How do type anatomy, spacing and contrast affect who can read and understand an artistic message?",
+      "vocab": [
+        [
+          "Baseline",
+          "The line upon which most letters appear to rest in a line of text."
+        ],
+        [
+          "X-height",
+          "The height of typical lowercase letters, excluding ascenders and descenders."
+        ],
+        [
+          "Counter",
+          "The enclosed or partially enclosed space inside a letter, such as the interior of o or e."
+        ],
+        [
+          "Kerning",
+          "Adjustment of space between a particular pair of letterforms."
+        ],
+        [
+          "Tracking",
+          "Adjustment of overall letter spacing across a selected run of text."
+        ],
+        [
+          "Hierarchy",
+          "Visual ordering that helps readers identify a headline, subtitle, body and supporting details."
+        ],
+        [
+          "Legibility",
+          "Ease of distinguishing individual letterforms; separate from how comfortable a long passage is to read."
+        ]
+      ],
+      "worked": {
+        "intro": "A tiny poster announces 'ART TODAY 4 PM' using ornate script throughout. At a distance the lettering merges and the event time disappears.",
+        "steps": [
+          "Sketch two display headlines using original letterforms. In version A use tight spacing; in version B open the counters and increase the spacing between 'R' and 'T'.",
+          "Set the date and location in simpler letters with strong contrast. Compare at 30 cm and across a room, recording which words can be read without guessing.",
+          "Place the event time directly below the main title, then reduce decorative flourishes behind critical information.",
+          "Photograph the before and after, annotate baseline, counters, kerning pairs and a legibility test that includes an alternative high-contrast layout."
+        ]
+      },
+      "stages": [
+        "Observe: Collect three examples of public lettering from permitted environments. Describe which letters are hardest to distinguish and the relationship among title, date and small print.",
+        "Research: Study two credited design examples from a museum or archive. Record designer or creator if known, publication context, accessible text alternatives and the purpose of each typographic choice.",
+        "Experiment: Draw at least eight original letters, compare thick/thin strokes, test two kerning pairs and try the same message at three sizes and two contrast levels.",
+        "Create and revise: Design a poster for a fictional exhibition; test reading distance with a volunteer or self-test and revise title, hierarchy and small-print contrast.",
+        "Reflect and archive: Present the letter studies, two poster states, explicit readability observations and source citations; distinguish a decorative artistic decision from an accessibility barrier."
+      ],
+      "assignment": "Deliver an original 8-letter study, two contrasting headline experiments, a poster with clear event hierarchy, a documented reading-distance test with at least two readers or equivalent self-tests, and two annotated revisions.",
+      "alternative": "Use pencil, ruler and gridded paper; no fonts, tablets or design software are required. Test a larger-font printout for accessibility.",
+      "ethics": "Do not reproduce a typeface specimen or logo as your own original mark; credit admired designers and avoid publishing contact details for imagined events.",
+      "diagram": [
+        "Title — largest / clear",
+        "Date / location — readable",
+        "Credit / detail — supporting"
+      ],
+      "sources": [
+        [
+          "Cooper Hewitt · Design museum",
+          "https://www.cooperhewitt.org/"
+        ],
+        [
+          "Cooper Hewitt · Accessibility resources",
+          "https://www.cooperhewitt.org/accessibility-resources/"
+        ]
+      ],
+      "questions": [
+        [
+          "What does a baseline help align?",
+          "Letters along a common writing line",
+          "The relative cost of ink"
+        ],
+        [
+          "Which feature is an enclosed interior of a letter?",
+          "A counter",
+          "A caption"
+        ],
+        [
+          "Why examine x-height?",
+          "It affects how lowercase letterforms appear at a given size",
+          "It determines the price of the poster"
+        ],
+        [
+          "What does kerning adjust?",
+          "Spacing between a particular pair of letters",
+          "The hue of every printed letter"
+        ],
+        [
+          "What does tracking adjust?",
+          "Letter spacing over a longer run of text",
+          "The paper's physical thickness"
+        ],
+        [
+          "Which is an example of visual hierarchy?",
+          "Headline most prominent, with clear date and small supporting credit",
+          "All words made equally ornate"
+        ],
+        [
+          "What does legibility mean?",
+          "Individual letters can be distinguished accurately",
+          "A letter has a historical origin"
+        ],
+        [
+          "What may make an ornate script difficult to read?",
+          "Closed counters and confusing adjacent strokes",
+          "The number of letters in a word alone"
+        ],
+        [
+          "How can one test a poster for distance readability?",
+          "Try several viewing distances and note errors",
+          "Assume the designer can read everything"
+        ],
+        [
+          "Why provide sufficient text/background contrast?",
+          "Readers must be able to separate letters from their surroundings",
+          "Contrast proves the design is original"
+        ],
+        [
+          "What should a title study include?",
+          "Different spacing and stroke treatments with observed results",
+          "Only the artist's favorite iteration"
+        ],
+        [
+          "What is a useful typographic revision?",
+          "Open ambiguous letter shapes and separate critical details",
+          "Hide the time inside decoration"
+        ],
+        [
+          "What belongs in a design reference citation?",
+          "Designer or source, title/context, date if known and URL",
+          "Only a vague claim that the font is famous"
+        ],
+        [
+          "What can a simple pencil-based lettering exercise teach?",
+          "Letter shape, spacing and hierarchy without software",
+          "Only the technical settings of a printer"
+        ],
+        [
+          "What distinguishes readability from decoration?",
+          "A design can be ornamental yet still must communicate essential words",
+          "Any decorative element is automatically inaccessible"
+        ]
+      ]
+    },
+    {
+      "unit": 11,
+      "week": 30,
+      "title": "Layout, Grids and Visual Systems",
+      "essential": "How can an intentional grid improve coherence while leaving room for visual exploration and different reading paths?",
+      "vocab": [
+        [
+          "Grid",
+          "An underlying system of rows, columns and alignments organizing a page."
+        ],
+        [
+          "Margin",
+          "A boundary of white space around the content."
+        ],
+        [
+          "Gutter",
+          "Space between columns or panels that prevents visual crowding."
+        ],
+        [
+          "Alignment",
+          "A repeated edge or axis that visually relates separate elements."
+        ],
+        [
+          "Negative space",
+          "Areas without visual content that separate, frame or emphasize information."
+        ],
+        [
+          "Modularity",
+          "Using repeated component sizes or patterns to form a coherent system."
+        ],
+        [
+          "Reading path",
+          "The order in which a reader is likely to inspect parts of a design."
+        ]
+      ],
+      "worked": {
+        "intro": "A one-page community art guide contains a map, three event summaries and a phone-free contact method, but its irregular cards make the reading order ambiguous.",
+        "steps": [
+          "Draw a three-column grid with equal gutters and comfortable margins; label the intended reader's first, second and third tasks.",
+          "Place one headline across all columns and three event modules below. Keep shared dates aligned and avoid placing essential labels outside the reader's field of view.",
+          "Create a second layout using only two columns. Compare scanning time, density and order using a simple comprehension task.",
+          "Revise whichever version has fewer errors and document the grid, modules, margin choices and accessibility fallback as a linear reading order."
+        ]
+      },
+      "stages": [
+        "Observe: Examine three published informational layouts and mark their grid, margins, gutters, dominant headline, text blocks and image placement. Ask what a reader discovers first.",
+        "Research: Compare one contemporary design example and one historic poster from credited museum or library collections; record how audience, paper size and reproduction influenced the layout.",
+        "Experiment: Produce 2-, 3- and 4-column thumbnails of the same factual content. Change only the grid while keeping type sizes and words consistent; note tradeoffs.",
+        "Create and revise: Design a one-page fictional community arts guide with a headline, three modules, illustrations and a plainly labeled access note. Collect feedback using one find-the-time task.",
+        "Reflect and archive: Present grid overlays, alternatives, a corrected final layout and a paragraph explaining whether the grid helped readers or merely made the page look orderly."
+      ],
+      "assignment": "Create three gridded thumbnail systems and one polished informational page, preserving exactly the same content across versions. Document at least one reading-path failure and an evidence-based revision.",
+      "alternative": "Build layouts using folded paper, rectangles, cut-out headings and taped modules. Photograph each arrangement before glue is applied.",
+      "ethics": "Avoid describing a fictional organization as real; keep important information available in linear text as well as decorative layouts.",
+      "diagram": [
+        "Column / margin plan",
+        "Hierarchy / reading route",
+        "Test and revised layout"
+      ],
+      "sources": [
+        [
+          "Cooper Hewitt · Smithsonian Design Museum",
+          "https://www.cooperhewitt.org/"
+        ],
+        [
+          "Library of Congress · Poster collections",
+          "https://www.loc.gov/free-to-use/"
+        ]
+      ],
+      "questions": [
+        [
+          "What does a design grid organize?",
+          "Repeated rows, columns and alignments",
+          "The artist's drawing medium alone"
+        ],
+        [
+          "What is a gutter?",
+          "Space between content columns or panels",
+          "A panel's main title"
+        ],
+        [
+          "What are margins?",
+          "White-space boundaries around page content",
+          "Random gaps inside letters"
+        ],
+        [
+          "Why use consistent alignment?",
+          "It visually connects related content",
+          "It removes every creative choice"
+        ],
+        [
+          "How does negative space help?",
+          "It separates and emphasizes information",
+          "It requires content to disappear entirely"
+        ],
+        [
+          "What is a module in information design?",
+          "A repeatable content component within a system",
+          "Any unsourced artwork"
+        ],
+        [
+          "What does reading path describe?",
+          "Likely order of visual attention across a page",
+          "The physical walk to a museum"
+        ],
+        [
+          "Why compare two-column and three-column versions?",
+          "Different grids can change scan effort and available space",
+          "One grid is always correct in every medium"
+        ],
+        [
+          "What is a fair layout test?",
+          "Keep message content constant while varying organization",
+          "Change every word and the grid at once"
+        ],
+        [
+          "What should a grid overlay reveal?",
+          "Column edges and element alignment decisions",
+          "The personality of all readers"
+        ],
+        [
+          "Which design choice reduces dense crowding?",
+          "Allow adequate gutters and margins",
+          "Pack unrelated facts into every empty corner"
+        ],
+        [
+          "What is a useful comprehension task?",
+          "Ask a reader to find the event time",
+          "Ask the reader if they like the color"
+        ],
+        [
+          "Why document a failed draft?",
+          "It explains the reason for a subsequent design revision",
+          "It invalidates all finished artwork"
+        ],
+        [
+          "Which layout is most accessible as a fallback?",
+          "A meaningful linear reading order with the same facts",
+          "A page with only decorative icons"
+        ],
+        [
+          "What can modularity provide?",
+          "Consistent repeated components across a page",
+          "A guarantee of historical accuracy"
+        ]
+      ]
+    },
+    {
+      "unit": 11,
+      "week": 31,
+      "title": "Information Design and Ethical Claims",
+      "essential": "How can a visual explanation represent measured quantities, sources and uncertainty without distorting what is known?",
+      "vocab": [
+        [
+          "Infographic",
+          "A visual arrangement of information combining text and graphical representations."
+        ],
+        [
+          "Scale",
+          "The relationship between a visual measure and the data value it represents."
+        ],
+        [
+          "Baseline",
+          "A defined reference value, such as zero in many bar charts."
+        ],
+        [
+          "Denominator",
+          "The total number or population to which a fraction or rate refers."
+        ],
+        [
+          "Uncertainty",
+          "A stated limit in precision, confidence or completeness of available evidence."
+        ],
+        [
+          "Source label",
+          "A citation that allows a viewer to trace where a figure or claim came from."
+        ],
+        [
+          "Pictogram",
+          "A repeated symbolic image used to represent a quantity or classification."
+        ]
+      ],
+      "worked": {
+        "intro": "An art-club infographic reports 18 out of 30 survey respondents prefer morning workshops. A careless icon chart shows 18 icons beside only 10 for afternoon, even though twelve respondents preferred other times.",
+        "steps": [
+          "Verify that the total sample is 30 and write a source line: 'Fictional classroom example: 18 of 30 respondents, 60%'. Avoid implying a whole city or school was surveyed.",
+          "Draw a bar from a clear zero baseline with values 18 and 12; label the denominator and categories. For a pictogram, make every icon equal one respondent and show thirty icons in total.",
+          "Create a misleading comparison by cropping the bar baseline, then correct it and explain the difference in perceived effect without implying a real finding.",
+          "Present the graph together with a plain-language summary, sample size, method limitations and a question inviting viewers to request the underlying data."
+        ]
+      },
+      "stages": [
+        "Observe: Analyze two public charts, separating the plotted quantities from rhetoric. Check axes, labels, visual units, percentages and whether important categories are omitted.",
+        "Research: Locate one sourced public dataset or use an explicitly fictional class sample. Record original publication, sample definition, collection date and usage rights. Do not invent precision.",
+        "Experiment: Represent the same numbers as a labeled bar chart, a pictogram and a short plain-text table. Compare how quickly each format communicates totals and uncertainty.",
+        "Create and revise: Build a one-page infographic for an art supply inventory or simulated community survey. Run a reader test asking which group is largest, what the denominator is and how uncertain the claim is.",
+        "Reflect and archive: Keep the raw numbers, chart drafts, source ledger, revision notes and a final statement separating directly supported claims from speculation."
+      ],
+      "assignment": "Design a source-labeled infographic with at least two graphical forms, a data table, clear denominator, true zero scale where appropriate, a limitations note and an audience comprehension test with documented revisions.",
+      "alternative": "Use graph paper, repeated paper-square pictograms and handwritten labels. Use an invented dataset clearly labeled 'synthetic classroom example'.",
+      "ethics": "Avoid unsupported statistics and manipulative area scaling. Cite all actual data and provide numerical text alongside graphics for accessibility.",
+      "diagram": [
+        "State the measured total",
+        "Keep units and scale consistent",
+        "Disclose limitations and source"
+      ],
+      "sources": [
+        [
+          "Smithsonian · Accessible resources",
+          "https://access.si.edu/resources"
+        ],
+        [
+          "Library of Congress · Digital resources",
+          "https://www.loc.gov/collections/"
+        ]
+      ],
+      "questions": [
+        [
+          "What does a chart denominator indicate?",
+          "The full group used to calculate a proportion",
+          "The color of the chart background"
+        ],
+        [
+          "Why should bar charts often start at zero?",
+          "To avoid exaggerating differences in bar lengths",
+          "To guarantee all data are accurate"
+        ],
+        [
+          "What does a source label let a reader do?",
+          "Trace the origin of a claim or number",
+          "Determine how famous the designer is"
+        ],
+        [
+          "What is a pictogram?",
+          "A repeated symbol representing a count or category",
+          "A hidden signature in a photograph"
+        ],
+        [
+          "Why identify a survey sample size?",
+          "It limits how widely results may reasonably be generalized",
+          "It changes the artwork's paper size"
+        ],
+        [
+          "What is uncertainty?",
+          "A limit on precision, confidence or completeness of evidence",
+          "A missing decorative border"
+        ],
+        [
+          "Which display is easiest to audit numerically?",
+          "A clear table listing values and totals",
+          "An unlabeled gradient"
+        ],
+        [
+          "What makes a source-based infographic ethical?",
+          "Accurate measures, citations and explicit limitations",
+          "Beautiful colors without data checks"
+        ],
+        [
+          "Why is an unlabeled truncated y-axis risky?",
+          "It may visually inflate small differences",
+          "It eliminates every relationship among values"
+        ],
+        [
+          "What should synthetic practice data be called?",
+          "A clearly identified fictional classroom dataset",
+          "An official citywide survey"
+        ],
+        [
+          "Why keep raw values with a graph?",
+          "They let viewers verify the graphical encoding",
+          "They hide which data were omitted"
+        ],
+        [
+          "What is a useful reader test?",
+          "Ask what a figure shows, its total and its uncertainties",
+          "Ask whether viewers like the designer"
+        ],
+        [
+          "What is a scale?",
+          "A rule mapping data values to visual units",
+          "A list of famous art movements"
+        ],
+        [
+          "What makes an icon chart misleading?",
+          "Unequal icon sizes or inconsistent units for comparable counts",
+          "Using an icon to represent a value"
+        ],
+        [
+          "How can accessibility improve an infographic?",
+          "Provide descriptive text and explicit values, not color alone",
+          "Hide all numbers from readers"
+        ]
+      ]
+    }
+  ]
+}
