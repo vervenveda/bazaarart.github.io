@@ -1,0 +1,300 @@
+{
+  "schema": "bazaar-art101-authored-v1",
+  "unit": 13,
+  "lessons": [
+    {
+      "unit": 13,
+      "week": 35,
+      "title": "Independent Capstone Studio",
+      "essential": "How can an artist synthesize research, technique and revision into an original sustained work that answers a self-chosen visual question?",
+      "vocab": [
+        [
+          "Capstone",
+          "A sustained culminating project integrating skills and evidence from a course of study."
+        ],
+        [
+          "Inquiry statement",
+          "A focused question guiding research, experimentation and decisions in a project."
+        ],
+        [
+          "Prototype",
+          "A deliberately limited model or study used to test an idea before final execution."
+        ],
+        [
+          "Iteration",
+          "A documented cycle of making, examining and changing a work."
+        ],
+        [
+          "Material rationale",
+          "An evidence-based explanation of why particular materials suit a creative intention."
+        ],
+        [
+          "Critique",
+          "Specific observation, analysis, interpretation and evaluation linked to useful evidence."
+        ],
+        [
+          "Studio log",
+          "Dated notes or photographs documenting choices, methods, problems and revisions."
+        ]
+      ],
+      "worked": {
+        "intro": "A learner proposes a small mixed-media artwork responding to the question 'How can ordinary objects communicate a history of repair?' The project must combine at least three earlier Art 101 techniques and include an explicit process record.",
+        "steps": [
+          "Write a specific inquiry statement: 'How can the contrast between a mended ceramic object's smooth surface and its fractured outline create a visual story of care?' Avoid treating artistic symbolism as scientific evidence.",
+          "Sketch three compositions and develop a safe small prototype using graphite tonal study, print-like repetition and a collage layer. Note how each method addresses a different part of the question.",
+          "Photograph the prototype, collect a peer or self-critique, then change one unsuccessful focal point while retaining the earlier version and notes.",
+          "Complete a final original piece and a capstone dossier identifying two researched artistic influences, three techniques, a materials/safety ledger, revisions and limitations."
+        ]
+      },
+      "stages": [
+        "Observe: Review previous Art 101 process studies and select at least three techniques that can interact coherently. Write down a specific unresolved visual question rather than only the desire to make something beautiful.",
+        "Research: Examine two credited artworks or design practices linked to the inquiry. Record the primary source, maker and context, and explain how influence differs from copying.",
+        "Experiment: Propose three alternatives, choose one using stated criteria, and make a prototype with safe materials or an equally rigorous drawing/digital mockup. Keep a dated decision log.",
+        "Create and revise: Produce a substantial original artwork and test the inquiry with a critique or self-review. Revise an identifiable passage, document what was lost or improved, and note how materials limit interpretation.",
+        "Reflect and archive: Assemble an inquiry statement, plans, source citations, process images, prototype, final artifact, critique, 100-point self-assessment and unresolved questions for the Week 36 defense."
+      ],
+      "assignment": "Deliver a complete capstone proposal and an original art object or documented digital work using three previously studied Art 101 methods; include three preliminary designs, two researched references, a prototype, two dated revisions, safety notes, and a 500-word studio analysis.",
+      "alternative": "Build a paper-only capstone using graphite, patterned rubbings and cut-paper collage; document stages by sketches if photos and devices are unavailable.",
+      "ethics": "Do not pass off found or AI-generated images as personal handwork. Credit influences, keep permissions for outside materials and avoid embedding private names in publicly shared work.",
+      "diagram": [
+        "Inquiry → source research",
+        "Three techniques → prototype",
+        "Critique → finished work"
+      ],
+      "sources": [
+        [
+          "The Metropolitan Museum of Art · Collection",
+          "https://www.metmuseum.org/art/collection"
+        ],
+        [
+          "Library of Congress · Free to Use and Reuse",
+          "https://www.loc.gov/free-to-use/"
+        ]
+      ],
+      "questions": [
+        [
+          "What is the purpose of a capstone?",
+          "To integrate earlier learning into a sustained inquiry",
+          "To award academic credit automatically"
+        ],
+        [
+          "What makes an inquiry statement useful?",
+          "It poses a focused question that guides creative decisions",
+          "It guarantees a final exhibition invitation"
+        ],
+        [
+          "Why prepare more than one design sketch?",
+          "Alternatives expose tradeoffs before time is committed",
+          "Only the first idea can be genuinely original"
+        ],
+        [
+          "What does a prototype test?",
+          "One or more uncertain design choices before full execution",
+          "Whether a learner has a verified Academy identity"
+        ],
+        [
+          "What is iteration?",
+          "A documented cycle of making, evaluating and revising",
+          "A single unexamined final attempt"
+        ],
+        [
+          "Why use at least three earlier techniques?",
+          "To synthesize course skills rather than merely repeat one exercise",
+          "To satisfy a secret browser scoring rule"
+        ],
+        [
+          "What belongs in a studio log?",
+          "Dated methods, decisions, limitations and revisions",
+          "Only praise for the completed piece"
+        ],
+        [
+          "Why cite artistic influences?",
+          "To distinguish an original response from borrowed sources and ideas",
+          "To transfer ownership of the artwork to a museum"
+        ],
+        [
+          "What is a material rationale?",
+          "An explanation of why selected tools support the concept",
+          "A list of materials with no relation to the work"
+        ],
+        [
+          "What makes critique constructive?",
+          "Evidence-based observations connected to possible changes",
+          "Unqualified comments that a piece is bad"
+        ],
+        [
+          "Why preserve photographs of earlier drafts?",
+          "They establish which decisions changed during revision",
+          "They turn the photos into an authenticated transcript"
+        ],
+        [
+          "Which self-assessment is responsible?",
+          "Evaluate strengths, limitations and evidence against the rubric",
+          "Claim mastery based only on enthusiasm"
+        ],
+        [
+          "What should be done with third-party imagery?",
+          "Check permission, credit the source and disclose use",
+          "Remove attribution after editing"
+        ],
+        [
+          "What is a valid no-camera capstone record?",
+          "Dated sketches and written comparisons of design stages",
+          "No process documentation at all"
+        ],
+        [
+          "What should the final artist statement address?",
+          "Inquiry, three techniques, revisions and remaining questions",
+          "Only the artist's chosen title"
+        ]
+      ]
+    },
+    {
+      "unit": 13,
+      "week": 36,
+      "title": "Portfolio Exhibition and Artist Defense",
+      "essential": "How can an artist explain, exhibit and defend their creative decisions using accurate evidence while acknowledging what remains unverified?",
+      "vocab": [
+        [
+          "Portfolio",
+          "A selected and organized group of works documenting sustained artistic development."
+        ],
+        [
+          "Artist defense",
+          "A reasoned explanation of an artwork's purpose, evidence, decisions, revisions and limitations."
+        ],
+        [
+          "Curatorial sequence",
+          "The selected order of works designed to help an audience understand a creative trajectory."
+        ],
+        [
+          "Process evidence",
+          "Sketches, notes, revisions, experiments and dates showing how a work evolved."
+        ],
+        [
+          "Attribution ledger",
+          "A record identifying original work, external references, collaborators and permissions."
+        ],
+        [
+          "Rubric",
+          "A public set of criteria used for consistent review of performance evidence."
+        ],
+        [
+          "Authenticated review",
+          "An identity-bound educator decision made through the Academy's authorized system, not a browser checkmark."
+        ]
+      ],
+      "worked": {
+        "intro": "A learner selects eight works from the year and wants to claim 'I mastered every art technique.' A defensible presentation instead shows specific growth with documented examples and limitations.",
+        "steps": [
+          "Choose six to eight representative original works, including Week 35 capstone, early observational work, and at least two explicitly revised pieces. Record title, date, medium, source influences and the skill represented.",
+          "Arrange the selection in an exhibition plan: early observation → experiment → revision → capstone, or a carefully explained thematic order. Write captions that avoid invented histories and protect personal data.",
+          "Prepare a three-part artist defense: 'My question', 'My evidence', 'My limitations'. Cite two before/after examples and one feedback response that changed a decision.",
+          "Present the defense orally, in writing or in an accessible recorded format, using a clear 100-point rubric for a reviewer. The form stores notes locally but must not issue an Academy credit or a signed certificate."
+        ]
+      },
+      "stages": [
+        "Observe: Audit portfolio candidates and identify the strongest evidence of learning from different units, including the capstone. Reject duplicate or unattributed work and document any missing process evidence.",
+        "Research: Compare professional gallery labels and accessible exhibition conventions. Cite institutional guidance for attribution, alt text, readable presentation and the difference between personal claims and reviewed performance.",
+        "Experiment: Build two exhibition sequences with short artwork labels and a one-page gallery plan. Test comprehension with an optional viewer or a clearly recorded self-critique.",
+        "Create and revise: Produce a six-to-eight-work portfolio, a final wall text, a defense script and a critique/revision map. Address three challenging questions about technique, originality and evidence using specific work samples.",
+        "Reflect and archive: Export the evidence packet, keep local drafts separate from the official Academy Account Cloud, and request educator review through authorized channels once available. Do not assert grades, diploma credit or verified mastery from the five-question practice assessment."
+      ],
+      "assignment": "Submit a six-to-eight-work portfolio that includes the capstone, captions, two before/after comparisons, an accessible exhibition plan, a 500–800-word artist defense or equivalent oral script, a rights ledger, and a 100-point educator review request. No browser-only award is issued.",
+      "alternative": "Create a paper portfolio with hand-written labels and scaled gallery wall layout. Deliver the defense as a written interview if recording and presentation tools are unavailable.",
+      "ethics": "Do not enter sensitive student data into public demos. Any formal Academy credential requires independent authentication, reviewer authority and durable audit evidence not supplied by these static pages.",
+      "diagram": [
+        "Select 6–8 attributed works",
+        "Sequence and defend decisions",
+        "Request independent reviewer authority"
+      ],
+      "sources": [
+        [
+          "Smithsonian · Accessible exhibition resources",
+          "https://access.si.edu/resources"
+        ],
+        [
+          "The Metropolitan Museum of Art · Collection",
+          "https://www.metmuseum.org/art/collection"
+        ]
+      ],
+      "questions": [
+        [
+          "What does a portfolio demonstrate best?",
+          "A selective body of work supported by process and reflection",
+          "The number of browser tabs opened"
+        ],
+        [
+          "What is an artist defense?",
+          "A reasoned explanation supported by actual work and decisions",
+          "A declaration that criticism is forbidden"
+        ],
+        [
+          "Why include early and revised work?",
+          "It makes growth and changes in thinking visible",
+          "It automatically verifies an Academy grade"
+        ],
+        [
+          "What is a curatorial sequence?",
+          "A deliberate order connecting selected works",
+          "A random order unrelated to the artist's aims"
+        ],
+        [
+          "What belongs on an artwork label?",
+          "Title, medium, date if known and accurate authorship",
+          "A fabricated award to improve credibility"
+        ],
+        [
+          "What makes attribution responsible?",
+          "Identifying original work and external sources or collaborators",
+          "Removing sources from finished work"
+        ],
+        [
+          "What is process evidence?",
+          "Drafts, notes, experiments and dated revisions",
+          "Only a polished final image"
+        ],
+        [
+          "Why present limitations in a defense?",
+          "It prevents overclaiming and identifies remaining inquiry",
+          "It makes all artistic evaluation impossible"
+        ],
+        [
+          "What is a rubric used for?",
+          "Transparent criteria for reviewing evidence",
+          "A browser password or sign-in method"
+        ],
+        [
+          "Can five-question formative practice issue course credit?",
+          "No; authorized assessment and educator review are separate",
+          "Yes, any four answers automatically grant credit"
+        ],
+        [
+          "What is authenticated review?",
+          "An identity-bound decision by an authorized Academy reviewer",
+          "A localStorage checkbox checked by a visitor"
+        ],
+        [
+          "Why prepare accessible text descriptions?",
+          "To communicate important visual information beyond an image",
+          "To hide the exhibition's source information"
+        ],
+        [
+          "What should a final defense reference?",
+          "Specific artworks, techniques, revisions and sources",
+          "Only adjectives about creativity"
+        ],
+        [
+          "What is a safe paper-only exhibition alternative?",
+          "Scaled wall mockup with clear captions and evidence packet",
+          "Publishing other students' photos without permission"
+        ],
+        [
+          "What is the appropriate status for a browser-saved final portfolio?",
+          "Personal evidence pending separate Academy verification",
+          "Official diploma credit permanently awarded"
+        ]
+      ]
+    }
+  ]
+}
