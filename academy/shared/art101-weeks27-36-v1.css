@@ -35,6 +35,7 @@ textarea{min-height:104px;resize:vertical}
 button,.btn{border:1px solid #15484c;border-radius:7px;background:#235c63;color:#fff;padding:11px 15px;cursor:pointer;font-size:16px;line-height:1.35}
 button:hover,.btn:hover{background:#173f43}
 button:disabled{opacity:.5;cursor:not-allowed}
+[hidden]{display:none!important}
 output{display:block;border-left:4px solid #2c7478;background:#e8f0ed;padding:12px;border-radius:0 7px 7px 0;min-height:2em;font-size:16px}
 .note,.disclaimer{font-size:16px;color:#47565c}
 .disclaimer{border-left:4px solid var(--gold);padding:12px;background:#f3e8d5}
