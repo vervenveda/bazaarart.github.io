@@ -1,0 +1,300 @@
+{
+  "schema": "bazaar-art101-authored-v1",
+  "unit": 10,
+  "lessons": [
+    {
+      "unit": 10,
+      "week": 27,
+      "title": "Sequence, Documentary Ethics and Context",
+      "essential": "How can the order and captions of images shape a documentary account without misleading its audience?",
+      "vocab": [
+        [
+          "Sequence",
+          "An intentionally ordered set of images that gives relationships and pacing to a visual narrative."
+        ],
+        [
+          "Documentary context",
+          "Relevant information about when, where, by whom and under what circumstances an image was made."
+        ],
+        [
+          "Caption",
+          "A short factual description of what a viewer can see, distinguished from interpretation and speculation."
+        ],
+        [
+          "Staging",
+          "Directing or rearranging what is photographed; disclosure is essential when an image is presented as documentary."
+        ],
+        [
+          "Consent",
+          "Permission appropriate to the subject, audience, use and circumstances; a public location does not automatically remove privacy duties."
+        ],
+        [
+          "Provenance",
+          "A traceable record of the origin and changes of an image or source."
+        ],
+        [
+          "Contact sheet",
+          "A visual overview of images used to choose sequence and spot omissions or repetitions."
+        ]
+      ],
+      "worked": {
+        "intro": "A six-frame visual diary shows an ordinary notebook moving from closed to used. The same frames can imply a misleading story if one omits the preparation photograph.",
+        "steps": [
+          "Frame 1: wide view shows a blank desk and notebook; caption states the observable setting without identifying an address.",
+          "Frames 2–4: a hand places a pencil, opens the notebook and draws a line. State that the sequence was arranged for this exercise rather than witnessed as an unplanned event.",
+          "Frames 5–6: include the completed sketch and a return to the whole desk. Compare the truthful caption 'A staged demonstration of a drawing session' with the unsupported claim 'An artist worked here for hours'.",
+          "Retain the uncropped originals, a six-cell contact sheet, a dated caption ledger and a sentence describing what happens outside the frame."
+        ]
+      },
+      "stages": [
+        "Observe: Study six images from a permitted, preferably non-identifying situation. For each, list visible people or objects, implied action and facts that remain unknown; do not infer intent from an expression.",
+        "Research: Select two attributed visual documents from a trusted archive such as the Library of Congress. Record creator, approximate date, page URL, rights statement and contextual description; compare the archive metadata with your own observations.",
+        "Experiment: Photograph or draw six frames showing a safe household process. Make two sequences from the same six frames—one chronological and one thematic—and note how pacing and meaning change without inventing facts.",
+        "Create and revise: Write a factual caption for each frame, identify any deliberate staging, and ask a viewer to explain what they think happened. Revise at least two captions or placements to eliminate unsupported conclusions.",
+        "Reflect and archive: Produce the sequence and source ledger, explain how consent was obtained or why no identifiable people appear, and state two limits of the visual evidence. Export the lesson record separately from the optional images."
+      ],
+      "assignment": "Create a six-frame documentary sequence of a permitted everyday process; submit a contact sheet, two distinct orders, six contextual captions, a provenance/consent ledger, two corrected captions and a 150-word statement on image limitations.",
+      "alternative": "Use six hand-drawn viewfinder scenes instead of photographs. Work with objects, not identifiable people; mark each frame as an observed drawing or staged recreation.",
+      "ethics": "Avoid geolocation, recognizable children, faces and identifying documents. No image may be called candid if it was staged; record licensing for any reference image.",
+      "diagram": [
+        "1 — Establish context",
+        "2–5 — Show action",
+        "6 — Return and qualify"
+      ],
+      "sources": [
+        [
+          "Library of Congress · Free to Use and Reuse",
+          "https://www.loc.gov/free-to-use/"
+        ],
+        [
+          "Library of Congress · Rights guidance",
+          "https://ask.loc.gov/faq/305466"
+        ]
+      ],
+      "questions": [
+        [
+          "A six-photo story begins with an extreme close-up. What might be missing?",
+          "The wider setting that helps viewers interpret the action",
+          "The image sensor's manufacturer"
+        ],
+        [
+          "What must a documentary caption distinguish?",
+          "Observed facts from guesses about intent",
+          "Audience preferences from printing prices"
+        ],
+        [
+          "What is the most ethical label for a reenacted action?",
+          "A clearly disclosed staged reconstruction",
+          "An unannounced candid documentary"
+        ],
+        [
+          "Why retain the original uncropped photographs?",
+          "To preserve evidence of what was captured before editing",
+          "To prove every caption is correct"
+        ],
+        [
+          "What does image sequencing primarily change?",
+          "The relationships and pacing a viewer perceives",
+          "The real-world order of a past event"
+        ],
+        [
+          "What is a contact sheet useful for?",
+          "Comparing multiple frames before selection",
+          "Measuring a camera battery"
+        ],
+        [
+          "Which evidence best supports the date of an archival photograph?",
+          "Its reliable catalog record and context",
+          "A modern viewer's impression of clothing"
+        ],
+        [
+          "When is consent especially relevant?",
+          "When identifiable people are recorded or their images shared",
+          "Only when photographs use flash"
+        ],
+        [
+          "Why might a close crop be misleading?",
+          "It can hide relevant objects or circumstances",
+          "It always changes the camera settings"
+        ],
+        [
+          "Which caption avoids an unsupported causal claim?",
+          "A pencil rests beside an open notebook",
+          "The owner abandoned the notebook in anger"
+        ],
+        [
+          "What does provenance describe?",
+          "Where the image came from and how it was handled",
+          "The intensity of a filter alone"
+        ],
+        [
+          "If two orders tell different stories from identical frames, what should the artist do?",
+          "Explain ordering choices and contextual limits",
+          "Claim both stories are established facts"
+        ],
+        [
+          "What should an ethical image-source note contain?",
+          "Creator, context, URL and rights information where available",
+          "Only the artist's favorite color"
+        ],
+        [
+          "Why prefer a household still life for a learner's documentary exercise?",
+          "It avoids unnecessary privacy and permission risks",
+          "It makes all interpretation automatically correct"
+        ],
+        [
+          "What belongs in the final reflection?",
+          "What is visible, what is inferred and what remains unknown",
+          "A declaration that documentary images cannot mislead"
+        ]
+      ]
+    },
+    {
+      "unit": 10,
+      "week": 28,
+      "title": "Photo Essay and Editorial Revision",
+      "essential": "How can an artist build a coherent photo essay and revise it without disguising uncertainty or manipulating evidence?",
+      "vocab": [
+        [
+          "Photo essay",
+          "An intentional set of related images with a narrative or investigative throughline."
+        ],
+        [
+          "Editorial selection",
+          "Choosing and ordering evidence according to a stated purpose and accuracy standard."
+        ],
+        [
+          "Establishing frame",
+          "An image providing context of a place, process or subject before close detail."
+        ],
+        [
+          "Visual transition",
+          "A deliberate relationship that connects one frame to the next."
+        ],
+        [
+          "Edit ledger",
+          "A record of cropping, tone adjustments, replacements and other changes to an image."
+        ],
+        [
+          "Alt text",
+          "Concise description of important visual information for readers who do not view an image."
+        ],
+        [
+          "Caption audit",
+          "A review checking labels, claims, sources, consent and context against available evidence."
+        ]
+      ],
+      "worked": {
+        "intro": "A learner wants an eight-image essay called 'The life of one pencil'. In a weak version, eight detail shots look decorative but tell little about the making process.",
+        "steps": [
+          "Plan an opening frame that shows pencil, paper and light source, then organize details of selecting, sharpening, drawing and cleaning up.",
+          "Create a sequence that moves wide → action → process detail → revision → result. Use two transitions based on repeated shape or viewpoint.",
+          "Write eight factual captions, with the phrase 'staged study' where appropriate. Remove the claim that the pencil 'belongs to a professional artist' because the images do not establish ownership or profession.",
+          "Record every crop and contrast change, retain original frames, and add one short alt-text description per selected image."
+        ]
+      },
+      "stages": [
+        "Observe: Analyze a published photographic story from a credited source. Identify the establishing image, focal detail, transition and conclusion. Write down the question its images answer—and one question they cannot answer.",
+        "Research: Compare a second archive or museum visual series. Record original creator information, the publication's editorial context and individual image rights; identify how captions contribute information not contained in pixels.",
+        "Experiment: Make at least ten source photographs or drawings of one safe process. Build two eight-frame layouts with different openings and test which better conveys context without exaggeration.",
+        "Create and revise: Select eight frames, write precise captions and accessible text alternatives, apply only disclosed tonal/crop edits, and retain the previous arrangement. Ask a reader to summarize the story and revise confusing transitions.",
+        "Reflect and archive: Publish a contact sheet and final sequence alongside an edit ledger, credits and a 150-word statement explaining exclusions, risks and editorial decisions."
+      ],
+      "assignment": "Complete an eight-image editorial essay with twelve initial candidates, two draft arrangements, original captions and alt text, a documented audience comprehension test, a transparent edit ledger, and original-file preservation notes.",
+      "alternative": "Create twelve sequential observational drawings with viewfinder frames and finish eight illustrated essay panels. Caption them explicitly as drawings rather than photographs.",
+      "ethics": "Do not use deceptive edits, fabricate captions or upload private photographs. Treat archive image access as distinct from image reuse permission.",
+      "diagram": [
+        "Establish — wide image",
+        "Develop — action and detail",
+        "Resolve — qualified conclusion"
+      ],
+      "sources": [
+        [
+          "Library of Congress · Primary source collections",
+          "https://www.loc.gov/collections/"
+        ],
+        [
+          "Smithsonian · Accessibility resources",
+          "https://access.si.edu/resources"
+        ]
+      ],
+      "questions": [
+        [
+          "Which image usually provides location or process context in a photo essay?",
+          "An establishing frame",
+          "A hidden metadata field"
+        ],
+        [
+          "Why photograph more images than the final eight?",
+          "Selection allows weak or repetitive frames to be removed",
+          "Every source image must be published"
+        ],
+        [
+          "What is a visual transition?",
+          "A planned relationship between neighboring frames",
+          "A guarantee that two events were simultaneous"
+        ],
+        [
+          "What makes a caption accurate?",
+          "It separates observable content from attributed contextual information",
+          "It guesses motive to create suspense"
+        ],
+        [
+          "Which edit should appear in an edit ledger?",
+          "A crop that removes a significant background element",
+          "The photographer's shoe size"
+        ],
+        [
+          "How can alt text support a photo essay?",
+          "It communicates meaningful visual content to nonvisual readers",
+          "It replaces the need to credit sources"
+        ],
+        [
+          "What does an audience comprehension test reveal?",
+          "Whether viewers understand the intended sequence and limitations",
+          "Whether the underlying event occurred exactly as pictured"
+        ],
+        [
+          "Why retain initial source photographs?",
+          "To preserve material for checking decisions and corrections",
+          "To force the viewer to agree with the artist"
+        ],
+        [
+          "What distinguishes editorial interpretation from factual observation?",
+          "Interpretation goes beyond what the image alone directly shows",
+          "The number of pixels in the image"
+        ],
+        [
+          "Why should a staged still life be disclosed?",
+          "Readers otherwise may mistake a constructed scene for an unplanned event",
+          "Stage lighting prevents any artistic meaning"
+        ],
+        [
+          "What is a coherent thematic photo essay?",
+          "A sequence whose selected images collectively support a defined inquiry",
+          "Any eight unrelated photographs with matching filters"
+        ],
+        [
+          "Which practice can mislead even if individual photos are unchanged?",
+          "Sequencing that omits critical context",
+          "Using a consistent page margin"
+        ],
+        [
+          "What should an ethical reuse check examine?",
+          "The source's rights statement and any applicable restrictions",
+          "The popularity of the image alone"
+        ],
+        [
+          "Which revision improves clarity without inventing facts?",
+          "Replace a vague caption with an accurate descriptive one",
+          "Add an unverified date for drama"
+        ],
+        [
+          "What belongs in a final editorial process archive?",
+          "Originals, selections, captions, revisions and disclosure notes",
+          "Only the single highest-contrast image"
+        ]
+      ]
+    }
+  ]
+}
