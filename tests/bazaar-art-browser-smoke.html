@@ -27,7 +27,12 @@
     localStorage.setItem(key,JSON.stringify([legacy]));
     await mount();
     await until(()=>count()===1,'legacy image migration');
-    await until(()=>doc().getElementById('storageStatus').textContent.includes('IndexedDB'),'IndexedDB initialization');
+    await until(()=>{
+      const status=doc().getElementById('storageStatus').textContent;
+      return status.includes('IndexedDB')||status.includes('legacy local storage')||status.includes('could not be read');
+    },'storage mode selection');
+    const storageStatus=doc().getElementById('storageStatus').textContent;
+    if(!storageStatus.includes('IndexedDB'))throw Error('IndexedDB unavailable: '+storageStatus+'; indexedDB='+typeof frame.contentWindow.indexedDB);
     // New uploads must appear and survive a reload.
     const bytes=Uint8Array.from(atob(img.split(',')[1]),c=>c.charCodeAt(0));
     sendFile(doc().getElementById('artUpload'),new File([bytes],'Uploaded-sample.png',{type:'image/png'}));
