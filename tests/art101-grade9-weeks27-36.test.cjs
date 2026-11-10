@@ -72,7 +72,8 @@ test('Ten distinct course weeks preserve the approved ART101 teaching structure'
    }
    const html=read(weekPath(w));
    assert.ok(html.includes('<h1>'+title+'</h1>'));
-   assert.ok(html.includes(essential.replaceAll('&','&amp;')));
+   const escapedEssential=essential.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+   assert.ok(html.includes(escapedEssential),'essential question does not match authoring source for Week '+w);
    assert.ok(html.includes('Original worked example')&&html.includes('Five-stage studio investigation'));
    assert.ok(html.includes('Independent studio assignment')&&html.includes('Academic evidence · Week '+w));
    assert.ok(html.includes('Educator rubric · 100 points'));
