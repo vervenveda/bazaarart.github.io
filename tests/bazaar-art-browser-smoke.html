@@ -104,6 +104,29 @@
     if(!firstWeek||!firstWeek.checked)throw Error('Completed week was not checked');
     firstWeek.click();
     if(!downloadBtn.disabled||winCert.certificateHTML()!==null)throw Error('Certificate remained available after unchecking a week');
+    // Professional, portfolio and calls courses require their own activity banks.
+    function choose(value){
+      select.value=value;select.dispatchEvent(new Event('change',{bubbles:true}));
+    }
+    function completeCourse(selector){
+      const tasks=Array.from(cert.querySelectorAll(selector));
+      if(!tasks.length)throw Error('No course controls available: '+selector);
+      for(const checkbox of tasks)if(!checkbox.checked)checkbox.click();
+    }
+    choose('professional');
+    completeCourse('#professionalCourse input[data-career]');
+    if(downloadBtn.disabled)throw Error('Professional course did not qualify after its own tasks');
+    choose('portfolio');
+    if(!downloadBtn.disabled)throw Error('Portfolio should require six portfolio lessons');
+    completeCourse('#portfolioCourse input[data-career]');
+    if(downloadBtn.disabled)throw Error('Portfolio certificate blocked after course and artwork completed');
+    choose('calls');
+    if(!downloadBtn.disabled)throw Error('Calls course should require its six lessons');
+    completeCourse('#callsCourse input[data-career]');
+    if(downloadBtn.disabled)throw Error('Calls certificate blocked despite completed tasks and tracked opportunity');
+    choose('comprehensive');
+    if(!downloadBtn.disabled||winCert.certificateHTML()!==null)throw Error('Comprehensive certificate issued for partial medium study');
+
     result.textContent='BAZAAR_BROWSER_PASS: legacy migration, backup/merge, certificate completion guard, self-reported disclosure and revocation';
   }catch(error){
     result.textContent='BAZAAR_BROWSER_FAIL: '+(error&&error.stack||String(error));
