@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'audit/bazaar-regression-*'
+      - 'repair/bazaar-art-*'
   pull_request:
     branches:
       - main
@@ -24,3 +25,24 @@ jobs:
           persist-credentials: false
       - name: Verify existing routes and data-contract compatibility
         run: node --test tests/bazaar-art-baseline.test.cjs
+      - name: Synthetic Chrome storage and backup smoke
+        shell: bash
+        run: |
+          set -euo pipefail
+          BROWSER="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || true)"
+          test -n "$BROWSER"
+          python3 -m http.server 8765 --bind 127.0.0.1 >/tmp/bazaar-test-server.log 2>&1 &
+          PID=$!
+          trap 'kill "$PID" 2>/dev/null || true' EXIT
+          for attempt in {1..20}; do
+            if curl -fsS http://127.0.0.1:8765/tests/bazaar-art-browser-smoke.html >/dev/null; then break; fi
+            sleep 1
+          done
+          "$BROWSER" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --virtual-time-budget=18000 --dump-dom 'http://127.0.0.1:8765/tests/bazaar-art-browser-smoke.html' >/tmp/bazaar-browser-dom.txt 2>/tmp/bazaar-chrome-stderr.log
+          if ! grep -q '<pre id="result">BAZAAR_BROWSER_PASS:' /tmp/bazaar-browser-dom.txt; then
+            echo 'Browser smoke failed:'
+            grep -o '<pre id="result">[^<]*' /tmp/bazaar-browser-dom.txt || true
+            tail -n 30 /tmp/bazaar-chrome-stderr.log || true
+            exit 1
+          fi
+          echo 'Synthetic browser backup and migration PASS'
