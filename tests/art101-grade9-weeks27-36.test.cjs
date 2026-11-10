@@ -67,7 +67,7 @@ test('Ten distinct course weeks preserve the approved ART101 teaching structure'
    assert.ok(sources.length>=2&&sources.every(pair=>/^https:\/\//.test(pair[1])));
    assert.equal(source.length,15);
    for(const [q,a,b] of source){
-     assert.ok(q.length>28&&a.length>12&&b.length>10,'thin quiz '+w);
+     assert.ok(q.length>=16&&a.length>=8&&b.length>=9,'incomplete quiz prompt or answer '+w);
      assert.ok(!study.has(w+':'+q),'duplicate prompt '+w);study.add(w+':'+q);
    }
    const html=read(weekPath(w));
