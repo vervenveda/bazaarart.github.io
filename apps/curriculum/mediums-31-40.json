@@ -1,0 +1,416 @@
+{
+  "schema": "bazaar-art-medium-curriculum-v2",
+  "startIndex": 30,
+  "courses": [
+    [
+      "Video Art",
+      [
+        [
+          "Moving-image vocabulary",
+          "Explain shot sizes, aspect ratio, frame rate, and the distinction between video art and documentary.",
+          "Capture a ten-shot inventory of light and movement using a phone or camera.",
+          "Shot list with lengths, framing notes and original file names."
+        ],
+        [
+          "Camera and choreography",
+          "Demonstrate static versus moving camera and how framing affects emotion.",
+          "Film one repeated action in three camera styles without recording bystanders.",
+          "Three short clips and an ethics/location note."
+        ],
+        [
+          "Montage and juxtaposition",
+          "Explain how shot order creates meaning independently of any single shot.",
+          "Re-edit six original clips into a calm sequence and a tense sequence.",
+          "Two thirty-second edits with sequence maps."
+        ],
+        [
+          "Time manipulation",
+          "Show speed ramps, looping and reverse imagery while preserving clear intent.",
+          "Create a one-minute study of an everyday process with deliberate time shifts.",
+          "Before/after edit frames and time-map."
+        ],
+        [
+          "Sound-image relation",
+          "Demonstrate diegetic and nondiegetic sound using only owned or licensed audio.",
+          "Combine recorded environmental sound with an abstract image sequence.",
+          "Original audio log and an accessible caption file."
+        ],
+        [
+          "Exhibition-ready screening",
+          "Review captions, projector aspect, playback loops, consent and credits.",
+          "Finish a 30–90-second experimental work and a silent fallback.",
+          "Video file, playback instructions, rights notes and reflection."
+        ]
+      ]
+    ],
+    [
+      "Sound Art",
+      [
+        [
+          "Listening scores",
+          "Explain sound as material: timbre, rhythm, dynamics, space, and silence.",
+          "Write a five-minute listening map for a familiar room with no private conversations recorded.",
+          "Time-marked listening score and sound vocabulary."
+        ],
+        [
+          "Field-recording ethics",
+          "Demonstrate gain staging, clipping checks and consent for recognizable voices.",
+          "Record five short nonverbal environmental sounds safely.",
+          "Original WAV/recording files and consent/location notes."
+        ],
+        [
+          "Sonic texture layers",
+          "Show layering, fades and equalization without excessive loudness.",
+          "Make a thirty-second texture study from three self-recorded sounds.",
+          "Track arrangement screenshot and level log."
+        ],
+        [
+          "Spatial storytelling",
+          "Compare stereo placement and near/far perspective in an original soundscape.",
+          "Create a one-minute journey from enclosed to open space using sound.",
+          "Annotated spatial map and rendered audio."
+        ],
+        [
+          "Silence and contrast",
+          "Explain how planned silence creates form rather than indicating missing content.",
+          "Revise a soundscape to include three intentional quiet passages.",
+          "Before/after mix and rhythm reflection."
+        ],
+        [
+          "Accessible sound exhibition",
+          "Review safe listening volumes, text descriptions and transcript alternatives.",
+          "Complete a 60–120-second piece with audio description of the composition.",
+          "Final audio, text score, credits and hearing-safety note."
+        ]
+      ]
+    ],
+    [
+      "AI-Assisted Art Ethics",
+      [
+        [
+          "Authorship inventory",
+          "Define prompts, reference sources, generated outputs and human decisions; avoid unsupported ownership claims.",
+          "Create an authorship ledger for a proposed concept using only permitted imagery.",
+          "Source list, license checks and human contribution map."
+        ],
+        [
+          "Prompt as experiment",
+          "Show how changing one prompt variable tests composition rather than merely collecting images.",
+          "Compare three original prompt revisions and explain changed visual decisions.",
+          "Prompt log and three annotated outcomes, simulated if needed."
+        ],
+        [
+          "Bias and representation",
+          "Discuss stereotype amplification, consent and respectful depiction.",
+          "Audit one generated or imagined image for three representation risks.",
+          "Risk log and revised concept sketch."
+        ],
+        [
+          "Human-led transformation",
+          "Demonstrate sketching, painting or compositing owned material around a generated draft.",
+          "Produce a human-directed revision with visible original craftsmanship.",
+          "Process stages and transformation statement."
+        ],
+        [
+          "Disclosure and provenance",
+          "Compare clear authorship disclosures with misleading claims of fully handmade work.",
+          "Write gallery labels for three scenarios: entirely handmade, assisted, and fully generated.",
+          "Three disclosure labels and attribution rationale."
+        ],
+        [
+          "Ethical exhibition proposal",
+          "Review platform rules, contest exclusions, privacy and model usage terms before publication.",
+          "Develop a transparent AI-assisted concept study with original files and a rights checklist.",
+          "Process board, full disclosure, source permissions and reflection."
+        ]
+      ]
+    ],
+    [
+      "Weaving",
+      [
+        [
+          "Warp and weft basics",
+          "Demonstrate tension, shed formation and plain weave on a cardboard loom.",
+          "Warp a small safe loom and weave six alternating rows.",
+          "Loom photograph, tension diagram and plain-weave sampler."
+        ],
+        [
+          "Color and pattern",
+          "Explain stripes, checks and color rhythm through warp/weft selection.",
+          "Weave three mini-pattern sections using two yarn colors.",
+          "Three motif photos and color plan."
+        ],
+        [
+          "Twill or basket variant",
+          "Show a simple over-two/under-two structure as an accessible variant.",
+          "Produce a four-inch patterned band with consistent selvedges.",
+          "Pattern draft and woven band."
+        ],
+        [
+          "Texture and mixed fiber",
+          "Compare soft, stiff and recycled yarn without creating unstable joins.",
+          "Weave a tactile study using three fiber weights.",
+          "Texture strip and material compatibility notes."
+        ],
+        [
+          "Planned textile design",
+          "Translate a sketch into a repeated woven motif and manage ends.",
+          "Create a small wall hanging with balanced pattern placement.",
+          "Design grid, midpoint photo and completed piece."
+        ],
+        [
+          "Finishing and display",
+          "Demonstrate knotting, fringe control, safe trimming and hanging support.",
+          "Finish and label the textile with fiber and care information.",
+          "Front/back photographs, material list and process reflection."
+        ]
+      ]
+    ],
+    [
+      "Embroidery",
+      [
+        [
+          "Needle and fabric control",
+          "Demonstrate hoop tension, threading and safe needle storage.",
+          "Stitch a sampler of running, backstitch, satin and French knots.",
+          "Four-stitch sampler with thread counts."
+        ],
+        [
+          "Line as drawing",
+          "Explain how stitch direction suggests contour and movement.",
+          "Translate a simple leaf drawing into running and stem stitches.",
+          "Design transfer and stitched line study."
+        ],
+        [
+          "Fill and texture",
+          "Compare long-and-short stitch, satin fill and chain stitch in bounded shapes.",
+          "Embroider three color-gradient petals with different fills.",
+          "Stitch map and petal samples."
+        ],
+        [
+          "Narrative symbols",
+          "Discuss culturally situated motifs and making original meaning rather than copying protected designs.",
+          "Design a small personal emblem stitched in two contrasting styles.",
+          "Two emblem sketches and selected stitched version."
+        ],
+        [
+          "Composition and repair",
+          "Demonstrate securing loose ends and correcting puckering.",
+          "Revise a small embroidered scene to improve balance and fabric tension.",
+          "Before/after photos and back-of-work inspection."
+        ],
+        [
+          "Textile finishing",
+          "Review laundering tests, backing, hoop display and needle inventory.",
+          "Complete an original motif panel for a portfolio or gift.",
+          "Finished textile, care instructions and reflection."
+        ]
+      ]
+    ],
+    [
+      "Quilting",
+      [
+        [
+          "Patch geometry",
+          "Explain seam allowance, grain direction and safe cutting or pre-cut alternatives.",
+          "Draft a nine-patch block using paper templates and fabric swatches.",
+          "Scaled patch diagram and cutting plan."
+        ],
+        [
+          "Piecing precision",
+          "Demonstrate pressed seams and consistent stitches on a safe beginner block.",
+          "Piece one nine-patch block by hand or machine with supervision.",
+          "Front/back block photographs and seam check."
+        ],
+        [
+          "Color/value arrangement",
+          "Show how alternating light/dark placement changes quilt rhythm.",
+          "Rearrange the same nine-patch pieces into three possible patterns.",
+          "Three layout photos and a selected design."
+        ],
+        [
+          "Layering sandwich",
+          "Explain top, batting and backing with basting that prevents shifting.",
+          "Prepare a small quilt sandwich and mark straight-line quilting paths.",
+          "Layer diagram and basted sample."
+        ],
+        [
+          "Functional quilting",
+          "Demonstrate even quilting stitches or safe machine use with proper training.",
+          "Quilt a mini wall hanging and test stitch consistency.",
+          "Stitch close-ups and revised line plan."
+        ],
+        [
+          "Binding and care",
+          "Show double-fold binding corners and wash-test labeling.",
+          "Bind and present the finished mini quilt with fiber and care details.",
+          "Finished quilt, dimensions and construction log."
+        ]
+      ]
+    ],
+    [
+      "Fashion / Textile Design",
+      [
+        [
+          "Fashion research ethics",
+          "Discuss mood boards, body diversity and difference between inspiration and copying.",
+          "Create three mood boards from owned sketches and licensed textures.",
+          "Mood boards and source/permission log."
+        ],
+        [
+          "Silhouette sketching",
+          "Demonstrate garment shapes, proportion and flat drawing for production.",
+          "Design three outfits from the same fabric palette for varied body shapes.",
+          "Three figure-neutral flats and silhouette notes."
+        ],
+        [
+          "Fabric behavior",
+          "Compare drape, stretch, opacity and directional grain with safe swatches.",
+          "Make a fabric test grid and predict which forms each fabric supports.",
+          "Swatch sheet and suitability rating."
+        ],
+        [
+          "Pattern prototype",
+          "Explain seam allowance, notches and mockup fitting using a paper garment.",
+          "Make a paper or muslin prototype for a small accessory.",
+          "Pattern with measured allowances and construction photos."
+        ],
+        [
+          "Wearability revision",
+          "Demonstrate stress-point inspection, fastener placement and comfort considerations.",
+          "Revise the prototype from an ethical non-identifying fit review.",
+          "Revision diagram and repaired mockup."
+        ],
+        [
+          "Collection presentation",
+          "Discuss cost, labor ethics, fabric care and artist credits.",
+          "Present a three-look capsule with one constructed accessory and estimated costs.",
+          "Lookbook, fabric library and process reflection."
+        ]
+      ]
+    ],
+    [
+      "Ceramic Handbuilding",
+      [
+        [
+          "Clay properties",
+          "Show plastic, leather-hard and bone-dry stages; use damp cleaning rather than sweeping dust.",
+          "Create three labeled clay texture tiles or air-dry clay substitutes.",
+          "Moisture-stage notes and texture samples."
+        ],
+        [
+          "Pinch construction",
+          "Demonstrate even wall thickness and safe compression.",
+          "Form a pinch bowl with gradual thinning and a stable foot.",
+          "Bowl, thickness diagram and drying plan."
+        ],
+        [
+          "Coil structures",
+          "Show scoring/slipping and supporting coils to avoid collapse.",
+          "Make a small coiled vessel with a repeating exterior pattern.",
+          "Assembly photos and join inspection."
+        ],
+        [
+          "Slab building",
+          "Demonstrate templates, compression and measured slab joins.",
+          "Construct a lidded paper-clay or ceramic box with at least two fitted seams.",
+          "Template, seam detail and assembled form."
+        ],
+        [
+          "Surface decoration",
+          "Compare underglaze, engraving and texture on safe samples; explain kiln-only finishes.",
+          "Decorate a small vessel using two surface approaches.",
+          "Surface test, glaze plan and maker's mark."
+        ],
+        [
+          "Safe firing or alternative",
+          "Review kiln authorization, drying, glaze food-safety limits and ventilation.",
+          "Finish a permitted kiln-fired piece or an explicitly non-food-safe air-dry sculpture.",
+          "Finished work, material/firing record and safety statement."
+        ]
+      ]
+    ],
+    [
+      "Pottery Wheel",
+      [
+        [
+          "Wheel safety and centering",
+          "Demonstrate tie-back hair, safe posture and initial centering with instructor supervision.",
+          "Practice centering repeated clay lumps without worrying about finished pots.",
+          "Three centering attempts and body-position log."
+        ],
+        [
+          "Opening a vessel",
+          "Show thumb opening and keeping a supported, even floor.",
+          "Open a centered lump to a measured base depth.",
+          "Floor-thickness sketch and practice photos."
+        ],
+        [
+          "Pulling walls",
+          "Demonstrate controlled pressure, hydration and gradual lifting.",
+          "Throw a simple cylinder with consistent vertical walls.",
+          "Cylinder photo and wall-thickness notes."
+        ],
+        [
+          "Form variations",
+          "Compare cylinder, bowl and gently flared rim from the same starting volume.",
+          "Throw or simulate two profiles with deliberate volume changes.",
+          "Profile sketches and trial forms."
+        ],
+        [
+          "Trimming foot",
+          "Explain leather-hard timing, safe tool angle and stable trimming.",
+          "Trim a simple foot ring on a supervised vessel.",
+          "Before/after photos and balance check."
+        ],
+        [
+          "Finished wheel set",
+          "Review drying, firing, glazing and food-safe claims based on actual materials.",
+          "Present two fired or unfired study vessels with honest status labeling.",
+          "Vessel portfolio, measurements, glaze/firing notes and reflection."
+        ]
+      ]
+    ],
+    [
+      "Clay Sculpture",
+      [
+        [
+          "Mass and armature",
+          "Demonstrate solid versus hollow mass and when a stable armature is needed.",
+          "Model three small animal or abstract silhouettes using safe clay.",
+          "Three forms with balance/weight comparisons."
+        ],
+        [
+          "Volume from observation",
+          "Explain how to read major planes before fine surface details.",
+          "Model a small hand or curled leaf from a reference with consent.",
+          "Planar block-in and finished study."
+        ],
+        [
+          "Texture vocabulary",
+          "Show incising, impressing and adding texture without weakening joints.",
+          "Create four 3D surface texture tiles.",
+          "Texture studies with tool map."
+        ],
+        [
+          "Gesture in form",
+          "Compare static symmetry with asymmetrical implied movement.",
+          "Sculpt a figure or abstract object expressing motion through posture.",
+          "Three gesture sketches and first maquette."
+        ],
+        [
+          "Structural revision",
+          "Demonstrate checking cracks, joins, overhangs and gravity.",
+          "Revise the maquette for stability without losing expressive form.",
+          "Before/after, support diagram and damage notes."
+        ],
+        [
+          "Sculpture documentation",
+          "Review photographic background, scale markers and non-food-safe material labels.",
+          "Complete and photograph the sculpture from four directions.",
+          "Four-view plate, dimensions, materials and artist reflection."
+        ]
+      ]
+    ]
+  ]
+}
