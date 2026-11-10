@@ -1,0 +1,447 @@
+{
+  "schema": "bazaar-art101-authored-v1",
+  "unit": 12,
+  "lessons": [
+    {
+      "unit": 12,
+      "week": 32,
+      "title": "Art in Cultural Context",
+      "essential": "How can artists compare artworks from different times and communities without stripping them of meaning or reproducing stereotypes?",
+      "vocab": [
+        [
+          "Cultural context",
+          "The social, historical, religious, economic or community circumstances relevant to an artwork."
+        ],
+        [
+          "Provenance",
+          "The documented history of an object's creation, custody and movement."
+        ],
+        [
+          "Attribution",
+          "A documented identification of a maker, workshop, community or source, including uncertainty."
+        ],
+        [
+          "Function",
+          "The purpose or role an object has within a society, beyond visual appearance."
+        ],
+        [
+          "Formal analysis",
+          "Examining observable elements such as line, shape, material, pattern, scale and composition."
+        ],
+        [
+          "Interpretation",
+          "An evidence-grounded proposal of meaning, not a directly visible property."
+        ],
+        [
+          "Cultural appropriation",
+          "Taking culturally situated forms without appropriate context, permission or respect for their origins."
+        ]
+      ],
+      "worked": {
+        "intro": "A student compares an archival textile and a contemporary public mural. The misleading draft claims both motifs 'symbolize the same thing' solely because each repeats a spiral.",
+        "steps": [
+          "List directly visible properties of each work: repeated line, scale, color and material. Avoid identifying a maker or sacred meaning from appearance alone.",
+          "Read the collections' object descriptions and note the maker or community, title, date, purpose, collection history and whether any attribution is uncertain.",
+          "Rewrite the comparison as: 'Both works use repeated curved forms; their documented functions and intended audiences differ.' Cite the supporting catalog entries.",
+          "Make an original studio response using a personally meaningful rhythm, not a copied culturally specific motif. Include a note explaining how the response differs from the reference."
+        ]
+      },
+      "stages": [
+        "Observe: Choose two credited artworks from distinct documented contexts. Create neutral lists of physical form and presentation conditions without making cultural assumptions.",
+        "Research: Use museum or archive collection records to study creator, date, location, purpose and provenance. If context is unknown, say so; distinguish a museum label from the voices of represented communities.",
+        "Experiment: Make a comparative chart with four dimensions—formal elements, documented function, cultural source and knowledge limits. Test a visual analogy and identify where it breaks down.",
+        "Create and revise: Produce an original artwork responding to a shared formal principle such as repetition or contrast without copying protected or sacred patterns. Revise after identifying one unsupported interpretation.",
+        "Reflect and archive: Submit two attributable collection citations, a comparative analysis, original art documentation and a paragraph explaining uncertainty, respectful inquiry and sources of authority."
+      ],
+      "assignment": "Complete a 600-word or equivalent visual comparison of two properly attributed works, a four-column context table, an original studio response using your own imagery, and a reflection on cultural respect and uncertainty.",
+      "alternative": "Use printed catalog descriptions or handwritten comparison cards if images or devices are unavailable; analyze formal differences without reproducing culturally restricted imagery.",
+      "ethics": "Do not present cultural motifs as interchangeable decorations; consult original catalog context and community-authored voices where available. Verify collection image rights before sharing.",
+      "diagram": [
+        "Observe the actual form",
+        "Research maker and function",
+        "Compare without flattening context"
+      ],
+      "sources": [
+        [
+          "The Metropolitan Museum of Art · Collection",
+          "https://www.metmuseum.org/art/collection"
+        ],
+        [
+          "Smithsonian · Collections",
+          "https://www.si.edu/collections"
+        ]
+      ],
+      "questions": [
+        [
+          "What is cultural context?",
+          "Circumstances surrounding how and why an artwork was made and used",
+          "A universal hidden meaning in every pattern"
+        ],
+        [
+          "What is formal analysis?",
+          "Description of visible design and material properties",
+          "An assumption about the maker's motive"
+        ],
+        [
+          "What should attribution acknowledge?",
+          "Known creator or community and any uncertainty",
+          "Only the current price"
+        ],
+        [
+          "Why is documented function important?",
+          "An object can serve social, ritual or practical purposes beyond appearance",
+          "Function can be inferred from color alone"
+        ],
+        [
+          "What is provenance?",
+          "Documented creation and custody history",
+          "The newest viewer's interpretation"
+        ],
+        [
+          "What is the difference between observation and interpretation?",
+          "Interpretation extends beyond immediately visible features",
+          "Observation always requires a museum ticket"
+        ],
+        [
+          "What makes a cross-cultural comparison weak?",
+          "Claiming identical meanings from superficial visual similarity",
+          "Recording differences in source context"
+        ],
+        [
+          "How should uncertain dates be recorded?",
+          "As ranges or approximate dates when that is what the source supports",
+          "As exact years invented for clarity"
+        ],
+        [
+          "Why use museum collection records?",
+          "They provide attributable metadata and contextual research leads",
+          "They automatically resolve every cultural question"
+        ],
+        [
+          "Why seek community-authored interpretation?",
+          "It can provide situated voices absent from external catalog descriptions",
+          "It guarantees no internal disagreement exists"
+        ],
+        [
+          "What is a respectful studio response?",
+          "Original art exploring a formal principle with documented influence",
+          "A copied sacred motif presented as the student's own"
+        ],
+        [
+          "What if two catalogs disagree?",
+          "Identify the disagreement and examine their evidence",
+          "Silently choose the more dramatic version"
+        ],
+        [
+          "Which claim describes a visible property?",
+          "Both artworks feature repeated diagonal lines",
+          "Both were created to express the same spiritual idea"
+        ],
+        [
+          "What does cultural appropriation raise concern about?",
+          "Uncontextualized or unauthorized taking of culturally situated work",
+          "Any use of geometric shapes"
+        ],
+        [
+          "What should a final comparison cite?",
+          "Creator, title, date if known, collection and source URL",
+          "Only the author's preferred interpretation"
+        ]
+      ]
+    },
+    {
+      "unit": 12,
+      "week": 33,
+      "title": "Community Brief and Collaborative Design",
+      "essential": "How can a community art proposal respond to actual needs, consent and constraints without claiming to speak for everyone?",
+      "vocab": [
+        [
+          "Creative brief",
+          "A written agreement or plan describing a design problem, audience, outputs and limits."
+        ],
+        [
+          "Stakeholder",
+          "A person or group affected by a proposed artwork, venue or design."
+        ],
+        [
+          "Participation",
+          "Optional informed involvement in research, feedback or making decisions."
+        ],
+        [
+          "Constraints",
+          "Real limits such as time, space, budget, safety, materials and accessibility."
+        ],
+        [
+          "Co-design",
+          "An approach that includes relevant people in shaping decisions rather than only receiving a finished product."
+        ],
+        [
+          "Prototype",
+          "A low-cost preliminary model used to make questions testable."
+        ],
+        [
+          "Feedback synthesis",
+          "A summary that differentiates recurring concerns, conflicting opinions and design responses."
+        ]
+      ],
+      "worked": {
+        "intro": "A fictional community library requests a visual welcome wall. The first draft is decorative but blocks directions to accessible restrooms and assumes every visitor reads English.",
+        "steps": [
+          "Write the brief: purpose is welcome and orientation; audiences include new visitors and people with different reading abilities; constraints include a 2×3 meter wall, no blocked signage and a modest fictional budget.",
+          "Develop two paper prototype alternatives, one with clear arrows and one focused on decorative silhouettes. Retain a readable text route independent of color.",
+          "Ask optional viewers to locate the exit and library desk; record feedback anonymously without storing personal contact information.",
+          "Revise a concept to preserve public circulation, clear signs and a role for community-submitted motifs only with consent and attribution. Document whose suggestions were used."
+        ]
+      },
+      "stages": [
+        "Observe: Inspect a permitted community space or use the fictional library scenario. Record audience tasks, sightlines, safety, traffic flow and signs that must remain visible.",
+        "Research: Study two attributed public or community art examples. Look for documentation of consultation, authorship, permissions and maintenance; avoid assuming all residents endorse a single aesthetic.",
+        "Experiment: Draft a one-page creative brief and two inexpensive paper models. Define the specific feedback question and accessibility risks before seeking voluntary responses.",
+        "Create and revise: Collect anonymous optional responses or use an openly labeled simulated critique. Summarize supportive and conflicting perspectives, then revise the proposal with a documented decision log.",
+        "Reflect and archive: Provide the brief, two prototypes, realistic budget categories, a rights/permissions checklist and a statement that the proposal does not claim community-wide endorsement."
+      ],
+      "assignment": "Create an actionable community-art proposal with a defined audience, two co-design prototypes, a six-category budget, risk and maintenance notes, anonymous optional feedback, and a revised proposal with credit policy.",
+      "alternative": "Use an invented community scenario and role-play feedback without collecting any real personal data. Paper cutouts or a cardboard site model are sufficient.",
+      "ethics": "Do not collect identifiable student details, publish private participant input or represent a class poll as public consensus. Adult authorization is necessary for actual installations.",
+      "diagram": [
+        "Listen and define needs",
+        "Prototype and test fairly",
+        "Revise / credit / maintain"
+      ],
+      "sources": [
+        [
+          "Cooper Hewitt · Smithsonian Design Museum",
+          "https://www.cooperhewitt.org/"
+        ],
+        [
+          "Smithsonian · Accessible exhibition guidance",
+          "https://access.si.edu/resources"
+        ]
+      ],
+      "questions": [
+        [
+          "What belongs in a creative brief?",
+          "Purpose, audience, deliverables and constraints",
+          "Only decorative color preferences"
+        ],
+        [
+          "Who is a stakeholder?",
+          "Someone who may be affected by the proposed design",
+          "Only the person making the first sketch"
+        ],
+        [
+          "What distinguishes co-design?",
+          "Affected participants can shape meaningful design decisions",
+          "Feedback is requested only after all decisions are final"
+        ],
+        [
+          "Why prototype on paper?",
+          "It tests choices cheaply before irreversible work",
+          "It proves everyone approves"
+        ],
+        [
+          "What is a design constraint?",
+          "A limit such as space, budget or accessible circulation",
+          "Any preference expressed by an artist"
+        ],
+        [
+          "Why should participation be optional?",
+          "Consent and agency must be respected",
+          "It makes research legally unnecessary"
+        ],
+        [
+          "How should conflicting feedback be handled?",
+          "Summarize disagreements and state why choices were made",
+          "Discard comments that challenge the designer"
+        ],
+        [
+          "Which observation matters at a public entrance?",
+          "Safe circulation and the visibility of required signs",
+          "Only the wall's paint color"
+        ],
+        [
+          "What should a design budget include?",
+          "Materials, labor, installation, accessibility, maintenance and contingency",
+          "Only the artist's signature"
+        ],
+        [
+          "Why avoid storing contact information during a simple critique?",
+          "It reduces privacy exposure when identities are not required",
+          "It improves the paper's adhesion"
+        ],
+        [
+          "When is a community claim unsupported?",
+          "When a few opinions are presented as representing everyone",
+          "When the sources and sample limitations are disclosed"
+        ],
+        [
+          "What belongs in a feedback synthesis?",
+          "Patterns, disagreements, direct concerns and revisions",
+          "A fabricated unanimous approval"
+        ],
+        [
+          "What is an accessible fallback for color-coded direction?",
+          "Clear text and shape cues that do not depend on color alone",
+          "Smaller text in lighter colors"
+        ],
+        [
+          "What does maintenance planning address?",
+          "Wear, cleaning, repair and responsibility over time",
+          "Only the project's opening celebration"
+        ],
+        [
+          "How should participant contributions be credited?",
+          "According to agreed permissions, roles and privacy choices",
+          "By publishing every participant's identity automatically"
+        ]
+      ]
+    },
+    {
+      "unit": 12,
+      "week": 34,
+      "title": "Curating an Exhibition",
+      "essential": "How can an exhibition sequence, labels and spatial plan make art understandable and accessible without overriding the artists' voices?",
+      "vocab": [
+        [
+          "Curatorial thesis",
+          "A concise claim or question connecting selected works in a public presentation."
+        ],
+        [
+          "Wall label",
+          "A short text identifying a work and providing relevant context."
+        ],
+        [
+          "Object checklist",
+          "An inventory of title, artist, dimensions, medium, status and display needs."
+        ],
+        [
+          "Sightline",
+          "A viewing path or line of vision through exhibition space."
+        ],
+        [
+          "Sequence",
+          "The intended order or relationship among works as visitors move."
+        ],
+        [
+          "Access pathway",
+          "A route allowing visitors with different mobility and sensory needs to participate."
+        ],
+        [
+          "Interpretive text",
+          "Material helping viewers understand context while distinguishing documented facts and opinion."
+        ]
+      ],
+      "worked": {
+        "intro": "A small exhibition of six student works called 'Everyday Materials' initially places a fragile clay sculpture near the entry door and hangs long labels beside a narrow walkway.",
+        "steps": [
+          "Write a one-sentence curatorial question: 'How do artists transform ordinary tools into personal symbols?' Select six works with permission and list their media, dates, dimensions and display constraints.",
+          "Lay out a scaled gallery floor plan with a clear entrance, accessible movement path and a protected location for fragile sculpture. Use paper rectangles to test alternative placements.",
+          "Write one 40-word object label and one 120-word introductory wall text. Check readability, respectful artist attribution and that no claims invent personal stories.",
+          "Test the route with a paper visitor avatar or optional audience trial, revise a sightline conflict and prepare a simple digital or large-print text alternative."
+        ]
+      },
+      "stages": [
+        "Observe: Analyze a museum floor plan and wall text examples, noting grouping, label readability, visibility, rest points and where a visitor can choose different routes.",
+        "Research: Consult published exhibition accessibility resources and two credited collection records. Identify how curator interpretation relates to the actual artist or collection information.",
+        "Experiment: Select six permitted works (original, fictional mock objects or cited reproductions). Produce two floor plans and test how sequence changes their interpreted relationship.",
+        "Create and revise: Build a paper or digital gallery with a clear thesis, 40-word labels, introductory text, an object checklist and a route that does not block access. Record one practical revision.",
+        "Reflect and archive: Publish a scaled floor plan, labels, complete attribution and permissions, accessible alternatives and a short explanation of the curatorial choices and limits."
+      ],
+      "assignment": "Curate a six-object exhibition with title, one-sentence thesis, six accurate labels, a source/permissions checklist, accessible floor plan, two sequence options, a 120-word wall introduction, and a documented critique/revision.",
+      "alternative": "Use a tabletop miniature with printed artwork thumbnails or original sketches; a physical gallery or permission to occupy public space is not required.",
+      "ethics": "Never assume permission to publicly publish a classmate's artwork. Protect private student names and support large-print and descriptive alternatives.",
+      "diagram": [
+        "Select and credit artworks",
+        "Arrange accessible viewing",
+        "Label, test and revise"
+      ],
+      "sources": [
+        [
+          "Smithsonian · Accessible exhibition guidance",
+          "https://access.si.edu/resources"
+        ],
+        [
+          "Cooper Hewitt · Accessibility resources",
+          "https://www.cooperhewitt.org/accessibility-resources/"
+        ]
+      ],
+      "questions": [
+        [
+          "What does a curatorial thesis provide?",
+          "A connecting question or purpose for the selected works",
+          "An automatic appraisal of the works' value"
+        ],
+        [
+          "What is an object checklist?",
+          "A record of works, makers, materials, dimensions and display needs",
+          "An anonymous audience vote"
+        ],
+        [
+          "What does a wall label normally identify?",
+          "Artwork and artist with relevant factual context",
+          "Only the curator's mood"
+        ],
+        [
+          "Why consider sightlines?",
+          "They affect visibility and how visitors encounter relationships",
+          "They prove a collection's ownership"
+        ],
+        [
+          "What is an access pathway?",
+          "A route enabling different visitors to move through and engage with a display",
+          "An excuse to remove all artwork"
+        ],
+        [
+          "Why write an introductory wall text?",
+          "To orient visitors to the exhibition inquiry",
+          "To replace source attribution"
+        ],
+        [
+          "What can changing sequence alter?",
+          "The interpreted relationships among the works",
+          "The original dates of their creation"
+        ],
+        [
+          "Why place fragile sculptures away from narrow entrances?",
+          "To reduce collision and handling risks",
+          "To ensure they are never seen"
+        ],
+        [
+          "What helps visitors who cannot easily read a wall label?",
+          "Large-print or accessible digital descriptions",
+          "Decorative lettering with smaller text"
+        ],
+        [
+          "What does permission govern in a student exhibition?",
+          "Whether and how a learner's work and identifying information may be shown",
+          "Only the size of the gallery"
+        ],
+        [
+          "What makes interpretive text responsible?",
+          "It separates verifiable details from the curator's reading",
+          "It presents assumptions as proven facts"
+        ],
+        [
+          "Why create two floor-plan drafts?",
+          "To compare circulation and thematic relationships",
+          "To hide weaknesses from review"
+        ],
+        [
+          "Which label is more accurate?",
+          "Title, medium, year if known and attributed creator",
+          "An invented biography for dramatic effect"
+        ],
+        [
+          "What belongs in a final exhibition dossier?",
+          "Thesis, inventory, floor plan, labels, rights and revision record",
+          "Only a promotional poster"
+        ],
+        [
+          "What is an accessible alternative to a real exhibition?",
+          "A scaled paper gallery with readable labels and descriptions",
+          "A requirement to rent a museum"
+        ]
+      ]
+    }
+  ]
+}
