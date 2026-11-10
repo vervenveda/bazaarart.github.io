@@ -98,9 +98,22 @@ async function run(){
     throw Error('Browser smoke timed out: '+latest);
   }finally{
     try{ws?.close();}catch{}
-    try{chrome?.kill('SIGTERM');}catch{}
+    if(chrome&&chrome.exitCode===null){
+      try{chrome.kill('SIGTERM');}catch{}
+      await Promise.race([new Promise(resolve=>chrome.once('exit',resolve)),sleep(2500)]);
+      if(chrome.exitCode===null){
+        try{chrome.kill('SIGKILL');}catch{}
+        await Promise.race([new Promise(resolve=>chrome.once('exit',resolve)),sleep(1500)]);
+      }
+    }
     await new Promise(resolve=>server.close(resolve));
-    fs.rmSync(profile,{recursive:true,force:true,maxRetries:4,retryDelay:250});
+    for(let retry=0;retry<12;retry++){
+      try{fs.rmSync(profile,{recursive:true,force:true});break;}
+      catch(err){
+        if(!['ENOTEMPTY','EBUSY','EACCES'].includes(err.code)||retry===11)throw err;
+        await sleep(300);
+      }
+    }
   }
 }
 run().catch(err=>{console.error(err.stack||String(err));process.exitCode=1;});
