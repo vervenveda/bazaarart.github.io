@@ -305,13 +305,22 @@ function saveCalls(){
    successful IndexedDB migration; never clear it or infer that it was backed up. */
 function openPortfolioDatabase(){
   return new Promise(resolve=>{
-    if(!('indexedDB' in window)){resolve(null);return;}
+    let finished=false;
+    const timer=setTimeout(()=>finish(null),4500);
+    function finish(db){
+      if(finished){if(db)db.close();return;}
+      finished=true;clearTimeout(timer);resolve(db);
+    }
+    if(!('indexedDB' in window)){finish(null);return;}
     let req;
-    try{req=indexedDB.open(DB_NAME,1);}catch(e){resolve(null);return;}
-    req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains(DB_STORE))db.createObjectStore(DB_STORE,{keyPath:'id'});};
-    req.onsuccess=()=>resolve(req.result);
-    req.onerror=()=>resolve(null);
-    req.onblocked=()=>resolve(null);
+    try{req=indexedDB.open(DB_NAME,1);}catch(e){finish(null);return;}
+    req.onupgradeneeded=()=>{
+      try{const db=req.result;if(!db.objectStoreNames.contains(DB_STORE))db.createObjectStore(DB_STORE,{keyPath:'id'});}
+      catch(e){finish(null);}
+    };
+    req.onsuccess=()=>finish(req.result);
+    req.onerror=()=>finish(null);
+    req.onblocked=()=>finish(null);
   });
 }
 function readPortfolioDb(db){
