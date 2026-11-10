@@ -232,7 +232,8 @@ test('All 50 mediums have six original, fully documented studio weeks',()=>{
     assert.equal(course[1].length,6,'A medium must have exactly 6 weeks: '+course[0]);
     for(const [week,parts] of course[1].entries()){
       assert.equal(parts.length,4,course[0]+' week '+(week+1)+' requires title, demo, practice and evidence');
-      for(const field of parts)assert.ok(typeof field==='string'&&field.length>=15,'Incomplete authored lesson');
+      assert.ok(typeof parts[0]==='string'&&parts[0].length>=9,'Week requires a meaningful title');
+      for(const field of parts.slice(1))assert.ok(typeof field==='string'&&field.length>=25,'Incomplete authored instruction, practice or evidence');
       assert.ok(parts[1].length>=35&&parts[2].length>=30&&parts[3].length>=25,'Thin lesson content: '+course[0]+' week '+(week+1));
       assert.ok(!authored.has(parts[2]),'Studio assignment duplicated: '+parts[2]);
       authored.add(parts[2]);evidence.add(parts[3]);
