@@ -1,0 +1,26 @@
+name: Bazaar Art Preservation Regression
+
+on:
+  push:
+    branches:
+      - 'audit/bazaar-regression-*'
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preservation-baseline:
+    name: Read-only creative and academic route checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout public repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify existing routes and data-contract compatibility
+        run: node --test tests/bazaar-art-baseline.test.cjs
