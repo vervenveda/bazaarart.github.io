@@ -59,7 +59,7 @@ try{
  await open('../academy/grade-9/unit-13/week-36/index.html');
  await until(()=>frame.contentWindow.BazaarArt101Draft?.week===36,'Week 36 startup');
  if(doc().getElementById('title').value==='Validated local restore')throw Error('Week27 data leaked into Week36');
- if(!doc().textContent.includes('Portfolio Exhibition and Artist Defense'))throw Error('Week36 portfolio content missing');
+ if(!doc().body.textContent.includes('Portfolio Exhibition and Artist Defense'))throw Error('Week36 portfolio content missing');
  if(JSON.parse(doc().getElementById('art101-quiz-bank').textContent).length!==15)throw Error('Week36 bank incomplete');
  if(JSON.parse(localStorage.getItem(key))?.record?.title!=='Validated local restore')throw Error('Week27 record lost');
  out.textContent='ART101_BROWSER_PASS: lesson load, five stages, quiz 15→5, answer locking, autosave/reload, exact-week import and isolation';
