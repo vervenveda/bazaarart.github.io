@@ -1,0 +1,416 @@
+{
+  "schema": "bazaar-art-medium-curriculum-v2",
+  "startIndex": 20,
+  "courses": [
+    [
+      "Lithography",
+      [
+        [
+          "Grease and water principle",
+          "Explain repulsion and why plate and stone processing require specialist supervision.",
+          "Design a grease-crayon value scale on paper using a transfer-process diagram.",
+          "Ten-step tonal diagram and safety vocabulary."
+        ],
+        [
+          "Lithographic line",
+          "Study how crayon grain, pressure and line width behave on example prints.",
+          "Make six tonal drawings with different grain patterns on ordinary paper.",
+          "Labeled lithographic-look textures and a source comparison."
+        ],
+        [
+          "Plate planning",
+          "Demonstrate reversal, margins and registration without hazardous plate chemistry.",
+          "Prepare a mirrored image layout and map tonal separations.",
+          "Mirrored plate mockup and measured margins."
+        ],
+        [
+          "Printing workflow",
+          "Observe safe professional demos of damping, inking and press passes.",
+          "Simulate a press checklist and identify five likely print defects.",
+          "Process checklist and defect diagnostic chart."
+        ],
+        [
+          "Edition composition",
+          "Compare layered lithographic colors and alignment in museum examples.",
+          "Design a two-color exhibition print with separate color drawings.",
+          "Two color maps and a registration design."
+        ],
+        [
+          "Professional proof dossier",
+          "Explain lithograph editions, artist proofs and specialized studio outsourcing.",
+          "Prepare a professional production proposal and archival labels.",
+          "Proposal, proof mockup and edition policy."
+        ]
+      ]
+    ],
+    [
+      "Screen Printing",
+      [
+        [
+          "Stencil and screen geometry",
+          "Explain mesh, stencil and open versus blocked areas using paper simulations.",
+          "Design a high-contrast one-color tote or poster print.",
+          "Stencil mockup and positive/negative chart."
+        ],
+        [
+          "Ink pull and off-contact",
+          "Demonstrate flood stroke and consistent squeegee angle on safe water-based materials.",
+          "Pull test impressions onto paper using a prepared screen or stencil substitute.",
+          "Three test prints with pressure and coverage notes."
+        ],
+        [
+          "Registration",
+          "Use corner marks and transparent overlays to align two screens.",
+          "Create two-color artwork separations and a low-cost registration jig.",
+          "Two transparent layers and proofed alignment chart."
+        ],
+        [
+          "Halftone and opacity",
+          "Compare solid shapes, simulated halftone dots and translucent inks.",
+          "Develop a small graphic in both solid and patterned color.",
+          "Comparison proof and dot-size rationale."
+        ],
+        [
+          "Edition control",
+          "Measure screen cleanup, reuse and consistency across a short run.",
+          "Produce a small set of consistent prints with rejects logged.",
+          "Numbered edition list and repeatability check."
+        ],
+        [
+          "Textile print presentation",
+          "Explain curing requirements and proper washing tests without claiming universal methods.",
+          "Print or mock up an artist T-shirt with care instructions.",
+          "Portfolio photograph, color separations and care label."
+        ]
+      ]
+    ],
+    [
+      "Monotype",
+      [
+        [
+          "Unique impression",
+          "Contrast a monotype with a repeatable matrix-based edition.",
+          "Roll out a thin water-based pigment plate and pull one proof.",
+          "One-off print and ink transfer notes."
+        ],
+        [
+          "Additive painting on plate",
+          "Show drawing with brayers, rags and soft brushes on a plate surface.",
+          "Paint an expressive still life on a reusable plate and transfer it.",
+          "Plate photo and final transfer."
+        ],
+        [
+          "Subtractive marks",
+          "Remove pigment with cotton swabs, cloth and blunt objects before printing.",
+          "Create a night landscape by drawing light out of a dark plate.",
+          "Subtractive plate and finished print."
+        ],
+        [
+          "Ghost prints",
+          "Explain second impressions and intentional image loss.",
+          "Produce a first pull and ghost pull, changing the color strategy.",
+          "Paired prints and note on tonal reduction."
+        ],
+        [
+          "Sequential experiment",
+          "Demonstrate how off-register layers create depth in one-off works.",
+          "Layer two monotype passes using transparent water-based ink.",
+          "Layered print and registration reflections."
+        ],
+        [
+          "Series documentation",
+          "Explain one-of-one labeling rather than falsely numbering identical editions.",
+          "Curate a three-print monotype triptych with process record.",
+          "Three exhibition images, titles and artist statement."
+        ]
+      ]
+    ],
+    [
+      "Cyanotype",
+      [
+        [
+          "UV-sensitive process safety",
+          "Review premixed cyanotype paper, gloves, sunlight handling and disposal per kit labels.",
+          "Use pre-coated paper to create two safe exposure test strips.",
+          "Exposure strip, labeled time and safety notes."
+        ],
+        [
+          "Photogram composition",
+          "Demonstrate opaque/translucent objects and placement under transparent weights.",
+          "Expose a botanical silhouette with overlapping leaves.",
+          "First botanical photogram and object placement sketch."
+        ],
+        [
+          "Exposure and rinse",
+          "Explain why light intensity changes exposure and how thorough washing changes blue tone.",
+          "Expose two comparable motifs at different times using manufacturer instructions.",
+          "Paired prints with UV/sky condition notes."
+        ],
+        [
+          "Digital negative planning",
+          "Convert an original photo into an inverted transparency using permitted tools.",
+          "Plan and, if equipped, expose a digital-negative portrait or abstract scene.",
+          "Negative preview and first contact print."
+        ],
+        [
+          "Layered photograms",
+          "Demonstrate multiple successive object placements, noting exposure overlaps.",
+          "Make a two-stage composition with transparent fabric and lettering.",
+          "Process diagram and layered print."
+        ],
+        [
+          "Archival cyanotype presentation",
+          "Discuss paper dryness, handling and photographing blue accurately.",
+          "Finish a three-print series and label exposure details.",
+          "Three scans, contact sheet and material log."
+        ]
+      ]
+    ],
+    [
+      "Photography",
+      [
+        [
+          "Exposure triangle",
+          "Demonstrate aperture, shutter speed and ISO, using phone exposure compensation if needed.",
+          "Photograph one still life under three brightness and motion conditions.",
+          "Nine-photo contact sheet and exposure decisions."
+        ],
+        [
+          "Composition and focal depth",
+          "Compare leading lines, framing, viewpoint height and deliberate blur.",
+          "Capture a neighborhood sequence from three heights with privacy respected.",
+          "Three compositions and framing annotations."
+        ],
+        [
+          "Light quality",
+          "Demonstrate window side-light, front-light and back-light without harsh direct flashes.",
+          "Photograph a textured object using three natural-light setups.",
+          "Triptych and shadow analysis."
+        ],
+        [
+          "Portrait consent and context",
+          "Explain model consent, respectful cropping and avoiding unwanted location details.",
+          "Make a consented portrait or a self-portrait series with varied expressions.",
+          "Consent log or self-portrait note and three portraits."
+        ],
+        [
+          "Editing ethically",
+          "Demonstrate horizon leveling, tonal adjustment and accurate captions without deceptive scene changes.",
+          "Edit five images into a cohesive sequence retaining originals.",
+          "Before/after pairs, edit ledger and sequencing sheet."
+        ],
+        [
+          "Exhibition photo essay",
+          "Compare chronological and thematic photo storytelling and accessibility alt text.",
+          "Publish an eight-image story on a chosen subject with alt text.",
+          "Eight-image gallery, captions and a 100-word statement."
+        ]
+      ]
+    ],
+    [
+      "Digital Illustration",
+      [
+        [
+          "Raster canvas planning",
+          "Explain pixel dimensions, layers, safe file backups and brush opacity.",
+          "Paint a six-brush sampling chart and draw a simple object in layers.",
+          "Layer screenshot, canvas settings and brush chart."
+        ],
+        [
+          "Shape and silhouette",
+          "Demonstrate blocking complex subjects with basic polygons and large color areas.",
+          "Illustrate a character in three instantly recognizable silhouettes.",
+          "Three shape studies and selected design."
+        ],
+        [
+          "Brush textures",
+          "Show textured versus flat brushes and clipping masks for color control.",
+          "Create a textured botanical illustration with separate line, color and texture layers.",
+          "Layer stack screenshot and illustrated sample."
+        ],
+        [
+          "Lighting pass",
+          "Demonstrate multiply-style shadow and screen-style highlights while preserving forms.",
+          "Relight the same digital scene for morning and evening.",
+          "Two mood variants and lighting map."
+        ],
+        [
+          "Iterative character scene",
+          "Compare thumbnail composition and mid-process critique.",
+          "Finish an original illustrated scene and revise at least two visual storytelling issues.",
+          "Thumbnail sheet, revision image and final artwork."
+        ],
+        [
+          "Export and ownership",
+          "Review source formats, transparent PNG, color profiles and use of licensed assets.",
+          "Export one final illustration in screen and print-oriented formats.",
+          "Original source backup, two exports, caption and rights log."
+        ]
+      ]
+    ],
+    [
+      "Vector Art",
+      [
+        [
+          "Paths and nodes",
+          "Show anchors, handles, straight segments and curves with accessible vector tooling.",
+          "Trace five simple outlines using the fewest practical nodes.",
+          "Five vector contours and node-count notes."
+        ],
+        [
+          "Boolean construction",
+          "Demonstrate union, subtract, intersect and compound shapes.",
+          "Build five icons from only circles, rectangles and paths.",
+          "Icon sheet and boolean-operation diagram."
+        ],
+        [
+          "Stroke and fill hierarchy",
+          "Compare outlines, expanded strokes and consistent corner radii.",
+          "Design a coherent set of wayfinding symbols with two stroke weights.",
+          "Six-icon family and alignment grid."
+        ],
+        [
+          "Typography and spacing",
+          "Show baseline, kerning, negative space and contrast in a small graphic.",
+          "Create a vector exhibition poster with type-led hierarchy.",
+          "Two poster arrangements and selected vector PDF."
+        ],
+        [
+          "Scalable identity mark",
+          "Demonstrate testing a mark at tiny and large sizes.",
+          "Build an art studio monogram that is legible at favicon size.",
+          "Monogram board at 24, 64 and 512 pixels."
+        ],
+        [
+          "SVG safety and export",
+          "Review SVG element sanitation for public publishing and raster/PDF fallback exports.",
+          "Prepare a logo package with sanitized SVG, PNG and PDF.",
+          "Versioned source, export checklist and licensing note."
+        ]
+      ]
+    ],
+    [
+      "Pixel Art",
+      [
+        [
+          "Pixel grid language",
+          "Explain deliberate pixel clusters, no antialiasing and limited palette discipline.",
+          "Draw a 16x16 character silhouette with three colors.",
+          "Sprite grid and readability test at 1x and 8x."
+        ],
+        [
+          "Cluster shading",
+          "Demonstrate two-tone shading, selective outlines and coherent pixel clusters.",
+          "Shade a 32x32 fruit, crystal or small creature.",
+          "Palette strip and shaded sprite."
+        ],
+        [
+          "Tile seamlessness",
+          "Show how edge matching creates repeatable floor and wall tiles.",
+          "Construct two 16x16 tiles and repeat in a 5x5 layout.",
+          "Seamless tile sheet and edge-test evidence."
+        ],
+        [
+          "Walk-cycle keyframes",
+          "Explain 4-frame motion with contact, passing and opposite poses.",
+          "Animate a short four-frame walk cycle without copied assets.",
+          "4-frame sprite sheet and timing notes."
+        ],
+        [
+          "Scene composition",
+          "Demonstrate parallax illusion and depth using restricted values.",
+          "Build a 160x90 pixel scene with foreground, subject and background.",
+          "Pixel scene screenshot and layer guide."
+        ],
+        [
+          "Asset package",
+          "Review clean integer scaling, transparent exports and sprite metadata.",
+          "Export character, tiles and a one-screen scene as a named asset pack.",
+          "PNG sprite sheet, palette key and artist attribution."
+        ]
+      ]
+    ],
+    [
+      "3D Modeling",
+      [
+        [
+          "Primitive modeling",
+          "Demonstrate coordinate axes, transforms, origin and safe naming conventions.",
+          "Model a desk lamp from cubes, cylinders and a sphere.",
+          "Orthographic screenshot and hierarchy outline."
+        ],
+        [
+          "Topology control",
+          "Show why edge loops and quads affect shading and deformation.",
+          "Build a simple cup with clean bevels and compare a poor-mesh version.",
+          "Wireframe and shading comparison."
+        ],
+        [
+          "Materials and UV basics",
+          "Explain roughness, metallic response and simple UV texture placement.",
+          "Apply three contrasting materials to a modeled vessel.",
+          "Material test renders and node overview."
+        ],
+        [
+          "Lighting studio",
+          "Compare key, fill and rim lights using a low-poly object.",
+          "Render the same object with three light rigs.",
+          "Three render comparisons and exposure notes."
+        ],
+        [
+          "Art gallery scene",
+          "Demonstrate camera field of view and human-scale placement.",
+          "Construct a virtual exhibition room for three imagined artworks.",
+          "Walkthrough screenshots and spatial plan."
+        ],
+        [
+          "Asset and license delivery",
+          "Review .blend or equivalent source, GLB export and third-party asset attribution.",
+          "Package a self-created object and gallery room with clean names.",
+          "Source file, optimized export, renders and credits."
+        ]
+      ]
+    ],
+    [
+      "Animation",
+      [
+        [
+          "Timing and spacing",
+          "Demonstrate squash/stretch and ease-in/out on a bouncing ball.",
+          "Draw twelve frames for a bouncing ball with two distinct bounces.",
+          "Contact sheet and frame spacing diagram."
+        ],
+        [
+          "Pose readability",
+          "Compare silhouettes and anticipation poses before a character moves.",
+          "Storyboard a character opening a heavy door.",
+          "Six key poses and silhouette test."
+        ],
+        [
+          "In-betweening",
+          "Explain keyframes, breakdowns and holds in a simple action.",
+          "Animate a four-second gesture using hand-drawn frames or accessible software.",
+          "Keyframe timeline and rough animation."
+        ],
+        [
+          "Staging and camera",
+          "Demonstrate visual focus, screen direction and clear background design.",
+          "Compose a short scene where one subject crosses the frame.",
+          "Staging thumbnails and blocked scene."
+        ],
+        [
+          "Sound and rhythm",
+          "Show intentional rhythm changes and rights-safe sound selection.",
+          "Sync a short original loop to a self-made sound or keep it intentionally silent.",
+          "Timing sheet and audio/visual notes."
+        ],
+        [
+          "Loop and credits",
+          "Review GIF/video export constraints, frame rates, accessible captions and original authorship.",
+          "Publish a seamless short loop with a process breakdown.",
+          "Loop file, frames, credits and artist reflection."
+        ]
+      ]
+    ]
+  ]
+}

@@ -5,10 +5,16 @@ on:
     branches:
       - 'audit/bazaar-regression-*'
       - 'repair/bazaar-art-*'
+      - 'repair/art101-*'
+      - 'integration/bazaar-arts-*'
   pull_request:
     branches:
       - main
   workflow_dispatch:
+
+concurrency:
+  group: bazaar-preservation-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
@@ -25,5 +31,19 @@ jobs:
           persist-credentials: false
       - name: Verify existing routes and data-contract compatibility
         run: node --test tests/bazaar-art-baseline.test.cjs
+      - name: ART101 Weeks 27–36 source and route audit
+        run: node --test tests/art101-grade9-weeks27-36.test.cjs
+      - name: Certificate integrity across complete authored curriculum
+        run: |
+          BAZAAR_TEST_PAGE=tests/bazaar-art-certificate-smoke.html BAZAAR_TEST_PASS='BAZAAR_BROWSER_PASS:' node tests/bazaar-art-browser-smoke.cjs
+      - name: All 50 studio courses and browser record compatibility
+        run: |
+          BAZAAR_TEST_PAGE=tests/bazaar-art-curriculum-smoke.html BAZAAR_TEST_PASS='BAZAAR_BROWSER_PASS:' node tests/bazaar-art-browser-smoke.cjs
+      - name: Real-browser cross-feature studio completion and certificate revocation
+        run: |
+          BAZAAR_TEST_PAGE=tests/bazaar-art-integration-smoke.html BAZAAR_TEST_PASS='BAZAAR_BROWSER_PASS:' node tests/bazaar-art-browser-smoke.cjs
+      - name: Synthetic Art 101 browser evidence and quiz smoke
+        run: |
+          BAZAAR_TEST_PAGE=tests/art101-grade9-browser-smoke.html BAZAAR_TEST_PASS='ART101_BROWSER_PASS:' node tests/bazaar-art-browser-smoke.cjs
       - name: Synthetic Chrome storage and backup smoke
         run: node tests/bazaar-art-browser-smoke.cjs

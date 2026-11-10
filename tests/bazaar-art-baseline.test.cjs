@@ -205,3 +205,123 @@ test('Complete Backup has explicit merge-only import and original exports remain
     ]) assert.ok(src.includes(field),file+': backup contract missing '+field);
   }
 });
+
+
+test('Personal studio certificate is distinguished from Academy credentials',()=>{
+  for(const file of ['apps/art-education.html','apps/Class_art_education_portal_index.html']){
+    const src=read(file);
+    for(const marker of [
+      'Personal Studio Learning Certificate',
+      'Studio Progress Summary',
+      'Personal Certificate of Studio Learning',
+      'SELF-REPORTED STUDIO RECORD',
+      'NOT AN ACADEMY-ISSUED CREDENTIAL',
+      "function certificateCourse(focus)",
+      "function certificateEligibility()",
+      "function renderCertificateFocusOptions()",
+      "function certificateHTML()",
+      "certificateHTML(){",
+      "if(!generateCert().ready)return null;",
+      "status.done+' of '+status.total",
+      "status.reasons.join(' ')",
+      "id=\"certEligibility\"",
+      "id=\"certReflection\"",
+      "id=\"certHonesty\"",
+      "id=\"certPrintBtn\" disabled",
+      "id=\"downloadCertBtn\" disabled",
+      "option.value='medium:'+i",
+      "personal-studio-learning-record.html"
+    ])assert.ok(src.includes(marker),file+' missing certificate guard '+marker);
+    assert.ok(!src.includes('<h2>Certificate of Completion</h2>'),file+' may not claim unverified completion at rest');
+    assert.doesNotMatch(src,/id="certPrintBtn"[^>]*onclick="window\.print\(\)"/);
+  }
+});
+
+test('Certificate rules check exact canonical course keys and not arbitrary counts',()=>{
+  const src=read('apps/art-education.html');
+  const fn=src.slice(src.indexOf('function certificateCourse(focus){'),src.indexOf('function renderSources(){'));
+  for(const item of [
+    "Array.from({length:MEDIUMS.length}",
+    "PROFESSIONAL.flatMap(",
+    "portfolioKeys=PORTFOLIO.map(",
+    "callKeys=CALLS.map(",
+    "key.startsWith('m.')",
+    "===true).length",
+    "done<course.keys.length",
+    "portfolio.length===0",
+    "callRows.length===0",
+    "reflection.length<40",
+    "certHonesty",
+    "document.createElement('option')"
+  ])assert.ok(fn.includes(item),'Missing course-specific requirement: '+item);
+  assert.ok(fn.includes("completed?'Personal Certificate of Studio Learning':'Studio Progress Summary'"));
+  assert.ok(!fn.includes('localStorage.setItem('),'Certificate selection must not modify learning records');
+});
+
+test('Both certificate preview and standalone certificate avoid external authority claims',()=>{
+  const html=read('apps/art-education.html');
+  const source=html.slice(html.indexOf('function certificateHTML(){'),html.indexOf('function renderSources(){'));
+  assert.ok(source.includes('if(!generateCert().ready)return null'));
+  assert.ok(source.includes("$('#certificateOutput').outerHTML"),'Export must serialize the guarded preview and disclaimer');
+  assert.ok(!source.includes('https://'),'Standalone certificate should not require external resources');
+});
+
+test('All 50 mediums have six original, fully documented studio weeks',()=>{
+  const paths=[
+    'apps/curriculum/mediums-01-10.json',
+    'apps/curriculum/mediums-11-20.json',
+    'apps/curriculum/mediums-21-30.json',
+    'apps/curriculum/mediums-31-40.json',
+    'apps/curriculum/mediums-41-50.json'
+  ];
+  const all=[];
+  paths.forEach((file,index)=>{
+    const parsed=JSON.parse(read(file));
+    assert.equal(parsed.schema,'bazaar-art-medium-curriculum-v2');
+    assert.equal(parsed.startIndex,index*10);
+    assert.equal(parsed.courses.length,10);
+    all.push(...parsed.courses);
+  });
+  const source=read('apps/art-education.html');
+  const names=JSON.parse(source.match(/const MEDIUMS = (\[[^\n]+\]);/)[1]).map(c=>c.name);
+  assert.equal(names.length,50);
+  assert.deepEqual(all.map(c=>c[0]),names,'Course order cannot change (legacy progress IDs depend on indices)');
+  const authored=new Set(), evidence=new Set();
+  for(const course of all){
+    assert.equal(course[1].length,6,'A medium must have exactly 6 weeks: '+course[0]);
+    for(const [week,parts] of course[1].entries()){
+      assert.equal(parts.length,4,course[0]+' week '+(week+1)+' requires title, demo, practice and evidence');
+      assert.ok(typeof parts[0]==='string'&&parts[0].length>=9,'Week requires a meaningful title');
+      for(const field of parts.slice(1))assert.ok(typeof field==='string'&&field.length>=25,'Incomplete authored instruction, practice or evidence');
+      assert.ok(parts[1].length>=35&&parts[2].length>=30&&parts[3].length>=25,'Thin lesson content: '+course[0]+' week '+(week+1));
+      assert.ok(!authored.has(parts[2]),'Studio assignment duplicated: '+parts[2]);
+      authored.add(parts[2]);evidence.add(parts[3]);
+    }
+  }
+  assert.equal(authored.size,300);
+  assert.ok(evidence.size>=290,'Each week should specify unique portfolio evidence');
+});
+
+test('Both standalone portal pages embed the complete authored syllabus with stable progress keys',()=>{
+  const sources=['apps/art-education.html','apps/Class_art_education_portal_index.html'].map(read);
+  assert.equal(sources[0],sources[1],'Both public URLs must remain exactly in sync');
+  const canonical=[
+    'apps/curriculum/mediums-01-10.json',
+    'apps/curriculum/mediums-11-20.json',
+    'apps/curriculum/mediums-21-30.json',
+    'apps/curriculum/mediums-31-40.json',
+    'apps/curriculum/mediums-41-50.json'
+  ].flatMap(file=>JSON.parse(read(file)).courses);
+  for(const s of sources){
+    const match=s.match(/const STUDIO_COURSES_V2 = (\[[^\n]+\]);/);
+    assert.ok(match,'Missing offline-embedded complete curriculum');
+    assert.deepEqual(JSON.parse(match[1]),canonical,'Inline courses drifted from authored source documents');
+    for(const phrase of [
+      'Instructor demonstration:', 'Guided studio assignment:', 'Portfolio evidence:',
+      'Reflection prompt:', 'Studio quality checklist', 'I completed and documented this week (self-reported)',
+      'data-check=', 'state.checks', 'function makePlan(m)', 'entry[0]!==m.name'
+    ])assert.ok(s.includes(phrase),'Missing pedagogical or backward-compatibility feature: '+phrase);
+    assert.ok(!s.includes('>Mark 6 Weeks</button>'),'One-click whole-course self-certification should not appear');
+    assert.ok(!s.includes('const isDigital = m.cat'),'Old shared template must not run instead of authored lessons');
+  }
+});

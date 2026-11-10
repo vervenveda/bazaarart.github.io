@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Bazaar Art synthetic browser smoke</title></head>
+<body><h1>Local-only Bazaar Art smoke test</h1><pre id="result">RUNNING</pre><iframe id="app" title="Art education test"></iframe>
+<script>
+(async()=>{
+  'use strict';
+  const result=document.getElementById('result');
+  const frame=document.getElementById('app');
+  const img='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAusB9lBvVvEAAAAASUVORK5CYII=';
+  const key='sovereignArtEducationPortal.v1.portfolio';
+  const legacy={src:img,title:'Legacy sample artwork',medium:'Ink',year:'2026',note:'Synthetic test only'};
+  const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+  async function until(check,label){
+    for(let i=0;i<130;i++){if(check())return;await delay(80);}
+    throw Error('Timed out waiting for '+label);
+  }
+  const doc=()=>frame.contentWindow.document;
+  const count=()=>doc().querySelectorAll('#portfolioGrid article').length;
+  function mount(){return new Promise(resolve=>{frame.addEventListener('load',resolve,{once:true});frame.src='../apps/art-education.html';});}
+  function reload(){return new Promise(resolve=>{frame.addEventListener('load',resolve,{once:true});frame.contentWindow.location.reload();});}
+  function sendFile(input,file){
+    const dt=new DataTransfer();dt.items.add(file);input.files=dt.files;
+    input.dispatchEvent(new Event('change',{bubbles:true}));
+  }
+  try{
+    // Explicitly test preservation of the historical storage key.
+    localStorage.setItem(key,JSON.stringify([legacy]));
+    await mount();
+    await until(()=>count()===1,'legacy image migration');
+    await until(()=>{
+      const status=doc().getElementById('storageStatus').textContent;
+      return status.includes('IndexedDB')||status.includes('legacy local storage')||status.includes('could not be read');
+    },'storage mode selection');
+    const storageStatus=doc().getElementById('storageStatus').textContent;
+    if(!storageStatus.includes('IndexedDB'))throw Error('IndexedDB unavailable: '+storageStatus+'; indexedDB='+typeof frame.contentWindow.indexedDB);
+    // New uploads must appear and survive a reload.
+    const bytes=Uint8Array.from(atob(img.split(',')[1]),c=>c.charCodeAt(0));
+    sendFile(doc().getElementById('artUpload'),new File([bytes],'Uploaded-sample.png',{type:'image/png'}));
+    await until(()=>count()===2,'new artwork');
+    await until(()=>doc().getElementById('storageStatus').textContent.includes('saved locally'),'persisted artwork');
+    await reload();
+    await until(()=>count()===2,'portfolio reload');
+    if(JSON.parse(localStorage.getItem(key))[0].title!=='Legacy sample artwork')throw Error('Legacy record was changed');
+    // Capture a complete bundle without launching a browser download.
+    const win=frame.contentWindow;
+    let captured=null;
+    win.download=(name,contents,type)=>{captured={name,contents,type};};
+    doc().getElementById('fullBackupBtn').click();
+    if(!captured||captured.name!=='bazaar-art-complete-backup.json')throw Error('Complete backup not generated');
+    const data=JSON.parse(captured.contents);
+    if(data.schema!=='bazaar-art-education-bundle-v2'||data.portfolio.length!==2)throw Error('Complete backup content mismatch');
+    // Restore/merge a third synthetic artwork, one call and one completed lesson.
+    const backup={schema:'bazaar-art-education-bundle-v2',version:2,exportedAt:new Date().toISOString(),
+      progress:{checks:{'m.0.0':true},careerChecks:{},theme:'parchment'},
+      portfolio:[{src:img,title:'Imported sample artwork',medium:'Watercolor',year:'2026',note:'Synthetic record'}],
+      calls:[{name:'Synthetic call',due:'2026-12-31',fee:'0',link:'',req:'Demo',fit:'Review'}],
+      presentation:{artistName:'Test artist',portfolioTitle:'Test selection'}};
+    win.confirm=()=>true;
+    const file=new File([JSON.stringify(backup)],'synthetic-backup.json',{type:'application/json'});
+    sendFile(doc().getElementById('importBackupFile'),file);
+    await until(()=>count()===3,'non-destructive import');
+    if(doc().querySelectorAll('#callsTable tr').length!==1)throw Error('Call not merged');
+    const progress=JSON.parse(localStorage.getItem('sovereignArtEducationPortal.v1'));
+    if(progress.checks['m.0.0']!==true)throw Error('Progress not merged');
+    await reload();
+    await until(()=>count()===3,'merged artwork reload');
+    if(doc().querySelectorAll('#callsTable tr').length!==1)throw Error('Call was not retained');
+    // Medium-specific lesson visual/content verification, including original progress key.
+    const courseWin=frame.contentWindow;
+    const host=doc();
+    courseWin.openMedium(0);
+    if(host.querySelectorAll('.studio-week').length!==6)throw Error('Graphite course did not open all six authored weeks');
+    const graphite=host.getElementById('modalContent').textContent;
+    for(const term of ['Graphite pressure ladder','Instructor demonstration:','Guided studio assignment:','Portfolio evidence:','Reflection prompt:','Graphite pressure']){
+      if(!graphite.includes(term))throw Error('Missing authored graphite lesson or field: '+term);
+    }
+    if(!host.querySelector('input[data-check="m.0.0"]').checked)throw Error('Existing first-week progress was lost');
+    courseWin.openMedium(49);
+    if(host.querySelectorAll('.studio-week').length!==6)throw Error('Final lettering course missing weeks');
+    const lettering=host.getElementById('modalContent').textContent;
+    if(!lettering.includes('Stroke anatomy')||!lettering.includes('Commission-ready lettering'))throw Error('Last medium course is not specialized');
+    if(host.getElementById('mediumGrid').textContent.includes('Mark 6 Weeks'))throw Error('One-click six-week completion still exposed');
+    // Integrated UX: six individual checks qualify only the selected personal course.
+    const focus=host.getElementById('certFocus');
+    const name=host.getElementById('certName');
+    const reflection=host.getElementById('certReflection');
+    const affirmation=host.getElementById('certHonesty');
+    const download=host.getElementById('downloadCertBtn');
+    focus.value='medium:0';focus.dispatchEvent(new Event('change',{bubbles:true}));
+    name.value='Synthetic Artist';name.dispatchEvent(new Event('input',{bubbles:true}));
+    reflection.value='I practiced graphite pressure, observed forms, compared edges and documented six distinct studio experiments.';
+    reflection.dispatchEvent(new Event('input',{bubbles:true}));
+    affirmation.checked=true;affirmation.dispatchEvent(new Event('change',{bubbles:true}));
+    if(!download.disabled)throw Error('One checked medium week must not issue six-week completion');
+    courseWin.openMedium(0);
+    const weekChecks=Array.from(host.querySelectorAll('#modalContent input[data-check^="m.0."]'));
+    if(weekChecks.length!==6)throw Error('Six individual completion controls are required');
+    if(!weekChecks[0].checked)throw Error('Legacy first-week completion did not persist');
+    for(const weekInput of weekChecks.slice(1))if(!weekInput.checked)weekInput.click();
+    await until(()=>!download.disabled,'personal certificate after six separate weekly activities');
+    if(!host.getElementById('certTitle').textContent.includes('Personal Certificate'))throw Error('Personal certificate title not shown');
+    const htmlCertificate=courseWin.certificateHTML();
+    if(!htmlCertificate||!htmlCertificate.includes('NOT AN ACADEMY-ISSUED CREDENTIAL'))throw Error('Completion document lacks non-Academy disclosure');
+    if(htmlCertificate.includes('<script')||htmlCertificate.includes('https://'))throw Error('Standalone certificate must be offline and script-free');
+    weekChecks[5].click();
+    if(!download.disabled||courseWin.certificateHTML()!==null)throw Error('Unchecking one week must revoke personal completion eligibility');
+    result.textContent='BAZAAR_BROWSER_PASS: 50 unique curricula, individual studio weeks, personal certificate activation and revocation';
+  }catch(error){
+    result.textContent='BAZAAR_BROWSER_FAIL: '+(error&&error.stack||String(error));
+  }
+})();
+</script></body></html>

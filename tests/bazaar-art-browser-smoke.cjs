@@ -10,6 +10,9 @@ const http=require('node:http');
 const {spawn}=require('node:child_process');
 
 const root=path.resolve(__dirname,'..');
+const testPage=process.env.BAZAAR_TEST_PAGE||'tests/bazaar-art-browser-smoke.html';
+const successPrefix=process.env.BAZAAR_TEST_PASS||'BAZAAR_BROWSER_PASS:';
+const failurePrefix=successPrefix.replace('_PASS:','_FAIL:');
 const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 const binary=process.env.BAZAAR_BROWSER||['/usr/bin/google-chrome','/usr/bin/google-chrome-stable','/usr/bin/chromium'].find(fs.existsSync);
 if(!binary)throw Error('Chromium/Chrome is required for browser smoke');
@@ -29,7 +32,7 @@ async function run(){
   });
   await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
   const port=server.address().port;
-  const url='http://127.0.0.1:'+port+'/tests/bazaar-art-browser-smoke.html';
+  const url='http://127.0.0.1:'+port+'/'+testPage;
   let chrome,ws;
   try{
     chrome=spawn(binary,[
@@ -39,7 +42,7 @@ async function run(){
     ],{stdio:'ignore'});
     let debugPort=null;
     const portFile=path.join(profile,'DevToolsActivePort');
-    for(let i=0;i<90;i++){
+    for(let i=0;i<300;i++){
       if(fs.existsSync(portFile)){
         const lines=fs.readFileSync(portFile,'utf8').split('\n');
         debugPort=Number(lines[0]);break;
@@ -47,12 +50,12 @@ async function run(){
       if(chrome.exitCode!==null)throw Error('Browser exited before debugging was available');
       await sleep(100);
     }
-    if(!debugPort)throw Error('Chrome debugging endpoint not available');
+    if(!debugPort)throw Error('Chrome debugging endpoint not available after 30s; browser may be stalled in CI');
     let target;
     for(let i=0;i<70;i++){
       try{
         const pages=await(await fetch('http://127.0.0.1:'+debugPort+'/json/list')).json();
-        target=pages.find(x=>x.type==='page'&&x.url.includes('bazaar-art-browser-smoke.html'));
+        target=pages.find(x=>x.type==='page'&&x.url.includes(testPage));
         if(target)break;
       }catch{}
       await sleep(100);
@@ -88,16 +91,29 @@ async function run(){
         returnByValue:true
       });
       latest=String(output.result?.result?.value??'waiting');
-      if(latest.startsWith('BAZAAR_BROWSER_PASS:')){process.stdout.write(latest+'\n');return;}
-      if(latest.startsWith('BAZAAR_BROWSER_FAIL:'))throw Error(latest);
+      if(latest.startsWith(successPrefix)){process.stdout.write(latest+'\n');return;}
+      if(latest.startsWith(failurePrefix))throw Error(latest);
       await sleep(200);
     }
     throw Error('Browser smoke timed out: '+latest);
   }finally{
     try{ws?.close();}catch{}
-    try{chrome?.kill('SIGTERM');}catch{}
+    if(chrome&&chrome.exitCode===null){
+      try{chrome.kill('SIGTERM');}catch{}
+      await Promise.race([new Promise(resolve=>chrome.once('exit',resolve)),sleep(2500)]);
+      if(chrome.exitCode===null){
+        try{chrome.kill('SIGKILL');}catch{}
+        await Promise.race([new Promise(resolve=>chrome.once('exit',resolve)),sleep(1500)]);
+      }
+    }
     await new Promise(resolve=>server.close(resolve));
-    fs.rmSync(profile,{recursive:true,force:true,maxRetries:4,retryDelay:250});
+    for(let retry=0;retry<12;retry++){
+      try{fs.rmSync(profile,{recursive:true,force:true});break;}
+      catch(err){
+        if(!['ENOTEMPTY','EBUSY','EACCES'].includes(err.code)||retry===11)throw err;
+        await sleep(300);
+      }
+    }
   }
 }
 run().catch(err=>{console.error(err.stack||String(err));process.exitCode=1;});
