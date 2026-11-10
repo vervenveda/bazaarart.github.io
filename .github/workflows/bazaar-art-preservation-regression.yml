@@ -39,6 +39,9 @@ jobs:
       - name: All 50 studio courses and browser record compatibility
         run: |
           BAZAAR_TEST_PAGE=tests/bazaar-art-curriculum-smoke.html BAZAAR_TEST_PASS='BAZAAR_BROWSER_PASS:' node tests/bazaar-art-browser-smoke.cjs
+      - name: Real-browser cross-feature studio completion and certificate revocation
+        run: |
+          BAZAAR_TEST_PAGE=tests/bazaar-art-integration-smoke.html BAZAAR_TEST_PASS='BAZAAR_BROWSER_PASS:' node tests/bazaar-art-browser-smoke.cjs
       - name: Synthetic Art 101 browser evidence and quiz smoke
         run: |
           BAZAAR_TEST_PAGE=tests/art101-grade9-browser-smoke.html BAZAAR_TEST_PASS='ART101_BROWSER_PASS:' node tests/bazaar-art-browser-smoke.cjs
