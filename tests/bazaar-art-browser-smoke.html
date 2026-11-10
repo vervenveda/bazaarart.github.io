@@ -65,7 +65,22 @@
     await reload();
     await until(()=>count()===3,'merged artwork reload');
     if(doc().querySelectorAll('#callsTable tr').length!==1)throw Error('Call was not retained');
-    result.textContent='BAZAAR_BROWSER_PASS: legacy migration, upload, reload, bundle, import/merge, progress and calls';
+    // Medium-specific lesson visual/content verification, including original progress key.
+    const courseWin=frame.contentWindow;
+    const host=doc();
+    courseWin.openMedium(0);
+    if(host.querySelectorAll('.studio-week').length!==6)throw Error('Graphite course did not open all six authored weeks');
+    const graphite=host.getElementById('modalContent').textContent;
+    for(const term of ['Graphite pressure ladder','Instructor demonstration:','Guided studio assignment:','Portfolio evidence:','Reflection prompt:','Graphite pressure']){
+      if(!graphite.includes(term))throw Error('Missing authored graphite lesson or field: '+term);
+    }
+    if(!host.querySelector('input[data-check="m.0.0"]').checked)throw Error('Existing first-week progress was lost');
+    courseWin.openMedium(49);
+    if(host.querySelectorAll('.studio-week').length!==6)throw Error('Final lettering course missing weeks');
+    const lettering=host.getElementById('modalContent').textContent;
+    if(!lettering.includes('Stroke anatomy')||!lettering.includes('Commission-ready lettering'))throw Error('Last medium course is not specialized');
+    if(host.getElementById('mediumGrid').textContent.includes('Mark 6 Weeks'))throw Error('One-click six-week completion still exposed');
+    result.textContent='BAZAAR_BROWSER_PASS: legacy migration, backups, 50-medium course content, stable checks and modal rendering';
   }catch(error){
     result.textContent='BAZAAR_BROWSER_FAIL: '+(error&&error.stack||String(error));
   }
