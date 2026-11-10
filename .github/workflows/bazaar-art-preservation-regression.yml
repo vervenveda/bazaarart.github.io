@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'audit/bazaar-regression-*'
+      - 'repair/bazaar-art-*'
   pull_request:
     branches:
       - main
@@ -24,3 +25,5 @@ jobs:
           persist-credentials: false
       - name: Verify existing routes and data-contract compatibility
         run: node --test tests/bazaar-art-baseline.test.cjs
+      - name: Synthetic Chrome storage and backup smoke
+        run: node tests/bazaar-art-browser-smoke.cjs

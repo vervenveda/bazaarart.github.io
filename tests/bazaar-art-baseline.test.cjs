@@ -142,3 +142,66 @@ test('No destructive bulk browser-store wipe was added to core creative tools', 
     assert.doesNotMatch(content, /\bindexedDB\.deleteDatabase\s*\(/, file + ': database deletion');
   }
 });
+
+
+test('Education Portal standalone inline scripts compile in both maintained URLs', () => {
+  const vm = require('node:vm');
+  for (const file of ['apps/art-education.html', 'apps/Class_art_education_portal_index.html']) {
+    const html=read(file);
+    const inline=[...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script\s*>/gi)]
+      .filter(match=>!/\bsrc\s*=/.test(match[1]))
+      .map(match=>match[2]).filter(Boolean);
+    assert.ok(inline.length>=1, file+': missing offline-capable script');
+    for (const script of inline) assert.doesNotThrow(()=>new vm.Script(script,{filename:file}), file+': invalid JavaScript');
+  }
+});
+
+test('Both education portal URLs share equivalent content without drift', () => {
+  const a=read('apps/art-education.html').trim();
+  const b=read('apps/Class_art_education_portal_index.html').trim();
+  assert.equal(a,b,'Portal aliases must remain behaviorally identical');
+});
+
+test('Art Education Portfolio keeps original data while migrating to IndexedDB', () => {
+  for(const file of ['apps/art-education.html','apps/Class_art_education_portal_index.html']){
+    const src=read(file);
+    for(const field of [
+      'sovereign_art_education_portfolio_v2',
+      'indexedDB.open(DB_NAME,1)',
+      'function initializePortfolioStorage()',
+      'function readPortfolioDb(db)',
+      'function writePortfolioDb(db,artworks)',
+      "localStorage.getItem(storeKey+'.portfolio')",
+      'const MAX_IMAGE_BYTES = 25 * 1024 * 1024;',
+      'function prepareArtworkFile(file)',
+      'function savePortfolioSilent()',
+    ]) assert.ok(src.includes(field),file+': missing persistence requirement '+field);
+    assert.doesNotMatch(src,/localStorage\.removeItem\s*\(\s*storeKey\s*\+\s*['"]\.portfolio['"]/,file+': legacy artwork erased');
+    assert.ok(src.includes('storageMessage('),'Storage errors should be surfaced');
+  }
+});
+
+test('Complete Backup has explicit merge-only import and original exports remain',()=>{
+  for(const file of ['apps/art-education.html','apps/Class_art_education_portal_index.html']){
+    const src=read(file);
+    for(const field of [
+      'id="fullBackupBtn"','id="importBackupBtn"','id="importBackupFile"',
+      "schema:'bazaar-art-education-bundle-v2'",
+      'function fullBackupPayload()',
+      'function downloadFullBackup()',
+      'async function importEducationBackup(file)',
+      'function safeBackupArt(item)',
+      'function safeBackupProgress(data)',
+      'function safeBackupCalls(rows)',
+      "kind='Legacy portfolio'",
+      "kind='Legacy progress'",
+      'nextArt=portfolio.slice()',
+      'nextCalls=callRows.slice()',
+      'Existing records will NOT be deleted',
+      'MAX_BACKUP_BYTES',
+      'MAX_ARTWORKS',
+      "download('artist-portfolio-backup.json'",
+      "download('art-education-progress.json'"
+    ]) assert.ok(src.includes(field),file+': backup contract missing '+field);
+  }
+});

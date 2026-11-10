@@ -120,7 +120,7 @@ th{background:var(--card2)}
       <option value="whitecube">White Cube</option>
       <option value="night">Velvet Night</option>
     </select>
-    <div class="btns"><button class="btn" id="exportProgressBtn">Export Progress</button><button class="btn" id="resetBtn">Reset</button></div>
+    <div class="btns"><button class="btn" id="exportProgressBtn">Export Progress</button><button class="btn" id="fullBackupBtn">Complete Backup</button><button class="btn" id="resetBtn">Reset</button></div><p id="storageStatus" role="status" aria-live="polite" class="small">Preparing local artwork storage…</p>
   </div>
   <div class="sidebox small">Everything here is self-contained: no logins, no external libraries, no trackers. Your progress and portfolio stay in this browser unless you export them.</div>
 </aside>
@@ -181,7 +181,7 @@ th{background:var(--card2)}
         <input id="artistName" placeholder="Artist name" />
         <input id="portfolioTitle" placeholder="Portfolio title" value="Selected Works" />
       </div>
-      <div class="btns"><button class="btn primary" id="downloadPortfolioBtn">Download Portfolio HTML</button><button class="btn" id="exportPortfolioBtn">Export Portfolio JSON</button><button class="btn" id="clearPortfolioBtn">Clear Portfolio</button></div>
+      <div class="btns"><button class="btn primary" id="downloadPortfolioBtn">Download Portfolio HTML</button><button class="btn" id="exportPortfolioBtn">Export Portfolio JSON</button><button class="btn" id="importBackupBtn">Import / Merge Backup</button><button class="btn" id="clearPortfolioBtn">Clear Portfolio</button></div><input type="file" id="importBackupFile" accept=".json,application/json" hidden><p class="small">Complete Backup includes progress, calls and artwork. Import merges without deleting existing work. Local storage does not sync across devices automatically.</p>
       <div id="portfolioGrid" class="portfolio-grid"></div>
     </div>
   </section>
@@ -256,22 +256,136 @@ const SOURCES = [{"name": "National Core Arts Standards", "note": "Framework use
 const $ = sel => document.querySelector(sel);
 const $$ = sel => Array.from(document.querySelectorAll(sel));
 const storeKey = 'sovereignArtEducationPortal.v1';
+const DB_NAME = 'sovereign_art_education_portfolio_v2';
+const DB_STORE = 'records';
+const MAX_IMAGE_BYTES = 25 * 1024 * 1024;
+const MAX_BACKUP_BYTES = 120 * 1024 * 1024;
+const MAX_ARTWORKS = 500;
 let state = loadState();
 let portfolio = loadPortfolio();
 let callRows = loadCalls();
+let portfolioDb = null;
+let portfolioInitPromise;
+let portfolioWrites = Promise.resolve();
+let portfolioSaveTimer = null;
+let portfolioTouched = 0;
 
 const views = [
   ['dashboard','Home Studio'], ['mediums','50 Mediums'], ['career','Professional Artist'], ['portfolio','Portfolio Builder'], ['calls','Calls to Art'], ['activities','Activities + Prompts'], ['certificate','Certificate'], ['resources','Resources']
 ];
 
 function loadState(){
-  try{ return JSON.parse(localStorage.getItem(storeKey)) || {checks:{}, careerChecks:{}, theme:'parchment'}; }catch(e){ return {checks:{}, careerChecks:{}, theme:'parchment'}; }
+  try{ return JSON.parse(localStorage.getItem(storeKey)) || {checks:{}, careerChecks:{}, theme:'parchment'}; }
+  catch(e){ return {checks:{}, careerChecks:{}, theme:'parchment'}; }
 }
-function saveState(){ localStorage.setItem(storeKey, JSON.stringify(state)); updateStats(); }
-function loadPortfolio(){ try{ return JSON.parse(localStorage.getItem(storeKey+'.portfolio')) || []; }catch(e){ return []; } }
-function savePortfolio(){ localStorage.setItem(storeKey+'.portfolio', JSON.stringify(portfolio)); renderPortfolio(); }
-function loadCalls(){ try{ return JSON.parse(localStorage.getItem(storeKey+'.calls')) || []; }catch(e){ return []; } }
-function saveCalls(){ localStorage.setItem(storeKey+'.calls', JSON.stringify(callRows)); renderCallsTable(); }
+function storageMessage(message, warning=false){
+  const el=document.getElementById('storageStatus');
+  if(el){el.textContent=message;el.style.color=warning?'#a33125':'';}
+}
+function saveState(){
+  try{localStorage.setItem(storeKey, JSON.stringify(state));}
+  catch(e){storageMessage('Progress could not be saved. Download a complete backup now.',true);}
+  updateStats();
+}
+function loadPortfolio(){
+  try{const data=JSON.parse(localStorage.getItem(storeKey+'.portfolio')||'[]');return Array.isArray(data)?data:[];}
+  catch(e){return [];}
+}
+function loadCalls(){
+  try{const data=JSON.parse(localStorage.getItem(storeKey+'.calls')||'[]');return Array.isArray(data)?data:[];}
+  catch(e){return [];}
+}
+function saveCalls(){
+  try{localStorage.setItem(storeKey+'.calls',JSON.stringify(callRows));}
+  catch(e){storageMessage('Call tracker save failed. Download a complete backup now.',true);}
+  renderCallsTable();
+}
+
+/* Artwork persistence is additive. Existing localStorage remains untouched after
+   successful IndexedDB migration; never clear it or infer that it was backed up. */
+function openPortfolioDatabase(){
+  return new Promise(resolve=>{
+    let finished=false;
+    const timer=setTimeout(()=>finish(null),4500);
+    function finish(db){
+      if(finished){if(db)db.close();return;}
+      finished=true;clearTimeout(timer);resolve(db);
+    }
+    if(!('indexedDB' in window)){finish(null);return;}
+    let req;
+    try{req=indexedDB.open(DB_NAME,1);}catch(e){finish(null);return;}
+    req.onupgradeneeded=()=>{
+      try{const db=req.result;if(!db.objectStoreNames.contains(DB_STORE))db.createObjectStore(DB_STORE,{keyPath:'id'});}
+      catch(e){finish(null);}
+    };
+    req.onsuccess=()=>finish(req.result);
+    req.onerror=()=>finish(null);
+    req.onblocked=()=>finish(null);
+  });
+}
+function readPortfolioDb(db){
+  return new Promise((resolve,reject)=>{
+    try{
+      const tx=db.transaction(DB_STORE,'readonly');
+      const req=tx.objectStore(DB_STORE).get('portfolio');
+      req.onsuccess=()=>resolve(req.result);
+      req.onerror=()=>reject(req.error||Error('Portfolio read failed'));
+    }catch(e){reject(e);}
+  });
+}
+function writePortfolioDb(db,artworks){
+  return new Promise((resolve,reject)=>{
+    try{
+      const tx=db.transaction(DB_STORE,'readwrite');
+      tx.objectStore(DB_STORE).put({id:'portfolio',version:2,savedAt:new Date().toISOString(),artworks});
+      tx.oncomplete=()=>resolve();
+      tx.onerror=()=>reject(tx.error||Error('Portfolio write failed'));
+      tx.onabort=()=>reject(tx.error||Error('Portfolio write aborted'));
+    }catch(e){reject(e);}
+  });
+}
+async function initializePortfolioStorage(){
+  portfolioDb=await openPortfolioDatabase();
+  if(!portfolioDb){
+    storageMessage('Browser storage mode: legacy local storage. Export a full backup regularly.',true);
+    return;
+  }
+  try{
+    const record=await readPortfolioDb(portfolioDb);
+    if(record&&Array.isArray(record.artworks)){
+      if(portfolioTouched===0){portfolio=record.artworks;renderPortfolio();}
+      storageMessage('Artwork stored in IndexedDB. Your earlier browser records are preserved.');
+    }else if(portfolio.length){
+      // Copy the legacy data first; do not remove or rewrite the original record.
+      await writePortfolioDb(portfolioDb,portfolio);
+      storageMessage('Existing artwork copied to IndexedDB; the original browser copy remains.');
+    }else storageMessage('Artwork storage ready (IndexedDB). Download backups for cross-device use.');
+  }catch(e){
+    portfolioDb=null;
+    storageMessage('Artwork database could not be read. Legacy records remain; export a full backup.',true);
+  }
+}
+function enqueuePortfolioSave(snapshot){
+  const copy=snapshot.slice();
+  portfolioWrites=portfolioWrites.catch(()=>{}).then(async()=>{
+    if(portfolioInitPromise)await portfolioInitPromise;
+    if(portfolioDb)await writePortfolioDb(portfolioDb,copy);
+    else localStorage.setItem(storeKey+'.portfolio',JSON.stringify(copy));
+    storageMessage('Artwork saved locally. Download a full backup for another device.');
+  }).catch(e=>{
+    storageMessage('Artwork was not saved to browser storage. Download a full backup before closing.',true);
+    throw e;
+  });
+  // Handle rejections here as well as in subsequent queue operations.
+  portfolioWrites.catch(()=>{});
+  return portfolioWrites;
+}
+function savePortfolioSilent(){
+  portfolioTouched++;
+  clearTimeout(portfolioSaveTimer);
+  portfolioSaveTimer=setTimeout(()=>{enqueuePortfolioSave(portfolio).catch(()=>{});},350);
+}
+function savePortfolio(){savePortfolioSilent();renderPortfolio();}
 function escapeHTML(s=''){ return String(s).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])); }
 function download(filename, content, type='text/plain'){
   const blob = new Blob([content], {type});
@@ -375,19 +489,145 @@ function renderPortfolio(){
   $('#portfolioGrid').querySelectorAll('[data-art-year]').forEach(inp => inp.addEventListener('input', e=>{ portfolio[e.target.dataset.artYear].year=e.target.value; savePortfolioSilent(); }));
   $('#portfolioGrid').querySelectorAll('[data-art-note]').forEach(inp => inp.addEventListener('input', e=>{ portfolio[e.target.dataset.artNote].note=e.target.value; savePortfolioSilent(); }));
 }
-function savePortfolioSilent(){ localStorage.setItem(storeKey+'.portfolio', JSON.stringify(portfolio)); }
 window.removeArt = function(i){ portfolio.splice(i,1); savePortfolio(); }
-function handleArtFiles(files){
-  [...files].filter(f=>f.type.startsWith('image/')).forEach(file=>{
-    const reader = new FileReader();
-    reader.onload = e => { portfolio.push({src:e.target.result,title:file.name.replace(/\.[^.]+$/,''),medium:'',year:'',note:''}); savePortfolio(); };
+function readImageFile(file){
+  return new Promise((resolve,reject)=>{
+    const reader=new FileReader();
+    reader.onload=()=>resolve(reader.result);
+    reader.onerror=()=>reject(Error('Unable to read '+file.name));
     reader.readAsDataURL(file);
   });
 }
+async function prepareArtworkFile(file){
+  const allowed=['image/jpeg','image/png','image/webp','image/gif','image/avif'];
+  if(!allowed.includes(file.type))throw Error('Unsupported artwork format: '+(file.name||'file')+'. Use PNG, JPEG, WebP, GIF or AVIF.');
+  if(file.size>MAX_IMAGE_BYTES)throw Error('Artwork exceeds 25 MB: '+file.name);
+  const original=await readImageFile(file);
+  if(file.type==='image/gif'||file.size<2*1024*1024)return original;
+  try{
+    const img=await new Promise((resolve,reject)=>{
+      const node=new Image();
+      node.onload=()=>resolve(node);
+      node.onerror=()=>reject(Error('Cannot decode image'));
+      node.src=original;
+    });
+    const ratio=Math.min(1,2600/Math.max(img.naturalWidth,img.naturalHeight));
+    const canvas=document.createElement('canvas');
+    canvas.width=Math.max(1,Math.round(img.naturalWidth*ratio));
+    canvas.height=Math.max(1,Math.round(img.naturalHeight*ratio));
+    canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);
+    const optimized=canvas.toDataURL('image/webp',0.92);
+    return optimized.startsWith('data:image/webp;')&&optimized.length<original.length?optimized:original;
+  }catch(e){return original;} // Never discard a compatible original on optimization failure.
+}
+async function handleArtFiles(files){
+  const pending=Array.from(files||[]);
+  if(!pending.length)return;
+  if(portfolioInitPromise)await portfolioInitPromise;
+  let added=0,errors=[];
+  for(const file of pending){
+    if(portfolio.length>=MAX_ARTWORKS){errors.push('Portfolio limit of 500 artworks reached.');break;}
+    try{
+      const src=await prepareArtworkFile(file);
+      portfolio.push({src,title:file.name.replace(/\.[^.]+$/,''),medium:'',year:'',note:''});
+      added++;
+    }catch(e){errors.push(e.message);}
+  }
+  if(added)savePortfolio();
+  if(errors.length){storageMessage(errors.slice(0,2).join(' ')+' Check your uploads.',true);}
+}
 function portfolioHTML(){
   const artist = $('#artistName').value || 'Artist'; const title = $('#portfolioTitle').value || 'Selected Works';
-  return `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHTML(title)}</title><style>body{margin:0;background:#f7f2e9;color:#211b16;font-family:Georgia,serif}header{padding:42px;text-align:center}h1{font-size:3rem;margin:0}.grid{columns:3 260px;gap:18px;padding:20px;max-width:1200px;margin:auto}article{break-inside:avoid;border:1px solid #d8c6ad;background:#fffaf1;border-radius:18px;margin:0 0 18px;overflow:hidden}img{width:100%;display:block}div{padding:14px}p{color:#6f6155;line-height:1.5}</style></head><body><header><h1>${escapeHTML(title)}</h1><p>Portfolio by ${escapeHTML(artist)}</p></header><main class="grid">${portfolio.map(a=>`<article><img src="${a.src}"><div><h2>${escapeHTML(a.title)}</h2><p>${escapeHTML([a.medium,a.year].filter(Boolean).join(' • '))}</p><p>${escapeHTML(a.note||'')}</p></div></article>`).join('')}</main><script src="https://vervenveda.com/assets/vnv-ecosystem-toolbar.js"></script>
-</body></html>`;
+  return `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHTML(title)}</title><style>body{margin:0;background:#f7f2e9;color:#211b16;font-family:Georgia,serif}header{padding:42px;text-align:center}h1{font-size:3rem;margin:0}.grid{columns:3 260px;gap:18px;padding:20px;max-width:1200px;margin:auto}article{break-inside:avoid;border:1px solid #d8c6ad;background:#fffaf1;border-radius:18px;margin:0 0 18px;overflow:hidden}img{width:100%;display:block}div{padding:14px}p{color:#6f6155;line-height:1.5}</style></head><body><header><h1>${escapeHTML(title)}</h1><p>Portfolio by ${escapeHTML(artist)}</p></header><main class="grid">${portfolio.map(a=>`<article><img src="${a.src}"><div><h2>${escapeHTML(a.title)}</h2><p>${escapeHTML([a.medium,a.year].filter(Boolean).join(' • '))}</p><p>${escapeHTML(a.note||'')}</p></div></article>`).join('')}</main></body></html>`;
+}
+
+function safeBackupArt(item){
+  if(!item||typeof item!=='object'||Array.isArray(item))throw Error('Artwork entry is invalid');
+  if(typeof item.src!=='string'||!/^data:image\/(?:png|jpeg|webp|gif|avif);base64,[a-z0-9+/=]+$/i.test(item.src)||item.src.length>MAX_IMAGE_BYTES*2){
+    throw Error('Artwork has an unsupported or oversized embedded image');
+  }
+  const clean=(key,max)=>String(item[key]??'').slice(0,max);
+  return {src:item.src,title:clean('title',250),medium:clean('medium',200),year:clean('year',45),note:clean('note',5000)};
+}
+function safeBackupCalls(rows){
+  if(!Array.isArray(rows)||rows.length>3000)throw Error('Call tracker is not a valid list');
+  return rows.map(item=>{
+    if(!item||typeof item!=='object'||Array.isArray(item))throw Error('Invalid call entry');
+    const out={};for(const key of ['name','due','fee','link','req','fit'])out[key]=String(item[key]??'').slice(0,5000);
+    return out;
+  });
+}
+function safeBackupProgress(data){
+  if(!data||typeof data!=='object'||Array.isArray(data))throw Error('Invalid learning progress');
+  const checkMap=(input,pattern)=>{
+    if(!input||typeof input!=='object'||Array.isArray(input))throw Error('Invalid progress checks');
+    const out=Object.create(null);
+    const entries=Object.entries(input);
+    if(entries.length>5000)throw Error('Progress record is unexpectedly large');
+    for(const [key,value] of entries)if(pattern.test(key)&&value===true)out[key]=true;
+    return out;
+  };
+  return {checks:checkMap(data.checks,/^m\.\d{1,3}\.\d$/),
+    careerChecks:checkMap(data.careerChecks,/^(?:p\.\d{1,3}\.\d{1,3}|portfolio\.\d{1,3}|calls\.\d{1,3})$/),
+    theme:['parchment','whitecube','night'].includes(data.theme)?data.theme:'parchment'};
+}
+function fullBackupPayload(){
+  return {schema:'bazaar-art-education-bundle-v2',version:2,exportedAt:new Date().toISOString(),
+    progress:state,portfolio,calls:callRows,
+    presentation:{artistName:$('#artistName').value,portfolioTitle:$('#portfolioTitle').value},
+    note:'This is a portable personal backup, not an authenticated Academy record or credential.'};
+}
+function downloadFullBackup(){
+  download('bazaar-art-complete-backup.json',JSON.stringify(fullBackupPayload(),null,2),'application/json');
+  storageMessage('Complete backup prepared. Verify the downloaded file before relying on it.');
+}
+async function importEducationBackup(file){
+  if(!file)return;
+  if(file.size>MAX_BACKUP_BYTES)throw Error('Backup exceeds the 120 MB import limit.');
+  const parsed=JSON.parse(await file.text());
+  let newArt=[],newCalls=[],newState=null,presentation=null,kind='';
+  if(Array.isArray(parsed)){kind='Legacy portfolio';newArt=parsed;}
+  else if(parsed&&parsed.schema==='bazaar-art-education-bundle-v2'&&parsed.version===2){
+    kind='Complete backup';
+    if(!Array.isArray(parsed.portfolio)||!Array.isArray(parsed.calls))throw Error('Incomplete backup bundle');
+    newArt=parsed.portfolio;newCalls=parsed.calls;newState=safeBackupProgress(parsed.progress);
+    presentation=parsed.presentation;
+  }else if(parsed&&parsed.checks&&parsed.careerChecks){kind='Legacy progress';newState=safeBackupProgress(parsed);}
+  else throw Error('Unrecognized backup. Choose a Bazaar Art export file.');
+  if(newArt.length>MAX_ARTWORKS)throw Error('Backup contains more than 500 artworks.');
+  // Validate every item before changing any current in-memory record.
+  const incomingArt=newArt.map(safeBackupArt);
+  const incomingCalls=safeBackupCalls(newCalls);
+  if(portfolioInitPromise)await portfolioInitPromise;
+  const nextArt=portfolio.slice();
+  for(const art of incomingArt){
+    if(!nextArt.some(old=>old.src===art.src&&old.title===art.title&&old.medium===art.medium&&old.year===art.year))nextArt.push(art);
+  }
+  if(nextArt.length>MAX_ARTWORKS)throw Error('Merge exceeds 500 artworks. Export your current portfolio first.');
+  const nextCalls=callRows.slice();
+  for(const call of incomingCalls){
+    if(!nextCalls.some(old=>old.name===call.name&&old.due===call.due&&old.link===call.link))nextCalls.push(call);
+  }
+  const nextState={...state,checks:{...state.checks},careerChecks:{...state.careerChecks}};
+  if(newState){
+    // Merge progress additively; never overwrite a completed lesson with an unchecked value.
+    Object.assign(nextState.checks,newState.checks);
+    Object.assign(nextState.careerChecks,newState.careerChecks);
+  }
+  if(!confirm(kind+' validated. Merge '+incomingArt.length+' artworks and '+incomingCalls.length+' calls with current records? Existing records will NOT be deleted.'))return;
+  // Keep the original legacy store intact; save the new record to IndexedDB first.
+  if(portfolioDb)await writePortfolioDb(portfolioDb,nextArt);
+  else localStorage.setItem(storeKey+'.portfolio',JSON.stringify(nextArt));
+  portfolio=nextArt;portfolioTouched++;
+  state=nextState;callRows=nextCalls;
+  saveState();saveCalls();renderPortfolio();renderProfessional();
+  renderCourse('#portfolioCourse',PORTFOLIO,'portfolio');
+  renderCourse('#callsCourse',CALLS,'calls');
+  if(presentation&&typeof presentation==='object'){
+    if(typeof presentation.artistName==='string')$('#artistName').value=presentation.artistName.slice(0,200);
+    if(typeof presentation.portfolioTitle==='string')$('#portfolioTitle').value=presentation.portfolioTitle.slice(0,200);
+  }
+  storageMessage('Backup merged: '+incomingArt.length+' artworks, '+incomingCalls.length+' calls. Export a fresh complete backup.');
 }
 
 function renderCallsTable(){
@@ -422,10 +662,17 @@ function bindEvents(){
   $('#printMediumsBtn').onclick = ()=>window.print();
   $('#exportProgressBtn').onclick = ()=>download('art-education-progress.json', JSON.stringify(state,null,2), 'application/json');
   $('#resetBtn').onclick = ()=>{ if(confirm('Reset all lesson and career progress?')) { state={checks:{},careerChecks:{},theme:state.theme||'parchment'}; saveState(); renderProfessional(); renderCourse('#portfolioCourse', PORTFOLIO, 'portfolio'); renderCourse('#callsCourse', CALLS, 'calls'); } };
-  $('#artUpload').addEventListener('change', e=>handleArtFiles(e.target.files));
+  $('#artUpload').addEventListener('change', async e=>{await handleArtFiles(e.target.files);e.target.value='';});
   document.addEventListener('paste', e=>{ if(!$('#portfolioView').classList.contains('hidden')) handleArtFiles(e.clipboardData.files); });
   $('#downloadPortfolioBtn').onclick = ()=>download('artist-portfolio-gallery.html', portfolioHTML(), 'text/html');
   $('#exportPortfolioBtn').onclick = ()=>download('artist-portfolio-backup.json', JSON.stringify(portfolio,null,2), 'application/json');
+  $('#fullBackupBtn').onclick = downloadFullBackup;
+  $('#importBackupBtn').onclick = ()=>$('#importBackupFile').click();
+  $('#importBackupFile').onchange = async e=>{
+    const file=e.target.files[0];if(!file)return;
+    try{await importEducationBackup(file);}catch(err){storageMessage('Import rejected: '+err.message,true);}
+    e.target.value='';
+  };
   $('#clearPortfolioBtn').onclick = ()=>{ if(confirm('Clear local portfolio images?')) { portfolio=[]; savePortfolio(); } };
   $('#addCallBtn').onclick = ()=>{ const row={name:$('#callName').value,due:$('#callDue').value,fee:$('#callFee').value,link:$('#callLink').value,req:$('#callReq').value,fit:'Review'}; if(!row.name) return alert('Add a call name first.'); callRows.push(row); ['callName','callDue','callFee','callLink','callReq'].forEach(id=>$('#'+id).value=''); saveCalls(); };
   $('#downloadCallsBtn').onclick = ()=>download('calls-to-art-tracker.csv', csv([['Call','Due','Fee/Budget','Link','Requirements','Fit'], ...callRows.map(r=>[r.name,r.due,r.fee,r.link,r.req,r.fit])]), 'text/csv');
@@ -435,6 +682,7 @@ function bindEvents(){
 }
 
 initNav(); bindEvents(); renderMediums(); renderProfessional(); renderCourse('#portfolioCourse', PORTFOLIO, 'portfolio'); renderCourse('#callsCourse', CALLS, 'calls'); renderActivities(); renderSources(); renderPortfolio(); renderCallsTable(); randomPrompt(); updateStats(); generateCert();
+portfolioInitPromise=initializePortfolioStorage();
 </script>
 </body>
 </html>
