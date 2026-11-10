@@ -205,3 +205,63 @@ test('Complete Backup has explicit merge-only import and original exports remain
     ]) assert.ok(src.includes(field),file+': backup contract missing '+field);
   }
 });
+
+
+test('Personal studio certificate is distinguished from Academy credentials',()=>{
+  for(const file of ['apps/art-education.html','apps/Class_art_education_portal_index.html']){
+    const src=read(file);
+    for(const marker of [
+      'Personal Studio Learning Certificate',
+      'Studio Progress Summary',
+      'Personal Certificate of Studio Learning',
+      'SELF-REPORTED STUDIO RECORD',
+      'NOT AN ACADEMY-ISSUED CREDENTIAL',
+      "function certificateCourse(focus)",
+      "function certificateEligibility()",
+      "function renderCertificateFocusOptions()",
+      "function certificateHTML()",
+      "certificateHTML(){",
+      "if(!generateCert().ready)return null;",
+      "status.done+' of '+status.total",
+      "status.reasons.join(' ')",
+      "id=\"certEligibility\"",
+      "id=\"certReflection\"",
+      "id=\"certHonesty\"",
+      "id=\"certPrintBtn\" disabled",
+      "id=\"downloadCertBtn\" disabled",
+      "option.value='medium:'+i",
+      "personal-studio-learning-record.html"
+    ])assert.ok(src.includes(marker),file+' missing certificate guard '+marker);
+    assert.ok(!src.includes('<h2>Certificate of Completion</h2>'),file+' may not claim unverified completion at rest');
+    assert.doesNotMatch(src,/id="certPrintBtn"[^>]*onclick="window\.print\(\)"/);
+  }
+});
+
+test('Certificate rules check exact canonical course keys and not arbitrary counts',()=>{
+  const src=read('apps/art-education.html');
+  const fn=src.slice(src.indexOf('function certificateCourse(focus){'),src.indexOf('function renderSources(){'));
+  for(const item of [
+    "Array.from({length:MEDIUMS.length}",
+    "PROFESSIONAL.flatMap(",
+    "portfolioKeys=PORTFOLIO.map(",
+    "callKeys=CALLS.map(",
+    "key.startsWith('m.')",
+    "===true).length",
+    "done<course.keys.length",
+    "portfolio.length===0",
+    "callRows.length===0",
+    "reflection.length<40",
+    "certHonesty",
+    "document.createElement('option')"
+  ])assert.ok(fn.includes(item),'Missing course-specific requirement: '+item);
+  assert.ok(fn.includes("completed?'Personal Certificate of Studio Learning':'Studio Progress Summary'"));
+  assert.ok(!fn.includes('localStorage.setItem('),'Certificate selection must not modify learning records');
+});
+
+test('Both certificate preview and standalone certificate avoid external authority claims',()=>{
+  const html=read('apps/art-education.html');
+  const source=html.slice(html.indexOf('function certificateHTML(){'),html.indexOf('function renderSources(){'));
+  assert.ok(source.includes('if(!generateCert().ready)return null'));
+  assert.ok(source.includes("$('#certificateOutput').outerHTML"),'Export must serialize the guarded preview and disclaimer');
+  assert.ok(!source.includes('https://'),'Standalone certificate should not require external resources');
+});
