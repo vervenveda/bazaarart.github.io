@@ -42,7 +42,7 @@ async function run(){
     ],{stdio:'ignore'});
     let debugPort=null;
     const portFile=path.join(profile,'DevToolsActivePort');
-    for(let i=0;i<90;i++){
+    for(let i=0;i<300;i++){
       if(fs.existsSync(portFile)){
         const lines=fs.readFileSync(portFile,'utf8').split('\n');
         debugPort=Number(lines[0]);break;
@@ -50,7 +50,7 @@ async function run(){
       if(chrome.exitCode!==null)throw Error('Browser exited before debugging was available');
       await sleep(100);
     }
-    if(!debugPort)throw Error('Chrome debugging endpoint not available');
+    if(!debugPort)throw Error('Chrome debugging endpoint not available after 30s; browser may be stalled in CI');
     let target;
     for(let i=0;i<70;i++){
       try{
