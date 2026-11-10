@@ -205,3 +205,63 @@ test('Complete Backup has explicit merge-only import and original exports remain
     ]) assert.ok(src.includes(field),file+': backup contract missing '+field);
   }
 });
+
+
+test('All 50 mediums have six original, fully documented studio weeks',()=>{
+  const paths=[
+    'apps/curriculum/mediums-01-10.json',
+    'apps/curriculum/mediums-11-20.json',
+    'apps/curriculum/mediums-21-30.json',
+    'apps/curriculum/mediums-31-40.json',
+    'apps/curriculum/mediums-41-50.json'
+  ];
+  const all=[];
+  paths.forEach((file,index)=>{
+    const parsed=JSON.parse(read(file));
+    assert.equal(parsed.schema,'bazaar-art-medium-curriculum-v2');
+    assert.equal(parsed.startIndex,index*10);
+    assert.equal(parsed.courses.length,10);
+    all.push(...parsed.courses);
+  });
+  const source=read('apps/art-education.html');
+  const names=JSON.parse(source.match(/const MEDIUMS = (\[[^\n]+\]);/)[1]).map(c=>c.name);
+  assert.equal(names.length,50);
+  assert.deepEqual(all.map(c=>c[0]),names,'Course order cannot change (legacy progress IDs depend on indices)');
+  const authored=new Set(), evidence=new Set();
+  for(const course of all){
+    assert.equal(course[1].length,6,'A medium must have exactly 6 weeks: '+course[0]);
+    for(const [week,parts] of course[1].entries()){
+      assert.equal(parts.length,4,course[0]+' week '+(week+1)+' requires title, demo, practice and evidence');
+      for(const field of parts)assert.ok(typeof field==='string'&&field.length>=15,'Incomplete authored lesson');
+      assert.ok(parts[1].length>=35&&parts[2].length>=30&&parts[3].length>=25,'Thin lesson content: '+course[0]+' week '+(week+1));
+      assert.ok(!authored.has(parts[2]),'Studio assignment duplicated: '+parts[2]);
+      authored.add(parts[2]);evidence.add(parts[3]);
+    }
+  }
+  assert.equal(authored.size,300);
+  assert.ok(evidence.size>=290,'Each week should specify unique portfolio evidence');
+});
+
+test('Both standalone portal pages embed the complete authored syllabus with stable progress keys',()=>{
+  const sources=['apps/art-education.html','apps/Class_art_education_portal_index.html'].map(read);
+  assert.equal(sources[0],sources[1],'Both public URLs must remain exactly in sync');
+  const canonical=[
+    'apps/curriculum/mediums-01-10.json',
+    'apps/curriculum/mediums-11-20.json',
+    'apps/curriculum/mediums-21-30.json',
+    'apps/curriculum/mediums-31-40.json',
+    'apps/curriculum/mediums-41-50.json'
+  ].flatMap(file=>JSON.parse(read(file)).courses);
+  for(const s of sources){
+    const match=s.match(/const STUDIO_COURSES_V2 = (\[[^\n]+\]);/);
+    assert.ok(match,'Missing offline-embedded complete curriculum');
+    assert.deepEqual(JSON.parse(match[1]),canonical,'Inline courses drifted from authored source documents');
+    for(const phrase of [
+      'Instructor demonstration:', 'Guided studio assignment:', 'Portfolio evidence:',
+      'Reflection prompt:', 'Studio quality checklist', 'I completed and documented this week (self-reported)',
+      'data-check=', 'state.checks', 'function makePlan(m)', 'entry[0]!==m.name'
+    ])assert.ok(s.includes(phrase),'Missing pedagogical or backward-compatibility feature: '+phrase);
+    assert.ok(!s.includes('>Mark 6 Weeks</button>'),'One-click whole-course self-certification should not appear');
+    assert.ok(!s.includes('const isDigital = m.cat'),'Old shared template must not run instead of authored lessons');
+  }
+});
