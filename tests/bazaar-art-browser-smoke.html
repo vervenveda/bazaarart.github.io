@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Bazaar Art synthetic browser smoke</title></head>
+<body><h1>Local-only Bazaar Art smoke test</h1><pre id="result">RUNNING</pre><iframe id="app" title="Art education test"></iframe>
+<script>
+(async()=>{
+  'use strict';
+  const result=document.getElementById('result');
+  const frame=document.getElementById('app');
+  const img='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAusB9lBvVvEAAAAASUVORK5CYII=';
+  const key='sovereignArtEducationPortal.v1.portfolio';
+  const legacy={src:img,title:'Legacy sample artwork',medium:'Ink',year:'2026',note:'Synthetic test only'};
+  const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+  async function until(check,label){
+    for(let i=0;i<130;i++){if(check())return;await delay(80);}
+    throw Error('Timed out waiting for '+label);
+  }
+  const doc=()=>frame.contentWindow.document;
+  const count=()=>doc().querySelectorAll('#portfolioGrid article').length;
+  function mount(){return new Promise(resolve=>{frame.addEventListener('load',resolve,{once:true});frame.src='../apps/art-education.html';});}
+  function reload(){return new Promise(resolve=>{frame.addEventListener('load',resolve,{once:true});frame.contentWindow.location.reload();});}
+  function sendFile(input,file){
+    const dt=new DataTransfer();dt.items.add(file);input.files=dt.files;
+    input.dispatchEvent(new Event('change',{bubbles:true}));
+  }
+  try{
+    // Explicitly test preservation of the historical storage key.
+    localStorage.setItem(key,JSON.stringify([legacy]));
+    await mount();
+    await until(()=>count()===1,'legacy image migration');
+    await until(()=>doc().getElementById('storageStatus').textContent.includes('IndexedDB'),'IndexedDB initialization');
+    // New uploads must appear and survive a reload.
+    const bytes=Uint8Array.from(atob(img.split(',')[1]),c=>c.charCodeAt(0));
+    sendFile(doc().getElementById('artUpload'),new File([bytes],'Uploaded-sample.png',{type:'image/png'}));
+    await until(()=>count()===2,'new artwork');
+    await until(()=>doc().getElementById('storageStatus').textContent.includes('saved locally'),'persisted artwork');
+    await reload();
+    await until(()=>count()===2,'portfolio reload');
+    if(JSON.parse(localStorage.getItem(key))[0].title!=='Legacy sample artwork')throw Error('Legacy record was changed');
+    // Capture a complete bundle without launching a browser download.
+    const win=frame.contentWindow;
+    let captured=null;
+    win.download=(name,contents,type)=>{captured={name,contents,type};};
+    doc().getElementById('fullBackupBtn').click();
+    if(!captured||captured.name!=='bazaar-art-complete-backup.json')throw Error('Complete backup not generated');
+    const data=JSON.parse(captured.contents);
+    if(data.schema!=='bazaar-art-education-bundle-v2'||data.portfolio.length!==2)throw Error('Complete backup content mismatch');
+    // Restore/merge a third synthetic artwork, one call and one completed lesson.
+    const backup={schema:'bazaar-art-education-bundle-v2',version:2,exportedAt:new Date().toISOString(),
+      progress:{checks:{'m.0.0':true},careerChecks:{},theme:'parchment'},
+      portfolio:[{src:img,title:'Imported sample artwork',medium:'Watercolor',year:'2026',note:'Synthetic record'}],
+      calls:[{name:'Synthetic call',due:'2026-12-31',fee:'0',link:'',req:'Demo',fit:'Review'}],
+      presentation:{artistName:'Test artist',portfolioTitle:'Test selection'}};
+    win.confirm=()=>true;
+    const file=new File([JSON.stringify(backup)],'synthetic-backup.json',{type:'application/json'});
+    sendFile(doc().getElementById('importBackupFile'),file);
+    await until(()=>count()===3,'non-destructive import');
+    if(doc().querySelectorAll('#callsTable tr').length!==1)throw Error('Call not merged');
+    const progress=JSON.parse(localStorage.getItem('sovereignArtEducationPortal.v1'));
+    if(progress.checks['m.0.0']!==true)throw Error('Progress not merged');
+    await reload();
+    await until(()=>count()===3,'merged artwork reload');
+    if(doc().querySelectorAll('#callsTable tr').length!==1)throw Error('Call was not retained');
+    result.textContent='BAZAAR_BROWSER_PASS: legacy migration, upload, reload, bundle, import/merge, progress and calls';
+  }catch(error){
+    result.textContent='BAZAAR_BROWSER_FAIL: '+(error&&error.stack||String(error));
+  }
+})();
+</script></body></html>
