@@ -1,0 +1,416 @@
+{
+  "schema": "bazaar-art-medium-curriculum-v2",
+  "startIndex": 10,
+  "courses": [
+    [
+      "Oil Painting",
+      [
+        [
+          "Solvent-free setup",
+          "Demonstrate lean paint, brush wiping, ventilated workspace and safe oily-rag storage.",
+          "Make a thin umber imprimatura and record its touch-dry progress.",
+          "Ground sample, material labels and sealed-rag disposal plan."
+        ],
+        [
+          "Alla prima color masses",
+          "Block a still life wet-into-wet with deliberate warm/cool temperature.",
+          "Paint three pieces of fruit in one session without chasing details.",
+          "Block-in photo and wet-into-wet study."
+        ],
+        [
+          "Edges in slow-drying paint",
+          "Blend soft transitions with clean brushes and retain a few decisive sharp edges.",
+          "Render a metal teapot with controlled reflected shapes.",
+          "Edge map and reflection study."
+        ],
+        [
+          "Glazing versus scumbling",
+          "On a properly dry panel compare transparent glaze with opaque drag technique.",
+          "Make paired sky studies and log each layer's drying stage.",
+          "Layer record, glaze test and scumble comparison."
+        ],
+        [
+          "Composition and restraint",
+          "Demonstrate wiping back a failed passage and using focal contrast.",
+          "Develop a five-object painting and deliberately simplify half its details.",
+          "Before/after composition and revision notes."
+        ],
+        [
+          "Cured artwork care",
+          "Explain that touch-dry is not fully cured and document safe display/storage.",
+          "Complete a small oil painting with dated materials and drying guidance.",
+          "Finished photograph, paint recipe and conservation note."
+        ]
+      ]
+    ],
+    [
+      "Tempera Painting",
+      [
+        [
+          "Tempera flat color",
+          "Demonstrate even coverage and brush loading with nontoxic classroom tempera.",
+          "Paint twelve opaque swatches on two paper surfaces.",
+          "Swatch sheet and cleanup checklist."
+        ],
+        [
+          "Pattern and repeated shape",
+          "Build motifs through stencils and brush marks without relying on outlines.",
+          "Design a repeating textile motif with four colors.",
+          "Repeat tile and two alternative arrangements."
+        ],
+        [
+          "Brush stroke rhythm",
+          "Compare loaded broad brush, fine liner and sponge stamp effects.",
+          "Paint a city street with rhythmic foreground shapes.",
+          "Stroke chart and street composition."
+        ],
+        [
+          "Complementary contrast",
+          "Mix secondary colors and test how adjacent hues change perceived brightness.",
+          "Illustrate a simple market scene with one complementary pair.",
+          "Palette sketch and finished market study."
+        ],
+        [
+          "Collaborative mural panel",
+          "Scale a small gridded design onto a larger paper surface.",
+          "Make a community-themed panel that fits alongside two imagined panels.",
+          "Grid plan, panel photo and collaboration reflection."
+        ],
+        [
+          "Presentation and reuse",
+          "Review tempera fragility, protective sleeves and documenting ephemeral student work.",
+          "Complete a poster-style artwork and photograph it under neutral light.",
+          "Portfolio-ready image and storage plan."
+        ]
+      ]
+    ],
+    [
+      "Egg Tempera",
+      [
+        [
+          "Safe binder and ground",
+          "Explain egg-yolk emulsion on prepared ground using safe premixed pigments.",
+          "Paint a small line-and-hatch sample on primed panel.",
+          "Binder notes and panel ground record."
+        ],
+        [
+          "Fine cross-hatching",
+          "Demonstrate narrow strokes that build optical value rather than thick coverage.",
+          "Render a geometric sphere through overlapping colored hatches.",
+          "Sphere sampler with stroke direction notes."
+        ],
+        [
+          "Luminous layered forms",
+          "Show repeated thin dry layers and why thick strokes may crack.",
+          "Paint a symbolic leaf using a succession of delicate glazes.",
+          "Layer count log and leaf study."
+        ],
+        [
+          "Historical panel context",
+          "Study an historical panel tradition respectfully and distinguish technique from sacred iconography.",
+          "Design a small original symbolic panel drawn from personal meaning.",
+          "Context note and original design sheet."
+        ],
+        [
+          "Edge refinement",
+          "Demonstrate hatching along a contour and balancing ground color.",
+          "Develop a small portrait or still life and revise the edges.",
+          "Documented refinement before/after."
+        ],
+        [
+          "Long-term panel record",
+          "Discuss moisture, panel preparation and careful handling without claiming museum-grade conservation.",
+          "Complete a personal panel and record binder and ground materials.",
+          "Finished photograph, process log and care note."
+        ]
+      ]
+    ],
+    [
+      "Encaustic",
+      [
+        [
+          "Heat and studio readiness",
+          "Demonstrate setup conceptually with a cool mockup; heated wax work is adult-supervised only.",
+          "Create a cold-paper wax-layer storyboard showing safe ventilation and heat zones.",
+          "Annotated safety plan and nonheated color swatches."
+        ],
+        [
+          "Transparent wax layering",
+          "Study how translucent layers reveal earlier marks in sample photos or adult demo.",
+          "Build a digital mockup or supervised shallow wax sample using contrasting layers.",
+          "Layer diagram and material/temperature log if applicable."
+        ],
+        [
+          "Embedding objects",
+          "Discuss adhesion and why flammable inclusions and overheating are unsafe.",
+          "Design an embedded-fiber composition on paper before any supervised fabrication.",
+          "Scale sketch, inclusion list and hazard review."
+        ],
+        [
+          "Texture and scraping",
+          "Observe how relief and scraping expose different color layers.",
+          "Practice texture decisions on wax-free clay or a supervised panel.",
+          "Three texture thumbnails and a process comparison."
+        ],
+        [
+          "Composed encaustic panel",
+          "Translate planned color masses and texture into a small multi-layer design.",
+          "Finish a cold mockup or supervised panel with one documented revision.",
+          "Plan, safe-fabrication evidence and final image."
+        ],
+        [
+          "Conservation and exhibit",
+          "Explain heat vulnerability, transport and display away from high temperatures.",
+          "Create an artist label and handling checklist for the completed or mockup work.",
+          "Installation checklist, process reflection and label."
+        ]
+      ]
+    ],
+    [
+      "Mural Painting",
+      [
+        [
+          "Site and permission survey",
+          "Explain consent, surface suitability, weather exposure and pedestrian safety.",
+          "Measure a permitted practice wall or virtual wall and map obstructions.",
+          "Scaled site diagram and permission checklist."
+        ],
+        [
+          "Community listening",
+          "Discuss audience and how to avoid appropriating community stories.",
+          "Gather three stakeholder prompts or use fictional community briefs.",
+          "Theme board and a written stakeholder summary."
+        ],
+        [
+          "Grid and scale",
+          "Demonstrate translating a 1:10 sketch to wall proportions using a grid.",
+          "Transfer a two-color design onto paper tiles of increasing size.",
+          "Scaled layout and registration checkpoints."
+        ],
+        [
+          "Materials and durability",
+          "Compare indoor/outdoor primers and nontoxic sample paints at a conceptual level.",
+          "Test coverage on two sample boards with different textures.",
+          "Paint test, cost estimate and maintenance needs."
+        ],
+        [
+          "Collaborative composition",
+          "Show how shared color codes and zone maps prevent conflicting work.",
+          "Assign fictional painting zones and execute a modular group panel.",
+          "Zone map, color keys and one finished mockup tile."
+        ],
+        [
+          "Mural proposal dossier",
+          "Explain installation schedule, cleanup, release permissions and public presentation.",
+          "Deliver a scaled mural proposal with budget and a maintenance plan.",
+          "Proposal deck, model/photo, rights notes and evaluation."
+        ]
+      ]
+    ],
+    [
+      "Collage",
+      [
+        [
+          "Source and composition",
+          "Compare tear versus cut edge and establish rules for image rights and attribution.",
+          "Arrange found or original papers into three figure-ground thumbnails.",
+          "Three photographed arrangements and source log."
+        ],
+        [
+          "Material adhesion",
+          "Demonstrate glue stick versus archival-quality paste on test scraps.",
+          "Bond five materials and note curling, buckling and transfer.",
+          "Adhesion sample with observed failures."
+        ],
+        [
+          "Scale and narrative",
+          "Show juxtaposition, focal hierarchy and visual contradiction.",
+          "Combine a household-object image with a landscape to tell a surprising story.",
+          "Two narrative alternatives and selected collage."
+        ],
+        [
+          "Translucency and layers",
+          "Demonstrate tracing paper and translucent media as spatial planes.",
+          "Create a layered portrait without relying on an identifiable stranger's photo.",
+          "Layer order diagram and documented portrait."
+        ],
+        [
+          "Critical remix ethics",
+          "Discuss permission, cultural context and transformative interpretation.",
+          "Revise an image-based collage so original authorship is clear and sources credited.",
+          "Before/after plus rights/credit notation."
+        ],
+        [
+          "Collage archive",
+          "Review secure adhesion, flat scanning and mixed-surface photography.",
+          "Finish a themed pair and prepare a small exhibition label.",
+          "Two final images, materials key and artist reflection."
+        ]
+      ]
+    ],
+    [
+      "Mixed Media",
+      [
+        [
+          "Compatibility grid",
+          "Demonstrate which wet and dry layers adhere or resist on one support.",
+          "Test ink, acrylic, graphite and paper in a labeled grid.",
+          "Compatibility chart with two failed combinations."
+        ],
+        [
+          "Surface preparation",
+          "Explain ground, absorbency and sealing for mixed porous and smooth substrates.",
+          "Make three prepared surfaces and compare the same mark on each.",
+          "Three substrate samples and notes."
+        ],
+        [
+          "Material dialogue",
+          "Show how hard and soft marks contrast without turning into visual noise.",
+          "Build an artwork using one transparent, one opaque and one textured element.",
+          "Small composition with material function labels."
+        ],
+        [
+          "Revision by substitution",
+          "Discuss lifting, scraping or covering unsuccessful elements safely.",
+          "Make two versions of a mixed-media memory map after critique.",
+          "Process photos and substitution rationale."
+        ],
+        [
+          "Cohesive visual language",
+          "Use repeat color/shape to unify otherwise unrelated materials.",
+          "Create a small panel with three mediums and one clear focal point.",
+          "Unified panel and thumbnail plan."
+        ],
+        [
+          "Conservation-aware display",
+          "Explain differing material aging, adhesives and fragile surfaces.",
+          "Document finished work with exploded-layer materials diagram.",
+          "Portfolio photo, material inventory and display note."
+        ]
+      ]
+    ],
+    [
+      "Assemblage",
+      [
+        [
+          "Found-object inspection",
+          "Demonstrate cleaning and rejecting hazardous, sharp or unstable found items.",
+          "Curate ten safe objects and sort by material, weight and visual meaning.",
+          "Source list and safety decision record."
+        ],
+        [
+          "Balance and support",
+          "Explain center of mass with cardboard mockups and stable base widths.",
+          "Build three temporary arrangements that can stand without adhesive.",
+          "Three stability photos and failure notes."
+        ],
+        [
+          "Mechanical versus bonded joins",
+          "Compare ties, wire, screws and compatible glues on safe samples.",
+          "Construct four join tests using low-risk household materials.",
+          "Join specimens and durability comparison."
+        ],
+        [
+          "Symbolic arrangement",
+          "Show how juxtaposition changes interpretation across objects.",
+          "Make a three-part assemblage about work, memory or daily ritual.",
+          "Concept map and first construction stage."
+        ],
+        [
+          "Light and shadow",
+          "Demonstrate side lighting to reveal depth in relief sculpture.",
+          "Reconfigure the piece for one deliberate projected shadow.",
+          "Two lighting tests and adjustment notes."
+        ],
+        [
+          "Gallery-ready object",
+          "Review safe weight, attachment, labeling and visitor reach.",
+          "Finish a freestanding or relief assemblage and draft an installation sheet.",
+          "Dimensioned photos, object list and stability checklist."
+        ]
+      ]
+    ],
+    [
+      "Relief Printmaking",
+      [
+        [
+          "Positive/negative block design",
+          "Distinguish inked raised areas from carved-away whites; demonstrate on foam before sharp tools.",
+          "Make a two-color design that works as a reversed image.",
+          "Black-white template and safety plan."
+        ],
+        [
+          "Controlled carving",
+          "Use a bench hook and cut away from hands; provide foam alternative for young learners.",
+          "Produce five shallow marks and a test proof on linoleum or foam.",
+          "Test block, mark sampler and tool handling notes."
+        ],
+        [
+          "Inking and registration",
+          "Demonstrate thin, even brayer application and consistent paper placement.",
+          "Pull four single-color proofs from one matrix.",
+          "Proof series annotated with ink loading."
+        ],
+        [
+          "Two-color reduction planning",
+          "Explain registration keys and irreversible removal between layers.",
+          "Plan a two-color reduction print on paper before cutting.",
+          "Color separation maps and registration jig."
+        ],
+        [
+          "Edition refinement",
+          "Analyze common defects such as fill-in, chatter and paper slippage.",
+          "Print six impressions and identify the three strongest consistent sheets.",
+          "Edition record with rejected/accepted proofs."
+        ],
+        [
+          "Signing and edition ethics",
+          "Explain artist proofs, numbering and why edition counts must be truthful.",
+          "Present a small numbered edition with documentation of the block.",
+          "Edition sheet, clean scan and material log."
+        ]
+      ]
+    ],
+    [
+      "Intaglio / Etching",
+      [
+        [
+          "Recessed mark concept",
+          "Demonstrate the difference between relief and recessed ink without corrosive acid.",
+          "Draw a simulated drypoint plate plan with a reversed design.",
+          "Reversal diagram and hazard-free process plan."
+        ],
+        [
+          "Drypoint line burr",
+          "Observe burr and tonal range on instructor examples or safe soft-plate analogues.",
+          "Make a scratched-line test on a supervised plastic plate or paper simulation.",
+          "Line-pressure chart and safe-tool handling notes."
+        ],
+        [
+          "Inking and wiping",
+          "Demonstrate plate inking, tarlatan wiping and retaining plate tone.",
+          "Prepare a mock wiping sequence or supervised proof.",
+          "Process photo series and plate-tone analysis."
+        ],
+        [
+          "Paper and pressure",
+          "Compare dry paper with appropriately dampened print paper under safe press supervision.",
+          "Print or simulate three pressure variants and critique line pickup.",
+          "Proof comparison and dampness notes."
+        ],
+        [
+          "Edition consistency",
+          "Explain plate wear and why fine burr changes across repeated impressions.",
+          "Plan and pull a small drypoint edition, or document a supervised demonstration.",
+          "Edition chart and signed proof image."
+        ],
+        [
+          "Intaglio presentation",
+          "Discuss solvents, ventilation, acid-free options, safe alternatives and professional labeling.",
+          "Prepare a portfolio sheet showing plate, proof and final edition.",
+          "Archival scan, process record and safety reflection."
+        ]
+      ]
+    ]
+  ]
+}
