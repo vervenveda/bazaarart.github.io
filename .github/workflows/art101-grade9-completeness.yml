@@ -1,0 +1,38 @@
+name: Grade 9 Art 101 Completeness
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'academy/grade-9/**'
+      - 'academy/shared/art101-continuation-engine-v1.js'
+      - 'academy/GRADE9_CANONICAL_36_WEEK_MAP.md'
+      - 'academy/CREATIVE_ARTS_CURRICULUM_STANDARD_V1.md'
+      - 'academy/ART101_WEEKS_20_36_COURSE_MAP.md'
+      - '.github/workflows/art101-grade9-completeness.yml'
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate continuation engine
+        run: node --check academy/shared/art101-continuation-engine-v1.js
+      - name: Verify 36 weekly studios
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          weeks={}
+          for p in Path('academy/grade-9').glob('unit-*/week-*/index.html'):
+              weeks[int(p.parent.name.split('-')[1])]=p
+          missing=[n for n in range(1,37) if n not in weeks]
+          assert not missing, missing
+          assert len(weeks)==36, len(weeks)
+          d=json.load(open('academy/grade-9/ART101_WEEKS_27_36.json'))
+          assert [w['week'] for w in d['weeks']]==list(range(27,37))
+          for w in d['weeks']:
+              assert len(w['vocab'])>=4
+              assert len(w['stages'])==5
+              assert w['assignment'] and w['rubric']
+          print('Grade 9 Art 101 · 36/36 weekly studios PASS')
+          PY

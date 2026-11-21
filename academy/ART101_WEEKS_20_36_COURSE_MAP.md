@@ -1,6 +1,6 @@
 # Art 101 — Weeks 20–36 instructional continuation
 
-Status: authored course map; lessons and assessments for Weeks 20–36 are **not yet implemented**. Keep existing Weeks 01–19 and their legacy evidence keys intact. Art 101 is proficiency-based; legacy grade-9 paths are compatibility routes, not age restrictions.
+Status: implementation record. Weeks 20–36 are now implemented under academy/grade-9/ with weekly studio pages, academic evidence, educator rubrics and formative practice. Preserve existing evidence keys and routes. Art 101 remains proficiency-based; the Grade 9 path is the canonical Khaemenes High School source route.
 
 ## Unit 08 — Materials, Surface and Texture (Weeks 20–22)
 - **Week 20 — Material Marks and Texture.** Compare graphite, ink, charcoal and found mark-making tools; produce a controlled texture atlas, three media tests, and a researched visual analysis.
