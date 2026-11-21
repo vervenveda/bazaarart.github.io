@@ -573,11 +573,7 @@ async function handleArtFiles(files){
 }
 function portfolioHTML(){
   const artist = $('#artistName').value || 'Artist'; const title = $('#portfolioTitle').value || 'Selected Works';
-  return `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHTML(title)}</title><style>body{margin:0;background:#f7f2e9;color:#211b16;font-family:Georgia,serif}header{padding:42px;text-align:center}h1{font-size:3rem;margin:0}.grid{columns:3 260px;gap:18px;padding:20px;max-width:1200px;margin:auto}article{break-inside:avoid;border:1px solid #d8c6ad;background:#fffaf1;border-radius:18px;margin:0 0 18px;overflow:hidden}img{width:100%;display:block}div{padding:14px}p{color:#6f6155;line-height:1.5}</style></head><body><header><h1>${escapeHTML(title)}</h1><p>Portfolio by ${escapeHTML(artist)}</p></header><main class="grid">${portfolio.map(a=>`<article><img src="${a.src}"><div><h2>${escapeHTML(a.title)}</h2><p>${escapeHTML([a.medium,a.year].filter(Boolean).join(' • '))}</p><p>${escapeHTML(a.note||'')}</p></div></article>`).join('')}</main><script src="https://vervenveda.com/bazaarart.github.io/assets/bazaar-page-tools.js?v=1.0.0" defer></script>
-<script src="https://vervenveda.com/Khaemenes_Linguistics.github.io/assets/khaemenes-translator-loader.js?v=1.1.1" defer></script>
-<script src="https://vervenveda.com/assets/vnv-language.js?v=20261121-half-height" defer></script>
-<script src="https://vervenveda.com/assets/vnv-class-tools-toolbar.js?v=1.6.1" defer></script>
-</body></html>`;
+  return `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHTML(title)}</title><style>body{margin:0;background:#f7f2e9;color:#211b16;font-family:Georgia,serif}header{padding:42px;text-align:center}h1{font-size:3rem;margin:0}.grid{columns:3 260px;gap:18px;padding:20px;max-width:1200px;margin:auto}article{break-inside:avoid;border:1px solid #d8c6ad;background:#fffaf1;border-radius:18px;margin:0 0 18px;overflow:hidden}img{width:100%;display:block}div{padding:14px}p{color:#6f6155;line-height:1.5}</style></head><body><header><h1>${escapeHTML(title)}</h1><p>Portfolio by ${escapeHTML(artist)}</p></header><main class="grid">${portfolio.map(a=>`<article><img src="${a.src}"><div><h2>${escapeHTML(a.title)}</h2><p>${escapeHTML([a.medium,a.year].filter(Boolean).join(' • '))}</p><p>${escapeHTML(a.note||'')}</p></div></article>`).join('')}</main></body></html>`;
 }
 
 function safeBackupArt(item){
@@ -749,11 +745,7 @@ function certificateHTML(){
     +'.cert h2{font-size:clamp(25px,5vw,42px)}.cert .name{font-size:30px;border-bottom:2px solid #d8c6ad;padding:12px;overflow-wrap:anywhere}'
     +'.cert p{font-size:16px;line-height:1.55;overflow-wrap:anywhere}.cert-disclosure{font-size:16px;border-top:1px solid #d8c6ad;padding-top:15px}'
     +'@media print{body{background:white;padding:0}.cert{box-shadow:none;break-inside:avoid}}</style></head><body>'
-    +$('#certificateOutput').outerHTML+'<script src="https://vervenveda.com/bazaarart.github.io/assets/bazaar-page-tools.js?v=1.0.0" defer></script>
-<script src="https://vervenveda.com/Khaemenes_Linguistics.github.io/assets/khaemenes-translator-loader.js?v=1.1.1" defer></script>
-<script src="https://vervenveda.com/assets/vnv-language.js?v=20261121-half-height" defer></script>
-<script src="https://vervenveda.com/assets/vnv-class-tools-toolbar.js?v=1.6.1" defer></script>
-</body></html>';
+    +$('#certificateOutput').outerHTML+'</body></html>';
 }
 function renderSources(){
   $('#sourcesList').innerHTML = SOURCES.map(s=>`<div class="week"><h3>${escapeHTML(s.name)}</h3><p class="small">${escapeHTML(s.note)}</p><p><a href="${escapeHTML(s.url)}" target="_blank" rel="noopener">Open resource</a></p></div>`).join('');
