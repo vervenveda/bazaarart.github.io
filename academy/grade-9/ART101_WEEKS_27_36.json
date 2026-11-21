@@ -1,0 +1,236 @@
+{
+  "schema": "bazaar-art101-grade9-continuation-v1",
+  "version": "1.0.0",
+  "weeks": [
+    {
+      "week": 27,
+      "unit": 10,
+      "unit_title": "Photography and Visual Evidence",
+      "title": "Light, Exposure and Tonal Storytelling",
+      "essential": "How can light, exposure and tonal structure change what an image communicates without changing the subject itself?",
+      "vocab": {
+        "Exposure": "The amount of light recorded or represented in an image.",
+        "Dynamic range": "The span from the darkest usable tone to the lightest usable tone.",
+        "Direction of light": "The angle from which light reaches a subject, shaping highlights, shadows and volume.",
+        "Ethical editing": "Disclosed adjustments that improve readability without misrepresenting evidence or context."
+      },
+      "worked": "Place one simple object near a window or lamp. Make three studies—front-lit, side-lit and back-lit—while keeping subject and viewpoint stable. Compare value pattern, edge clarity and mood. Revise one tonal relationship and disclose exactly what changed.",
+      "stages": [
+        "Observe one object under at least three light directions and identify highlight, halftone, core shadow, cast shadow and reflected light where visible.",
+        "Research two attributed photographs or paintings that use lighting deliberately; record creator, title, date when known, source and lighting purpose.",
+        "Create three controlled light studies plus one exposure or tonal comparison. A camera is optional; graphite, charcoal or value blocks fully count.",
+        "Ask a reviewer which tonal relationship is clearest. Revise one study to improve value separation while preserving the original.",
+        "Explain what lighting changed, what it did not prove, what editing occurred and one lighting choice you will carry forward."
+      ],
+      "assignment": "Submit three controlled lighting studies, one exposure/tonal comparison, two attributed references, a value analysis, one before/after revision and an ethical-editing disclosure.",
+      "rubric": "Lighting observations and vocabulary 20 · controlled studies 25 · tonal structure and technical application 25 · critique and revision 15 · research, editing disclosure and reflection 15."
+    },
+    {
+      "week": 28,
+      "unit": 10,
+      "unit_title": "Photography and Visual Evidence",
+      "title": "Sequence, Documentary Context and Visual Truth",
+      "essential": "How can sequence, captions and context influence the meaning of documentary images, and what limits should an artist disclose?",
+      "vocab": {
+        "Sequence": "An intentional order that changes how images are read together.",
+        "Caption": "Text that identifies or contextualizes an image without claiming more than the evidence supports.",
+        "Staging": "Arranging or directing elements before an image is made.",
+        "Corroboration": "Independent evidence that helps verify a claim or context."
+      },
+      "worked": "Create six drawings or photographs of a simple everyday process. Make one neutral sequence and one reordered sequence. Compare how the inferred story changes even though the individual frames are identical.",
+      "stages": [
+        "Observe a six-step everyday process and list what can be directly seen versus what requires explanation.",
+        "Research one attributed documentary image sequence and record creator, source and documented context.",
+        "Create a six-frame sequence with accurate captions, then deliberately reorder the same frames and record how interpretation changes.",
+        "Ask a reviewer what story they infer from each order. Revise captions or sequence where interpretation depends on unsupported assumptions.",
+        "Explain observation versus interpretation versus claim; disclose staging, editing and missing context."
+      ],
+      "assignment": "Submit one six-frame original sequence, one reordered comparison, accurate captions, one attributed documentary reference, reviewer response and a final limitations statement.",
+      "rubric": "Sequence analysis and vocabulary 20 · six-frame study 25 · captions/context accuracy 25 · critique and revision 15 · research, ethics and limitations 15."
+    },
+    {
+      "week": 29,
+      "unit": 11,
+      "unit_title": "Typography, Graphic Design and Information",
+      "title": "Letterform, Readability and Visual Hierarchy",
+      "essential": "How do letterform, spacing, scale and contrast make information readable and establish hierarchy?",
+      "vocab": {
+        "Legibility": "How easily individual characters can be distinguished.",
+        "Readability": "How comfortably text can be read across words, lines and blocks.",
+        "Hierarchy": "The visual order that signals what should be noticed first, second and later.",
+        "Tracking": "The overall spacing across a range of letters."
+      },
+      "worked": "Set the same title, subtitle and paragraph three ways: equal size, exaggerated hierarchy and balanced hierarchy. Compare what a reader notices first and whether any version becomes difficult to read.",
+      "stages": [
+        "Observe three layouts and map title, subtitle, body and supporting text by size, spacing and contrast.",
+        "Research two attributed examples of typographic design from an archive, public-information system or established design collection.",
+        "Create six letterform/spacing tests and three hierarchy thumbnails using one or two type families or hand-lettered styles.",
+        "Run a legibility test at normal and reduced size. Revise one layout based on where readers hesitate or misread.",
+        "Archive the final hierarchy, explain spacing and contrast choices and identify one accessibility limitation."
+      ],
+      "assignment": "Submit six typography tests, three hierarchy thumbnails, one developed composition, two attributed references, legibility-test notes and one documented revision.",
+      "rubric": "Vocabulary and visual analysis 20 · letterform/spacing studies 20 · hierarchy and developed layout 30 · legibility test/revision 15 · research and presentation 15."
+    },
+    {
+      "week": 30,
+      "unit": 11,
+      "unit_title": "Typography, Graphic Design and Information",
+      "title": "Layout, Grids and Visual Systems",
+      "essential": "How can grids, alignment, spacing and repetition organize information without making every design look the same?",
+      "vocab": {
+        "Grid": "An underlying system of columns, rows or modules used to organize placement.",
+        "Alignment": "A visible relationship created when edges, centers or baselines line up.",
+        "Module": "A repeatable spatial unit within a layout system.",
+        "White space": "Unoccupied space used intentionally to separate, group or emphasize information."
+      },
+      "worked": "Create the same one-page event notice on a one-column grid, a two-column grid and a modular grid. Compare navigation, balance and unused space before choosing one to refine.",
+      "stages": [
+        "Mark alignment lines and grouping patterns on three existing layouts without judging style.",
+        "Research two attributed graphic-design examples and identify how each uses grid, spacing and repetition.",
+        "Build three grid systems with identical content so layout remains the tested variable.",
+        "Ask a reviewer to locate title, date, action and source quickly. Revise where navigation fails.",
+        "Explain which grid was chosen, which constraints helped and where deliberate exceptions improve communication."
+      ],
+      "assignment": "Submit three grid studies, one developed informational composition, two attributed references, a timed navigation test, one before/after revision and a system explanation.",
+      "rubric": "Grid/alignment vocabulary 20 · controlled layout studies 25 · developed composition 25 · navigation test/revision 15 · research/explanation 15."
+    },
+    {
+      "week": 31,
+      "unit": 11,
+      "unit_title": "Typography, Graphic Design and Information",
+      "title": "Information Design and Ethical Claims",
+      "essential": "How can visual design clarify evidence without exaggerating, hiding uncertainty or misleading the viewer?",
+      "vocab": {
+        "Scale": "The proportional size used to represent or compare information.",
+        "Source note": "A traceable citation identifying where information came from.",
+        "Uncertainty": "A stated limit in what data or evidence can support.",
+        "Visual emphasis": "A design choice that increases attention to selected information."
+      },
+      "worked": "Use a tiny fictional data set. Design one honest chart and one deliberately misleading chart using distorted scale, then redesign the misleading version and annotate exactly what made it deceptive.",
+      "stages": [
+        "Observe three information graphics and identify title, source, scale, labels, emphasis and missing context.",
+        "Research one reputable public-information graphic and trace its source/data note.",
+        "Create an evidence-grounded infographic from a small teacher-approved or fictional data set. Label scale, source and uncertainty.",
+        "Ask a viewer what claim they think the graphic supports. Revise any feature that causes overclaiming.",
+        "Write the strongest supported claim, one unsupported claim and one design decision that protects against misinterpretation."
+      ],
+      "assignment": "Submit one source/data record, two layout drafts, one final infographic, a misleading-scale comparison, reviewer notes, revision evidence and a limitations statement.",
+      "rubric": "Evidence/claim vocabulary 20 · source/scale accuracy 25 · final design 25 · comprehension review/revision 15 · ethical reasoning/limitations 15."
+    },
+    {
+      "week": 32,
+      "unit": 12,
+      "unit_title": "Art, Community and Curatorial Practice",
+      "title": "Art in Cultural Context",
+      "essential": "How can artists study work from different cultures and periods with attribution, context and respect rather than reducing it to stereotypes?",
+      "vocab": {
+        "Context": "Historical, cultural, social and material circumstances shaping how work is made and understood.",
+        "Attribution": "Identifying maker, culture, community, collection or source as accurately as evidence permits.",
+        "Interpretation": "A reasoned explanation supported by visible and contextual evidence.",
+        "Stereotype": "An oversimplified generalization applied to a group or culture."
+      },
+      "worked": "Compare two attributed artworks sharing a broad function such as commemoration or storytelling but coming from different documented contexts. List visible similarities first, contextual differences second, and avoid claiming either work represents an entire culture.",
+      "stages": [
+        "Describe two artworks using only visible evidence before reading context.",
+        "Research creator/culture, date or period, material, setting/function and collection/source for each work.",
+        "Create a comparative visual study inspired by a shared formal problem—not by copying sacred, restricted or culturally specific imagery.",
+        "Review your comparison for unsupported generalizations, missing attribution and language that treats a culture as monolithic.",
+        "Revise the analysis and explain how context changed your interpretation."
+      ],
+      "assignment": "Submit two attributed artwork records, a visible-evidence comparison, contextual research, an original formal-response study, stereotype-check notes, revision and reflection.",
+      "rubric": "Description/context vocabulary 20 · attribution/research 25 · comparative analysis 20 · original response/revision 20 · respectful communication/limitations 15."
+    },
+    {
+      "week": 33,
+      "unit": 12,
+      "unit_title": "Art, Community and Curatorial Practice",
+      "title": "Community Brief and Collaborative Design",
+      "essential": "How can an artist translate a community need or audience goal into a respectful creative brief and revisable proposal?",
+      "vocab": {
+        "Brief": "A concise document defining audience, purpose, constraints, deliverables and success criteria.",
+        "Stakeholder": "A person or group affected by or involved in a project.",
+        "Constraint": "A real limit involving time, place, materials, access, safety, budget or requirements.",
+        "Iteration": "A revised version created after testing or feedback."
+      },
+      "worked": "Draft a fictional library poster brief: audience, purpose, required information, size, accessibility needs, deadline and no-purchase material limit. Create two thumbnails and revise one after criterion-based feedback.",
+      "stages": [
+        "Observe a public/community communication need and identify audience, purpose, location and constraints without collecting private information.",
+        "Research two examples of community-facing design or public art and record creator/organization, purpose and source.",
+        "Write a one-page creative brief, then produce at least three concept thumbnails meeting the same brief.",
+        "Ask an appropriate reviewer to respond to the stated criteria, not taste. Record accepted and rejected feedback with reasons.",
+        "Revise one proposal and show brief → concepts → feedback → final direction."
+      ],
+      "assignment": "Submit a one-page brief, stakeholder/constraint map, three thumbnails, one developed proposal, feedback record, revision comparison and privacy/accessibility note.",
+      "rubric": "Brief/problem definition 20 · constraints/stakeholder reasoning 20 · concept development 25 · feedback/revision 20 · presentation/accessibility/privacy 15."
+    },
+    {
+      "week": 34,
+      "unit": 12,
+      "unit_title": "Art, Community and Curatorial Practice",
+      "title": "Curating a Foundations Exhibition",
+      "essential": "How can selection, sequence, labels, access and spatial planning help an exhibition communicate a coherent idea?",
+      "vocab": {
+        "Curation": "Selecting, organizing and contextualizing works for a stated purpose.",
+        "Wall text": "Brief interpretive or informational text supporting an exhibition.",
+        "Sequence": "The order in which viewers encounter works or ideas.",
+        "Access consideration": "A choice that helps more people perceive, navigate or understand an exhibition."
+      },
+      "worked": "Choose five prior practice works with different strengths. Make two exhibition sequences—chronological and thematic. Write a short wall text for each and compare which order better supports the curatorial question.",
+      "stages": [
+        "Review accumulated work and identify recurring questions, techniques and changes rather than simply choosing favorites.",
+        "Research one museum, school or community exhibition and record how labels, sequence and access are handled.",
+        "Select 6–10 works or studies and create two floor-plan or screen-order options with accurate labels.",
+        "Ask a reviewer to move through the exhibition without coaching. Record where sequence or labels create confusion.",
+        "Revise selection, order, labels or access notes and write a curatorial statement naming strengths and limits."
+      ],
+      "assignment": "Submit a 6–10 work checklist, two sequence plans, final floor plan/screen order, labels, wall text, access considerations, reviewer notes and revision evidence.",
+      "rubric": "Curatorial vocabulary/question 20 · selection/sequencing 25 · labels/wall text/floor plan 25 · viewer test/revision 15 · access/reflection 15."
+    },
+    {
+      "week": 35,
+      "unit": 13,
+      "unit_title": "Capstone, Defense and Portfolio",
+      "title": "Independent Capstone Studio",
+      "essential": "How can an artist independently define, research, prototype, revise and complete an original work that synthesizes prior learning?",
+      "vocab": {
+        "Synthesis": "Combining multiple learned methods or ideas into a purposeful new whole.",
+        "Prototype": "An early version used to test structure, material, composition or feasibility.",
+        "Scope": "What a project will and will not attempt within available time and resources.",
+        "Decision log": "A concise record of major choices, evidence and revisions."
+      },
+      "worked": "Write a capstone proposal around one question. Choose three prior techniques to combine. Make three small prototypes testing different uncertainties. Select one direction using explicit criteria, then define a scope limit that keeps the project achievable.",
+      "stages": [
+        "Review Weeks 1–34 and identify three techniques, questions or methods worth synthesizing.",
+        "Research at least two attributed artists/works and one technical source relevant to the chosen problem.",
+        "Write a proposal, define scope and create three prototypes, each testing a different uncertainty.",
+        "Select and develop one direction. Conduct a critique against proposal criteria and preserve at least one meaningful revision.",
+        "Complete the work to a defensible stopping point, document it accurately, and write a decision log with limitations and next steps."
+      ],
+      "assignment": "Submit capstone proposal, source record, three prototypes, selection criteria, developed work documentation, critique notes, before/after revision, decision log and limitations.",
+      "rubric": "Proposal/scope/research 20 · prototype investigation 20 · technical application 20 · original decisions/revision 20 · documentation/defense readiness 20."
+    },
+    {
+      "week": 36,
+      "unit": 13,
+      "unit_title": "Capstone, Defense and Portfolio",
+      "title": "Portfolio Exhibition and Artist Defense",
+      "essential": "How can a learner use direct evidence to defend artistic growth, technical decisions, revision and portfolio selection across a full year?",
+      "vocab": {
+        "Artist defense": "A structured explanation of decisions supported by artifacts and evidence.",
+        "Evidence chain": "Claim → artifact → comparison → conclusion.",
+        "Portfolio coherence": "A purposeful relationship among selected works rather than simple quantity.",
+        "Limitation": "A clear statement of what the evidence or project does not establish."
+      },
+      "worked": "Choose one early study and one later work addressing a related problem. Make one claim about growth, point to a visible artifact in each, compare the difference, and state a limited conclusion. Repeat for technique, revision and independent decision-making.",
+      "stages": [
+        "Review the full-year archive and select evidence representing observation, technique, experimentation, revision, context/research and independent work.",
+        "Prepare accurate labels, sources, dates and process notes. Identify at least one early/later comparison and one unsuccessful experiment that taught something useful.",
+        "Curate 8–12 representative items or studies and prepare a concise artist statement plus evidence map.",
+        "Present the portfolio to an educator/reviewer using evidence chains. Answer questions about choices, revision, limitations, sources and next goals.",
+        "Revise portfolio or defense notes after review. Archive the final packet and identify one Grade 10 readiness target."
+      ],
+      "assignment": "Submit an 8–12 item curated portfolio or documented equivalent, artist statement, evidence map, early/later comparison, attribution record, oral/written defense, reviewer notes, one revision and a Grade 10 readiness target.",
+      "rubric": "Portfolio selection/coherence 20 · technical/creative evidence 20 · growth/revision evidence 20 · Artist Defense/reasoning 20 · attribution/presentation/next-step reflection 20."
+    }
+  ]
+}
