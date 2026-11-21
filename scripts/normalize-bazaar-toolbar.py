@@ -34,7 +34,8 @@ for p in files:
     if eco:
         n=n[:eco.start()]+block+n[eco.start():]
     else:
-        n=n.replace("</body>",block+"</body>") if "</body>" in n else n+block
+        i=n.lower().rfind("</body>")
+        n=n[:i]+block+n[i:] if i>=0 else n+block
     if n!=s:
         p.write_text(n,encoding="utf-8")
         changed.append(p.relative_to(ROOT).as_posix())
