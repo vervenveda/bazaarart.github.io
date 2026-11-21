@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="A sovereign, artist-first Call for Art Registry for discovering, organizing, and tracking free, account-based, and paid art opportunities worldwide.">
+<meta name="theme-color" content="#252421">
+<title>Call for Art Registry | Verve N Veda</title>
+<style>
+:root{
+  --charcoal:#252421;--charcoal-2:#34322e;--cream:#f7f3e9;--cream-bright:#fffdf7;
+  --parchment:#e7ddc7;--parchment-light:#eee6d6;--ink:#282622;--muted:#6c685f;
+  --line:#cfc6b5;--radius:7px;--max:1120px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.55 "Avenir Next",Avenir,"Segoe UI",Arial,sans-serif}
+a{color:inherit}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid #887e68;outline-offset:3px}
+[hidden]{display:none!important}
+.skip{position:absolute;left:10px;top:-100px;background:var(--cream);padding:10px;border-radius:var(--radius);z-index:5000}
+.skip:focus{top:10px}
+.radius-all{border-radius:var(--radius)}
+/* Canonical shared-header is mounted by VNV_HEADER below. This page only styles the shared shell. */
+body .vnv-header,body [data-vnv-header],body .site-header{border-radius:0!important}
+.ticker-spacer{min-height:0}
+.page-hero{background:var(--charcoal);color:var(--cream);padding:clamp(45px,8vw,90px) 18px;text-align:center}
+.hero-inner{width:min(100%,var(--max));margin:auto}
+.hero-eyebrow{margin:0 0 12px;color:var(--parchment);font-size:.76rem;letter-spacing:.2em;text-transform:uppercase;font-weight:750}
+.page-hero h1{margin:0;font-family:Georgia,"Times New Roman",serif;font-size:clamp(2.35rem,5.8vw,4.2rem);line-height:1.04;font-weight:600;letter-spacing:.01em}
+.hero-description{max-width:790px;margin:20px auto 0;color:#e1d9cb;font-size:clamp(1rem,2vw,1.22rem)}
+.hero-buttons{display:flex;justify-content:center;align-items:stretch;gap:12px;flex-wrap:wrap;margin-top:30px}
+.btn{min-width:190px;min-height:48px;display:inline-flex;align-items:center;justify-content:center;padding:11px 18px;border:1px solid var(--parchment);border-radius:var(--radius);text-decoration:none;text-align:center;font-size:.82rem;font-weight:800;letter-spacing:.04em;transition:transform .15s,background .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn-cream{background:var(--cream);color:var(--charcoal);border-color:var(--cream)}
+.btn-parchment{background:var(--parchment);color:var(--charcoal);border-color:var(--parchment)}
+.btn-outline{background:transparent;color:var(--cream)}
+main{width:min(calc(100% - 34px),var(--max));margin:0 auto}
+.section{padding:54px 0}
+.section-heading{text-align:center;max-width:800px;margin:0 auto 28px}
+.section-heading .eyebrow{margin:0;color:var(--muted);font-size:.74rem;letter-spacing:.17em;font-weight:800;text-transform:uppercase}
+.section-heading h2{margin:9px 0 0;font-family:Georgia,"Times New Roman",serif;font-size:clamp(1.9rem,4vw,2.65rem);font-weight:600;line-height:1.15}
+.section-heading p:last-child{max-width:700px;margin:13px auto 0;color:var(--muted)}
+.about-card{max-width:850px;margin:auto;padding:26px;border:1px solid var(--line);border-radius:var(--radius);background:var(--cream-bright);text-align:center}
+.about-card p{margin:0;color:#555148}
+.features{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;max-width:940px;margin:auto}
+.feature{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:220px;padding:26px;border:1px solid var(--line);border-radius:var(--radius);background:var(--parchment-light);text-align:center}
+.feature-icon{width:48px;height:48px;display:grid;place-items:center;margin-bottom:15px;border:1px solid #aaa18f;border-radius:var(--radius);background:var(--cream);font-family:Georgia,serif;font-size:1.3rem}
+.feature h3{margin:0;font-family:Georgia,serif;font-size:1.45rem;font-weight:600}
+.feature p{max-width:380px;margin:10px 0 0;color:#625d53;font-size:.91rem}
+.feature-link{margin-top:15px;color:var(--ink);font-size:.75rem;font-weight:850;letter-spacing:.06em;text-transform:uppercase;text-decoration-thickness:1px;text-underline-offset:3px}
+.resource-note{margin:0 auto 30px;max-width:900px;padding:15px 18px;border:1px solid var(--line);border-radius:var(--radius);background:var(--parchment-light);text-align:center;color:#625d53;font-size:.85rem}
+.site-footer{margin-top:18px;background:var(--charcoal);color:var(--cream);padding:28px 18px;text-align:center}
+.footer-inner{max-width:var(--max);margin:auto}
+.footer-brand{font-family:Georgia,serif;font-size:1.15rem;letter-spacing:.08em}
+.footer-note{margin:8px 0 0;color:#d3cbbb;font-size:.78rem}
+.footer-links{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:13px}
+.footer-links a{color:var(--cream);font-size:.75rem;text-underline-offset:3px}
+/* Lower-left universal toolbar with translator control in the same cluster. */
+.universal-tools{position:fixed;left:12px;bottom:12px;z-index:1300;display:flex;align-items:center;gap:7px;padding:7px;border:1px solid #a59b89;border-radius:var(--radius);background:var(--cream);box-shadow:0 4px 16px #0002}
+.tool-btn,.translate-select{min-height:39px;border:1px solid #b9ae9b;border-radius:var(--radius);background:var(--parchment);color:var(--charcoal);padding:7px 10px;font-size:.72rem;font-weight:800}
+.tool-btn:hover,.translate-select:hover{background:var(--cream-bright)}
+.translate-panel{position:fixed;left:12px;bottom:64px;z-index:1301;width:min(300px,calc(100vw - 24px));padding:14px;border:1px solid #a59b89;border-radius:var(--radius);background:var(--cream);box-shadow:0 8px 24px #0002}
+.translate-panel h3{margin:0 0 9px;font-family:Georgia,serif;font-size:1.1rem}
+.translate-panel p{margin:0 0 10px;color:var(--muted);font-size:.75rem}
+#googleTranslateElement{min-height:35px}
+.ecosystem-slot{position:fixed;right:0;bottom:0;z-index:1250}
+/* Make the canonical ecosystem toolbar retain its own controls, while harmonizing radius. */
+#vnv-ecosystem-toolbar,#vnvEcosystemToolbar,.vnv-ecosystem-toolbar,[data-vnv-ecosystem-toolbar]{border-radius:var(--radius)!important}
+@media(max-width:640px){
+ .hero-buttons{display:grid;grid-template-columns:1fr;width:min(100%,400px);margin:25px auto 0}
+ .btn{width:100%;min-width:0}
+ .features{grid-template-columns:1fr}
+ .feature{min-height:190px}
+ .universal-tools{left:8px;bottom:8px;max-width:calc(100vw - 120px);flex-wrap:wrap}
+ .tool-btn,.translate-select{font-size:.66rem;padding:6px 8px}
+ .translate-panel{left:8px;bottom:75px}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- Canonical VNV auto-populating ticker #1: 333 Network ticker -->
+<script src="https://vervenveda.com/assets/vnv-333-ticker.js"></script>
+<!-- Canonical VNV auto-populating ticker #2: ticker auto-population utility -->
+<script src="https://vervenveda.com/assets/vnv-ticker-autopopulate.js" data-vnv-ticker-autopopulate></script>
+<script>
+if(window.VNV_TICKER&&typeof VNV_TICKER.autoPopulate==="function"){
+  VNV_TICKER.autoPopulate({label:"Call for Art Registry Quick Links",max:8,links:[
+    {label:"Registry Home",href:"#top"},
+    {label:"Open Calendar Registry",href:"call_for_art_registry.html"},
+    {label:"Discovery Sources",href:"call_for_art_registry.html#sources"},
+    {label:"About",href:"#about"},
+    {label:"Features",href:"#features"}
+  ]});
+}
+</script>
+
+<!-- Canonical VNV/Khaemenes header auto-population component; hamburger is the only header action. -->
+<script src="https://vervenveda.com/assets/vnv-header-autopopulate.js"></script>
+<script>
+if(window.VNV_HEADER&&typeof VNV_HEADER.mount==="function"){
+  VNV_HEADER.mount({
+    title:"Verve N Veda",
+    subtitle:"Call for Art Registry · Artist Opportunity Network",
+    icon:"ART",
+    home:"https://vervenveda.com/",
+    actions:[],
+    replaceLegacy:true
+  });
+}
+</script>
+
+<main id="main">
+<section class="page-hero" id="top">
+  <div class="hero-inner">
+    <p class="hero-eyebrow">Verve N Veda · Artist Opportunity Network</p>
+    <h1>Call for Art Registry</h1>
+    <p class="hero-description">Discover, organize, and track art calls, commissions, residencies, grants, exhibitions, and creative opportunities—locally and worldwide.</p>
+    <div class="hero-buttons" aria-label="Registry access">
+      <a class="btn btn-cream" href="call_for_art_registry.html#calendar">Opportunity Calendar</a>
+      <a class="btn btn-parchment" href="call_for_art_registry.html#sources">Discovery Resources</a>
+      <a class="btn btn-outline" href="call_for_art_registry.html#add">Add an Opportunity</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="about">
+  <div class="section-heading">
+    <p class="eyebrow">A free, independent registry</p>
+    <h2>About the Call for Art Registry</h2>
+  </div>
+  <div class="about-card">
+    <p>The Call for Art Registry is an artist-first discovery and tracking tool built to make opportunities easier to find and compare. Browse international, national, regional, local, and online resources; track deadlines in one calendar; and distinguish free, account-required, and paid discovery services. Opportunity details should be checked against the official organizer before applying. Your registry records stay in your browser unless you export or share them.</p>
+  </div>
+</section>
+
+<section class="section" id="features">
+  <div class="section-heading">
+    <p class="eyebrow">Discover · Evaluate · Track · Preserve</p>
+    <h2>Registry Features</h2>
+    <p>Four simple tools support a more organized artist-opportunity workflow.</p>
+  </div>
+  <div class="features">
+    <article class="feature">
+      <div class="feature-icon" aria-hidden="true">◷</div>
+      <h3>Calendar & Deadline Radar</h3>
+      <p>View upcoming calls by month, identify deadlines approaching soon, and keep rolling opportunities visible.</p>
+      <a class="feature-link" href="call_for_art_registry.html#calendar">Open Calendar →</a>
+    </article>
+    <article class="feature">
+      <div class="feature-icon" aria-hidden="true">⌕</div>
+      <h3>Worldwide Discovery</h3>
+      <p>Explore international, national, regional, local, and online sources for commissions, grants, shows, and residencies.</p>
+      <a class="feature-link" href="call_for_art_registry.html#sources">Browse Sources →</a>
+    </article>
+    <article class="feature">
+      <div class="feature-icon" aria-hidden="true">◇</div>
+      <h3>Access & Fee Transparency</h3>
+      <p>Compare resources labeled Free, Account Required, Paid, or Free with optional paid features—and record opportunity application fees separately.</p>
+      <a class="feature-link" href="call_for_art_registry.html#sources">Review Access →</a>
+    </article>
+    <article class="feature">
+      <div class="feature-icon" aria-hidden="true">▣</div>
+      <h3>Artist-Owned Records</h3>
+      <p>Track application status, official links, eligibility, compensation, notes, and verification. Export and restore local JSON backups.</p>
+      <a class="feature-link" href="call_for_art_registry.html">Open Registry →</a>
+    </article>
+  </div>
+</section>
+
+<div class="resource-note">Independent registry · No membership required to use the local application · Always confirm deadlines, eligibility, fees, compensation, and artist rights on the official call page.</div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">VERVE N VEDA · CALL FOR ART REGISTRY</div>
+    <p class="footer-note">Artist-first opportunity discovery · Local-first records · Independent and transparent</p>
+    <div class="footer-links">
+      <a href="https://vervenveda.com/">Verve N Veda</a>
+      <a href="https://vervenveda.com/">Ecosystem Home</a>
+      <a href="call_for_art_registry.html">Open Registry</a>
+    </div>
+  </div>
+</footer>
+
+<!-- Lower-left universal tools. Translator integration is kept in this toolbar. -->
+<div class="universal-tools" role="toolbar" aria-label="Universal tools">
+  <button class="tool-btn" id="topBtn" type="button" title="Return to top">↑ Top</button>
+  <button class="tool-btn" id="translateBtn" type="button" aria-expanded="false" aria-controls="translatePanel">Translate</button>
+</div>
+<div class="translate-panel" id="translatePanel" hidden>
+  <h3>Page Translator</h3>
+  <p>Choose a language to translate the page. Translation service is provided externally.</p>
+  <div id="googleTranslateElement"></div>
+</div>
+
+<!-- Canonical lower-right VNV ecosystem toolbar -->
+<script src="https://vervenveda.com/assets/vnv-ecosystem-toolbar.js"></script>
+
+<!-- Translator widget: the canonical translator script was not found in the inspected index.html.
+     This is a clearly isolated integration point using the Google Translate widget until the canonical script URL is confirmed. -->
+<script>
+document.getElementById("topBtn").addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"}));
+const translatorButton=document.getElementById("translateBtn"),translatorPanel=document.getElementById("translatePanel");
+translatorButton.addEventListener("click",()=>{
+  const isOpen=!translatorPanel.hidden;
+  translatorPanel.hidden=isOpen;
+  translatorButton.setAttribute("aria-expanded",String(!isOpen));
+});
+function googleTranslateElementInit(){
+  if(window.google&&google.translate&&google.translate.TranslateElement){
+    new google.translate.TranslateElement({pageLanguage:"en",layout:google.translate.TranslateElement.InlineLayout.SIMPLE,autoDisplay:false},"googleTranslateElement");
+  }
+}
+</script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async></script>
+</body>
+</html>
