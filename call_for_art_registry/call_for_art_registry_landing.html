@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="A sovereign, artist-first Call for Art Registry for discovering, organizing, and tracking free, account-based, and paid art opportunities worldwide.">
+<meta name="description" content="Khaemenes Academy Call for Art Registry for discovering, organizing, and tracking art opportunities.">
 <meta name="theme-color" content="#252421">
-<title>Call for Art Registry | Verve N Veda</title>
+<title>Call for Art Registry | Khaemenes Academy</title>
 <link rel="stylesheet" href="assets/registry.css">
 </head>
 <body>
@@ -15,35 +15,33 @@
 <script src="https://vervenveda.com/assets/vnv-ticker-autopopulate.js" data-vnv-ticker-autopopulate></script>
 <script src="https://vervenveda.com/assets/vnv-header-autopopulate.js"></script>
 
-<main id="main">
 <section class="page-hero" id="top">
   <div class="hero-inner">
-    <p class="hero-eyebrow">Verve N Veda · Artist Opportunity Network</p>
+    <p class="hero-eyebrow">Khaemenes Academy</p>
     <h1>Call for Art Registry</h1>
-    <p class="hero-description">Discover, organize, and track art calls, commissions, residencies, grants, exhibitions, and creative opportunities—locally and worldwide.</p>
-    <div class="hero-buttons" aria-label="Registry access">
-      <a class="btn btn-cream" href="call_for_art_registry.html#calendar">Opportunity Calendar</a>
-      <a class="btn btn-parchment" href="call_for_art_registry.html#sources">Discovery Resources</a>
-      <a class="btn btn-outline" href="call_for_art_registry.html#add">Add an Opportunity</a>
+    <p class="hero-description">Artist Opportunity Network · Discover · Evaluate · Track · Apply</p>
+    <div class="academy-access-grid" aria-label="Academy access">
+      <a class="academy-access-btn" href="https://vervenveda.com/Khaemenes_Academy.github.io/student/">Learner Profile</a>
+      <a class="academy-access-btn" href="https://vervenveda.com/Khaemenes_Academy.github.io/family/">Parent Profile</a>
+      <a class="academy-access-btn" href="https://vervenveda.com/Khaemenes_Academy.github.io/adult/enroll/">Enrollment</a>
     </div>
   </div>
 </section>
 
-<section class="section" id="about">
+<main id="main">
+<section class="section about-section" id="about">
   <div class="section-heading">
-    <p class="eyebrow">A free, independent registry</p>
     <h2>About the Call for Art Registry</h2>
   </div>
   <div class="about-card">
-    <p>The Call for Art Registry is an artist-first discovery and tracking tool built to make opportunities easier to find and compare. Browse international, national, regional, local, and online resources; track deadlines in one calendar; and distinguish free, account-required, and paid discovery services. Opportunity details should be checked against the official organizer before applying. Your registry records stay in your browser unless you export or share them.</p>
+    <p>The Call for Art Registry helps artists discover, compare, organize, and track real exhibitions, commissions, residencies, grants, public-art calls, markets, and other professional opportunities while preserving artist-owned records and requiring verification from the official organizer before application.</p>
   </div>
 </section>
 
 <section class="section" id="features">
   <div class="section-heading">
-    <p class="eyebrow">Discover · Evaluate · Track · Preserve</p>
-    <h2>Registry Features</h2>
-    <p>Four simple tools support a more organized artist-opportunity workflow.</p>
+    <h2>Course Features</h2>
+    <p>Four connected tools support opportunity discovery and professional artist readiness.</p>
   </div>
   <div class="features" id="featureGrid" aria-live="polite"></div>
 </section>
@@ -53,28 +51,37 @@
 
 <footer class="site-footer">
   <div class="footer-inner">
-    <div class="footer-brand">VERVE N VEDA · CALL FOR ART REGISTRY</div>
-    <p class="footer-note">Artist-first opportunity discovery · Local-first records · Independent and transparent</p>
-    <div class="footer-links">
-      <a href="https://vervenveda.com/">Verve N Veda</a>
-      <a href="https://vervenveda.com/">Ecosystem Home</a>
-      <a href="call_for_art_registry.html">Open Registry</a>
-    </div>
+    <div class="footer-brand">Khaemenes Academy · Call for Art Registry</div>
+    <p class="footer-note">Artist Opportunity Network · Bazaar Art · Verve N Veda</p>
   </div>
 </footer>
 
-<div class="universal-tools" role="toolbar" aria-label="Universal tools">
-  <button class="tool-btn" id="topBtn" type="button" title="Return to top">↑ Top</button>
-  <button class="tool-btn" id="translateBtn" type="button" aria-expanded="false" aria-controls="translatePanel">Translate</button>
-</div>
-<div class="translate-panel" id="translatePanel" hidden>
-  <h3>Page Translator</h3>
-  <p>Choose a language to translate the page. Translation service is provided externally.</p>
-  <div id="googleTranslateElement"></div>
-</div>
-
-<script src="https://vervenveda.com/assets/vnv-ecosystem-toolbar.js"></script>
+<script>
+window.KhaemenesClassToolsConfigV1=Object.freeze({
+  id:"khaemenes-call-for-art-registry",
+  match:()=>/\/call_for_art_registry\/(?:call_for_art_registry_landing\.html|index\.html)?$/i.test(location.pathname),
+  toggleLabel:"Tools",
+  ariaLabel:"Khaemenes Call for Art Registry tools",
+  tools:[
+    {type:"link",label:"Learner Profile",sub:"Academy learner profile",href:"https://vervenveda.com/Khaemenes_Academy.github.io/student/"},
+    {type:"translator",label:"Translator",sub:"Page language controls"},
+    {type:"ecosystem-list",label:"Creative",sub:"Art and creative resources",filter:{category:"creative",limit:12}},
+    {type:"help",label:"Instructions",sub:"How to use the registry"}
+  ],
+  help:{
+    title:"Call for Art Registry",
+    paragraphs:[
+      "Use the registry to discover and compare art opportunities, then verify every requirement on the official organizer page before applying.",
+      "Translator opens the canonical Verve N Veda language controls inside this lower-left toolbar.",
+      "The lower-right ecosystem toolbar remains the canonical Verve N Veda resource dock."
+    ]
+  }
+});
+</script>
+<script src="https://vervenveda.com/Khaemenes_Linguistics.github.io/assets/khaemenes-translator-loader.js?v=1.1.1" defer></script>
+<script src="https://vervenveda.com/assets/vnv-language.js?v=20261121-half-height" defer></script>
+<script src="https://vervenveda.com/assets/vnv-class-tools-toolbar.js?v=1.6.1" defer></script>
+<script src="https://vervenveda.com/assets/vnv-ecosystem-toolbar.js" defer></script>
 <script type="module" src="assets/registry-app.js"></script>
-<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async></script>
 </body>
 </html>
