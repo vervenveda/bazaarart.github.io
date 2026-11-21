@@ -1,0 +1,23 @@
+{
+  "schema": "bazaar-art-call-registry-trust-policy-v1",
+  "version": "1.0.0",
+  "promises": [
+    "Registry access is free",
+    "No advertising",
+    "No sponsored ranking",
+    "No pay-to-verify badge",
+    "Community ratings never determine verification"
+  ],
+  "statuses": {
+    "verified-current": "Official organizer URL and organizer identity match; deadline/current status checked; fees disclosed; compensation/award information checked when applicable; artist-rights or usage terms reviewed where available; verification is recent enough for the opportunity.",
+    "needs-recheck": "The opportunity may be legitimate, but one or more required checks are missing, stale, or available only through a discovery source.",
+    "flagged": "A material mismatch, misleading term, broken official source, unresolved artist-rights concern, or serious verification problem requires review.",
+    "expired": "Deadline has passed and the call is not recorded as rolling."
+  },
+  "review_policy": {
+    "purpose": "Community reviews document artist experience with a call or host organization.",
+    "separation": "Reviews do not automatically alter validity status.",
+    "moderation": "Public GitHub-hosted reviews may be removed or moderated for privacy violations, threats, spam, impersonation, doxxing, or clearly unrelated content.",
+    "evidence": "Users are encouraged to describe dates, communication, payment, contracts, artwork handling, exhibition follow-through and other concrete experience."
+  }
+}

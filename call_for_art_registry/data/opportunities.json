@@ -1,25 +1,128 @@
 {
   "schema": "bazaar-art-call-for-art-opportunities-v1",
-  "version": "1.0.0",
-  "updated": null,
-  "records": [],
+  "version": "1.1.0",
+  "updated": "2026-11-21",
+  "notice": "Starter discovery leads are intentionally marked Needs Recheck until the official organizer page has been checked against the full registry validity checklist.",
+  "records": [
+    {
+      "id": "aca-byrdcliffe-summer-2027",
+      "title": "Summer 2027 Byrdcliffe Communal Residency",
+      "organizer": "Woodstock Byrdcliffe Guild",
+      "opportunity_type": "Residency",
+      "location": "New York, United States",
+      "remote_or_online": false,
+      "deadline": "2026-11-23",
+      "rolling": false,
+      "application_fee": null,
+      "application_fee_text": "Fee not confirmed",
+      "compensation": null,
+      "eligibility": "See organizer terms",
+      "artist_rights_notes": "Not yet confirmed",
+      "summary": "Discovery lead from Artist Communities Alliance. Verify the organizer page before applying.",
+      "official_url": null,
+      "discovery_url": "https://artistcommunities.org/directory/open-calls",
+      "disciplines": [
+        "Visual Art",
+        "Interdisciplinary"
+      ],
+      "verification": {
+        "status": "needs-recheck",
+        "official_url_checked": null,
+        "organizer_match": null,
+        "deadline_checked": true,
+        "fee_disclosed": null,
+        "compensation_disclosed": null,
+        "rights_checked": null,
+        "checked_at": "2026-11-21",
+        "notes": "Deadline and listing presence confirmed through Artist Communities Alliance; organizer terms still require direct verification."
+      }
+    },
+    {
+      "id": "aca-dorland-end-year-2026",
+      "title": "End of Year! Your Time at Dorland Mountain Arts",
+      "organizer": "Dorland Mountain Arts",
+      "opportunity_type": "Residency",
+      "location": "California, United States",
+      "remote_or_online": false,
+      "deadline": "2026-11-24",
+      "rolling": false,
+      "application_fee": null,
+      "application_fee_text": "Fee not confirmed",
+      "compensation": null,
+      "eligibility": "See organizer terms",
+      "artist_rights_notes": "Not yet confirmed",
+      "summary": "Discovery lead from Artist Communities Alliance. Verify fees, residency terms and official eligibility before applying.",
+      "official_url": null,
+      "discovery_url": "https://artistcommunities.org/directory/open-calls",
+      "disciplines": [
+        "Visual Art",
+        "Writing",
+        "Interdisciplinary"
+      ],
+      "verification": {
+        "status": "needs-recheck",
+        "official_url_checked": null,
+        "organizer_match": null,
+        "deadline_checked": true,
+        "fee_disclosed": null,
+        "compensation_disclosed": null,
+        "rights_checked": null,
+        "checked_at": "2026-11-21",
+        "notes": "Discovery source checked; official organizer-page validation remains open."
+      }
+    },
+    {
+      "id": "aca-wvu-air-2026",
+      "title": "Call for Proposals: WVU AIR",
+      "organizer": "West Virginia University Libraries",
+      "opportunity_type": "Residency",
+      "location": "West Virginia, United States",
+      "remote_or_online": false,
+      "deadline": "2026-11-30",
+      "rolling": false,
+      "application_fee": null,
+      "application_fee_text": "Fee not confirmed",
+      "compensation": null,
+      "eligibility": "See organizer terms",
+      "artist_rights_notes": "Not yet confirmed",
+      "summary": "Discovery lead from Artist Communities Alliance for a university artist-in-residence opportunity.",
+      "official_url": null,
+      "discovery_url": "https://artistcommunities.org/directory/open-calls",
+      "disciplines": [
+        "Visual Art",
+        "Interdisciplinary"
+      ],
+      "verification": {
+        "status": "needs-recheck",
+        "official_url_checked": null,
+        "organizer_match": null,
+        "deadline_checked": true,
+        "fee_disclosed": null,
+        "compensation_disclosed": null,
+        "rights_checked": null,
+        "checked_at": "2026-11-21",
+        "notes": "Listing and deadline confirmed at discovery source; official call details still need verification."
+      }
+    }
+  ],
   "fields": [
     "id",
     "title",
     "organizer",
     "official_url",
+    "discovery_url",
     "opportunity_type",
     "location",
     "remote_or_online",
     "deadline",
     "rolling",
     "application_fee",
+    "application_fee_text",
     "compensation",
     "eligibility",
     "artist_rights_notes",
-    "shipping_or_installation",
-    "status",
-    "verified_at",
-    "notes"
+    "summary",
+    "disciplines",
+    "verification"
   ]
 }

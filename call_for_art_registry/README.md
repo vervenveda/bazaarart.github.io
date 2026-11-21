@@ -1,27 +1,47 @@
 # Call for Art Registry
 
-This folder is the editable Bazaar Art / Verve N Veda Call for Art Registry application.
+A free, ad-free, artist-first opportunity registry for Bazaar Art / Verve N Veda / Khaemenes Academy.
 
-## File map
+## Live pages
 
-- `index.html` — folder entry point; forwards to the landing page.
-- `call_for_art_registry_landing.html` — semantic page shell and visible landing-page content.
-- `assets/registry.css` — all landing-page presentation and responsive styles.
-- `assets/registry-app.js` — page behavior, canonical VNV ticker/header mounting, feature rendering and translator controls.
-- `data/registry-config.json` — editable navigation, feature cards, registry paths and verification warning.
-- `data/opportunities.json` — reserved source of truth for live opportunity records when the operational registry is built.
-- `data/sources.json` — reserved source of truth for discovery sources and source metadata.
+- `index.html` — folder entry point.
+- `call_for_art_registry_landing.html` — Academy-standard landing page.
+- `call_for_art_registry.html` — full operational registry.
 
-## Editing rule
+## Application files
 
-Content/data belongs in `data/` whenever practical. Layout belongs in HTML. Presentation belongs in CSS. Behavior belongs in JavaScript. This keeps the registry easy to edit without reopening one large monolithic HTML file.
+- `assets/registry.css` — landing-page presentation.
+- `assets/registry-app.js` — landing-page behavior.
+- `assets/registry-main.css` — operational registry presentation.
+- `assets/registry-main.js` — search, filtering, validation display, user records, reviews, import/export and community submission behavior.
 
-## Current status
+## Data
 
-The landing page is fully split and remains available at its original path.
+- `data/opportunities.json` — registry opportunity records.
+- `data/sources.json` — trusted discovery-source directory.
+- `data/trust-policy.json` — verification and community-review policy.
+- `data/registry-config.json` — landing-page configuration.
 
-The operational `call_for_art_registry.html` calendar/tracker application referenced by the landing page does not yet exist in this folder. The next build should create it from the reserved data contracts rather than putting the entire application back into one HTML file.
+## Core promises
 
-## Opportunity verification
+1. Registry access is free.
+2. No ads.
+3. No sponsored ranking.
+4. No pay-to-verify badge.
+5. Application fees charged by outside organizations are disclosed and filterable.
+6. Validity evidence is separate from community ratings.
+7. Artist records stay local to the browser unless the artist exports or chooses to publish a community remark.
+8. Public community remarks are submitted through GitHub issues; no private token is collected by this static site.
 
-The registry is a discovery and tracking tool. Students and artists should confirm deadlines, eligibility, fees, compensation, rights, shipping/installation requirements and application rules on the official organizer page before acting.
+## Verification states
+
+- **Verified Current** — required official-source checks are complete and current.
+- **Needs Recheck** — missing/stale checks or discovery-source-only evidence.
+- **Flagged** — material concern requiring review.
+- **Expired** — passed deadline and not rolling.
+
+## Community reviews
+
+Artists can save a private local review immediately. They can optionally publish the review as a prefilled GitHub issue. The registry reads public review issues whose titles begin with `[CALL REVIEW]`.
+
+Reviews are experience reports and do not automatically determine the validity badge.

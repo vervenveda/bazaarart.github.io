@@ -1,7 +1,36 @@
 {
   "schema": "bazaar-art-call-for-art-sources-v1",
-  "version": "1.0.0",
-  "sources": [],
+  "version": "1.1.0",
+  "updated": "2026-11-21",
+  "sources": [
+    {
+      "id": "creative-capital",
+      "name": "Creative Capital · Artist Opportunities",
+      "url": "https://creative-capital.org/artist-resources/artist-opportunities/",
+      "scope": "Grants, residencies, fellowships and open calls",
+      "access": "Free public listing",
+      "notes": "Continually updated artist-opportunity resource. Treat each listing as discovery evidence and verify final terms with the organizer.",
+      "last_checked": "2026-11-21"
+    },
+    {
+      "id": "artist-communities-alliance",
+      "name": "Artist Communities Alliance · Open Calls",
+      "url": "https://artistcommunities.org/directory/open-calls",
+      "scope": "Artist residencies",
+      "access": "Free public listing",
+      "notes": "Deadline and ongoing residency-call directories. ACA notes that its listings represent member programs; verify each program's own application terms.",
+      "last_checked": "2026-11-21"
+    },
+    {
+      "id": "cafe",
+      "name": "CaFÉ · CallForEntry.org",
+      "url": "https://www.callforentry.org/",
+      "scope": "Public art, exhibitions and calls for entry",
+      "access": "Free artist discovery; individual call fees may vary",
+      "notes": "Widely used application platform for arts organizations and public-art programs. Registry records application fees separately from platform access.",
+      "last_checked": "2026-11-21"
+    }
+  ],
   "fields": [
     "id",
     "name",

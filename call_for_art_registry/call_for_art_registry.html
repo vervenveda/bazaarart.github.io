@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Free, ad-free Call for Art Registry with transparent validity checks, deadline tracking, artist-owned records, and community experience reviews.">
+<meta name="theme-color" content="#252421">
+<title>Call for Art Registry | Khaemenes Academy</title>
+<link rel="stylesheet" href="assets/registry-main.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to registry</a>
+
+<script src="https://vervenveda.com/assets/vnv-333-ticker.js"></script>
+<script src="https://vervenveda.com/assets/vnv-ticker-autopopulate.js" data-vnv-ticker-autopopulate></script>
+<script src="https://vervenveda.com/assets/vnv-header-autopopulate.js"></script>
+
+<section class="page-hero" id="top">
+  <div class="hero-inner">
+    <p class="hero-eyebrow">Khaemenes Academy</p>
+    <h1>Call for Art Registry</h1>
+    <p class="hero-description">Free · No Ads · No Sponsored Ranking · Artist-First Opportunity Intelligence</p>
+    <div class="academy-access-grid" aria-label="Academy access">
+      <a class="academy-access-btn" href="https://vervenveda.com/Khaemenes_Academy.github.io/student/">Learner Profile</a>
+      <a class="academy-access-btn" href="https://vervenveda.com/Khaemenes_Academy.github.io/family/">Parent Profile</a>
+      <a class="academy-access-btn" href="https://vervenveda.com/Khaemenes_Academy.github.io/adult/enroll/">Enrollment</a>
+    </div>
+  </div>
+</section>
+
+<main id="main">
+<section class="trust-strip" aria-label="Registry promises">
+  <div>No membership fee</div><div>No advertising</div><div>No paid placement</div><div>Validity evidence shown</div>
+</section>
+
+<section class="section intro-section">
+  <div class="section-heading">
+    <h2>Find Opportunities Worth Your Time</h2>
+    <p>Search art calls, exhibitions, grants, residencies, commissions, public-art opportunities and markets. Every listing separates verified facts from community remarks so artists can judge the opportunity for themselves.</p>
+  </div>
+</section>
+
+<section class="registry-shell" aria-label="Call for Art Registry">
+  <aside class="filters-card">
+    <h2>Search &amp; Filters</h2>
+    <label>Search
+      <input id="searchInput" type="search" placeholder="title, organizer, city, medium…">
+    </label>
+    <label>Opportunity type
+      <select id="typeFilter"><option value="">All types</option></select>
+    </label>
+    <label>Location
+      <select id="locationFilter"><option value="">All locations</option></select>
+    </label>
+    <label>Validity
+      <select id="validityFilter">
+        <option value="">All statuses</option>
+        <option value="verified-current">Verified Current</option>
+        <option value="needs-recheck">Needs Recheck</option>
+        <option value="flagged">Flagged</option>
+      </select>
+    </label>
+    <label class="check-line"><input id="noFeeFilter" type="checkbox"> No application fee only</label>
+    <label class="check-line"><input id="openOnlyFilter" type="checkbox" checked> Open / rolling only</label>
+    <button class="btn btn-charcoal" id="clearFilters" type="button">Clear Filters</button>
+    <hr>
+    <h3>Artist Tools</h3>
+    <button class="btn btn-cream" id="submitOpportunityBtn" type="button">Submit an Opportunity</button>
+    <button class="btn btn-cream" id="exportBtn" type="button">Export My Registry Records</button>
+    <label class="btn btn-cream file-btn">Import My Records<input id="importInput" type="file" accept="application/json" hidden></label>
+  </aside>
+
+  <section class="results-area">
+    <div class="stats-grid" aria-label="Registry summary">
+      <article class="stat-card"><strong id="statOpen">0</strong><span>Open calls</span></article>
+      <article class="stat-card"><strong id="statVerified">0</strong><span>Verified current</span></article>
+      <article class="stat-card"><strong id="statNoFee">0</strong><span>No-fee calls</span></article>
+      <article class="stat-card"><strong id="statSaved">0</strong><span>Saved by you</span></article>
+    </div>
+
+    <div class="results-heading">
+      <div><h2>Opportunity Registry</h2><p id="resultSummary">Loading opportunities…</p></div>
+      <select id="sortSelect" aria-label="Sort opportunities">
+        <option value="deadline">Deadline soonest</option>
+        <option value="verified">Validity first</option>
+        <option value="newest">Recently checked</option>
+        <option value="title">Title A–Z</option>
+      </select>
+    </div>
+
+    <div id="opportunityGrid" class="opportunity-grid" aria-live="polite"></div>
+    <div id="emptyState" class="empty-state" hidden>No calls match the current filters.</div>
+  </section>
+</section>
+
+<section class="section" id="sources">
+  <div class="section-heading">
+    <h2>Trusted Discovery Sources</h2>
+    <p>Sources help us discover opportunities, but the registry still distinguishes a discovery listing from verification on the official organizer page.</p>
+  </div>
+  <div id="sourceGrid" class="source-grid"></div>
+</section>
+
+<section class="section" id="reviews">
+  <div class="section-heading">
+    <h2>Community Experience Reviews</h2>
+    <p>Artist remarks are shown as lived experience, not as proof that a call is valid or invalid. Public remarks can be moderated by the repository owner; local remarks remain in the artist’s own browser and exports.</p>
+  </div>
+  <div class="policy-grid">
+    <article><h3>Validity ≠ Popularity</h3><p>Verification checks official facts. Reviews describe artist experience. They are intentionally separate.</p></article>
+    <article><h3>Respectful, Specific Remarks</h3><p>Describe what happened: communication, payment, exhibition handling, deadlines, contracts and follow-through. Avoid doxxing or unsupported accusations.</p></article>
+  </div>
+</section>
+
+<div class="resource-note">The registry itself is always free and ad-free. Individual organizations may charge application fees; those fees are disclosed and filterable. Always confirm the organizer’s official terms before applying.</div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">Khaemenes Academy · Call for Art Registry</div>
+    <p class="footer-note">Bazaar Art · Verve N Veda · Free artist opportunity intelligence</p>
+  </div>
+</footer>
+
+<dialog id="opportunityDialog" class="registry-dialog">
+  <button class="dialog-close" data-close-dialog aria-label="Close">×</button>
+  <div id="opportunityDetail"></div>
+</dialog>
+
+<dialog id="reviewDialog" class="registry-dialog">
+  <button class="dialog-close" data-close-dialog aria-label="Close">×</button>
+  <div id="reviewDialogBody"></div>
+</dialog>
+
+<dialog id="submitDialog" class="registry-dialog">
+  <button class="dialog-close" data-close-dialog aria-label="Close">×</button>
+  <div class="dialog-content">
+    <h2>Submit an Opportunity</h2>
+    <p>Community submissions are suggestions for review. They do not receive a Verified Current badge until the validity checklist is completed.</p>
+    <form id="submitForm" class="form-grid">
+      <label>Opportunity title<input name="title" required></label>
+      <label>Organizer<input name="organizer" required></label>
+      <label>Official URL<input name="url" type="url" required></label>
+      <label>Deadline<input name="deadline" type="date"></label>
+      <label>Application fee<input name="fee" placeholder="$0, $25, unknown…"></label>
+      <label>Location<input name="location" placeholder="City, state/country or online"></label>
+      <label class="full">Notes<textarea name="notes" rows="5" placeholder="Eligibility, compensation, artist rights, why this should be reviewed…"></textarea></label>
+      <div class="full form-actions">
+        <button class="btn btn-charcoal" type="submit">Prepare Community Submission</button>
+      </div>
+    </form>
+  </div>
+</dialog>
+
+<script>
+window.KhaemenesClassToolsConfigV1=Object.freeze({
+  id:"khaemenes-call-for-art-registry-app",
+  match:()=>/\/call_for_art_registry\/call_for_art_registry\.html$/i.test(location.pathname),
+  toggleLabel:"Tools",
+  ariaLabel:"Call for Art Registry tools",
+  tools:[
+    {type:"link",label:"Learner Profile",sub:"Academy learner profile",href:"https://vervenveda.com/Khaemenes_Academy.github.io/student/"},
+    {type:"translator",label:"Translator",sub:"Page language controls"},
+    {type:"ecosystem-list",label:"Creative",sub:"Art and creative resources",filter:{category:"creative",limit:12}},
+    {type:"help",label:"Instructions",sub:"How to use the registry"}
+  ],
+  help:{title:"Call for Art Registry",paragraphs:[
+    "Use filters to narrow opportunities. A validity badge reflects documented checks, not community popularity.",
+    "Save calls and application status locally, then export your records whenever you want a portable backup.",
+    "Community reviews describe artist experience. Always verify current terms on the official organizer page."
+  ]}
+});
+</script>
+<script src="https://vervenveda.com/Khaemenes_Linguistics.github.io/assets/khaemenes-translator-loader.js?v=1.1.1" defer></script>
+<script src="https://vervenveda.com/assets/vnv-language.js?v=20261121-half-height" defer></script>
+<script src="https://vervenveda.com/assets/vnv-class-tools-toolbar.js?v=1.6.1" defer></script>
+<script src="https://vervenveda.com/assets/vnv-ecosystem-toolbar.js" defer></script>
+<script type="module" src="assets/registry-main.js"></script>
+</body>
+</html>
