@@ -1,0 +1,25 @@
+{
+  "schema": "bazaar-art-call-for-art-opportunities-v1",
+  "version": "1.0.0",
+  "updated": null,
+  "records": [],
+  "fields": [
+    "id",
+    "title",
+    "organizer",
+    "official_url",
+    "opportunity_type",
+    "location",
+    "remote_or_online",
+    "deadline",
+    "rolling",
+    "application_fee",
+    "compensation",
+    "eligibility",
+    "artist_rights_notes",
+    "shipping_or_installation",
+    "status",
+    "verified_at",
+    "notes"
+  ]
+}

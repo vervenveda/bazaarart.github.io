@@ -1,0 +1,14 @@
+{
+  "schema": "bazaar-art-call-for-art-sources-v1",
+  "version": "1.0.0",
+  "sources": [],
+  "fields": [
+    "id",
+    "name",
+    "url",
+    "scope",
+    "access",
+    "notes",
+    "last_checked"
+  ]
+}

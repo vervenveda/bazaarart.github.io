@@ -1,0 +1,62 @@
+{
+  "version": "1.0.0",
+  "registry": {
+    "name": "Call for Art Registry",
+    "subtitle": "Artist Opportunity Network",
+    "canonicalHome": "https://vervenveda.com/",
+    "applicationPath": "call_for_art_registry.html",
+    "warning": "Always confirm deadlines, eligibility, fees, compensation, artist rights, shipping, installation and application requirements on the official organizer page."
+  },
+  "tickerLinks": [
+    {
+      "label": "Registry Home",
+      "href": "#top"
+    },
+    {
+      "label": "Open Calendar Registry",
+      "href": "call_for_art_registry.html"
+    },
+    {
+      "label": "Discovery Sources",
+      "href": "call_for_art_registry.html#sources"
+    },
+    {
+      "label": "About",
+      "href": "#about"
+    },
+    {
+      "label": "Features",
+      "href": "#features"
+    }
+  ],
+  "features": [
+    {
+      "icon": "◷",
+      "title": "Calendar & Deadline Radar",
+      "description": "View upcoming calls by month, identify deadlines approaching soon, and keep rolling opportunities visible.",
+      "label": "Open Calendar →",
+      "href": "call_for_art_registry.html#calendar"
+    },
+    {
+      "icon": "⌕",
+      "title": "Worldwide Discovery",
+      "description": "Explore international, national, regional, local, and online sources for commissions, grants, shows, and residencies.",
+      "label": "Browse Sources →",
+      "href": "call_for_art_registry.html#sources"
+    },
+    {
+      "icon": "◇",
+      "title": "Access & Fee Transparency",
+      "description": "Compare resources labeled Free, Account Required, Paid, or Free with optional paid features—and record opportunity application fees separately.",
+      "label": "Review Access →",
+      "href": "call_for_art_registry.html#sources"
+    },
+    {
+      "icon": "▣",
+      "title": "Artist-Owned Records",
+      "description": "Track application status, official links, eligibility, compensation, notes, and verification. Export and restore local JSON backups.",
+      "label": "Open Registry →",
+      "href": "call_for_art_registry.html"
+    }
+  ]
+}
