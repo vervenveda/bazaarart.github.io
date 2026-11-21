@@ -1,12 +1,12 @@
 const REPO="vervenveda/bazaarart.github.io";
 const DATA_URL=new URL("../../data/opportunities.json",import.meta.url);
-const POLICY_URL=new URL("../../data/trust-policy.json",import.meta.url);
+const POLICY_URL=new URL("../../data/trust-policy.json",import.meta.url);\nconst FRESHNESS_URL=new URL("../../data/freshness-report.json",import.meta.url);
 const STORAGE_KEY="bazaarArtVerificationWorkbenchV1";
 const SUBMISSION_PREFIX="[CALL SUBMISSION]";
 const REQUIRED_CHECKS=["official_url_checked","organizer_match","deadline_checked","fee_disclosed","compensation_disclosed","rights_checked"];
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
-let baseData={records:[]},policy={},submissions=[],selectedKey=null;
+let baseData={records:[]},policy={},freshness={counts:{},items:[]},submissions=[],selectedKey=null;
 let state=loadState();
 
 function loadState(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY))||{drafts:{},log:[]}}catch{return{drafts:{},log:[]}}}
@@ -83,12 +83,19 @@ async function importDraft(e){const f=e.target.files?.[0];if(!f)return;try{const
 function clearWorkbench(){if(!confirm("Clear all local review drafts and the local audit log? The public registry will not be affected."))return;state={drafts:{},log:[]};selectedKey=null;saveState();$("#reviewForm").hidden=true;$("#emptyReview").hidden=false;renderQueue()}
 function renderPublishStats(){const ds=Object.values(state.drafts);$("#draftCount").textContent=ds.length;$("#verifiedDraftCount").textContent=ds.filter(d=>d.verification?.status==="verified-current"&&verificationReady(d)).length;$("#logCount").textContent=state.log.length}
 function renderAudit(){const root=$("#auditLog");root.innerHTML=state.log.length?state.log.map(x=>`<article class="audit-entry"><header><strong>${esc(x.title)}</strong><small>${esc(x.at.slice(0,19).replace("T"," "))}</small></header><p>${esc(labelStatus(x.before))} → ${esc(labelStatus(x.after))} · ${esc(x.reviewer)}</p><p>${esc(x.reason)}</p></article>`).join(""):'<div class="resource-note">No local review actions yet.</div>'}
+
+function renderFreshness(){
+ const c=freshness.counts||{};$("#freshReview").textContent=c.review_queue||0;$("#freshUrgent").textContent=c.urgent||0;$("#freshStale").textContent=c.stale||0;$("#freshLinks").textContent=c.link_issues||0;
+ $("#freshMeta").textContent=freshness.generated_at?"Last automated audit: "+freshness.generated_at.replace("T"," ").replace("Z"," UTC"):"Freshness report has not run yet.";
+ const root=$("#freshnessList"),items=freshness.items||[];root.innerHTML=items.length?items.slice(0,20).map(x=>`<article class="freshness-item"><div><strong>${esc(x.title)}</strong><small>${esc(x.organizer||"Organizer not recorded")} · ${esc(x.status)} · ${esc(x.priority)}</small></div><ul>${(x.reasons||[]).map(r=>"<li>"+esc(r)+"</li>").join("")}</ul></article>`).join(""):'<div class="resource-note">No automated freshness concerns are currently queued.</div>';
+}
+
 function moveTranslator(){const m=document.querySelector("#vnvClassToolsToolbar [data-vnv-language-mount]"),l=document.getElementById("vnv-language-switch");if(m&&l&&!m.contains(l))m.append(l)}
 async function boot(){
- [baseData,policy]=await Promise.all([getJSON(DATA_URL),getJSON(POLICY_URL)]);submissions=await loadSubmissions();
+ [baseData,policy,freshness]=await Promise.all([getJSON(DATA_URL),getJSON(POLICY_URL),getJSON(FRESHNESS_URL).catch(()=>({counts:{},items:[]}))]);submissions=await loadSubmissions();
  window.VNV_TICKER?.autoPopulate?.({label:"Verification Workbench · Quick Links",max:8,links:[{label:"Queue",href:"#main"},{label:"Public Registry",href:"../call_for_art_registry.html"},{label:"GitHub Issues",href:"https://github.com/vervenveda/bazaarart.github.io/issues"}]});
  window.VNV_HEADER?.mount?.({title:"Khaemenes Academy",subtitle:"Call for Art Verification Workbench",icon:"KA",home:"https://vervenveda.com/Khaemenes_Academy.github.io/",actions:[],replaceLegacy:true});
  $("#queueSearch").addEventListener("input",renderQueue);$("#queueFilter").addEventListener("change",renderQueue);$("#refreshQueue").onclick=async()=>{submissions=await loadSubmissions();renderQueue()};$("#reviewForm").addEventListener("submit",saveDraft);$("#resetDraft").onclick=resetDraft;document.querySelectorAll("[data-check]").forEach(s=>s.addEventListener("change",()=>updateCheckRow(s)));$("#exportPackage").onclick=exportPackage;$("#importDraft").onchange=importDraft;$("#clearWorkbench").onclick=clearWorkbench;
- renderQueue();renderPublishStats();renderAudit();moveTranslator();window.addEventListener("load",moveTranslator,{once:true});setTimeout(moveTranslator,500)
+ renderFreshness();renderQueue();renderPublishStats();renderAudit();moveTranslator();window.addEventListener("load",moveTranslator,{once:true});setTimeout(moveTranslator,500)
 }
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",()=>boot().catch(console.error),{once:true});else boot().catch(console.error);

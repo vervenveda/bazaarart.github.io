@@ -1,0 +1,47 @@
+name: Call for Art Registry Freshness Audit
+
+on:
+  schedule:
+    - cron: '17 12 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'call_for_art_registry/data/opportunities.json'
+      - 'call_for_art_registry/data/freshness-policy.json'
+      - 'call_for_art_registry/scripts/freshness_audit.py'
+      - '.github/workflows/call-for-art-registry-freshness.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: call-for-art-registry-freshness
+  cancel-in-progress: true
+
+jobs:
+  freshness:
+    name: Audit deadlines, verification age and official links
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout registry
+        uses: actions/checkout@v4
+      - name: Run deterministic freshness audit
+        run: python3 call_for_art_registry/scripts/freshness_audit.py
+      - name: Validate generated JSON
+        run: |
+          python3 -m json.tool call_for_art_registry/data/opportunities.json >/dev/null
+          python3 -m json.tool call_for_art_registry/data/freshness-report.json >/dev/null
+          python3 -m json.tool call_for_art_registry/data/freshness-policy.json >/dev/null
+      - name: Commit freshness state
+        run: |
+          git config user.name "Bazaar Art Registry Freshness Guardian"
+          git config user.email "registry@vervenveda.com"
+          git add call_for_art_registry/data/opportunities.json                   call_for_art_registry/data/freshness-report.json                   call_for_art_registry/admin/freshness-queue.md
+          if git diff --cached --quiet; then
+            echo "No freshness changes to publish."
+          else
+            git commit -m "Refresh Call for Art registry freshness queue"
+            git push
+          fi

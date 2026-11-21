@@ -1,0 +1,17 @@
+{
+  "schema": "bazaar-art-registry-freshness-policy-v1",
+  "version": "1.0.0",
+  "verification_max_age_days": 30,
+  "approaching_deadline_days": 14,
+  "urgent_deadline_days": 7,
+  "http_timeout_seconds": 12,
+  "link_check_user_agent": "BazaarArtRegistryFreshness/1.0 (+https://vervenveda.com/)",
+  "rules": {
+    "auto_upgrade": false,
+    "stale_verified_current": "downgrade-to-needs-recheck",
+    "unreachable_verified_current": "downgrade-to-needs-recheck",
+    "past_deadline_nonrolling": "mark-expired",
+    "broken_link": "queue-for-human-review",
+    "flagged_status": "never-created-automatically"
+  }
+}
