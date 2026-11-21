@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from pathlib import Path
 import json,re
-ROOT=Path(__file__).resolve().parents[2]
+ROOT=Path(__file__).resolve().parents[1]
 REPORT=ROOT/"tests/bazaar-toolbar-sync-report.json"
 ROUTER="https://vervenveda.com/bazaarart.github.io/assets/bazaar-page-tools.js?v=1.0.0"
 TRANSLATOR="https://vervenveda.com/Khaemenes_Linguistics.github.io/assets/khaemenes-translator-loader.js?v=1.1.1"
@@ -12,7 +12,10 @@ def tag(src): return f'<script src="{src}" defer></script>'
 def strip_named(s,needle):
     return re.sub(r'<script\b[^>]*src=["\'][^"\']*'+re.escape(needle)+r'[^"\']*["\'][^>]*>\s*</script>\s*','',s,flags=re.I)
 def strip_local_config(s):
-    return re.sub(r'<script>(?=[\s\S]*?KhaemenesClassToolsConfigV1)[\s\S]*?</script>\s*','',s,flags=re.I)
+    blocks=re.compile(r'<script(?:\s[^>]*)?>([\s\S]*?)</script>\s*',re.I)
+    def repl(m):
+        return "" if "KhaemenesClassToolsConfigV1" in m.group(1) else m.group(0)
+    return blocks.sub(repl,s)
 
 files=[]
 for p in ROOT.rglob("*.html"):

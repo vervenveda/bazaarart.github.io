@@ -26,7 +26,7 @@ jobs:
         run: |
           git config user.name "Bazaar Art Toolbar Guardian"
           git config user.email "bazaar@vervenveda.com"
-          git add '*.html' academy apps call_for_art_registry classes tests/bazaar-toolbar-sync-report.json 2>/dev/null || true
+          git add index.html academy apps call_for_art_registry classes tests/bazaar-toolbar-sync-report.json
           if git diff --cached --quiet; then
             echo "No Bazaar toolbar changes required."
           else
