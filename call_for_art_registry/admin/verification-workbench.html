@@ -200,25 +200,7 @@
   <p>Internal review surface · Bazaar Art · Verve N Veda</p>
 </footer>
 
-<script>
-window.KhaemenesClassToolsConfigV1=Object.freeze({
-  id:"khaemenes-call-registry-verification-workbench",
-  match:()=>/\/call_for_art_registry\/admin\/verification-workbench\.html$/i.test(location.pathname),
-  toggleLabel:"Tools",
-  ariaLabel:"Call registry verification tools",
-  tools:[
-    {type:"link",label:"Public Registry",sub:"Open artist-facing registry",href:"../call_for_art_registry.html"},
-    {type:"translator",label:"Translator",sub:"Page language controls"},
-    {type:"ecosystem-list",label:"Creative",sub:"Art and creative resources",filter:{category:"creative",limit:12}},
-    {type:"help",label:"Instructions",sub:"Verification workflow"}
-  ],
-  help:{title:"Verification Workbench",paragraphs:[
-    "Select a record, confirm official facts, and document evidence for each validity check.",
-    "Verified Current is fail-closed and cannot be saved unless every required check passes.",
-    "Export produces reviewed registry data plus a traceable audit log; the workbench itself never writes to GitHub."
-  ]}
-});
-</script>
+<script src="https://vervenveda.com/bazaarart.github.io/assets/bazaar-page-tools.js?v=1.0.0" defer></script>
 <script src="https://vervenveda.com/Khaemenes_Linguistics.github.io/assets/khaemenes-translator-loader.js?v=1.1.1" defer></script>
 <script src="https://vervenveda.com/assets/vnv-language.js?v=20261121-half-height" defer></script>
 <script src="https://vervenveda.com/assets/vnv-class-tools-toolbar.js?v=1.6.1" defer></script>

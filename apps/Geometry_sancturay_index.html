@@ -150,6 +150,10 @@ $('saveReflection').onclick=()=>{const text=$('notes').value.trim();if(!text)ret
 $('exportNotes').onclick=()=>{const text=[...state.prompts.map(x=>'PROMPT\n'+x.text),...state.reflections.map(x=>'REFLECTION\n'+x.text)].join('\n\n');const blob=new Blob([text],{type:'text/plain'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='sacred_geometry_notes.txt';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
 </script>
 
+<script src="https://vervenveda.com/bazaarart.github.io/assets/bazaar-page-tools.js?v=1.0.0" defer></script>
+<script src="https://vervenveda.com/Khaemenes_Linguistics.github.io/assets/khaemenes-translator-loader.js?v=1.1.1" defer></script>
+<script src="https://vervenveda.com/assets/vnv-language.js?v=20261121-half-height" defer></script>
+<script src="https://vervenveda.com/assets/vnv-class-tools-toolbar.js?v=1.6.1" defer></script>
 <script src="https://vervenveda.com/assets/vnv-ecosystem-toolbar.js"></script>
 </body>
 </html>

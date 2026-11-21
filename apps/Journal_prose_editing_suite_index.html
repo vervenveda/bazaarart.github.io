@@ -2565,7 +2565,11 @@
     const doc = getDoc();
     const html = "<!doctype html><html><head><meta charset='utf-8'><title>"+
       escapeTitleText(doc.title || "prose-document")+
-      "</title></head><body>"+doc.content+"<script src="https://vervenveda.com/assets/vnv-ecosystem-toolbar.js"></script>
+      "</title></head><body>"+doc.content+"<script src="https://vervenveda.com/bazaarart.github.io/assets/bazaar-page-tools.js?v=1.0.0" defer></script>
+<script src="https://vervenveda.com/Khaemenes_Linguistics.github.io/assets/khaemenes-translator-loader.js?v=1.1.1" defer></script>
+<script src="https://vervenveda.com/assets/vnv-language.js?v=20261121-half-height" defer></script>
+<script src="https://vervenveda.com/assets/vnv-class-tools-toolbar.js?v=1.6.1" defer></script>
+<script src="https://vervenveda.com/assets/vnv-ecosystem-toolbar.js"></script>
 </body></html>";
     exportFile(safeFilename(doc.title)+".html", html, "text/html");
   };

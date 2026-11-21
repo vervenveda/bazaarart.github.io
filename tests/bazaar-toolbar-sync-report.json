@@ -1,0 +1,883 @@
+{
+  "schema": "bazaar-art-toolbar-sync-v1",
+  "html_files": 95,
+  "files_changed": 95,
+  "fully_synced": 93,
+  "missing_or_duplicate": [
+    {
+      "path": "apps/Class_art_education_portal_index.html",
+      "router": 3,
+      "translator": 3,
+      "language": 3,
+      "class_tools": 3,
+      "ecosystem": 0,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/art-education.html",
+      "router": 3,
+      "translator": 3,
+      "language": 3,
+      "class_tools": 3,
+      "ecosystem": 0,
+      "local_config_blocks": 0
+    }
+  ],
+  "rows": [
+    {
+      "path": "index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/photo_album_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/SpinSpire_Art_Prompt_Generator_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/Inspiration_Kind_of_Creator_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/Game_palette_forge_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/Forge_affirmations_zen_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/Class_music_reading_101_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/Game_kids_mirror_me_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/Class_music_hall_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/art_tool_sketch_lab_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/Art_resources_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/Class_art_301_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/Class_art_101_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/Elementary_Art_Atlas_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/Class_art_201_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/Journal_teen_girls_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/Class_art_education_portal_index.html",
+      "router": 3,
+      "translator": 3,
+      "language": 3,
+      "class_tools": 3,
+      "ecosystem": 0,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/Class_art_hall_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/Class_music_staff_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/Word_alchemy_game_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/art_tool_advanced_sketch_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/Journal_prose_editing_suite_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/Art_simple_color_studio_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/SixBitBun_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/Act_of_Kindness_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/Inspiration_wheel_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/Affirmations_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/Forge_affirmations_dark_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/Journal_teen_boys_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/art_tool_color_studio_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/art_tool_trace_draw_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/Class_music_theory_201_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/art-education.html",
+      "router": 3,
+      "translator": 3,
+      "language": 3,
+      "class_tools": 3,
+      "ecosystem": 0,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/art_tool_Sagaen\u2122_art_studio_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/Geometry_sancturay_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "call_for_art_registry/call_for_art_registry.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "call_for_art_registry/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 0,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "call_for_art_registry/call_for_art_registry_landing.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/templates/art101-lesson-template.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-12/unit-01/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-12/unit-01/week-01/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-11/unit-01/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-11/unit-01/week-01/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-9/unit-01/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-9/unit-03/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-9/unit-05/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-9/unit-04/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-9/unit-08/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-9/unit-06/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-9/unit-07/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-9/unit-10/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-9/unit-02/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-9/unit-09/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-9/unit-09/week-24/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-9/unit-09/week-25/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-9/unit-09/week-23/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-9/unit-02/week-02/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-9/unit-02/week-04/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-9/unit-02/week-03/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-9/unit-10/week-26/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-9/unit-07/week-18/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-9/unit-07/week-19/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-9/unit-07/week-17/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-9/unit-06/week-16/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-9/unit-06/week-14/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-9/unit-06/week-15/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-9/unit-08/week-22/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-9/unit-08/week-21/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-9/unit-08/week-20/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-9/unit-04/week-08/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-9/unit-04/week-09/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-9/unit-04/week-10/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-9/unit-05/week-13/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-9/unit-05/week-11/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-9/unit-05/week-12/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-9/unit-03/week-05/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-9/unit-03/week-06/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-9/unit-03/week-07/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-9/unit-01/week-01/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-10/unit-01/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "academy/grade-10/unit-01/week-01/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "call_for_art_registry/admin/verification-workbench.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/instruments/vintage-spinet_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/instruments/mini-spinet_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/instruments/mini-keyboard_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/instruments/pro-keyboard_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/instruments/modern-spinet_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/Photo_Album_Studio/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/composition/staff-studio_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/composition/vivoser-composer_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/publishing/song-embedder_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/sound-labs/frequency-tuner_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "apps/sound-labs/dual-frequency_index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    },
+    {
+      "path": "classes/art-class/index.html",
+      "router": 1,
+      "translator": 1,
+      "language": 1,
+      "class_tools": 1,
+      "ecosystem": 1,
+      "local_config_blocks": 0
+    }
+  ]
+}
