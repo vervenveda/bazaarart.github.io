@@ -24,7 +24,7 @@ Teach art as sustained inquiry, skilled making, critical visual literacy, cultur
 | Grade 12 | Advanced Studio, Portfolio & Exhibition | 36 weeks | Sustained inquiry, critique, curated exhibition |
 | Adults | Modular, self-paced creative electives | Flexible | Optional independent portfolio |
 
-These are planned sequences; only Grade 9 Unit 01 currently has a dedicated weekly interactive studio page.
+These are developmental sequences. Grade 9 now has implemented weekly studio pages through Week 36 across a live 13-unit sequence. See GRADE9_CANONICAL_36_WEEK_MAP.md for the canonical Grade 9 map.
 
 ## Required weekly anatomy (grades 6–12)
 1. Essential question, measurable artistic/critical objectives, and prerequisites.
@@ -48,7 +48,7 @@ These are planned sequences; only Grade 9 Unit 01 currently has a dedicated week
 ## Academic Evidence Convention
 Each printable/exportable packet identifies Academy, learner (optional until authenticated), date, grade, course, unit, week, lesson; research question; cited sources; vocabulary; studies and materials; observations/calculations/writing; claims and limitations; interdisciplinary connections; parent/teacher review; artwork references and revision history. Public browser storage is not authenticated identity or secure cross-device synchronization.
 
-## Grade 9 — 36-week unit map
+## Grade 9 — historical planning map (superseded by GRADE9_CANONICAL_36_WEEK_MAP.md)
 | Unit | Weeks | Studio focus | Culminating artifact |
 | --- | --- | --- | --- |
 | 01 | 01–04 | Seeing and visual inquiry | Four annotated observation studies and critique |
@@ -87,5 +87,5 @@ Every tool must have a verified route, a declared instructional objective, acces
 7. Link and tool registry validation; no broken or placeholder buttons.
 8. Explicit release approval after evidence is recorded.
 
-## Next implementation sequence
-First strengthen Grade 9 Unit 01: add original illustrated worked examples, objective-tagged item feedback, week-specific checks, robust note autosave, accessible studio controls, and rubric. Then build Unit 02, run the same regression suite, and extend systematically. Do not claim 36 weeks of full lesson content based only on the 36-week course map.
+## Current implementation sequence
+Grade 9 now has a full Week 01–36 source path. Next work is a forensic consistency pass across Weeks 01–36, High School mastery/portfolio integration, and then Grade 10 buildout using the same curriculum standard.
