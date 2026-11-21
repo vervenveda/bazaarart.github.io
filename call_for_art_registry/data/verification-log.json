@@ -1,0 +1,6 @@
+{
+  "schema": "bazaar-art-call-registry-verification-log-v1",
+  "version": "1.0.0",
+  "note": "Published registry verification history. Workbench-local drafts and actions are not authoritative until reviewed and committed.",
+  "entries": []
+}

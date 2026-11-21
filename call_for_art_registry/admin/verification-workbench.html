@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Administrative validity-review workbench for the Bazaar Art Call for Art Registry.">
+<meta name="theme-color" content="#252421">
+<title>Call for Art Verification Workbench | Khaemenes Academy</title>
+<link rel="stylesheet" href="assets/verification-workbench.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to workbench</a>
+
+<script src="https://vervenveda.com/assets/vnv-333-ticker.js"></script>
+<script src="https://vervenveda.com/assets/vnv-ticker-autopopulate.js" data-vnv-ticker-autopopulate></script>
+<script src="https://vervenveda.com/assets/vnv-header-autopopulate.js"></script>
+
+<section class="page-hero" id="top">
+  <div class="hero-inner">
+    <p class="hero-eyebrow">Khaemenes Academy</p>
+    <h1>Verification Workbench</h1>
+    <p class="hero-description">Call for Art Registry · Evidence Review · Fail-Closed Publishing</p>
+    <div class="academy-access-grid">
+      <a class="academy-access-btn" href="../call_for_art_registry.html">Public Registry</a>
+      <a class="academy-access-btn" href="../call_for_art_registry_landing.html">Registry Landing</a>
+      <a class="academy-access-btn" href="https://github.com/vervenveda/bazaarart.github.io/issues" target="_blank" rel="noopener">Community Queue</a>
+    </div>
+  </div>
+</section>
+
+<main id="main">
+<section class="trust-strip">
+  <div>Verification requires evidence</div>
+  <div>Reviews never determine validity</div>
+  <div>No silent status changes</div>
+  <div>Every export includes a change log</div>
+</section>
+
+<section class="section">
+  <div class="section-heading">
+    <h2>Registry Review Queue</h2>
+    <p>Review existing opportunities and community submissions, complete the validity checklist, document evidence, and export a clean public-registry update.</p>
+  </div>
+
+  <div class="workbench">
+    <aside class="queue-panel">
+      <div class="queue-head">
+        <h3>Queue</h3>
+        <button class="btn btn-cream" id="refreshQueue" type="button">Refresh</button>
+      </div>
+      <input id="queueSearch" type="search" placeholder="Search title or organizer">
+      <select id="queueFilter">
+        <option value="">All records</option>
+        <option value="needs-recheck">Needs Recheck</option>
+        <option value="verified-current">Verified Current</option>
+        <option value="flagged">Flagged</option>
+        <option value="expired">Expired</option>
+        <option value="submission">Community Submissions</option>
+      </select>
+      <div id="queueList" class="queue-list" aria-live="polite"></div>
+    </aside>
+
+    <section class="review-panel">
+      <div id="emptyReview" class="empty-review">
+        <h2>Select a record</h2>
+        <p>Choose an existing opportunity or community submission from the queue.</p>
+      </div>
+
+      <form id="reviewForm" class="review-form" hidden>
+        <input type="hidden" id="recordOrigin">
+        <input type="hidden" id="recordId">
+
+        <section class="review-section">
+          <h2>Opportunity Identity</h2>
+          <div class="form-grid">
+            <label>Title<input id="title" required></label>
+            <label>Organizer<input id="organizer" required></label>
+            <label>Opportunity type<input id="opportunityType"></label>
+            <label>Location<input id="location"></label>
+            <label>Official organizer URL<input id="officialUrl" type="url"></label>
+            <label>Discovery source URL<input id="discoveryUrl" type="url"></label>
+            <label>Deadline<input id="deadline" type="date"></label>
+            <label class="checkbox-field"><input id="rolling" type="checkbox"> Rolling / ongoing</label>
+            <label>Application fee<input id="applicationFee" placeholder="0, 25, unknown"></label>
+            <label>Compensation / award<input id="compensation"></label>
+            <label class="full">Eligibility<textarea id="eligibility" rows="3"></textarea></label>
+            <label class="full">Artist rights / usage<textarea id="rights" rows="3"></textarea></label>
+            <label class="full">Public summary<textarea id="summary" rows="3"></textarea></label>
+          </div>
+        </section>
+
+        <section class="review-section">
+          <h2>Validity Checklist</h2>
+          <p class="section-note">Verified Current is blocked unless all required checks below are explicitly marked Pass.</p>
+          <div class="validation-table">
+            <div class="validation-row">
+              <div><strong>Official URL</strong><small>Opens and points to the organizer or official call.</small></div>
+              <select data-check="official_url_checked"><option value="">Not checked</option><option value="true">Pass</option><option value="false">Concern</option></select>
+              <input data-evidence="official_url_checked" placeholder="Evidence / note">
+            </div>
+            <div class="validation-row">
+              <div><strong>Organizer identity</strong><small>Organizer name matches the official page.</small></div>
+              <select data-check="organizer_match"><option value="">Not checked</option><option value="true">Pass</option><option value="false">Concern</option></select>
+              <input data-evidence="organizer_match" placeholder="Evidence / note">
+            </div>
+            <div class="validation-row">
+              <div><strong>Deadline/current status</strong><small>Deadline or rolling status is confirmed.</small></div>
+              <select data-check="deadline_checked"><option value="">Not checked</option><option value="true">Pass</option><option value="false">Concern</option></select>
+              <input data-evidence="deadline_checked" placeholder="Evidence / note">
+            </div>
+            <div class="validation-row">
+              <div><strong>Fee disclosure</strong><small>Application fee is confirmed, including $0.</small></div>
+              <select data-check="fee_disclosed"><option value="">Not checked</option><option value="true">Pass</option><option value="false">Concern</option></select>
+              <input data-evidence="fee_disclosed" placeholder="Evidence / note">
+            </div>
+            <div class="validation-row">
+              <div><strong>Compensation / award</strong><small>Payment, award, stipend, sales split, or “none stated” is confirmed.</small></div>
+              <select data-check="compensation_disclosed"><option value="">Not checked</option><option value="true">Pass</option><option value="false">Concern</option></select>
+              <input data-evidence="compensation_disclosed" placeholder="Evidence / note">
+            </div>
+            <div class="validation-row">
+              <div><strong>Artist rights / usage</strong><small>Image usage, licensing, exclusivity, commission or consignment terms reviewed where available.</small></div>
+              <select data-check="rights_checked"><option value="">Not checked</option><option value="true">Pass</option><option value="false">Concern</option></select>
+              <input data-evidence="rights_checked" placeholder="Evidence / note">
+            </div>
+          </div>
+        </section>
+
+        <section class="review-section">
+          <h2>Decision</h2>
+          <div class="decision-grid">
+            <label>Registry status
+              <select id="status">
+                <option value="needs-recheck">Needs Recheck</option>
+                <option value="verified-current">Verified Current</option>
+                <option value="flagged">Flagged</option>
+                <option value="expired">Expired</option>
+              </select>
+            </label>
+            <label>Reviewer initials / role<input id="reviewer" placeholder="e.g. Admin"></label>
+            <label>Checked date<input id="checkedAt" type="date"></label>
+            <label>Next recheck date<input id="recheckAt" type="date"></label>
+          </div>
+          <label class="block-label">Verification notes<textarea id="verificationNotes" rows="5" placeholder="What was checked, what remains uncertain, and why this status is appropriate."></textarea></label>
+          <label class="block-label">Change reason<textarea id="changeReason" rows="3" required placeholder="Required for the audit log."></textarea></label>
+          <div id="decisionMessage" class="decision-message" role="status"></div>
+          <div class="form-actions">
+            <button class="btn btn-charcoal" type="submit">Save Review Draft</button>
+            <button class="btn btn-cream" id="resetDraft" type="button">Reset This Draft</button>
+          </div>
+        </section>
+      </form>
+    </section>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-heading">
+    <h2>Publication Package</h2>
+    <p>Drafts remain local to this browser until exported. The public registry is not changed by the workbench itself.</p>
+  </div>
+  <div class="publish-grid">
+    <article class="publish-card"><h3>Reviewed Records</h3><strong id="draftCount">0</strong><p>records with local review drafts</p></article>
+    <article class="publish-card"><h3>Ready to Verify</h3><strong id="verifiedDraftCount">0</strong><p>drafts meeting the fail-closed checklist</p></article>
+    <article class="publish-card"><h3>Change Log</h3><strong id="logCount">0</strong><p>traceable review actions</p></article>
+    <article class="publish-card"><h3>Export</h3><button class="btn btn-charcoal" id="exportPackage" type="button">Export Registry Update</button></article>
+  </div>
+  <div class="form-actions centered">
+    <label class="btn btn-cream import-btn">Import Workbench Draft<input id="importDraft" type="file" accept="application/json" hidden></label>
+    <button class="btn btn-cream" id="clearWorkbench" type="button">Clear Local Workbench</button>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-heading"><h2>Audit Log</h2><p>Every saved decision records the before/after status, reviewer, timestamp and stated reason.</p></div>
+  <div id="auditLog" class="audit-log"></div>
+</section>
+
+<div class="resource-note">Security model: this static workbench never asks for a GitHub token or writes directly to the repository. It prepares reviewed data for an authorized repository update.</div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-brand">Khaemenes Academy · Call for Art Verification Workbench</div>
+  <p>Internal review surface · Bazaar Art · Verve N Veda</p>
+</footer>
+
+<script>
+window.KhaemenesClassToolsConfigV1=Object.freeze({
+  id:"khaemenes-call-registry-verification-workbench",
+  match:()=>/\/call_for_art_registry\/admin\/verification-workbench\.html$/i.test(location.pathname),
+  toggleLabel:"Tools",
+  ariaLabel:"Call registry verification tools",
+  tools:[
+    {type:"link",label:"Public Registry",sub:"Open artist-facing registry",href:"../call_for_art_registry.html"},
+    {type:"translator",label:"Translator",sub:"Page language controls"},
+    {type:"ecosystem-list",label:"Creative",sub:"Art and creative resources",filter:{category:"creative",limit:12}},
+    {type:"help",label:"Instructions",sub:"Verification workflow"}
+  ],
+  help:{title:"Verification Workbench",paragraphs:[
+    "Select a record, confirm official facts, and document evidence for each validity check.",
+    "Verified Current is fail-closed and cannot be saved unless every required check passes.",
+    "Export produces reviewed registry data plus a traceable audit log; the workbench itself never writes to GitHub."
+  ]}
+});
+</script>
+<script src="https://vervenveda.com/Khaemenes_Linguistics.github.io/assets/khaemenes-translator-loader.js?v=1.1.1" defer></script>
+<script src="https://vervenveda.com/assets/vnv-language.js?v=20261121-half-height" defer></script>
+<script src="https://vervenveda.com/assets/vnv-class-tools-toolbar.js?v=1.6.1" defer></script>
+<script src="https://vervenveda.com/assets/vnv-ecosystem-toolbar.js" defer></script>
+<script type="module" src="assets/verification-workbench.js"></script>
+</body>
+</html>

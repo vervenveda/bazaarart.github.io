@@ -45,3 +45,12 @@ A free, ad-free, artist-first opportunity registry for Bazaar Art / Verve N Veda
 Artists can save a private local review immediately. They can optionally publish the review as a prefilled GitHub issue. The registry reads public review issues whose titles begin with `[CALL REVIEW]`.
 
 Reviews are experience reports and do not automatically determine the validity badge.
+
+## Verification workbench
+
+- `admin/verification-workbench.html` — separate administrator review surface.
+- `admin/assets/verification-workbench.css` — workbench presentation.
+- `admin/assets/verification-workbench.js` — queue ingestion, fail-closed validity checks, local drafts, audit log and export.
+- `data/verification-log.json` — published verification-history contract.
+
+The workbench does **not** request GitHub credentials and does not write directly to the repository. Community submissions are read from public GitHub issues beginning with `[CALL SUBMISSION]`. Review drafts remain local until an authorized registry update is exported and committed.
