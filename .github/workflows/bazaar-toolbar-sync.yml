@@ -1,0 +1,35 @@
+name: Bazaar Art Toolbar Resource Sync
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'assets/bazaar-page-tools.js'
+      - 'scripts/normalize-bazaar-toolbar.py'
+      - '.github/workflows/bazaar-toolbar-sync.yml'
+permissions:
+  contents: write
+concurrency:
+  group: bazaar-toolbar-sync
+  cancel-in-progress: true
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Normalize Bazaar Art lower-left toolbars
+        run: python3 scripts/normalize-bazaar-toolbar.py
+      - name: Validate report
+        run: python3 -m json.tool tests/bazaar-toolbar-sync-report.json >/dev/null
+      - name: Commit normalized pages and report
+        run: |
+          git config user.name "Bazaar Art Toolbar Guardian"
+          git config user.email "bazaar@vervenveda.com"
+          git add '*.html' academy apps call_for_art_registry classes tests/bazaar-toolbar-sync-report.json 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "No Bazaar toolbar changes required."
+          else
+            git commit -m "Sync Bazaar Art page tools to shared toolbar"
+            git push
+          fi
