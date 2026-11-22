@@ -1,6 +1,6 @@
 # Call for Art Freshness Queue
 
-Generated: 2026-11-21T18:16:54Z
+Generated: 2026-11-22T19:45:46Z
 
 - Records: **3**
 - Human review queue: **3**
@@ -15,18 +15,18 @@ Generated: 2026-11-21T18:16:54Z
 ## Summer 2027 Byrdcliffe Communal Residency
 **Woodstock Byrdcliffe Guild** · needs-recheck · priority: urgent
 
-- Deadline in 2 day(s).
+- Deadline in 1 day(s).
 - Official URL is missing.
 
 ## End of Year! Your Time at Dorland Mountain Arts
 **Dorland Mountain Arts** · needs-recheck · priority: urgent
 
-- Deadline in 3 day(s).
+- Deadline in 2 day(s).
 - Official URL is missing.
 
 ## Call for Proposals: WVU AIR
 **West Virginia University Libraries** · needs-recheck · priority: soon
 
-- Deadline in 9 day(s).
+- Deadline in 8 day(s).
 - Official URL is missing.
 
