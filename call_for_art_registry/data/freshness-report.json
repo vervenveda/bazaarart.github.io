@@ -1,8 +1,8 @@
 {
   "schema": "bazaar-art-registry-freshness-report-v1",
   "version": "1.0.0",
-  "generated_at": "2026-11-23T23:58:08Z",
-  "run_date": "2026-11-23",
+  "generated_at": "2026-11-24T22:31:40Z",
+  "run_date": "2026-11-24",
   "policy": {
     "schema": "bazaar-art-registry-freshness-policy-v1",
     "version": "1.0.0",
@@ -25,34 +25,12 @@
     "review_queue": 3,
     "stale": 0,
     "approaching": 0,
-    "urgent": 3,
-    "expired": 0,
+    "urgent": 2,
+    "expired": 1,
     "link_issues": 3,
     "downgraded": 0
   },
   "items": [
-    {
-      "id": "aca-byrdcliffe-summer-2027",
-      "title": "Summer 2027 Byrdcliffe Communal Residency",
-      "organizer": "Woodstock Byrdcliffe Guild",
-      "status": "needs-recheck",
-      "priority": "urgent",
-      "deadline": "2026-11-23",
-      "rolling": false,
-      "checked_at": "2026-11-21",
-      "recheck_at": null,
-      "official_url": null,
-      "link_check": {
-        "state": "missing",
-        "status": null,
-        "final_url": null,
-        "error": "No official URL recorded."
-      },
-      "reasons": [
-        "Deadline in 0 day(s).",
-        "Official URL is missing."
-      ]
-    },
     {
       "id": "aca-dorland-end-year-2026",
       "title": "End of Year! Your Time at Dorland Mountain Arts",
@@ -71,7 +49,7 @@
         "error": "No official URL recorded."
       },
       "reasons": [
-        "Deadline in 1 day(s).",
+        "Deadline in 0 day(s).",
         "Official URL is missing."
       ]
     },
@@ -93,7 +71,29 @@
         "error": "No official URL recorded."
       },
       "reasons": [
-        "Deadline in 7 day(s).",
+        "Deadline in 6 day(s).",
+        "Official URL is missing."
+      ]
+    },
+    {
+      "id": "aca-byrdcliffe-summer-2027",
+      "title": "Summer 2027 Byrdcliffe Communal Residency",
+      "organizer": "Woodstock Byrdcliffe Guild",
+      "status": "expired",
+      "priority": "expired",
+      "deadline": "2026-11-23",
+      "rolling": false,
+      "checked_at": "2026-11-21",
+      "recheck_at": null,
+      "official_url": null,
+      "link_check": {
+        "state": "missing",
+        "status": null,
+        "final_url": null,
+        "error": "No official URL recorded."
+      },
+      "reasons": [
+        "Deadline passed 1 day(s) ago.",
         "Official URL is missing."
       ]
     }
