@@ -1,7 +1,7 @@
 {
   "schema": "bazaar-art-call-for-art-opportunities-v1",
   "version": "1.1.0",
-  "updated": "2026-11-24",
+  "updated": "2026-11-25",
   "notice": "Starter discovery leads are intentionally marked Needs Recheck until the official organizer page has been checked against the full registry validity checklist.",
   "records": [
     {
@@ -60,7 +60,7 @@
         "Interdisciplinary"
       ],
       "verification": {
-        "status": "needs-recheck",
+        "status": "expired",
         "official_url_checked": null,
         "organizer_match": null,
         "deadline_checked": true,
@@ -126,7 +126,7 @@
     "verification"
   ],
   "freshness_audit": {
-    "last_run": "2026-11-24T22:31:40Z",
+    "last_run": "2026-11-25T21:46:20Z",
     "policy": "freshness-policy.json"
   }
 }
