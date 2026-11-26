@@ -1,8 +1,8 @@
 {
   "schema": "bazaar-art-registry-freshness-report-v1",
   "version": "1.0.0",
-  "generated_at": "2026-11-25T21:46:20Z",
-  "run_date": "2026-11-25",
+  "generated_at": "2026-11-26T21:39:04Z",
+  "run_date": "2026-11-26",
   "policy": {
     "schema": "bazaar-art-registry-freshness-policy-v1",
     "version": "1.0.0",
@@ -49,7 +49,7 @@
         "error": "No official URL recorded."
       },
       "reasons": [
-        "Deadline in 5 day(s).",
+        "Deadline in 4 day(s).",
         "Official URL is missing."
       ]
     },
@@ -71,7 +71,7 @@
         "error": "No official URL recorded."
       },
       "reasons": [
-        "Deadline passed 2 day(s) ago.",
+        "Deadline passed 3 day(s) ago.",
         "Official URL is missing."
       ]
     },
@@ -93,7 +93,7 @@
         "error": "No official URL recorded."
       },
       "reasons": [
-        "Deadline passed 1 day(s) ago.",
+        "Deadline passed 2 day(s) ago.",
         "Official URL is missing."
       ]
     }
